@@ -19,12 +19,20 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	///Constructor
-		public UserDaoImpl() {
-			System.out.println(this.getClass());
-		}
-		
-		public User getUser(String userId) throws Exception {
-			return sqlSession.selectOne("UserMapper.getUser", userId);
-		}
+	public UserDaoImpl() {
+		System.out.println(this.getClass());
+	}
+	
+	public void addUser(User user) throws Exception {
+		sqlSession.insert("UserMapper.addUser", user);
+	}
+	
+	public User getUser(String userId) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUser", userId);
+	}
+	
+	public User getUser2(String nickName) throws Exception{
+		return sqlSession.selectOne("UserMapper.getUser2", nickName);
+	}
 
 }

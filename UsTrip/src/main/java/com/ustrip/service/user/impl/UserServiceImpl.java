@@ -25,9 +25,40 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 		System.out.println(this.getClass());
 	}
+	
+	public void addUser(User user) throws Exception{
+		userDao.addUser(user);
+	}
+	
+	public boolean checkUserId(String userId) throws Exception{
+		
+		boolean result = true;
+		
+		User user = userDao.getUser(userId);
+		
+		if(user != null ) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public boolean checkNickName(String nickName) throws Exception{
+		
+		boolean result = true;
+		
+		User user = userDao.getUser2(nickName);
+		
+		if(user != null ) {
+			result = false;
+		}
+		return result;		
+		
+	}
 
 	public User getUser(String userId) throws Exception {
 		return userDao.getUser(userId);
 	}
+	
+
 
 }

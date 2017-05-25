@@ -9,18 +9,18 @@
  	
  	
 	<resultMap id="userSelectMap" type="user">
-		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
-		<result property="nickName"	column="nickname" 		jdbcType="VARCHAR" />
-		<result property="password" 	column="passwd" 		jdbcType="VARCHAR" />
-		<result property="birthDate" 				column="birth_date" 					jdbcType="DATE" />
-		<result property="profileImage" 				column="profile_image" 					jdbcType="VARCHAR" />
-		<result property="gender" 				column="gender" 					jdbcType="VARCHAR" />
-		<result property="role" 				column="role" 					jdbcType="NUMERIC" />
-		<result property="isDelete" 				column="is_delete" 					jdbcType="NUMERIC" />
+		<result property="userId" 					column="user_id" 				jdbcType="VARCHAR"/>
+		<result property="nickName"			column="nickname" 			jdbcType="VARCHAR" />
+		<result property="password" 			column="passwd" 				jdbcType="VARCHAR" />
+		<result property="birthDate" 			column="birth_date" 			jdbcType="DATE" />
+		<result property="profileImage" 	column="profile_image" 	jdbcType="VARCHAR" />
+		<result property="gender" 				column="gender" 				jdbcType="VARCHAR" />
+		<result property="role" 						column="role" 						jdbcType="NUMERIC" />
+		<result property="isDelete" 				column="is_delete" 				jdbcType="NUMERIC" />
 		
 	</resultMap>
 		
-	<!-- SQL : SELECT ONE -->
+		<!-- SQL : SELECT ONE -->
 		 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 			SELECT
 			user_id
@@ -28,4 +28,26 @@
 			WHERE user_id = #{value}
 		 </select>
 		 
-		 </mapper>
+		 <!-- SQL : SELECT ONE -->
+		 <select 	id="getUser2"	parameterType="string"	resultMap="userSelectMap">
+			SELECT
+			nickname
+			FROM users 
+			WHERE nickname = #{value}
+		 </select>
+		 
+		 <!-- SQL : INSERT -->
+		 <insert id="addUser" parameterType="user">
+		 	INSERT
+		 	INTO users
+		 	VALUES ( 	#{userId}, 
+							 	#{nickName}, 
+							 	#{password}, 
+							 	#{birthDate}, 
+							 	#{profileImage:VARCHAR}, 
+							 	#{gender}, 
+							 	1, 
+		 						1)		 	
+		 </insert>
+		 
+</mapper>
