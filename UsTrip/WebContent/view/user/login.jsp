@@ -44,7 +44,10 @@
 	        		  var tempId = userId.split(".");
 	        		  console.log("userId :: " + userId);
 	        		  console.log("tempId :: " + tempId);
-	        		  self.location="/view/user/login.jsp?kakao=0";	
+	        		  /* 타계정 로그인 시 처음방문한 사람인지 확인 
+	        		  * self.location="/user/getUser?tempId="+tempId; */
+	        		  
+	        		  self.location="/view/user/login.jsp?kakao=0&tempId="+tempId;	
 	        		
 	        	  }	//success:(res) close	        	  
 	          });
@@ -98,7 +101,6 @@
 	
 </head>
 <body class="bodycss">
-<form>
         <div class="top-content" align="center">
             <div class="inner-bg">
                 <div class="container">
@@ -151,11 +153,12 @@
 												</a>
 					   						 </div>
 					 					 </div>
-					 					 
+					 					 </form>
+			                    </div>
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
 					 					 <div id="dialog-form" title="추가정보 입력">
 											  <p class="validateTips">모든정보를 입력해주세요</p>											 
-											  <form class="extraUserInfo" id="extraUserInfo">
+											  <form class="extraUserInfo" id="extraUserInfo" action="/user/extraUserInfo" method="POST">
 											    	<fieldset>
 													      <label for="nickName" >닉네임</label>
 													      <input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
@@ -175,54 +178,61 @@
 													      <label for="birthDate">생년월일</label>
 													      <input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all"><hr>
 													      
-													      <div class="form-group">
+ 													      <div class="form-group">
 														      <div class=" col-sm-offset text-center">
-															      <button type="submit" class="btn btn-info" id="add">등록</button>
+															      <button type="submit" class="btn btn-info btn" id="add">등록</button>
 															 	  <button type="button" class="btn btn-info" href="#">취소</button>
 														 	  </div>
-													 	  </div>
+													 	  </div> 
 													 	  
+													 	  <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
+								     					 <input type="hidden" value="${param.kakao}" id="kakao">
 													      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-													      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+													       <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
 											    	</fieldset>
 											  </form>
 										</div>
-								      <input type="hidden" value="${param.kakao}" id="kakao">
 		                        <!--  ////////////////////// Modal Popup /////////////////////// -->
-				                        
-				                    </form>
-			                    </div>
 		                    </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
+        
     </body>
 </html>
 
 <script type="text/javascript">
 	
-	if($('#kakao').val() =="0") {
-		$('#dialog-form').dialog({		
+	var dialog, form;
+	
+	if($('#kakao').val() =="0" ) {
+		var userId = $("#tempId").val();
+		alert("userId :: 가져오닝" + userId);
+		dialog = $('#dialog-form').dialog({			
 			height: 400,
 			width: 350,
-			modal: true,
+			modal: true
 		});		
 	}
 	
 	//가입 연결
-/* 	 $(function() {
-		$( ".btn.btn-info" ).on("click" , function() {
-			/* ajaxAddUser(); 
-			/* $(".extraUserInfo").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit();  
-			document.getElementById("extraUserInfo").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit();
+	 $(function() {
+		$( ".btn.btn-info.btn" ).on("click" , function() {
+			alert("되니?>>");
+		/* 	 ajaxAddUser();  
+			 $("form").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit();  */
+			 document.forms["extraUserInfo"].submit(); 
 		});
 	});	
-	 */
-	$("#extraUserInfo").submit(function() {
-		/* event.preventDefault(); */
+	/*
+	 function addUser() {
+		 alert("되니?");
+		 
+		 $("#extraUserInfo").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit(); 
+	 $("#extraUserInfo").submit(function() {
+		 event.preventDefault(); 
 		$.ajax({
 			type: 'POST',
 			url: '/user/extraUserInfo',
@@ -233,33 +243,24 @@
    				 "Content-Type" : "application/json"
 			 }
 		});		
-	});
-	
-	//취소 연결
-	$(function() {
-		$("a[href='#' ]").on("click" , function() {
-			$("form")[0].reset();
-		});
-	});	
-	
-	/* //ajaxAddUser POST 방식
+	}); 
+	 }
+
+ //ajaxAddUser POST 방식
 	function ajaxAddUser() {
-		var userId = $("#hiddenId").val();
-		var addUserArrary = $("fieldset").find("input").serializeArray();
 		
 		$.ajax({
 			type : 'POST',
-			url: '/user/jsonAddUser',
-			data: "",
+			url: '/user/extraUserInfo',
+			data: addUserArray,
 			cache: false,
-			async: true			
-		}
-		/* success: function(JSONData, status) {
-			self.location="/user/login";
-		} 
-		);		
-	} */
-	
+			async: true,
+			success: function(JSONData, status) {
+				self.location="/user/login";
+			} 
+		});		
+	} 
+	*/
 	//닉네임 중복체크
 	$(function(){
 		

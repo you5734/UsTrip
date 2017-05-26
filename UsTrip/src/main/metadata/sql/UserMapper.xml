@@ -19,24 +19,8 @@
 		<result property="isDelete" 				column="is_delete" 				jdbcType="NUMERIC" />
 		
 	</resultMap>
-		
-		<!-- SQL : SELECT ONE -->
-		 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
-			SELECT
-			user_id
-			FROM users 
-			WHERE user_id = #{value}
-		 </select>
-		 
-		 <!-- SQL : SELECT ONE -->
-		 <select 	id="getUser2"	parameterType="string"	resultMap="userSelectMap">
-			SELECT
-			nickname
-			FROM users 
-			WHERE nickname = #{value}
-		 </select>
-		 
-		 <!-- SQL : INSERT -->
+	
+	<!-- SQL : INSERT 기본 회원가입-->
 		 <insert id="addUser" parameterType="user">
 		 	INSERT
 		 	INTO users
@@ -49,5 +33,36 @@
 							 	1, 
 		 						1)		 	
 		 </insert>
+		 
+		 <!-- SQL : INSERT 추가 정보 입력-->
+		 <insert id="extraUserInfo" parameterType="user">
+		 	INSERT
+		 	INTO users
+		 	VALUES ( 	#{userId}, 
+							 	#{nickName}, 
+							 	#{password}, 
+							 	#{birthDate}, 
+							 	#{profileImage:VARCHAR}, 
+							 	#{gender}, 
+							 	1, 
+		 						1)		 	
+		 </insert>
+		
+		<!-- SQL : SELECT ONE 정보조회-->
+		 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
+			SELECT
+			user_id, nickName, password, birthDate, profileImage, gender, role, isDelete
+			FROM users 
+			WHERE user_id = #{value}
+		 </select>
+		 
+		 <!-- SQL : SELECT ONE 닉네임조회-->
+		 <select 	id="getUser2"	parameterType="string"	resultMap="userSelectMap">
+			SELECT
+			nickname
+			FROM users 
+			WHERE nickname = #{value}
+		 </select>
+		 
 		 
 </mapper>

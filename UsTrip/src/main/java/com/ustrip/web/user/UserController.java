@@ -61,8 +61,7 @@ public class UserController {
 			file.transferTo(imageFile);
 		} catch(IOException e) {
 			e.printStackTrace();
-		}
-	
+		}	
 		//Business Logic
 		userService.addUser(user);
 		
@@ -73,8 +72,9 @@ public class UserController {
 	public String addUser( @ModelAttribute("user") User user) throws Exception{
 	
 		System.out.println("/user/extraUserInfo : POST");
+		user.setUserId(user.getUserId().replace(",", "."));
 		
-		userService.addUser(user);
+		userService.extraUserInfo(user);
 		System.out.println("userId °¡Á®¿À´×:: " +user.getUserId());
 		
 		return "forward:/view/user/addUser.jsp";
@@ -126,6 +126,8 @@ public class UserController {
 		System.out.println(session.getAttribute("user"));
 		return "redirect:/view/user/login.jsp";
 	}
+	
+	
 	
 
 	
