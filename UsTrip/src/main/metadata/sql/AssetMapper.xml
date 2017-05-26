@@ -1,1 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AssetMapper"> 	
+ 	
+	<resultMap id="assetSelectMap" type="asset"  >
+		<result property="assetNo" 				column="ASSET_NO" 			jdbcType="INTEGER"/>
+  		<result property="travNo" 				column="TRAV_NO" 			jdbcType="INTEGER"/>
+  		<result property="blogNo" 				column="BLOG_NO"			jdbcType="INTEGER"/>
+  		<result property="visitDate"				column="VISIT_DATE"			jdbcType="DATE"/>
+  		<result property="regDate" 				column="REG_DATE" 			jdbcType="DATE"/>
+  		<result property="assetCategory" 		column="ASSET_CATEGORY" 	jdbcType="VARCHAR"/>
+  		<result property="usage" 				column="USAGE" 				jdbcType="VARCHAR"/>
+  		<result property="charge" 				column="CHARGE" 				jdbcType="INTEGER"/>  		
+  	</resultMap>
+  	
+  	 <insert 	id="addAsset"	 parameterType="asset" >
+  	  INSERT 
+      INTO asset
+      VALUES(SEQ_ASSET_NO.nextval, #{travNo}, #{blogNo}, #{visitDate}, SYSDATE, #{assetCategory},  #{usage:VARCHAR}, #{charge})
+  	 </insert>
+  	 
+  	 <update	id="updateAsset"	parameterType="asset" >
+	   	UPDATE asset
+	   	<set>
+	   		TRAV_NO 	= #{travNo} ,
+			BLOG_NO 	= #{blogNo},
+			VISIT_DATE	= #{visitDate} ,
+			ASSET_CATEGORY	=	#{assetCategory},
+			usage = #{USAGE},
+			CHARGE = #{charge}
+	   	</set>
+	   	WHERE ASSET_NO = #{assetNo}
+	 </update>
+	 
+	 <delete id="deleteAsset" parameterType="asset" >
+	 DELETE FROM asset
+	 WHERE ASSET_NO = #{assetNo}
+	 </delete>
+	 
+	 <select  id="getAsset"  parameterType="asset"	resultMap="assetSelectMap">
+	 SELECT ASSET_NO, TRAV_NO, BLOG_NO, VISIT_DATE, ASSET_CATEGORY, USAGE, CHARGE
+	 FROM asset
+	 WHERE TRAV_NO = #{travNo}
+	 </select>
+  	
+ </mapper>

@@ -35,8 +35,7 @@
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/BlogMapper.xml"/>
 		<mapper resource="sql/TravelMapper.xml"/>
-		<mapper resource="sql/CityMapper.xml"/>
-		<mapper resource="sql/PlaceMapper.xml"/>
+		<mapper resource="sql/FollowMapper.xml"/>		
 		<mapper resource="sql/AssetMapper.xml"/>
 		<mapper resource="sql/BoardMapper.xml"/>
 		<mapper resource="sql/MessageMapper.xml"/> 

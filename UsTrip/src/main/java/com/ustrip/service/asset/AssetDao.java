@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.ustrip.service.domain.Asset;
 
-public interface AssetService {
-	
+public interface AssetDao {
+
 	public int addAsset(Asset asset) throws Exception;
 	
 	public List<Asset> getAsset(int travNo) throws Exception;
@@ -13,5 +13,5 @@ public interface AssetService {
 	public int updateAsset(Asset asset) throws Exception;
 	
 	public int deleteAsset(int assetNo) throws Exception;
-
+	
 }
