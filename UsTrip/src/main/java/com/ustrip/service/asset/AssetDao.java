@@ -14,4 +14,6 @@ public interface AssetDao {
 	
 	public int deleteAsset(int assetNo) throws Exception;
 	
+	public Asset getAssetOne(int assetNo)throws Exception;
+	
 }

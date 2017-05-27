@@ -38,7 +38,7 @@ public class assetServiceTest {
 	@Qualifier("assetServiceImpl")
 	private AssetService assetService;
 	
-	@Test
+	//@Test
 	public void testfindpur() throws Exception {
 		
 		Asset asset = new Asset();
@@ -47,15 +47,34 @@ public class assetServiceTest {
 		asset.setTravNo(4);
 		asset.setBlogNo(30001);
 		asset.setVisitDate(visit);
-		asset.setUsage("¼º½É´ç");
+		asset.setUsage("Â«»ÍÅÁ");
 		asset.setAssetCategory("½Äºñ");
-		asset.setCharge(20000);
+		asset.setCharge(7000);
 		
 		int check = assetService.addAsset(asset);
 
 		Assert.assertEquals(1, check);
 				
 	}
+	
+	@Test
+	public void testUpdate()throws Exception{
+		Asset asset = new Asset();
+		Date visit = new Date(90/10/10);
+		
+		asset.setAssetNo(60043);
+		asset.setTravNo(4);
+		asset.setBlogNo(30001);
+		asset.setVisitDate(visit);
+		asset.setUsage("¼º½É´ç");
+		asset.setAssetCategory("½Äºñ");
+		asset.setCharge(4500);
+		
+		int check = assetService.updateAsset(asset);
+
+		Assert.assertEquals(1, check);
+	}
+	
 }
 	
 	//@Test

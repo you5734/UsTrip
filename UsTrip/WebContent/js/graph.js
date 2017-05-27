@@ -15,7 +15,8 @@ function graph(J){
 		          y: J.food[i].charge,
 		          x: new Date(J.food[i].visitDate),
 		          usage: J.food[i].usage,
-		          temp : J.food[i].assetNo
+		          temp : J.food[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		for(var i in J.traffic){
@@ -23,7 +24,8 @@ function graph(J){
 		          y: J.traffic[i].charge,
 		          x: new Date(J.traffic[i].visitDate),
 		          usage: J.traffic[i].usage,
-		          temp : J.traffic[i].assetNo
+		          temp : J.traffic[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		for(var i in J.entrance){
@@ -31,7 +33,8 @@ function graph(J){
 		          y: J.entrance[i].charge,
 		          x: new Date(J.entrance[i].visitDate),
 		          usage: J.entrance[i].usage,
-		          temp : J.entrance[i].assetNo
+		          temp : J.entrance[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		for(var i in J.shopping){
@@ -39,7 +42,8 @@ function graph(J){
 		          y: J.shopping[i].charge,
 		          x: new Date(J.shopping[i].visitDate),
 		          usage: J.shopping[i].usage,
-		          temp : J.shopping[i].assetNo
+		          temp : J.shopping[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		for(var i in J.room){
@@ -47,7 +51,8 @@ function graph(J){
 		          y: J.room[i].charge,
 		          x: new Date(J.room[i].visitDate),
 		          usage: J.room[i].usage,
-		          temp : J.room[i].assetNo
+		          temp : J.room[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		for(var i in J.etc){
@@ -55,7 +60,8 @@ function graph(J){
 		          y: J.etc[i].charge,
 		          x: new Date(J.etc[i].visitDate),
 		          usage: J.etc[i].usage,
-		          temp : J.etc[i].assetNo
+		          temp : J.etc[i].assetNo,
+		          exploded: true
 		        });	}
 		
 		 for(var i in J.round){
@@ -88,7 +94,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		axisX:{
 			valueFormatString: "YYYY³â MM¿ù DDÀÏ",
 			interval: 1,
-			labelFontSize: 15,
+			labelFontSize: 25,
 			lineThickness: 0
 		},
 		axisY2:{
@@ -103,7 +109,8 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		       
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				/*alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	*/
+				conform(e.dataPoint.temp);
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -114,7 +121,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				conform(e.dataPoint.temp);	
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -125,7 +132,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				conform(e.dataPoint.temp);	
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -136,7 +143,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				conform(e.dataPoint.temp);	
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -147,7 +154,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				conform(e.dataPoint.temp);
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -158,7 +165,7 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
 		
 		{     
 			click: function(e){
-				alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+				conform(e.dataPoint.temp);
 			  },	
 			type: "stackedBar",
 			showInLegend: true,
@@ -221,3 +228,18 @@ function pie(roundData){
 			chart.render();
 	
 }
+
+function newGraph(condi){	
+	   
+		$.ajax("/asset/getAssetJSON/"+condi,{
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(J , status) { graph(J); }						
+									})
+	
+}
+

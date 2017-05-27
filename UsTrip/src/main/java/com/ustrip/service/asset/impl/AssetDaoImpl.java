@@ -47,5 +47,11 @@ public class AssetDaoImpl implements AssetDao{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("AssetMapper.deleteAsset",assetNo);
 	}
+	
+	@Override
+	public Asset getAssetOne(int assetNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("AssetMapper.oneAsset",assetNo);
+	}
 
 }

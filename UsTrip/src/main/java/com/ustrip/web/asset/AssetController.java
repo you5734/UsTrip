@@ -2,7 +2,6 @@ package com.ustrip.web.asset;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -149,5 +148,26 @@ public class AssetController {
 		
 	}
 	
-
+	@RequestMapping( value="getAssetOneJSON/{assetNo}", method=RequestMethod.GET )
+	public void getAssetOneJSON(	@PathVariable int assetNo, 
+									 			Model model) throws Exception{
+		
+		Asset getAsset = assetService.getAssetOne(assetNo);
+		model.addAttribute("asset",getAsset);
+	}
+	
+	@RequestMapping( value="updateAssetJSON", method=RequestMethod.POST )
+	public void updateAssetJSON(	@ModelAttribute("asset")Asset asset, 
+									 			Model model) throws Exception{
+		assetService.updateAsset(asset);		
+	}
+	
+	@RequestMapping( value="deleteAssetJSON/{assetNo}", method=RequestMethod.GET )
+	public void deleteAssetJSON(	@PathVariable int assetNo,
+									 			Model model) throws Exception{
+		System.out.println("++++++++++++++++++++++"+assetNo);
+		assetService.deleteAsset(assetNo);
+	}
+	
+	
 }

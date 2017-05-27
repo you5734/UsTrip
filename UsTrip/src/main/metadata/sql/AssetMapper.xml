@@ -30,7 +30,8 @@
 			BLOG_NO 	= #{blogNo},
 			VISIT_DATE	= #{visitDate} ,
 			ASSET_CATEGORY	=	#{assetCategory},
-			usage = #{USAGE},
+			usage = #{usage},
+			REG_DATE = SYSDATE,
 			CHARGE = #{charge}
 	   	</set>
 	   	WHERE ASSET_NO = #{assetNo}
@@ -46,5 +47,11 @@
 	 FROM asset
 	 WHERE TRAV_NO = #{travNo}
 	 </select>
+	 
+	  <select  id="oneAsset"  parameterType="asset"	resultMap="assetSelectMap">
+	  SELECT ASSET_NO, TRAV_NO, BLOG_NO, VISIT_DATE, ASSET_CATEGORY, USAGE, CHARGE
+	 FROM asset
+	 WHERE ASSET_NO = #{assetNo}
+	  </select>
   	
  </mapper>

@@ -47,5 +47,11 @@ public class AssetServiceImpl implements AssetService{
 		// TODO Auto-generated method stub
 		return assetDao.deleteAsset(assetNo);
 	}
+	
+	@Override
+	public Asset getAssetOne(int assetNo) throws Exception {
+		// TODO Auto-generated method stub
+		return assetDao.getAssetOne(assetNo);
+	}
 
 }

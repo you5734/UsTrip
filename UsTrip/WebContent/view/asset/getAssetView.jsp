@@ -23,26 +23,33 @@
 	
     <script src="/js/canvasjs.min.js"></script>
     <script src="/js/graph.js"></script>
+    
+    <link rel="stylesheet" href="/css/default.css">
+<link rel="stylesheet" href="/css/default.date.css">
+  <script src="/js/picker.js"></script>
+    <script src="/js/picker.date.js"></script>
+    <script src="/js/legacy.js"></script>
+     <script src="/js/dateFormat.js"></script>
       
 	<style>
- 		body {padding-top : 50px;}       
+ 		body {padding-top : 50px;}      
+ 		
+ 	 /* 	.canvasjs-chart-tooltip{
+  right: auto !important;
+  left: 5px !important;
+  top: 5px !important;
+  bottom: auto !important;
+  position:fixed;
+}  */
      </style>
     
 	<script type="text/javascript">	
 	
-		    $(function() {		   	
-		    	
-		   var condi = 4;
-		   
-			$.ajax("/asset/getAssetJSON/"+condi,{
-						method : "GET" ,
-						dataType : "json" ,
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(J , status) { graph(J); }						
-										})
+	
+	
+		    $(function() {	
+		    	 var condi = 4; /* travNo를 넣어준다. */
+		    	newGraph(condi);		  
 								});
 	</script>
 	
@@ -65,7 +72,8 @@
      
   </div>
 </div>	
-
+<jsp:include page="/view/asset/updateAssetView.jsp" />
+<jsp:include page="/view/asset/addAssetView.jsp" />
 </body>
 
 </html>

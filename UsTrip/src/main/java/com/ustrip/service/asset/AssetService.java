@@ -13,5 +13,7 @@ public interface AssetService {
 	public int updateAsset(Asset asset) throws Exception;
 	
 	public int deleteAsset(int assetNo) throws Exception;
+	
+	public Asset getAssetOne(int assetNo)throws Exception;
 
 }
