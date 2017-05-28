@@ -93,9 +93,9 @@ function bar(foodData,trafficData,entranceData,shoppingData,roomData,etcData){
                 animationEnabled: true,
 		axisX:{
 			valueFormatString: "YYYY년 MM월 DD일",
+			labelFontSize: 18,
 			interval: 1,
-			labelFontSize: 25,
-			lineThickness: 0
+			 intervalType: "day"
 		},
 		axisY2:{
 			valueFormatString: " 0 원",

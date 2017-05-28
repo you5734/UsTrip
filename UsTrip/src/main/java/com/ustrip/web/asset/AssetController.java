@@ -1,4 +1,4 @@
-package com.ustrip.web.asset;
+ package com.ustrip.web.asset;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +76,7 @@ public class AssetController {
 		List<Asset> room  = new ArrayList<Asset>();
 		List<Asset> etc = new ArrayList<Asset>();
 		List<Asset> round = new ArrayList<Asset>();	
-		 
+		
 		 Asset sumFood = new Asset();
 		 sumFood.setAssetCategory("½Äºñ");
 		 int foodSum = 0;
@@ -165,7 +165,6 @@ public class AssetController {
 	@RequestMapping( value="deleteAssetJSON/{assetNo}", method=RequestMethod.GET )
 	public void deleteAssetJSON(	@PathVariable int assetNo,
 									 			Model model) throws Exception{
-		System.out.println("++++++++++++++++++++++"+assetNo);
 		assetService.deleteAsset(assetNo);
 	}
 	

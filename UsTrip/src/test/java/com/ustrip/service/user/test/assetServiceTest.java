@@ -1,6 +1,7 @@
 package com.ustrip.service.user.test;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -38,18 +39,19 @@ public class assetServiceTest {
 	@Qualifier("assetServiceImpl")
 	private AssetService assetService;
 	
-	//@Test
+	@Test
 	public void testfindpur() throws Exception {
 		
 		Asset asset = new Asset();
-		Date visit = new Date(90/10/10);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/mm/dd");
+		Date visit = format.parse("1970/01/02");
 		
 		asset.setTravNo(4);
 		asset.setBlogNo(30001);
 		asset.setVisitDate(visit);
-		asset.setUsage("Â«»ÍÅÁ");
+		asset.setUsage("±³ÅëÂ«»Í");
 		asset.setAssetCategory("½Äºñ");
-		asset.setCharge(7000);
+		asset.setCharge(6500);
 		
 		int check = assetService.addAsset(asset);
 
@@ -57,7 +59,7 @@ public class assetServiceTest {
 				
 	}
 	
-	@Test
+	//@Test
 	public void testUpdate()throws Exception{
 		Asset asset = new Asset();
 		Date visit = new Date(90/10/10);
