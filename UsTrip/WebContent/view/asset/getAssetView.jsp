@@ -11,11 +11,12 @@
 	<meta charset="EUC-KR">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
 	<title>여행가계부</title>	
 		
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -30,6 +31,12 @@
     <script src="/js/picker.date.js"></script>
     <script src="/js/legacy.js"></script>
      <script src="/js/dateFormat.js"></script>
+     
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+
+<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
       
 	<style>
  		body {padding-top : 50px;}      
@@ -49,8 +56,9 @@
 	
 		    $(function() {	
 		    	 var condi = 4; /* travNo를 넣어준다. */
-		    	newGraph(condi);		  
-								});
+		    	newGraph(condi);	
+		    	
+		    	 });
 	</script>
 	
 </head>
@@ -58,7 +66,7 @@
 <body>
 
 	<div class="container">
-  <h2><strong>여행 사용 총금액 :: ${sum}</strong></h2>
+  <h2><strong>여행 사용 총금액 :: ${sum} 원</strong></h2>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
     <li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
@@ -66,12 +74,15 @@
 
   <div class="tab-content">
     <div class="tab-pane fade in active">
-      <div id="listasset" style="height: 500px; width: 1000px;;"></div>
+      <div id="listasset" style="width: inherit;
+        max-width: 100%;
+        height: auto;"></div>
     </div>
      
   </div>
 </div>	
 <jsp:include page="/view/asset/updateAssetView.jsp" />
+
 </body>
 
 </html>
