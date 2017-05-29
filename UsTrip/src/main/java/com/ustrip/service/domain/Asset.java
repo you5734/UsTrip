@@ -11,6 +11,10 @@ public class Asset {
 	private String usage;
 	private String assetCategory;
 	private int charge;
+	private String travTitle;
+	private Date startDate;
+	private Date endDate;
+	private int totalDate;
 	
 	public Asset(){		
 	}
@@ -70,7 +74,39 @@ public class Asset {
 	public void setCharge(int charge) {
 		this.charge = charge;
 	}
-	
+		
+	public String getTravTitle() {
+		return travTitle;
+	}
+
+	public void setTravTitle(String travTitle) {
+		this.travTitle = travTitle;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public int getTotalDate() {
+		return totalDate;
+	}
+
+	public void setTotalDate(int totalDate) {
+		this.totalDate = totalDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	@Override
 	public String toString() {
 		return "AssetVo = [assetNo : "+assetNo+", travNo : "+travNo+", blogNo : "+blogNo+", visitDate : "+visitDate+", usage : "+usage+", assetCategory : "+assetCategory+", charge : "+charge+" ]";

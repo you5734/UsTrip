@@ -34,13 +34,13 @@
 	<style>
  		body {padding-top : 50px;}      
  		
- 	 /* 	.canvasjs-chart-tooltip{
-  right: auto !important;
+ 	 	 .canvasjs-chart-tooltip{
+  /* right: auto !important;
   left: 5px !important;
   top: 5px !important;
   bottom: auto !important;
-  position:fixed;
-}  */
+  position:fixed; */
+}  
      </style>
     
 	<script type="text/javascript">	
@@ -61,8 +61,7 @@
   <h2><strong>여행 사용 총금액 :: ${sum}</strong></h2>
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
-    <li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>    
-    <li><a data-toggle="tab" href="#menu1" id="add"><i class="glyphicon glyphicon-plus-sign"></i>가계부추가</a></li>
+    <li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
   </ul>
 
   <div class="tab-content">
@@ -73,7 +72,6 @@
   </div>
 </div>	
 <jsp:include page="/view/asset/updateAssetView.jsp" />
-<jsp:include page="/view/asset/addAssetView.jsp" />
 </body>
 
 </html>

@@ -212,7 +212,7 @@ function pie(roundData){
 				data: [
 				{        
 					click: function(e){
-						alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	
+						/*alert(  "dataSeries Event => Type: "+ e.dataSeries.type+ ", dataPoint { x:" + e.dataPoint.x + ", y: "+ e.dataPoint.y + " }"+"[temp = "+e.dataPoint.temp+"]" );	*/
 					  },	
 					type: "pie",       
 					indexLabelFontFamily: "Garamond",       

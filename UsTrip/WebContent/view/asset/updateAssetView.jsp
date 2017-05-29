@@ -2,8 +2,7 @@
 <%@ page pageEncoding="EUC-KR"%>
 	<script type="text/javascript">		
 		
-		    $(function() {		    		
-		    	 
+		    $(function() {
                 /////////////////////수정페이지 모달팝업 가져오는창 
 		    	 var innerlog;
 		     	
@@ -113,7 +112,11 @@
 								"Accept" : "application/json",
 								"Content-Type" : "application/json"
 							},
-							success : function(J , status) {			
+							success : function(J , status) {
+							var startDate = new Date(J.asset.startDate).format("yyyy/MM/dd");
+							var endDate = new Date(J.asset.endDate).format("yyyy/MM/dd");
+								
+							$("#plan").html(J.asset.travTitle);
 							$("#travNo").val(J.asset.travNo);
 							$("#assetNo").val(J.asset.assetNo);
 							$("#blogNo").val(J.asset.blogNo);
@@ -122,25 +125,27 @@
 							$("#charge").val(J.asset.charge);	 
 							$("#datepicker").val(new Date(J.asset.visitDate).format("yyyy/MM/dd"));
 							$( '#datepicker' ).pickadate({		
-								format: 'yyyy/mm/dd'
+								format: 'yyyy/mm/dd',
+								min: startDate,
+								max: endDate
 					        });
 							
 							}								
-											})
+					})
 		    }
 	    	 ////////////////////////////////////ajax 끝		 
 		  
 	</script>
 
 
-	<div id="dialog-confirm" title="가계부 수정">
+	<div id="dialog-confirm" title="가계부 수정" >
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>여행중 사용한 가계부를<br/><strong> 수정</strong> 또는<strong> 삭제</strong>하시겠습니까?</p>
 </div>	
 
 
 	<!-- 테스트용으로 사용중인 버튼 완성되면 가계부 추가에 이벤트를 걸어준다 -->
 <!-- <button id="create-user">Create new user</button> -->
-<div id="dialog-form" title="가계부 수정">
+<div id="dialog-form" title="가계부 수정" >
    
   <form >
     <fieldset>
@@ -148,7 +153,7 @@
   <div class="row">
     <div class="col-sm-4" >    
       <label>여행</label><br/>
-      <input type="text"  id="plan" value="Jane Smith" class="text ui-widget-content ui-corner-all"><br/><br/> <!-- 나중에 컨트롤러에 plan쪽 정보를 인젝션시켜서 ajax로 가져올수있도록하고 select 바로 선택할수있게 바꿔준다 -->
+      <b  id="plan" ></b><br/><br/> <!-- 나중에 컨트롤러에 plan쪽 정보를 인젝션시켜서 ajax로 가져올수있도록하고 select 바로 선택할수있게 바꿔준다 -->
       
       </div>      
       
@@ -156,7 +161,7 @@
     <label>사용날짜</label><br/>
     <input id="datepicker" class="text ui-widget-content ui-corner-all"  value=""><br/><br/>
      <label>사용내용</label><br/>
-      <input type="text"  id="usage" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br/><br/>
+      <input type="text"  id="usage" value="xxxxxxx" class="text ui-widget-content ui-corner-all" autofocus><br/><br/>
     </div>    
     
     <div class="col-sm-4" >

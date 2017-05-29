@@ -1,6 +1,7 @@
  package com.ustrip.web.asset;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -153,6 +154,10 @@ public class AssetController {
 									 			Model model) throws Exception{
 		
 		Asset getAsset = assetService.getAssetOne(assetNo);
+		Calendar endTrav = Calendar.getInstance();
+		endTrav.setTime(getAsset.getStartDate());
+		endTrav.add(Calendar.DATE, getAsset.getTotalDate());
+		getAsset.setEndDate(endTrav.getTime());
 		model.addAttribute("asset",getAsset);
 	}
 	
