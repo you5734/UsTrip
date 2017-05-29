@@ -1,14 +1,16 @@
 package com.ustrip.service.blog;
+
 import java.util.List;
 import java.util.Map;
+
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
 
-public interface BlogService {
-	
+public interface BlogDAO {
+
 	public void addBlog(Map<String, List<TempBlog>> map) throws Exception;
 	
 	public int deleteBlog(int blogNo) throws Exception;
@@ -26,8 +28,9 @@ public interface BlogService {
 	public void checkLikeTravel(Search search) throws Exception;
 	
 	public Map<String, Object> listLikeTravel(Search search) throws Exception;
+	
+	public int getTotalCount(Search search) throws Exception;
 
 	public Blog getJsonBlog(int blogNo) throws Exception;
 
-	
 }
