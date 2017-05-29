@@ -3,38 +3,42 @@ package com.ustrip.service.blog.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.blog.BlogDAO;
-import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Blog;
-import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
 
-@Service("blogServiceImpl")
-public class BlogServiceImpl implements BlogService{
+
+@Repository("blogDAOImpl")
+public class BlogDAOImpl implements BlogDAO{
+	
 	
 	@Autowired
-	@Qualifier("blogDAOImpl")
-	private BlogDAO blogDAO;
+	@Qualifier("sqlSessionTemplate")
+	private SqlSession sqlSession;
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 	
-	public BlogServiceImpl() {
+	public BlogDAOImpl() {
 		System.out.println(this.getClass());
 	}
 	@Override
 	public void addBlog(Map<String, List<TempBlog>> map) throws Exception {
-		blogDAO.addBlog(map);
+		sqlSession.selectList("BlogMapper.addBlog", map);
 	}
 
 	@Override
 	public Blog getJsonBlog(int blogNo) throws Exception {
-		return blogDAO.getJsonBlog(blogNo);
+		return sqlSession.selectOne("BlogMapper.getBlog", blogNo);
 	}
-
+	
 	@Override
 	public int deleteBlog(int blogNo) throws Exception {
 		// TODO Auto-generated method stub
@@ -43,7 +47,7 @@ public class BlogServiceImpl implements BlogService{
 
 	@Override
 	public List<Blog> listBlog(Search search) throws Exception {
-		return blogDAO.listBlog(search);
+		return sqlSession.selectList("BlogMapper.listBlog", search);
 	}
 
 	@Override
@@ -81,5 +85,12 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }

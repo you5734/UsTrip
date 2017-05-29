@@ -1,9 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-		
-<mapper namespace="BlogMapper"> 
 
+<mapper namespace="BlogMapper">
+
+	<resultMap id="blogSelectMap" type="blog">
+		<result property="blogNo" 			column="blog_no" 		jdbcType="NUMERIC"/>
+		<result property="memo" 			column="memo" 			jdbcType="VARCHAR" />
+		<result property="travNo" 			column="trav_no" 		jdbcType="NUMERIC" />
+		<result property="visitDate" 		column="visit_date" 	jdbcType="VARCHAR" />
+		<result property="placeNo" 			column="place_no" 		jdbcType="NUMERIC" />
+		<result property="cityNo" 			column="city_no" 		jdbcType="NUMERIC" />
+		<result property="review" 			column="review" 		jdbcType="VARCHAR" />
+		<result property="score" 			column="score" 			jdbcType="NUMERIC" />
+		<result property="place"			column="place"			jdbcType="VARCHAR" />
+		<collection property="images" 		column="blog_no"		javaType="java.util.ArrayList" ofType="image" select="listImage"/>
+		<collection property="hashTags" 	column="blog_no"		javaType="java.util.ArrayList" ofType="hashTag" select="listHashTag"/>
+	</resultMap>
+	
+	<resultMap id="imageSelectMap" type="image">
+		<id 	property="imgNo" 			column="image_no"/>
+		<result property="blogNo" 			column="blog_no" 			jdbcType="NUMERIC" />
+		<result property="serverImgName" 	column="server_img_name" 	jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="tagSelectMap" type="hashTag">
+		<id 	property="tagNo" 			column="tag_no"/>
+		<result property="blogNo" 			column="blog_no" 			jdbcType="VARCHAR" />
+		<result property="hashTag" 			column="hash_tag" 			jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<insert 	id="addBlog"	parameterType="map">
+		INSERT 
+		INTO blog (blog_no, memo, trav_no, visit_date, place_no, city_no, place)(
+		SELECT seq_blog_no.nextval, A.* from(
+		<foreach item="item" collection="list" separator="UNION ALL" index="index">
+			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, TO_DATE(#{item.visitDate},'YY/MM/DD'), #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
+		</foreach>
+		)A)
+		
+	 </insert>
+	 
+	 <insert	id="addHashTag"	parameterType="map">
+	 	INSERT
+	 	INTO hash_tag (tag_no, blog_no, hash_tag)(
+	 	SELECT seq_tag_no.nextval, A.* from(
+	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
+		 	SELECT #{item.blogNo}, #{item.hashTag} FROM DUAL
+	 	</foreach>
+	 	)A)
+	 </insert>
+	 
+	 <insert	id="addImage"	parameterType="map">
+	 	INSERT
+	 	INTO image (image_no, blog_no, server_img_name)(
+	 	SELECT seq_img_no.nextval, A.* from(
+	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
+		 	SELECT #{item.blogNo}, #{item.server_img_name} FROM DUAL
+	 	</foreach>
+	 	)A)
+	 </insert>
+	 
+	 <insert	id="addLikeTravel" parameterType="String">
+	 	INSERT
+	 	like_no, user_id, trav_no
+	 	INTO like_travel
+	 	VALUES (seq_like_no.nextval, #{travNo}, #{userId})
+	 </insert>
+	 
+	 <select	id="getBlog"	parameterType="int"		resultMap="blogSelectMap">
+	 	SELECT
+	 	blog_no, trav_no, city_no, place_no, review, score, memo, TO_DATE(visit_date,'YY/MM/DD') visit_date, place
+	 	FROM blog
+	 	WHERE blog_no=#{blogNo}
+	 </select>
+	 
+	<select id="listBlog" parameterType="search" resultMap="blogSelectMap">
+	 	SELECT
+	 	blog_no, memo, trav_no, visit_date, place_no, city_no, review, score, place
+	 	FROM blog
+	 	WHERE trav_no=#{searchKeyword} AND 
+	 	place_no IN
+	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
+	 		#{item.value}
+	 	</foreach>
+	 </select>
+	 
+	 <select id="listImage" parameterType="int" resultMap="imageSelectMap">
+	 	SELECT
+	 	image_no, blog_no, server_img_name
+	 	FROM image
+	 	WHERE blog_no=#{blog_no}
+	 </select>
+	 
+	 <select id="listHashTag" parameterType="int" resultMap="tagSelectMap">
+	 	SELECT 
+	 	tag_no, blog_no, hash_tag
+	 	FROM hash_tag
+	 	WHERE blog_no=#{blog_no}
+	 </select>
+	  <!-- 
+	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
+	 	SELECT
+	 	like_no, trav_no, user_id
+	 	FROM like_travel
+	 	WHERE user_id=#{userId}
+	 </select>
+	 
+	 <select id="checkLikeTravel" parameterType="string" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM(			SELECT like_no
+	 					FROM like_travel
+	 					WHERE user_id=#{userId} AND trav_no=#{travNo}
+	 					)countTable
+	 </select>
+	 
+	 <update	id="updateBlog"	parameterType="blog" >
+		UPDATE blog 
+		<set> 
+		review=#{review:VARCHAR},
+		score=#{score:NUMERIC}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <update	id="updateHashTag"	parameterType="hashTag" >
+		UPDATE hash_tag
+		<set> 
+			<foreach item="item" collection="list" separator=",">
+				tag_no=#{item.tagNo},
+				blog_no=#{item.blogNo},
+				hash_tag=#{item.hashTag}
+			</foreach>
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <delete id="deleteBlog" parameterType="int">
+	 	DELETE
+	 	FROM blog
+	 	WHERE blog_no=#{blogNo}
+	 </delete>
+	 
+	 <delete id="deleteImage" parameterType="int">
+	 	DELETE
+	 	FROM image
+	 	WHERE image_no=#{imageNo}
+	 </delete>
+		 -->
 </mapper>

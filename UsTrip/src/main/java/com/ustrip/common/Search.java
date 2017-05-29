@@ -1,5 +1,7 @@
 package com.ustrip.common;
 
+import java.util.Date;
+import java.util.List;
 
 //==>리스트화면을 모델링(추상화/캡슐화)한 Bean 
 public class Search {
@@ -15,12 +17,12 @@ public class Search {
 	//==> 참조
 	private int endRowNum;
 	private int startRowNum;
-	
+	private List<Integer> placeOrder;
+	private String searchDate;
+
 	///Constructor
 	public Search() {
 	}
-	
-	///Method
 	public int getPageSize() {
 		return pageSize;
 	}
@@ -48,21 +50,30 @@ public class Search {
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
-	
-	//==> Select Query 시 ROWNUM 마지막 값 
 	public int getEndRowNum() {
 		return getCurrentPage()*getPageSize();
 	}
-	//==> Select Query 시 ROWNUM 시작 값
 	public int getStartRowNum() {
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
 
+	public List<Integer> getPlaceOrder() {
+		return placeOrder;
+	}
+	public void setPlaceOrder(List<Integer> placeOrder) {
+		this.placeOrder = placeOrder;
+	}
+	public String getSearchDate() {
+		return searchDate;
+	}
+	public void setSearchDate(String searchDate) {
+		this.searchDate = searchDate;
+	}
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ ", placeOrder=" + placeOrder + ", searchDate=" + searchDate + "]";
 	}
+	
 }
