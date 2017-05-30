@@ -27,5 +27,8 @@ public interface UserService {
 		
 	// 모든회원리스트
 	public Map<String, Object> getUserList(Search search) throws Exception;
+	
+	//회원탈퇴
+	public void withdrawUser(String userId) throws Exception;
 		
 }

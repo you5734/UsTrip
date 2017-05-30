@@ -77,13 +77,15 @@
 					alert('패스워드를 입력하지 않으셨습니다.');
 					$("#password").focus();
 					return;
+				} else {
+					
 				}
 				
 				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 			});							
 		});			
 		
-		//============= 회원원가입화면이동 =============
+		// 회원원가입화면이동
 		$( function() {
 			$("#join").on("click" , function() {
 				self.location = "/user/addUser"
@@ -96,7 +98,7 @@
 		#dialog-form { display:none; }
     	input.text { width:60%; padding: .4em; }
 		fieldset { padding:0; border:0; margin-top:5px; }
-		.validateTips { border: solid transparent; padding: 0.3em; color:blue; }
+		.validateTips { border: solid transparent; padding: 0.3em; color:red; }
 	</style>
 	
 </head>
@@ -158,15 +160,54 @@
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
 					 					 <div id="dialog-form" title="추가정보 입력">
 											  <p class="validateTips">모든정보를 입력해주세요</p>											 
-											  <form class="extraUserInfo" id="extraUserInfo" action="/user/extraUserInfo" method="POST">
-											    	<fieldset>
+											  <form id="extraUserInfo" action="/user/extraUserInfo" method="POST">
+											    		<div>
+											    			<label for="nickName" >닉네임</label>
+											    			<div style="flaot:left; width: 250px;">
+											    				<input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
+											    				<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
+											    			</div>
+											    		</div><br>
+											    		
+											    		<div>
+											    			<label for="password" >비밀번호</label>
+											    			<div style="flaot:left; width: 250px;">
+											    				<input type="password" name="password" id="pw" class="text ui-widget-content ui-corner-all" >
+											    			</div>
+											    		</div><br>
+											    		
+											    		<div>
+											    			<label for="password2" >비밀번호확인</label>
+											    			<div style="flaot:left; width: 250px;">
+											    				<input type="password" name="password2" id="pw2" class="text ui-widget-content ui-corner-all" >
+											    				<div id="checkpw" style="color:red; font-size:12px;"></div>
+											    			</div>
+											    		</div><br>		
+											    		
+											    		<div>
+											    			<label for="gender" >성별</label>
+											    			<div style="flaot:left; width: 250px;">
+											    				남<input type="radio" name="gender" id="gender" value="m" >
+													      		여<input type="radio" name="gender" id="gender" value="f" >
+											    			</div>
+											    		</div>	<br>										    											    		
+											    		
+											    		<div>
+											    			<label for="birthDate" >생년월일</label>
+											    			<div style="flaot:left; width: 250px;">
+											    				<input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all" >
+											    			</div>
+											    		</div><hr>												  
+<!-- 											  
+											    	 <div class="form-group">
 													      <label for="nickName" >닉네임</label>
-													      <input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
-													     	 <div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
-													      
-													      <label for="pw">비밀번호</label>
-													      <input type="password" name="password" id="pw" class="text ui-widget-content ui-corner-all">
-													      
+													      		<input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
+													     	 	<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
+													     </div>
+													       <div class="form-group">
+														      <label for="pw">비밀번호</label>
+														      <input type="password" name="password" id="pw" class="text ui-widget-content ui-corner-all">
+													      </div>
 													      <label for="pw2">비밀번호확인</label>
 														  <input type="password" name="password2" id="pw2" class="text ui-widget-content ui-corner-all">
 														      	<div id="checkpw" style="color:red; font-size:12px;"></div>
@@ -177,7 +218,7 @@
 													      
 													      <label for="birthDate">생년월일</label>
 													      <input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all"><hr>
-													      
+		 -->											      
  													      <div class="form-group">
 														      <div class=" col-sm-offset text-center">
 															      <button type="submit" class="btn btn-info btn" id="add">등록</button>
@@ -189,10 +230,9 @@
 								     					 <input type="hidden" value="${param.kakao}" id="kakao">
 													      <!-- Allow form submission with keyboard without duplicating the dialog button -->
 													       <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
-											    	</fieldset>
-											  </form>
-										</div>
-		                        <!--  ////////////////////// Modal Popup /////////////////////// -->
+												  </form>
+											</div>
+			                        <!--  ////////////////////// Modal Popup /////////////////////// -->
 		                    </div>
                         </div>
                     </div>
@@ -219,48 +259,19 @@
 	
 	//가입 연결
 	 $(function() {
-		$( ".btn.btn-info.btn" ).on("click" , function() {
+		$( "#add" ).on("click" , function() {
 			alert("되니?>>");
-		/* 	 ajaxAddUser();  
-			 $("form").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit();  */
 			 document.forms["extraUserInfo"].submit(); 
 		});
 	});	
-	/*
-	 function addUser() {
-		 alert("되니?");
-		 
-		 $("#extraUserInfo").attr("method" , "POST").attr("action" , "/user/extraUserInfo").submit(); 
-	 $("#extraUserInfo").submit(function() {
-		 event.preventDefault(); 
-		$.ajax({
-			type: 'POST',
-			url: '/user/extraUserInfo',
-			data : $(this).seialize(),
-			dataType: 'json',	
-			 headers : {
-   				 "Accept" : "application/json",
-   				 "Content-Type" : "application/json"
-			 }
-		});		
-	}); 
-	 }
+	
+	//취소 연결
+	$(function() {
+		$("button[href='#' ]").on("click" , function() {
+			$("form")[1].reset();
+		});
+	});	
 
- //ajaxAddUser POST 방식
-	function ajaxAddUser() {
-		
-		$.ajax({
-			type : 'POST',
-			url: '/user/extraUserInfo',
-			data: addUserArray,
-			cache: false,
-			async: true,
-			success: function(JSONData, status) {
-				self.location="/user/login";
-			} 
-		});		
-	} 
-	*/
 	//닉네임 중복체크
 	$(function(){
 		
@@ -281,9 +292,9 @@
 		    			 success : function(JSONData, status) {		    				 
 		    				   				 
 		    				 if( JSONData.result ) {
-		    					 $("#checkNick").html("사용가능한 닉네임입니다.");
+		    					 $("#checkNick").html("사용가능한 닉네임입니다.").css('color','blue');
 		    				 } else {
-		    					 $("#checkNick").html("존재하는 닉네임입니다.");		    					 
+		    					 $("#checkNick").html("존재하는 닉네임입니다.").css('color','red');		    					 
 		    				 }	
 	    			 	}
 	    		 });			
@@ -300,10 +311,10 @@
 		$("#pw2").keyup( function() {
 			if( $("#pw").val() != $("#pw2").val() ) {
 				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치하지 않습니다.");
+				$("#checkpw").html("비밀번호가 일치하지 않습니다.").css('color','red');
 			} else {
 				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치합니다.");
+				$("#checkpw").html("비밀번호가 일치합니다.").css('color','blue');
 			} 
 		});
 	});

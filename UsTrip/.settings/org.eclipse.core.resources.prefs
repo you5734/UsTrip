@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
+encoding//WebContent/view/message/sendMsg.jsp=UTF-8
+=======
 encoding//WebContent/js/graph.js=euc-kr
+>>>>>>> refs/remotes/origin/master

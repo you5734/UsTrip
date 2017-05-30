@@ -4,6 +4,35 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MessageMapper">
+
+	<resultMap id="messageSelectMap" type="message">
+		<result property="msgNo" 			column="msg_no"			jdbcType="NUMERIC"/>
+		<result property="sender" 				column="sender" 				jdbcType="VARCHAR"/>
+		<result property="receiver" 			column="receiver" 			jdbcType="VARCHAR"/>
+		<result property="sendDate" 		column="send_date" 		jdbcType="DATE"/>
+		<result property="readDate" 		column="read_date" 		jdbcType="DATE"/>
+		<result property="msgContent" 	column="msg_content" 	jdbcType="VARCHAR"/>
+		<result property="isRead" 				column="is_read" 			jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	 <!-- SQL : INSERT 메세지 등록-->
+	 <insert id="sendMsg" parameterType="message">
+	 	INSERT
+	 	INTO message
+	 	VALUES ( 		 seq_msg_no.nextval, 
+						 		#{sender}, 
+						 		#{receiver}, 
+						 		SYSDATE, 
+						 		#{readDate:DATE}, 
+						 		#{msgContent:VARCHAR}, 
+						 		0
+	 						)		 	
+	 </insert>
+	
+	
+
+
 		
-<mapper namespace="MessageMapper"> 
 </mapper>

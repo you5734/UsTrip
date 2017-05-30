@@ -69,7 +69,7 @@ public class UserController {
 	}
 	/// 타계정 로그인하고 추가정보 입력 후 addUser 처리, 비밀번호는 임시비밀번호 넣기
 	@RequestMapping( value="extraUserInfo", method=RequestMethod.POST )
-	public String addUser( @ModelAttribute("user") User user) throws Exception{
+	public String extraUserInfo( @ModelAttribute("user") User user) throws Exception{
 	
 		System.out.println("/user/extraUserInfo : POST");
 		user.setUserId(user.getUserId().replace(",", "."));
@@ -116,20 +116,70 @@ public class UserController {
 	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
 		
 		System.out.println("/user/login : POST");
-		//Business Logic
+
+		String destinate = "redirect:/user/login";
+		
 		User dbUser=userService.getUser(user.getUserId());
 		System.out.println("user 뭐닝" + dbUser);
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
-		}
+			destinate="forward:/view/user/withdrawUser.jsp";
+		} 		
 		System.out.println(session.getAttribute("user"));
-		return "redirect:/view/user/login.jsp";
+		
+		return destinate;
+//		return "redirect:/user/getUser?userId="+dbUser.getUserId();
+	}
+	
+	@RequestMapping( value="updateUser", method=RequestMethod.GET )
+	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
+
+		System.out.println("/user/updateUser : GET");
+
+		User user = userService.getUser(userId);
+
+		model.addAttribute("user", user);
+		
+		return "forward:/view/user/updateUser.jsp";
+	}
+
+	@RequestMapping( value="updateUser", method=RequestMethod.POST )
+	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
+
+		System.out.println("/user/updateUser : POST");
+
+		userService.updateUser(user);
+		
+		String sessionId=((User)session.getAttribute("user")).getUserId();
+		if(sessionId.equals(user.getUserId())){
+			session.setAttribute("user", user);
+		}
+		return "redirect:/user/getUser?userId="+user.getUserId();
+	}
+	
+	@RequestMapping( value="getUser", method=RequestMethod.GET )
+	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
+		
+		System.out.println("/user/getUser : GET");
+		//Business Logic
+		User user = userService.getUser(userId);
+		// Model 과 View 연결
+		model.addAttribute("user", user);
+		
+		return "forward:/view/user/getUser.jsp";
+	}
+	
+	@RequestMapping( value="withdrawUser", method=RequestMethod.GET )
+	public String withdrawUser( @RequestParam("userId") String userId ) throws Exception {
+		
+		System.out.println("/user/withdrawUser : GET");
+
+		 userService.withdrawUser(userId);
+
+		return "forward:/user/login";
 	}
 	
 	
 	
-
-	
-
 }
