@@ -19,6 +19,11 @@ public interface MessageDao {
 	//보낸쪽지함리스트
 	public List<Message> listSendMsg(Search search) throws Exception;
 	
-	public int getTotalCount(Search search) throws Exception;
+	public int sendCount(Search search) throws Exception;
+	
+	//받은쪽지함리스트
+	public List<Message> listReceivMsg(Search search) throws Exception;
+	
+	public int receiveCount(Search search) throws Exception;	
 	
 }

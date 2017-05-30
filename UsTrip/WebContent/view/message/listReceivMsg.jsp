@@ -16,36 +16,28 @@
 	
 	<script type="text/javascript">
 	
-	function fncGetAllList(currentPage) {
-		$("#currentPage").val(currentPage);		
-		$("form").attr("method" , "POST").attr("action" , "/message/listSendMsg").submit();
-	}
-	
-	$(function() {
-		$( "#content" ).on("click" , function() {
-			var msgNo = $("#msgNo").val();
-			 self.location ="/message/getMsg?msgNo="+msgNo;
+		function fncGetAllList(currentPage) {
+			$("#currentPage").val(currentPage);		
+			$("form").attr("method" , "POST").attr("action" , "/message/listReceivMsg").submit();
+		}
+		
+		$(function() {
+			$("#send").on("click", function() {
+				self.location="/message/sendMsg";	
+			});
 		});
-	});
-	
-	$(function() {
-		$("#send").on("click", function() {
-			self.location="/message/sendMsg";	
+		
+		$(function() {
+			$("#listSend").on("click", function() {
+				self.location="/message/listSendMsg";	
+			});
 		});
-	});
-	
-	$(function() {
-		$("#listSend").on("click", function() {
-			self.location="/message/listSendMsg";	
+		
+		$(function() {		
+			$("#listReceive").on("click", function() {
+				self.location="/message/listReceivMsg";	
+			});
 		});
-	});
-	
-	$(function() {		
-		$("#listReceive").on("click", function() {
-			self.location="/message/listReceivMsg";	
-		});
-	});
-	
 	
 	</script>
 	
@@ -70,9 +62,9 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a id="send" >
-              <span class="glyphicon glyphicon-folder-close"></span >
-              	쪽지보내기</a>
+              <a id="sendMsg" >
+              <span class="glyphicon glyphicon-folder-close">
+                </span>쪽지보내기</a>
             </h4>
           </div>
         </div>
@@ -81,9 +73,8 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a id="listSend" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-              	<span class="glyphicon glyphicon-file"></span>
-              	보낸쪽지함</a>
+              <a id="listSend" ><span class="glyphicon glyphicon-file">
+                </span >보낸쪽지함</a>
             </h4>
           </div>
         </div>
@@ -92,9 +83,8 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a id="listReceive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-              	<span class="glyphicon glyphicon-heart"></span>
-              	받은쪽지함</a>
+              <a id="listReceive"><span class="glyphicon glyphicon-heart">
+                </span >받은쪽지함</a>
             </h4>
           </div>
         </div>
@@ -116,16 +106,18 @@
 <div class="col-sm-9 col-md-9">
 <table class="table">
 	<tr>
-		<td colspan="11" >전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
+		<td colspan="13" >전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td align="center"><input type="checkbox" value="" /></td>
-		<td class="ct_list_b" width="150">받는사람</td>
+		<td class="ct_list_b" width="150">보낸사람</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">글내용</td>
 		<td class="ct_line02"></td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">보낸날짜</td>	
+		<td class="ct_list_b">받은날짜</td>	
+		<td class="ct_line02"></td>
+		<td class="ct_list_b">읽은날짜</td>	
 	</tr>
 
 	<c:set var="i" value="0"/>
@@ -134,14 +126,15 @@
 		<tr class="ct_list_pop">
 			<td align="center"><input type="checkbox" value="" /></td>
 			<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
-			<input type="hidden" id="sender" name="sender" value="${message.sender}"/>
-			<td align="left">${message.receiver}</td>
+			<input type="hidden" id="sender" name="sender" value="${message.receiver}"/>
+			<td align="left">${message.sender}</td>
 			<td></td>
-			<td align="left">
-				<span id="content">${message.msgContent}</span></td>
+			<td align="left">${message.msgContent}</td>
 			<td></td>
 			<td></td>
 			<td align="left">${message.sendDate}</td>
+			<td></td>
+			<td align="left">${message.readDate}</td>
 		</tr>
 	</c:forEach>
 </table>

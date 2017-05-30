@@ -30,7 +30,7 @@ public class MessageServiceImpl implements MessageService {
 	}
 	
 	public Message getMsg(int msgNo) throws Exception {
-		messageDao.updateIsRead(msgNo);
+//		messageDao.updateIsRead(msgNo);
 		return messageDao.getMsg(msgNo);
 	}
 	
@@ -38,17 +38,36 @@ public class MessageServiceImpl implements MessageService {
 		messageDao.deleteMsg(msgNo);
 	}
 	
-	public Map<String, Object> listSendMsg(Search search) throws Exception{
+	public Map<String, Object> listSendMsg(Search search, String sender) throws Exception{
+		
+		search.setSearchKeyword(sender);
+		System.out.println("search ::" +search );
+		
 		
 		List<Message> list = messageDao.listSendMsg(search);
-		int totalCount = messageDao.getTotalCount(search);
+		int totalCount = messageDao.sendCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+	
+	public Map<String, Object> listReceivMsg(Search search, String receiver) throws Exception{
 		
+		search.setSearchKeyword(receiver);
+		System.out.println("search ::" +search );
+		
+		
+		List<Message> list = messageDao.listReceivMsg(search);
+		int totalCount = messageDao.receiveCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 	
 }

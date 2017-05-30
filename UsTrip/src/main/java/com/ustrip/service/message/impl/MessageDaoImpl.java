@@ -47,8 +47,17 @@ public class MessageDaoImpl implements MessageDao{
 	}
 	
 	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("MessageMapper.getTotalCount", search);
+	public int sendCount(Search search) throws Exception {
+		return sqlSession.selectOne("MessageMapper.sendCount", search);
+	}
+	
+	public List<Message> listReceivMsg(Search search) throws Exception{
+		return sqlSession.selectList("MessageMapper.listReceivMsg", search);		
+	}
+	
+	public int receiveCount(Search search) throws Exception{
+		return sqlSession.selectOne("MessageMapper.receiveCount", search);
+		
 	}
 	
 }
