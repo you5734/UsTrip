@@ -110,6 +110,5 @@ public class Asset {
 	@Override
 	public String toString() {
 		return "AssetVo = [assetNo : "+assetNo+", travNo : "+travNo+", blogNo : "+blogNo+", visitDate : "+visitDate+", usage : "+usage+", assetCategory : "+assetCategory+", charge : "+charge+" ]";
-				}
-
+	}
 }

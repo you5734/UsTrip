@@ -26,7 +26,8 @@
 		<typeAlias alias="comment" type="com.ustrip.service.domain.Comment" />
 		<typeAlias alias="board" type="com.ustrip.service.domain.Board" />
 		<typeAlias alias="follow" type="com.ustrip.service.domain.Follow" />
-		<typeAlias alias="message" type="com.ustrip.service.domain.Message" />		
+		<typeAlias alias="message" type="com.ustrip.service.domain.Message" />
+		<typeAlias alias="tempBlog" type="com.ustrip.service.domain.TempBlog" />			
 		<typeAlias alias="search" type="com.ustrip.common.Search" /> 
 	</typeAliases>
 	
@@ -38,8 +39,9 @@
 		<mapper resource="sql/FollowMapper.xml"/>		
 		<mapper resource="sql/AssetMapper.xml"/>
 		<mapper resource="sql/BoardMapper.xml"/>
-		<mapper resource="sql/MessageMapper.xml"/> 
-		<mapper resource="sql/FollowMapper.xml"/>
+		<mapper resource="sql/MessageMapper.xml"/>
+		<mapper resource="sql/CityMapper.xml"/> 
+		<mapper resource="sql/PlaceMapper.xml"/>  
 	</mappers>
 
 </configuration>

@@ -4,7 +4,6 @@ public class Image {
 	
 	private int imgNo;
 	private int blogNo;
-	private String oriImgName;
 	private String serverImgName;
 	
 	public Image() {
@@ -26,14 +25,6 @@ public class Image {
 		this.blogNo = blogNo;
 	}
 
-	public String getOriImgName() {
-		return oriImgName;
-	}
-
-	public void setOriImgName(String oriImgName) {
-		this.oriImgName = oriImgName;
-	}
-
 	public String getServerImgName() {
 		return serverImgName;
 	}
@@ -44,7 +35,7 @@ public class Image {
 
 	@Override
 	public String toString() {
-		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", oriImgName=" + oriImgName + ", serverImgName="
+		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", serverImgName="
 				+ serverImgName + "]";
 	}
 	

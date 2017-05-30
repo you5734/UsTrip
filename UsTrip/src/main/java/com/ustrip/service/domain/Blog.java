@@ -1,6 +1,7 @@
 package com.ustrip.service.domain;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -16,10 +17,10 @@ public class Blog {
 	private String review;
 	private float score;
 	private String place;
-	private List<Image> images;
+	private List<Image> images=new ArrayList<Image>();
 	private List<MultipartFile> files;
-	private List<HashTag> hashTags;
-	private List<Asset> assets;
+	private List<HashTag> hashTags=new ArrayList<HashTag>();
+	private List<Asset> assets=new ArrayList<Asset>();
 
 	public Blog() {
 		// TODO Auto-generated constructor stub
