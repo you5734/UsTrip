@@ -44,6 +44,9 @@
 	
 	$(function() {
 		
+		var tagIndex=1;
+		var assetIndex=1;
+		
 		function showDialog() {
 			var dialog;
 			
@@ -57,64 +60,23 @@
 		
 		
 		$('body').on('click' , '.fa-pencil', function() {
-			var blogNo=$(this).next().val();
-			
-			$.ajax( 
-					{
-						url : "/blog/getJsonBlog/"+blogNo,
-						method : "GET" ,
-						dataType : "json" ,
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						context : this,
-						success : function(serverData , status) {
-							$("#dialog-form").attr('title',serverData.blog.place);
-							if(serverData.blog.review!=null){
-								$("#review").html(serverData.blog.review);
-							}
-							$("#score").val(serverData.blog.score);
-							showDialog();
-						}
-					});
-				
-			});
-		
-		$('body').on('click' , '#tagPlus', function() {
-			var addTag='<input type="text" name="hashTag" size="5" maxlength="10" id="hashTag" value="" placeholder="&#xf068;" style="font-family:Arial, FontAwesome">';
-			$(this).before(addTag);
+			self.location='/blog/updateBlog?blogNo='+$(this).next().val();
 		});
 		
-		$('body').on('click' , '#assetPlus', function() {
-			var addTag='<div class="col-md-4">'
-					  +'<i class="fa fa-usd" aria-hidden="true"></i>'
-					  +'<select name="category" style="width: 70px; height: 25px; color:black" maxLength="20">'
-					  +'<option value="1" selected="selected">식비</option>'
-					  +'<option value="2">교통비</option>'
-					  +'<option value="2">숙박비</option>'
-					  +'<option value="2">쇼핑</option>'
-					  +'<option value="2">입장료</option>'
-					  +'<option value="2">기타</option></select>'
-					  +'<input type="text" name="usage" id="usage" value="사용처" size="7">'
-					  +'<input type="text" name="charge" id="charge" value="사용금액" size="9">'
-					  +'<i class="fa fa-plus" aria-hidden="true" id="assetPlus"></i></div>';
-			$(this).before(addTag);
-			$(this).remove();
-		});
 		
-		function appendHash(tag){
-			
-		}
 	}); 
+	
+	
+	
 		
 	</script>
 </head>
 <body>
+	
 	<div class="container">
 		<div class="row">
 	        <div class="timeline-centered">
-			<c:forEach items="${blog}" var="blog" varStatus="status">
+			<c:forEach items="${list}" var="blog" varStatus="status">
 		        <article class="timeline-entry">
 		            <div class="timeline-entry-inner">
 		                <div class="timeline-icon bg-warning">
@@ -134,9 +96,9 @@
 		        </article>
 			</c:forEach>
 	   	 	</div>
-	   	 	
+	   	 	<!-- 
 	   	 	<i class="fa fa-map-marker" aria-hidden="true"></i><div id="dialog-form" title="블로그수정">										 
-			<form id="updateBlog" action="/blog/updateBlog" method="POST" enctype="multipart/form-data">
+			<form enctype="multipart/form-data" >
 				<div class="col-md-4">
 					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					<textarea style="width:300px; height:150px;" maxlength="250" name="review" id="review" placeholder="리뷰를 남겨주세요"></textarea>
@@ -149,21 +111,21 @@
 				<div class="col-md-4">
 					<i class="fa fa-camera" aria-hidden="true"></i>
 					<input type="file" name="files" id="fileName" multiple/><hr/>
-				</div>
+				</div> 
 				<div class="col-md-4">
 					<i class="fa fa-hashtag" aria-hidden="true"></i>
-					<input type="text" name="hashTag" size="5" maxlength="10" id="hashTag" value="" >
+					<input type="text" name="hashTag" id="hashTag" size="5" maxlength="10" id="hashTag" value="" >
 					<i class="fa fa-plus" aria-hidden="true" id="tagPlus"></i>
 				</div><hr/>
 				<div class="col-md-4">
 					<i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-					<select name="category" style="width: 70px; height: 25px; color:black" maxLength="20">
+					<select name="assetCategory" id="assetCategory" style="width: 70px; height: 25px; color:black" maxLength="20">
 							<option value="1" selected="selected">식비</option>
 							<option value="2">교통비</option>
-							<option value="2">숙박비</option>
-							<option value="2">쇼핑</option>
-							<option value="2">입장료</option>
-							<option value="2">기타</option>
+							<option value="3">숙박비</option>
+							<option value="4">쇼핑</option>
+							<option value="5">입장료</option>
+							<option value="6">기타</option>
 					</select>
 					<input type="text" name="usage" id="usage" placeholder="사용처" size="7">
 					<input type="text" name="charge" id="charge" placeholder="사용금액" size="9">
@@ -171,13 +133,13 @@
 				</div><hr/>
 				<div class="form-group">
 					<div class=" col-sm-offset text-center">
-					<input type="button" class="btn btn-info btn" id="add" value="확인">
+					<input type="button" class="btn btn-info btn" id="update" value="확인">
 					<input type="button" class="btn btn-info" id="cancel" value="취소">
 					</div>
 				</div> 
 				<input type="hidden" value="" id="blogNo" name="blogNo">
-			</form>
-			</div>
+			</form> 
+			</div>-->
 		</div>
 	</div>
 </body>

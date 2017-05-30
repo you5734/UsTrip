@@ -52,8 +52,9 @@ public class BlogDAOImpl implements BlogDAO{
 
 	@Override
 	public void updateBlog(Blog blog) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sqlSession.update("BlogMapper.updateBlog", blog);
+		sqlSession.insert("BlogMapper.addHashTag", blog.getHashTags());
+		sqlSession.insert("BlogMapper.addImage",blog.getImages());
 	}
 
 	@Override

@@ -48,8 +48,7 @@ public class BlogServiceImpl implements BlogService{
 
 	@Override
 	public void updateBlog(Blog blog) throws Exception {
-		// TODO Auto-generated method stub
-		
+		blogDAO.updateBlog(blog);
 	}
 
 	@Override

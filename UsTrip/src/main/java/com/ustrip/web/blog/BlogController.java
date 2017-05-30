@@ -1,12 +1,14 @@
 package com.ustrip.web.blog;
 
 import java.util.Date;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,15 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.asset.AssetService;
 import com.ustrip.service.blog.BlogService;
+import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.HashTag;
+import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
@@ -36,11 +43,11 @@ public class BlogController {
 	@Autowired
 	@Qualifier("blogServiceImpl")
 	private BlogService blogService;
-	/*
+	
 	@Autowired
 	@Qualifier("assetServiceImpl")
 	private AssetService assetService;
-	*/
+	
 	@Autowired
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
@@ -90,7 +97,7 @@ public class BlogController {
 			
 			search.setPlaceOrder(listPlaceNo);
 			List<Blog> blog=blogService.listBlog(search);
-			model.addAttribute("blog", blog);
+			model.addAttribute("list", blog);
 		}else{
 			model.addAttribute("travel", travel);
 			destination="forward:/view/blog/addBlog.jsp";
@@ -99,4 +106,45 @@ public class BlogController {
 		
 		return destination;
 	}
+	
+	@RequestMapping(value="updateBlog", method=RequestMethod.GET)
+	public String updateBlog( @RequestParam("blogNo") int blogNo, Model model) throws Exception {
+		
+		System.out.println("/updateBlog : GET");
+		
+		Blog blog=blogService.getJsonBlog(blogNo);
+		model.addAttribute("blog", blog);
+		
+		return "forward:/view/blog/updateBlog.jsp";
+	}
+	
+	@RequestMapping(value="updateBlog", method=RequestMethod.POST)
+	public String updateBlog( @ModelAttribute("blog") Blog blog, HttpSession session) throws Exception {
+		
+		System.out.println("/updateBlog : POST");
+		/*List<MultipartFile> files = blog.getFiles();
+		
+        if (null != files && files.size() > 0) 
+        {
+            for (MultipartFile multipartFile : files) {
+            	
+                String fileName = multipartFile.getOriginalFilename();
+                String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
+ 
+                File imageFile = new File(session.getServletContext().getRealPath("/")+"images/upload/blog/", newFileName);
+                multipartFile.transferTo(imageFile);
+            }
+            
+        }*/
+        
+        System.out.println(blog);
+        
+        blogService.updateBlog(blog);
+        for(Asset i: blog.getAssets()){
+        	assetService.addAsset(i);
+        }
+        
+		return "forward:/view/blog/updateBlg.jsp";
+	}
+
 }
