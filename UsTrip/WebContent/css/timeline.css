@@ -308,4 +308,10 @@ span.stars span {
     margin-right: 10px;
 }
 
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-icon.bg-warning i {
+	width:42px;
+ 	height:48px;
+  	padding-top:10px;
+}
+
 
