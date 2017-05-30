@@ -22,6 +22,12 @@
 			fncUpdateUser();
 		});
 	});	
+	//취소 연결
+	$(function() {
+		$("a[href='#' ]").on("click" , function() {
+			$("form")[0].reset();
+		});
+	});	
 	
 	function fncUpdateUser() {
 		

@@ -16,7 +16,7 @@
 	
 	<script type="text/javascript">
 	
-	//가입 연결
+	//보내기 연결
 	 $(function() {
 		$( ".btn.btn-info" ).on("click" , function() {
 			$("form").attr("method" , "POST").attr("action" , "/message/sendMsg").submit();
@@ -38,7 +38,7 @@
 		<div class="form-group">
 			  <label class="col-md-4 control-label" for="sender">SENDER</label>  
 			  <div class="col-md-5">
-				  <input id="sender" name="sender" type="text" placeholder="6 DIGIT SENDER ID" class="form-control input-md" required="" style="width:500px;">
+				  <input id="sender" name="sender" type="text" placeholder="6 DIGIT SENDER ID" class="form-control input-md" required="" style="width:500px;" value="${user.userId }">
 				  <span class="help-block">ONLY ALPHABATE</span>  
 			  </div>
 		</div>

@@ -30,6 +30,37 @@
 						 		0
 	 						)		 	
 	 </insert>
+	 
+	 <select id="getMsg" parameterType="int" resultMap="messageSelectMap">
+	 	SELECT
+	 	msg_no, sender, receiver, send_date, read_date, msg_content, is_read
+	 	FROM message
+	 	WHERE msg_no = #{value}
+	 </select>
+	 
+	 <update id="updateIsRead" parameterType="int">
+		UPDATE message 
+		SET read_date=SYSDATE, is_read=1
+		WHERE msg_no = #{value}
+	 </update>
+	 
+	 <select id="listSendMsg" parameterType="search" resultMap="messageSelectMap">
+	 	SELECT *
+		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+			FROM ( SELECT msg_no, sender, receiver, send_date, msg_content
+							FROM message ) inner_table
+			WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	 </select>
+	 
+	 <select id="getTotalCount" parameterType="search" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM ( SELECT msg_no, sender, receiver FROM message ) countTable
+	 </select>
+	 
+	 <delete id="deleteMsg" parameterType="int" >
+	 	DELETE FROM message WHERE msg_no = #{value}
+	 </delete>
 	
 	
 

@@ -23,7 +23,11 @@
 					self.location = "/user/updateUser?userId=${user.userId}"
 			  });
 		 });
-		
+		 $(function() {
+			 $( ".btn.btn-info.btn" ).on("click" , function() {
+					self.location = "/message/sendMsg"
+			  });
+		 });
 	</script>
 	
     <style>
@@ -76,6 +80,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-4 text-center">
 					<button type="button" class="btn btn-info">회원정보수정</button>
+					<button type="button" class="btn btn-info btn">쪽지보내기</button>
 				</div>	
 			</div>
 		</form>
