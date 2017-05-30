@@ -40,6 +40,7 @@
 		<mapper resource="sql/AssetMapper.xml"/>
 		<mapper resource="sql/BoardMapper.xml"/>
 		<mapper resource="sql/MessageMapper.xml"/> 
+		<mapper resource="sql/FollowMapper.xml"/>
 	</mappers>
 
 </configuration>

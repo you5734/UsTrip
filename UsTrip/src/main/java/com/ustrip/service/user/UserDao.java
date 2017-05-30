@@ -27,5 +27,8 @@ public interface UserDao {
 	
 	//page처리를 위한 전체 row return
 	public int getTotalCount(Search search) throws Exception;
+	
+	//회원탈퇴
+	public void withdrawUser(String userId) throws Exception;
 
 }
