@@ -14,5 +14,7 @@ public interface MessageService {
 	
 	public void deleteMsg(int msgNo) throws Exception;
 
-	public Map<String, Object> listSendMsg(Search search) throws Exception;
+	public Map<String, Object> listSendMsg(Search search, String sender) throws Exception;
+	
+	public Map<String, Object> listReceivMsg(Search search, String receiver) throws Exception;
 }

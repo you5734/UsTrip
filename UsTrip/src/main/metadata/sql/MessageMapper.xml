@@ -9,11 +9,11 @@
 
 	<resultMap id="messageSelectMap" type="message">
 		<result property="msgNo" 			column="msg_no"			jdbcType="NUMERIC"/>
-		<result property="sender" 				column="sender" 				jdbcType="VARCHAR"/>
-		<result property="receiver" 			column="receiver" 			jdbcType="VARCHAR"/>
-		<result property="sendDate" 		column="send_date" 		jdbcType="DATE"/>
-		<result property="readDate" 		column="read_date" 		jdbcType="DATE"/>
-		<result property="msgContent" 	column="msg_content" 	jdbcType="VARCHAR"/>
+		<result property="sender" 				column="sender" 			jdbcType="VARCHAR"/>
+		<result property="receiver" 			column="receiver" 		jdbcType="VARCHAR"/>
+		<result property="sendDate" 			column="send_date" 		jdbcType="DATE"/>
+		<result property="readDate" 			column="read_date" 		jdbcType="DATE"/>
+		<result property="msgContent" 		column="msg_content" 	jdbcType="VARCHAR"/>
 		<result property="isRead" 				column="is_read" 			jdbcType="NUMERIC"/>
 	</resultMap>
 	
@@ -47,15 +47,31 @@
 	 <select id="listSendMsg" parameterType="search" resultMap="messageSelectMap">
 	 	SELECT *
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-			FROM ( SELECT msg_no, sender, receiver, send_date, msg_content
-							FROM message ) inner_table
+			FROM ( SELECT msg_no, sender, receiver, TO_CHAR(send_date, 'YYYYMMDDHH24MISS'), msg_content
+							FROM message 
+							WHERE sender=#{searchKeyword} ) inner_table
 			WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
 	 </select>
 	 
-	 <select id="getTotalCount" parameterType="search" resultType="int">
+	 <select id="sendCount" parameterType="search" resultType="int">
 	 	SELECT COUNT(*)
-	 	FROM ( SELECT msg_no, sender, receiver FROM message ) countTable
+	 	FROM ( SELECT msg_no, sender, receiver FROM message WHERE sender=#{searchKeyword} ) countTable
+	 </select>
+	 
+	<select id="listReceivMsg" parameterType="search" resultMap="messageSelectMap">
+	 	SELECT *
+		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
+			FROM ( SELECT msg_no, sender, receiver, TO_CHAR(send_date, 'YYYYMMDDHH24MISS'), msg_content, read_date, is_read
+							FROM message 
+							WHERE receiver=#{searchKeyword} ) inner_table
+			WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	 </select>
+		 
+	<select id="receiveCount" parameterType="search" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM ( SELECT msg_no, sender, receiver FROM message WHERE receiver=#{searchKeyword} ) countTable
 	 </select>
 	 
 	 <delete id="deleteMsg" parameterType="int" >

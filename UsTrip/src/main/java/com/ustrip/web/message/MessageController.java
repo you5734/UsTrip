@@ -2,6 +2,8 @@ package com.ustrip.web.message;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ustrip.common.Page;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Message;
+import com.ustrip.service.domain.User;
 import com.ustrip.service.message.MessageService;
 
 @Controller
@@ -52,11 +55,11 @@ public class MessageController {
 		messageService.sendMsg(message);
 		System.out.println("message :: " + message);
 		
-		return "forward:/message/listSendMsg";
+		return "redirect:/message/listSendMsg";
 	}
 	
 	@RequestMapping( value="listSendMsg")
-	public String listSendMsg( @ModelAttribute("search") Search search, Model model ) throws Exception{
+	public String listSendMsg( @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
 		
 		System.out.println("/message/listSendMsg");
 		
@@ -64,9 +67,10 @@ public class MessageController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
+		String sender=((User)session.getAttribute("user")).getUserId();
+		System.out.println("sendId ¹¹´× :: " + sender);
 		// Business logic ¼öÇà
-		Map<String , Object> map=messageService.listSendMsg(search);
+		Map<String , Object> map=messageService.listSendMsg(search, sender);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -79,13 +83,40 @@ public class MessageController {
 		return "forward:/view/message/listSendMsg.jsp";
 	}
 	
+	@RequestMapping( value="listReceivMsg")
+	public String listReceivMsg( @ModelAttribute("search") Search search, Model model, HttpSession session ) throws Exception{
+		
+		System.out.println("/message/listSendMsg");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		String receiver=((User)session.getAttribute("user")).getUserId();
+		System.out.println("sendId ¹¹´× :: " + receiver);
+		// Business logic ¼öÇà
+		Map<String , Object> map=messageService.listReceivMsg(search, receiver);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model °ú View ¿¬°á
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/view/message/listReceivMsg.jsp";
+	}
+	
 	@RequestMapping( value="getMsg", method=RequestMethod.GET )
-	public String sendMsg( @RequestParam int msgNo ) throws Exception{
+	public String sendMsg( @RequestParam("msgNo") int msgNo, Model model ) throws Exception{
 	
 		System.out.println("/message/getMsg : GET");
 		
 		Message message = messageService.getMsg(msgNo);
 		System.out.println("message :: " + message);
+		
+		model.addAttribute("message", message);
 		
 		return "forward:/view/message/getMsg.jsp";
 	}
