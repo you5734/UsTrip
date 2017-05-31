@@ -1,4 +1,8 @@
-
+.images{
+display:inline-block;
+width: 64px; 
+height: 64px; 
+}
 img {
     vertical-align: middle;
 }

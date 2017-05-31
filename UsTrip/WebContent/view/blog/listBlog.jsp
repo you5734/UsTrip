@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<link href="/css/lightbox.css" rel="stylesheet">
+  	<script src="/js/lightbox.js"></script>
 	
 	<style>
 	    #dialog-form { display:none; }
@@ -60,7 +62,13 @@
 		
 		
 		$('body').on('click' , '.fa-pencil', function() {
-			self.location='/blog/updateBlog?blogNo='+$(this).next().val();
+			self.location="/blog/updateBlog?blogNo="+$(this).next().val();
+			/* 
+			var index=$(this).next().val();
+			var scoreTag='<div class="col-md-4"><input type="text" name="score" id="score" size="25" placeholder="점수를 남겨주세요(0.1~5.0)">'
+						+'<i class="fa fa-check-square-o" aria-hidden="true" id=""></i></div>';
+			$($('.stars')[index]).html(scoreTag); */
+			
 		});
 		
 		
@@ -76,6 +84,7 @@
 	<div class="container">
 		<div class="row">
 	        <div class="timeline-centered">
+	        <c:set var="i" value="0" />
 			<c:forEach items="${list}" var="blog" varStatus="status">
 		        <article class="timeline-entry">
 		            <div class="timeline-entry-inner">
@@ -87,10 +96,22 @@
 			                    <i class="fa fa-pencil" aria-hidden="true" style="margin:10"></i>
 			                    <input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
 			                    <i class="fa fa-times" aria-hidden="true"></i>
-		                    	<span class="stars">${blog.score}</span>
-		                    </div><br/><hr/>
-		                    <div class="timeline-head">${blog.memo}</div><br/>
-		                    <img src="http://themes.laborator.co/neon/assets/images/timeline-image-3.png" class="img-responsive img-rounded full-width">
+		                    </div>
+		                    <span class="stars">${blog.score}</span>
+		                    <br/>
+		                    ${!empty blog.review? blog.review:""}<hr/>
+		                    <c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
+		                    	<span>
+		                    		#${hashTags.hashTag}
+		                    		<input type="hidden" value="${hashTags.tagNo}" name="tagNo">
+		                    	</span>
+		                    </c:forEach><hr/>
+		                    <c:forEach items="${blog.images}" var="images" varStatus="status3">
+		                    	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
+		                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+		                    </c:forEach><hr/>
+		                	
+		                	<div class="timeline-head">${blog.memo}</div>
 		                </div>
 		            </div>
 		        </article>
@@ -106,7 +127,9 @@
 				<div class="col-md-4">
 					<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 					<input type="text" name="score" id="score" size="25" placeholder="점수를 남겨주세요(0.1~5.0)">
-					<div id="checkpw" style="color:red; font-size:12px;"></div><hr/>
+					<div id="
+
+pw" style="color:red; font-size:12px;"></div><hr/>
 				</div>
 				<div class="col-md-4">
 					<i class="fa fa-camera" aria-hidden="true"></i>

@@ -64,136 +64,114 @@
 			});
 		
 		$('body').on('click' , '#tagPlus', function() {
-			var addTag='<input type="text" name="hashTags['+tagIndex+'].hashTag" id="hashTag" class="form-control" style="width: 70px;" maxlength="10" id="hashTag" value="" >'
-						+'<input type="hidden" name="hashTag[0].blogNo" value="${blog.blogNo}">';
+			var addTag='<input type="text" name="hashTags['+tagIndex+'].hashTag" id="hashTag" class="form-control" style="width: 70px;" maxlength="10" id="hashTag" value="" >';
 			$(this).before(addTag);
 			tagIndex++;
 		});
 		
 		$('body').on('click' , '#assetPlus', function() {
-			var addTag='<div class="control-group">'
-	            	  +'<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></label>'
-	            	  +'<div class="col-sm-10">'
-			          +'<select class="form-control" name="assets['+assetIndex+'].assetCategory" id="assetCategory" >'
-			          +'<option value="1" selected="selected">식비</option>'
-			          +'<option value="2">교통비</option>'
-			          +'<option value="3">숙박비</option>'
-			          +'<option value="4">쇼핑</option>'
-			          +'<option value="5">입장료</option>'
-			          +'<option value="6">기타</option></select>'
-			          +'<input type="hidden" name="assets['+assetIndex+'].travNo" value="${blog.travNo}">'
-			          +'<input type="hidden" name="assets['+assetIndex+'].visitDate" value="${blog.visitDate}">'
-			          +'<input type="hidden" name="assets['+assetIndex+'].blogNo" value="${blog.blogNo}">'
-			          +'<i class="fa fa-plus" aria-hidden="true" id="assetPlus"></i>'
-			          +'</div></div>';
-			$(this).parents().find(".form-group:last").before(addTag);
-			$(this).remove();
+			var addTag='<div class="form-group">'
+	         	 	  +'<label class="col-md-2 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>'
+	         	 	  +'<div class="col-md-3 col-sm-3 col-xs-3">'
+	         	 	  +'<select class="form-control" name="assets['+assetIndex+'].assetCategory" id="assetCategory" >'
+	         	 	  +'<option value="식비" selected="selected">식비</option>'
+	         	 	  +'<option value="교통비">교통비</option>'
+	         	 	  +'<option value="숙박비">숙박비</option>'
+	         	 	  +'<option value="쇼핑">쇼핑</option>'
+	         	 	  +'<option value="입장료">입장료</option>'
+	         	 	  +'<option value="기타">기타</option>'
+	         	 	  +'</select></div><div class="col-md-3 col-sm-3 col-xs-3">'
+	         	 	  +'<input type="text" name="assets['+assetIndex+'].usage" class="form-control" placeholder="사용처" /></div>'
+	         	 	  +'<div class="col-md-3 col-sm-3 col-xs-3"><input type="text" name="assets['+assetIndex+'].charge" class="form-control" placeholder="사용금액" />'
+	         	 	  +'</div><div><i class="fa fa-plus" aria-hidden="true" id="assetPlus"></i></div></div>';
+			$('#asset').after(addTag);
+			$(this).replaceWith('<i class="fa fa-times" aria-hidden="true"></i>');
 			assetIndex++;
 		});
 		
-		$('body').on('click' , '#cancel', function() {
-			alert($("#file").val());
-		});
 		
 	}); 
 	
 
 	</script>
 </head>
-<body>
-	  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" action="updateBlog">
-        <fieldset>
-		<input type="hidden" name="blogNo" value="${blog.blogNo}">
-		<input type="hidden" name="hashTag[0].blogNo" value="${blog.blogNo}">
-		<input type="hidden" name="assets[0].travNo" value="${blog.travNo}">
-		<input type="hidden" name="assets[0].visitDate" value="${blog.visitDate}">
-		<input type="hidden" name="assets[0].blogNo" value="${blog.blogNo}">
-          <legend><i class="fa fa-map-marker" aria-hidden="true"></i>${blog.place}</legend>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></label>
-            <div class="col-sm-10">
-              <textarea class="form-control" style="width:350px; height:150px;" maxlength="250" name="review" id="review" placeholder="리뷰를 남겨주세요"></textarea>
-            </div>
-          </div>
+	<body>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="updateBlog">
+					<fieldset>
+						<input type="hidden" name="blogNo" value="${blog.blogNo}"><%-- 
+						<input type="hidden" name="hashTag[0].blogNo" value="${blog.blogNo}">
+						<input type="hidden" name="assets[0].travNo" value="${blog.travNo}">
+						<input type="hidden" name="assets[0].visitDate" value="${blog.visitDate}">
+						<input type="hidden" name="assets[0].blogNo" value="${blog.blogNo}"> --%>
+			          	<legend><i class="fa fa-map-marker" aria-hidden="true"></i>${blog.place}</legend>
 			
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" name="score" id="score" placeholder="점수를 남겨주세요(0.1~5.0)">
-            </div>
-            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-check-square-o" aria-hidden="true"></i></label>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
-            <div class="col-sm-10">
-              <input type="file" name="files[]" id="file" multiple/>
-            </div>
-          </div>
-          
-          <div class="form-group">
-         	 <label class="col-md-2 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>
-              <div class="col-md-3 col-sm-3 col-xs-3">
-                  <select class="form-control" name="assets[0].assetCategory" id="assetCategory" >
-								<option value="식비" selected="selected">식비</option>
-								<option value="교통비">교통비</option>
-								<option value="숙박비">숙박비</option>
-								<option value="쇼핑">쇼핑</option>
-								<option value="입장료">입장료</option>
-								<option value="기타">기타</option>
-				 </select>
-              </div>
-         	  <div class="col-md-3 col-sm-3 col-xs-3">
-                  <input type="text" class="form-control" placeholder="YY" />
-              </div>
-       	      <div class="col-md-4 col-sm-4 col-xs-4">
-                  <input type="text" class="form-control" placeholder="CCV" />
-              </div>
-         </div>
-          
-     		
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-hashtag" aria-hidden="true"></i></label>
-            <div class="col-sm-8">
-              <input type="text" name="hashTags[0].hashTag" id="hashTags[0].hashTag" class="form-control" style="width: 70px;" maxlength="10" id="hashTag" value="" >
-            </div>
-            <div class="col-sm-2">
-			  <i class="fa fa-plus" aria-hidden="true" id="tagPlus"></i>
-            </div>
-			<div class="form-group">
-	            <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></label>
-	            <div class="col-sm-10">
-			            	<select class="form-control" name="assets[0].assetCategory" id="assetCategory" >
-								<option value="식비" selected="selected">식비</option>
-								<option value="교통비">교통비</option>
-								<option value="숙박비">숙박비</option>
-								<option value="쇼핑">쇼핑</option>
-								<option value="입장료">입장료</option>
-								<option value="기타">기타</option>
-							</select>
-							<input type="text" name="assets[0].usage" id="usage" placeholder="사용처" class="form-control">
-							<input type="text" name="assets[0].charge" id="charge" placeholder="사용금액" class="form-control">
-							<i class="fa fa-plus" aria-hidden="true" id="assetPlus"></i>
-	            </div>
-          	</div>
-
-
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <div class="pull-right">
-                <button type="submit" class="btn btn-default">확인</button>
-                <input type="button" class="btn btn-primary" id="cancel">취소</button>
-              </div>
-            </div>
-          </div>
-
-        </fieldset>
-      </form>
-    </div>
-</div>
-</body>
+			          	<div class="form-group">
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></label>
+			            	<div class="col-sm-10">
+			              		<textarea class="form-control" style="width:350px; height:150px;" maxlength="250" name="review" id="review" placeholder="리뷰를 남겨주세요"></textarea>
+			            	</div>
+			          	</div>
+						
+			          	<div class="form-group">
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></label>
+			            	<div class="col-sm-8">
+			              		<input type="text" class="form-control" name="score" id="score" placeholder="점수를 남겨주세요(0.1~5.0)">
+			            	</div>
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-check-square-o" aria-hidden="true"></i></label>
+			          	</div>
+			
+			          	<!-- <div class="form-group">
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
+			            	<div class="col-sm-10">
+			              		<input type="file" name="files[]" id="file" multiple/>
+			            	</div>
+			          	</div> -->
+			          
+			          	<div class="form-group" id="asset">
+			         	 	<label class="col-md-2 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>
+			              	<div class="col-md-3 col-sm-3 col-xs-3">
+			                  	<select class="form-control" name="assets[0].assetCategory" id="assetCategory" >
+									<option value="식비" selected="selected">식비</option>
+									<option value="교통비">교통비</option>
+									<option value="숙박비">숙박비</option>
+									<option value="쇼핑">쇼핑</option>
+									<option value="입장료">입장료</option>
+									<option value="기타">기타</option>
+							 	</select>
+			              	</div>
+			         	  	<div class="col-md-3 col-sm-3 col-xs-3">
+			              		<input type="text" class="form-control" placeholder="사용처" />
+			              	</div>
+			       	      	<div class="col-md-3 col-sm-3 col-xs-3">
+			              		<input type="text" class="form-control" placeholder="사용금액" />
+			              	</div>
+			            	<div>
+			              		<i class="fa fa-plus" aria-hidden="true" id="assetPlus"></i>
+			            	</div>
+			         	</div>
+			
+			          	<div class="form-group">
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-hashtag" aria-hidden="true"></i></label>
+			            	<div class="col-sm-8">
+			              		<input type="text" name="hashTags[0].hashTag" id="hashTags[0].hashTag" class="form-control" style="width: 70px;" maxlength="10" id="hashTag" value="" >
+			            	</div>
+			            	<div class="col-sm-2">
+						  		<i class="fa fa-plus" aria-hidden="true" id="tagPlus"></i>
+			           	 	</div>         
+						</div>
+						
+					    <br/>
+			         	<div class="col-sm-offset-2 col-sm-10">
+			         		<div class="pull-right">
+			            		<input type="submit" class="btn btn-default" id="update" value="확인">
+			                	<input type="button" class="btn btn-default" id="cancel" value="취소">
+			            	</div>
+			         	</div>
+	        		</fieldset>
+	      		</form>
+	    	</div>
+		</div>
+	</body>
 </html>

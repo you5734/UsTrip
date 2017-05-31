@@ -57,7 +57,7 @@
 	 <insert	id="addImage"	parameterType="map">
 	 	INSERT
 	 	INTO image (image_no, blog_no, server_img_name)(
-	 	SELECT seq_img_no.nextval, A.* from(
+	 	SELECT seq_image_no.nextval, A.* from(
 	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
 		 	SELECT #{item.blogNo}, #{item.server_img_name} FROM DUAL
 	 	</foreach>
