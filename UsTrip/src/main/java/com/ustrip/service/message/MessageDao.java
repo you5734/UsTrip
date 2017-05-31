@@ -14,7 +14,9 @@ public interface MessageDao {
 	
 	public void updateIsRead(int msgNo) throws Exception;
 	
-	public void deleteMsg(int msgNo) throws Exception;
+	public void deleteSendMsg(int msgNo) throws Exception;
+	
+	public void deleteReceiveMsg(int msgNo) throws Exception;
 
 	//보낸쪽지함리스트
 	public List<Message> listSendMsg(Search search) throws Exception;

@@ -30,12 +30,20 @@ public class MessageServiceImpl implements MessageService {
 	}
 	
 	public Message getMsg(int msgNo) throws Exception {
-//		messageDao.updateIsRead(msgNo);
 		return messageDao.getMsg(msgNo);
 	}
 	
-	public void deleteMsg(int msgNo) throws Exception {
-		messageDao.deleteMsg(msgNo);
+	public void updateIsRead(int msgNo) throws Exception{
+		messageDao.updateIsRead(msgNo);
+	}
+	
+	public void deleteMsg(int msgNo, String sessionId) throws Exception {
+		
+		if(sessionId.equals(messageDao.getMsg(msgNo).getSender())) {			
+			messageDao.deleteSendMsg(msgNo);
+		} else {
+			messageDao.deleteReceiveMsg(msgNo);
+		}
 	}
 	
 	public Map<String, Object> listSendMsg(Search search, String sender) throws Exception{

@@ -38,8 +38,12 @@ public class MessageDaoImpl implements MessageDao{
 		sqlSession.update("MessageMapper.updateIsRead", msgNo);
 	}
 	
-	public void deleteMsg(int msgNo) throws Exception {
-		sqlSession.delete("MessageMapper.deleteMsg", msgNo);
+	public void deleteSendMsg(int msgNo) throws Exception {
+		sqlSession.update("MessageMapper.updateSendDel", msgNo);
+	}
+	
+	public void deleteReceiveMsg(int msgNo) throws Exception {
+		sqlSession.update("MessageMapper.updateReceiveDel", msgNo);
 	}
 	
 	public List<Message> listSendMsg(Search search) throws Exception{

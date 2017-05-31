@@ -13,6 +13,7 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
  	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ 		<script src="https://use.fontawesome.com/04438b50a5.js"></script>
 	
 	<script type="text/javascript">
 	
@@ -20,6 +21,14 @@
 			$("#currentPage").val(currentPage);		
 			$("form").attr("method" , "POST").attr("action" , "/message/listReceivMsg").submit();
 		}
+		
+		$(function() {
+			$( ".content" ).on("click" , function() {
+				var msgNo = $(this).next().val();
+				var receiver = $("#receiver").val();
+				 self.location ="/message/getMsg?msgNo="+msgNo+"&receiver="+receiver;
+			});
+		});
 		
 		$(function() {
 			$("#send").on("click", function() {
@@ -36,6 +45,13 @@
 		$(function() {		
 			$("#listReceive").on("click", function() {
 				self.location="/message/listReceivMsg";	
+			});
+		});
+		
+		$(function() {		
+			$(".fa.fa-trash-o").on("click", function() {
+				var msgNo = $("#msgNo").val();
+				self.location="/message/deleteMsg?msgNo="+msgNo;	
 			});
 		});
 	
@@ -90,19 +106,7 @@
         </div>
       </div>
     </div>
-   
-<!--     <div class="col-sm-9 col-md-9">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Dashboard</h3>
-        </div>
-        <div class="panel-body">
-          Admin Dashboard Accordion List Group Menu
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
+
 <div class="col-sm-9 col-md-9">
 <table class="table">
 	<tr>
@@ -125,16 +129,19 @@
 		<c:set var="i" value="${i+1}"/>
 		<tr class="ct_list_pop">
 			<td align="center"><input type="checkbox" value="" /></td>
-			<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
-			<input type="hidden" id="sender" name="sender" value="${message.receiver}"/>
+			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}"/>
 			<td align="left">${message.sender}</td>
 			<td></td>
-			<td align="left">${message.msgContent}</td>
+			<td align="left">
+				<span class="content">${message.msgContent}</span>
+					<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
+			</td>
 			<td></td>
 			<td></td>
 			<td align="left">${message.sendDate}</td>
 			<td></td>
 			<td align="left">${message.readDate}</td>
+			<td align="center"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
 		</tr>
 	</c:forEach>
 </table>

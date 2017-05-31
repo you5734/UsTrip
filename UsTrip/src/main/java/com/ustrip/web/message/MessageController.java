@@ -40,9 +40,15 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="sendMsg", method=RequestMethod.GET )
-	public String sendMsg() throws Exception{
+	public String sendMsg(@RequestParam(value="msgNo", required=false) String msgNo, Model model) throws Exception{
 	
 		System.out.println("/message/sendMsg : GET");
+		Message message=null;
+		if(  msgNo != null ) {
+			message = messageService.getMsg(Integer.parseInt(msgNo));
+			(message.getMsgContent()).replaceAll("\n", "<BR>");
+			model.addAttribute("message", message	);
+		}
 		
 		return "forward:/view/message/sendMsg.jsp";
 	}
@@ -93,7 +99,7 @@ public class MessageController {
 		}
 		search.setPageSize(pageSize);
 		String receiver=((User)session.getAttribute("user")).getUserId();
-		System.out.println("sendId ¹¹´× :: " + receiver);
+		System.out.println("receiver ¹¹´× :: " + receiver);
 		// Business logic ¼öÇà
 		Map<String , Object> map=messageService.listReceivMsg(search, receiver);
 		
@@ -109,17 +115,45 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="getMsg", method=RequestMethod.GET )
-	public String sendMsg( @RequestParam("msgNo") int msgNo, Model model ) throws Exception{
+	public String sendMsg( @RequestParam("msgNo") int msgNo, 
+			@RequestParam(value="receiver", required=false) String receiver, HttpSession session, Model model ) throws Exception{
 	
 		System.out.println("/message/getMsg : GET");
 		
 		Message message = messageService.getMsg(msgNo);
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		System.out.println("sessionId / receiver :::::::: " + sessionId + " / " + receiver);
+		
+		if(sessionId.equals(receiver) && message.getIsRead()==0) {				
+			messageService.updateIsRead(msgNo);
+		}
 		System.out.println("message :: " + message);
 		
 		model.addAttribute("message", message);
 		
 		return "forward:/view/message/getMsg.jsp";
 	}
+	
+	@RequestMapping( value="deleteMsg", method=RequestMethod.GET )
+	public String deleteMsg( @RequestParam("msgNo") int msgNo, HttpSession session) throws Exception{
+	
+		System.out.println("/message/deleteMsg : GET");
+		
+		String destinate = "forward:/message/listSendMsg";
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		
+		messageService.deleteMsg(msgNo, sessionId);
+		
+		if( sessionId.equals(messageService.getMsg(msgNo).getReceiver())) {
+			destinate = "forward:/message/listReceivMsg";
+		}
+		
+		return destinate;
+	}
+	
+	
 	
 	
 }

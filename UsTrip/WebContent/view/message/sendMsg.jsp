@@ -16,11 +16,16 @@
 	
 	<script type="text/javascript">
 	
-	//보내기 연결
 	 $(function() {
 		$( ".btn.btn-info" ).on("click" , function() {
 			$("form").attr("method" , "POST").attr("action" , "/message/sendMsg").submit();
 		});
+		
+		if( !${empty message.msgContent} ){
+			var mes = '${message.msgContent}'.replace("\r\n","<br>");
+			var mes2 = 'RE:'+mes;
+			$("#msgContent").val(mes2);
+		};
 	});	
 	
 	</script>
@@ -46,7 +51,7 @@
 		<div class="form-group">
 			  <label class="col-md-4 control-label" for="sender">RECEIVER</label>  
 			  <div class="col-md-5">
-				  <input id="receiver" name="receiver" type="text" placeholder="6 DIGIT SENDER ID" class="form-control input-md" required="" style="width:500px;">
+				  <input id="receiver" name="receiver" type="text" value="${! empty message.sender ? message.sender : ""}" class="form-control input-md" required="" style="width:500px;">
 				  <span class="help-block">ONLY ALPHABATE</span>  
 			  </div>
 		</div>
@@ -54,7 +59,7 @@
 		<div class="form-group">
 			  <label class="col-md-4 control-label" for="message">MESSAGE</label>
 			  <div class="col-md-4">                     
-			   	 <textarea maxlegnth="1000" class="form-control" id="msgContent" name="msgContent" style="height:200px; width:500px;"></textarea>
+			   	 <textarea maxlegnth="1000" class="form-control" id="msgContent" name="msgContent" style="height:200px; width:500px;">${!empty message.msgContent? message.msgContent:""}</textarea>
 			  </div>
 		</div>
 		

@@ -12,7 +12,9 @@ public interface MessageService {
 	
 	public Message getMsg(int msgNo) throws Exception;
 	
-	public void deleteMsg(int msgNo) throws Exception;
+	public void updateIsRead(int msgNo) throws Exception;
+	
+	public void deleteMsg(int msgNo, String sessionId) throws Exception;
 
 	public Map<String, Object> listSendMsg(Search search, String sender) throws Exception;
 	

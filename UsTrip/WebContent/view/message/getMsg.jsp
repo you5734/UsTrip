@@ -5,7 +5,6 @@
 
 <html>
 <head>
-<title>상품정보</title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
@@ -26,7 +25,9 @@
 		//답장보내기
 		$( function() {
 			$(".btn.btn-info").bind("click", function() {
-				/* self.location = "/message/"; */
+				var msgNo = $("#msgNo").val();
+				alert("msgNo:: " + msgNo);
+				self.location = "/message/sendMsg?msgNo="+msgNo; 
 			});
 		});
 	
@@ -38,6 +39,7 @@
 <div class="container">
 	<h3 align="center">쪽지조회</h3><br>
 		<form class="form-horizontal">
+			<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
 			<!-- Text input-->
 			<div class="form-group">
 			  <label class="ccol-md-3 col-lg-3 " align="center" for="sender">보낸사람</label>  
@@ -72,7 +74,8 @@
 			<!-- Button -->
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-4 text-center">
-					<button type="button" class="btn btn-info">답장보내기</button>
+						<button type="button" class="btn btn-info">답장보내기</button>
+						<button type="button" class="btn btn-info btn">확인</button>
 				</div>	
 			</div>
 		</form>
