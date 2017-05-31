@@ -15,6 +15,7 @@ public class Asset {
 	private Date startDate;
 	private Date endDate;
 	private int totalDate;
+	private Date regDate;
 	
 	public Asset(){		
 	}
@@ -105,6 +106,14 @@ public class Asset {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
 	}
 
 	@Override

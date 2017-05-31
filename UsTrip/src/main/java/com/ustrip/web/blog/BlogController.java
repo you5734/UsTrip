@@ -70,12 +70,42 @@ public class BlogController {
 		return "forward:/blog/listBlog?travelNo="+travelNo;
 	}
 	
+	@RequestMapping(value={"addJsonTag/{tag}/{blogNo}"}, method=RequestMethod.GET)
+	public void addJsonTag( @PathVariable int blogNo, @PathVariable String tag, Model model ) throws Exception {
+		
+		System.out.println("/addJsonTag : GET");
+		
+		HashTag hashtag=new HashTag();
+		hashtag.setBlogNo(blogNo);
+		hashtag.setHashTag(tag);
+		
+		blogService.addJsonTag(hashtag);
+		
+		model.addAttribute("hashTag", hashtag);
+	}
+	
+	@RequestMapping(value={"addJsonAsset/{charge}/{blogNo}/{travNo}/{assetCategory}/{usage}"})
+	public void addJsonAsset( @ModelAttribute("asset") Asset asset, Model model ) throws Exception {
+		
+		System.out.println("/addJsonAsset : GET");
+		Blog blog=blogService.getJsonBlog(asset.getBlogNo());
+		asset.setVisitDate(blog.getVisitDate());
+		
+		assetService.addAsset(asset);
+		System.out.println(asset);
+		model.addAttribute("asset", asset);
+	}
+	
 	@RequestMapping(value={"getJsonBlog/{blogNo}"}, method=RequestMethod.GET)
 	public void getJsonBlog( @PathVariable int blogNo, Model model ) throws Exception {
 		
 		System.out.println("/getJsonBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
+		blog.setAssets(asset);
+		
+		System.out.println(blog);
 		model.addAttribute("blog", blog);
 	}
 
@@ -97,7 +127,9 @@ public class BlogController {
 			
 			search.setPlaceOrder(listPlaceNo);
 			List<Blog> blog=blogService.listBlog(search);
+			List<Asset> asset=assetService.getAssetByBlogNo(blog.get(0).getBlogNo());
 			model.addAttribute("list", blog);
+			model.addAttribute("asset",asset);
 		}else{
 			model.addAttribute("travel", travel);
 			destination="forward:/view/blog/addBlog.jsp";
@@ -113,6 +145,8 @@ public class BlogController {
 		System.out.println("/updateBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
+		blog.setAssets(asset);
 		model.addAttribute("blog", blog);
 		
 		return "forward:/view/blog/updateBlog.jsp";
@@ -139,12 +173,36 @@ public class BlogController {
         
         System.out.println(blog);
         
-        blogService.updateBlog(blog);
+        /*blogService.updateBlog(blog);
         for(Asset i: blog.getAssets()){
         	assetService.addAsset(i);
-        }
+        }*/
         
 		return "forward:/view/blog/updateBlg.jsp";
+	}
+	
+	@RequestMapping(value={"updateJsonScore/{score}"}, method=RequestMethod.GET)
+	public void updateJsonScore( @PathVariable int score ) throws Exception {
+		
+		System.out.println("/updateJsonScore : GET");
+
+		blogService.updateScore(score);
+	}
+	
+	@RequestMapping(value={"deleteJsonTag/{tagNo}"}, method=RequestMethod.GET)
+	public void deleteJsonTag( @PathVariable int tagNo ) throws Exception {
+		
+		System.out.println("/deleteJsonTag : GET");
+
+		blogService.deleteTag(tagNo);
+	}
+	
+	@RequestMapping(value={"updateJsonReview/{blogNo}/{review}"}, method=RequestMethod.GET)
+	public void updateJsonReview( @ModelAttribute Blog blog ) throws Exception {
+		
+		System.out.println("/updateJsonReview : GET");
+
+		blogService.updateJsonReview(blog);
 	}
 
 }

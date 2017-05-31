@@ -39,8 +39,8 @@ public class AssetController {
 	                     ) throws Exception{
 		Date visit = new Date(90/10/10);
 		asset.setVisitDate(visit);
-		int a = assetService.addAsset(asset);
-		model.addAttribute("result", a);
+		/*int a = assetService.addAsset(asset);
+		model.addAttribute("result", a);*/
 		return "forward:/view/asset/addAsset.jsp";
 		
 	}

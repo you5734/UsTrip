@@ -44,14 +44,13 @@
 		
 	 </insert>
 	 
-	 <insert	id="addHashTag"	parameterType="map">
+	 <insert	id="addHashTag"	parameterType="hashTag" useGeneratedKeys="false">
 	 	INSERT
-	 	INTO hash_tag (tag_no, blog_no, hash_tag)(
-	 	SELECT seq_tag_no.nextval, A.* from(
-	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
-		 	SELECT #{item.blogNo}, #{item.hashTag} FROM DUAL
-	 	</foreach>
-	 	)A)
+	 	INTO hash_tag (tag_no, blog_no, hash_tag)
+	 	VALUES (seq_tag_no.nextval, #{blogNo}, #{hashTag})
+	 	<selectKey keyProperty="tagNo" resultType="Integer" order="AFTER">
+        	SELECT seq_tag_no.currval FROM dual
+    	</selectKey>
 	 </insert>
 	 
 	 <insert	id="addImage"	parameterType="map">
@@ -102,6 +101,20 @@
 	 	FROM hash_tag
 	 	WHERE blog_no=#{blog_no}
 	 </select>
+	 
+	 <update	id="updateReview"	parameterType="blog" >
+		UPDATE blog 
+		<set> 
+		review=#{review}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <delete	id="deleteHashTag" parameterType="int">
+	 	DELETE FROM hash_tag
+	 	WHERE tag_no=#{tagNo}
+	 </delete>
+
 	  <!-- 
 	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
 	 	SELECT
@@ -118,14 +131,6 @@
 	 					)countTable
 	 </select>
 	 
-	 <update	id="updateBlog"	parameterType="blog" >
-		UPDATE blog 
-		<set> 
-		review=#{review:VARCHAR},
-		score=#{score:NUMERIC}
-	   	</set>
-	   	WHERE blog_no=#{blogNo}
-	 </update>
 	 
 	 <update	id="updateHashTag"	parameterType="hashTag" >
 		UPDATE hash_tag

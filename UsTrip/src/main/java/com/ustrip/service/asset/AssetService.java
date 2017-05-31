@@ -6,7 +6,7 @@ import com.ustrip.service.domain.Asset;
 
 public interface AssetService {
 	
-	public int addAsset(Asset asset) throws Exception;
+	public void addAsset(Asset asset) throws Exception;
 	
 	public List<Asset> getAsset(int travNo) throws Exception;
 	
@@ -15,5 +15,7 @@ public interface AssetService {
 	public int deleteAsset(int assetNo) throws Exception;
 	
 	public Asset getAssetOne(int assetNo)throws Exception;
+	
+	public List<Asset> getAssetByBlogNo(int blogNo) throws Exception;
 
 }

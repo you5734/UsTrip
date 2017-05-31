@@ -26,8 +26,8 @@ public class AssetServiceImpl implements AssetService{
 	}
 	
 	@Override
-	public int addAsset(Asset asset)throws Exception{
-		return assetDao.addAsset(asset);
+	public void addAsset(Asset asset)throws Exception{
+		assetDao.addAsset(asset);
 	}
 
 	@Override
@@ -52,6 +52,11 @@ public class AssetServiceImpl implements AssetService{
 	public Asset getAssetOne(int assetNo) throws Exception {
 		// TODO Auto-generated method stub
 		return assetDao.getAssetOne(assetNo);
+	}
+
+	@Override
+	public List<Asset> getAssetByBlogNo(int blogNo) throws Exception {
+		return assetDao.getAssetByBlogNo(blogNo);
 	}
 
 }

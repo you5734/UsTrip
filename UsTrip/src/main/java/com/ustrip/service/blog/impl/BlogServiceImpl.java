@@ -11,6 +11,7 @@ import com.ustrip.common.Search;
 import com.ustrip.service.blog.BlogDAO;
 import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
@@ -25,9 +26,15 @@ public class BlogServiceImpl implements BlogService{
 	public BlogServiceImpl() {
 		System.out.println(this.getClass());
 	}
+	
 	@Override
 	public void addBlog(Map<String, List<TempBlog>> map) throws Exception {
 		blogDAO.addBlog(map);
+	}
+
+	@Override
+	public void addJsonTag(HashTag hashtag) throws Exception {
+		blogDAO.addJsonTag(hashtag);
 	}
 
 	@Override
@@ -45,10 +52,20 @@ public class BlogServiceImpl implements BlogService{
 	public List<Blog> listBlog(Search search) throws Exception {
 		return blogDAO.listBlog(search);
 	}
+	
+	@Override
+	public void updateScore(int score) throws Exception {
+		blogDAO.updateScore(score);
+	}
 
 	@Override
-	public void updateBlog(Blog blog) throws Exception {
-		blogDAO.updateBlog(blog);
+	public void updateJsonReview(Blog blog) throws Exception {
+		blogDAO.updateReview(blog);
+	}
+
+	@Override
+	public void deleteTag(int tagNo) throws Exception {
+		blogDAO.deleteTag(tagNo);
 	}
 
 	@Override
@@ -80,5 +97,6 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

@@ -53,9 +53,9 @@ public class assetServiceTest {
 		asset.setAssetCategory("½Äºñ");
 		asset.setCharge(6500);
 		
-		int check = assetService.addAsset(asset);
+		/*int check = assetService.addAsset(asset);*/
 
-		Assert.assertEquals(1, check);
+		/*Assert.assertEquals(1, check);*/
 				
 	}
 	

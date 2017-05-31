@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
@@ -14,8 +15,6 @@ public interface BlogService {
 	public int deleteBlog(int blogNo) throws Exception;
 	
 	public List<Blog> listBlog(Search search) throws Exception;
-	
-	public void updateBlog(Blog blog) throws Exception;
 	
 	public void listPicture(int travNo) throws Exception;
 	
@@ -29,5 +28,12 @@ public interface BlogService {
 
 	public Blog getJsonBlog(int blogNo) throws Exception;
 
+	public void deleteTag(int tagNo) throws Exception;
+
+	public void addJsonTag(HashTag hashtag) throws Exception;
+
+	public void updateScore(int score) throws Exception;
+
+	public void updateJsonReview(Blog blog) throws Exception;
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ustrip.common.Search;
 import com.ustrip.service.blog.BlogDAO;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.TempBlog;
 
 
@@ -29,9 +30,15 @@ public class BlogDAOImpl implements BlogDAO{
 	public BlogDAOImpl() {
 		System.out.println(this.getClass());
 	}
+	
 	@Override
 	public void addBlog(Map<String, List<TempBlog>> map) throws Exception {
 		sqlSession.selectList("BlogMapper.addBlog", map);
+	}
+
+	@Override
+	public int addJsonTag(HashTag hashtag) throws Exception {
+		return sqlSession.insert("BlogMapper.addHashTag", hashtag);
 	}
 
 	@Override
@@ -51,10 +58,18 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public void updateBlog(Blog blog) throws Exception {
-		sqlSession.update("BlogMapper.updateBlog", blog);
-		sqlSession.insert("BlogMapper.addHashTag", blog.getHashTags());
-		sqlSession.insert("BlogMapper.addImage",blog.getImages());
+	public void updateScore(int score) throws Exception {
+		sqlSession.update("BlogMapper.updateScore", score);
+	}
+
+	@Override
+	public void updateReview(Blog blog) throws Exception {
+		sqlSession.update("BlogMapper.updateReview", blog);
+	}
+
+	@Override
+	public void deleteTag(int tagNo) throws Exception {
+		sqlSession.delete("BlogMapper.deleteHashTag", tagNo);
 	}
 
 	@Override
@@ -92,6 +107,8 @@ public class BlogDAOImpl implements BlogDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 
 }
