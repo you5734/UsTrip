@@ -48,22 +48,42 @@
 			});
 		});
 		
+/* 		//한개삭제?
 		$(function() {		
 			$(".fa.fa-trash-o").on("click", function() {
 				var msgNo = $("#msgNo").val();
 				self.location="/message/deleteMsg?msgNo="+msgNo;	
 			});
 		});
+		 */
+		$(function() {
+			$( "#delete" ).on("click" , function() {
+				fncDeleteMessage();
+			});
+		});
+
+		function fncDeleteMessage() {
+			$("form").attr("method" , "POST").attr("action" , "/message/deleteMsg").submit();
+		}
 	
 	</script>
 	
-	<style>
+	<style type="text/css">
 		body{margin:150px;}
 		#accordion .glyphicon { margin-right:10px; }
 		.panel-collapse>.list-group .list-group-item:first-child {border-top-right-radius: 0;border-top-left-radius: 0;}
 		.panel-collapse>.list-group .list-group-item {border-width: 1px 0;}
 		.panel-collapse>.list-group {margin-bottom: 0;}
 		.panel-collapse .list-group-item {border-radius:0;}
+		.content{
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			white-space: nowrap; 
+			width: 60px;
+			height: 20px;
+			display: inline-block;
+		}
+		
 	</style>
 	
 </head>
@@ -124,27 +144,37 @@
 		<td class="ct_list_b">읽은날짜</td>	
 	</tr>
 
+
 	<c:set var="i" value="0"/>
 	<c:forEach var="message" items="${list}">
 		<c:set var="i" value="${i+1}"/>
 		<tr class="ct_list_pop">
-			<td align="center"><input type="checkbox" value="" /></td>
+			<td align="center"><input type="checkbox" name="chbox" value="${message.msgNo}" /></td>
 			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}"/>
 			<td align="left">${message.sender}</td>
 			<td></td>
 			<td align="left">
-				<span class="content">${message.msgContent}</span>
-					<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
+				<span class="content" >${message.msgContent}</span>
+				<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
 			</td>
 			<td></td>
 			<td></td>
 			<td align="left">${message.sendDate}</td>
 			<td></td>
-			<td align="left">${message.readDate}</td>
+			<c:set var="readDate" value="${message.readDate}"/>
+					<c:if test="${ empty message.readDate}">
+						<td align="left">읽지않음</td>
+					</c:if>
+			 <c:if test="${!empty message.readDate}">
+				<td align="left">${message.readDate}</td>
+			 </c:if>
 			<td align="center"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
 		</tr>
 	</c:forEach>
 </table>
+	<div align="right">
+    		<button type="button" class="btn" id="delete">삭제하기</button>
+   	</div>
 </div>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px; margin-left:110px;">
 		<tr>
@@ -157,7 +187,6 @@
 
 	</div>
 	</form>
-	</div>
 
 </body>
 </html>

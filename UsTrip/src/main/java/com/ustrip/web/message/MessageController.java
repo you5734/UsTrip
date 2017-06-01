@@ -1,5 +1,6 @@
 package com.ustrip.web.message;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -123,37 +124,40 @@ public class MessageController {
 		Message message = messageService.getMsg(msgNo);
 		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-		System.out.println("sessionId / receiver :::::::: " + sessionId + " / " + receiver);
+//		System.out.println("sessionId / receiver :::::::: " + sessionId + " / " + receiver);
 		
 		if(sessionId.equals(receiver) && message.getIsRead()==0) {				
 			messageService.updateIsRead(msgNo);
 		}
-		System.out.println("message :: " + message);
+//		System.out.println("message :: " + message);
 		
 		model.addAttribute("message", message);
 		
 		return "forward:/view/message/getMsg.jsp";
 	}
 	
-	@RequestMapping( value="deleteMsg", method=RequestMethod.GET )
-	public String deleteMsg( @RequestParam("msgNo") int msgNo, HttpSession session) throws Exception{
+	@RequestMapping( value="deleteMsg", method=RequestMethod.POST )
+	public String deleteMsg( @RequestParam(value="chbox", required=false) List<String> values, HttpSession session, Search search) throws Exception{
 	
-		System.out.println("/message/deleteMsg : GET");
+		System.out.println("/message/deleteMsg : POST");
 		
+		Message message = null;
 		String destinate = "forward:/message/listSendMsg";
-		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-		
-		messageService.deleteMsg(msgNo, sessionId);
-		
-		if( sessionId.equals(messageService.getMsg(msgNo).getReceiver())) {
+//		messageService.deleteMsg(msgNo, sessionId);
+
+		if(values != null && values.size()>0){
+			for(int i=0; i<values.size(); i++){
+				messageService.deleteMsg(Integer.parseInt(values.get(i)), sessionId);
+			}
+			message = messageService.getMsg(Integer.parseInt(values.get(0)));
+//			System.out.println("messageeeeeeeeeeeeeeee :::::::::  " + message );
+		}
+		if( sessionId.equals(message.getReceiver())) {
 			destinate = "forward:/message/listReceivMsg";
 		}
-		
 		return destinate;
 	}
-	
-	
 	
 	
 }

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -47,23 +49,40 @@
 		});
 	});
 	
-	$(function() {		
+/* 	$(function() {		
 		$(".fa.fa-trash-o").on("click", function() {
 			var msgNo = $("#msgNo").val();
 			self.location="/message/deleteMsg?msgNo="+msgNo;	
 		});
-	});
+	}); */
 	
+	$(function() {
+		$( "#delete" ).on("click" , function() {
+			fncDeleteMessage();
+		});
+	});
+
+	function fncDeleteMessage() {
+		$("form").attr("method" , "POST").attr("action" , "/message/deleteMsg").submit();
+	}
 	
 	</script>
 	
-	<style>
+	<style type="text/css">
 		body{margin:150px;}
 		#accordion .glyphicon { margin-right:10px; }
 		.panel-collapse>.list-group .list-group-item:first-child {border-top-right-radius: 0;border-top-left-radius: 0;}
 		.panel-collapse>.list-group .list-group-item {border-width: 1px 0;}
 		.panel-collapse>.list-group {margin-bottom: 0;}
 		.panel-collapse .list-group-item {border-radius:0;}
+		.content{
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			white-space: nowrap; 
+			width: 60px;
+			height: 20px;
+			 display: inline-block;
+		}
 	</style>
 	
 </head>
@@ -130,13 +149,13 @@
 	<c:forEach var="message" items="${list}">
 		<c:set var="i" value="${i+1}"/>
 		<tr class="ct_list_pop">
-			<td align="center"><input type="checkbox" value="" /></td>
+			<td align="center"><input type="checkbox" name="chbox" value="${message.msgNo}" /></td>
 			<input type="hidden" id="sender" name="sender" value="${message.sender}"/>
 			<td align="left">${message.receiver}</td>
 			<td></td>
 			<td align="left">
 				<span class="content">${message.msgContent}</span>
-					<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
+					 <input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/> 
 			</td>
 			<td></td>
 			<td></td>
@@ -147,6 +166,9 @@
 		</tr>
 	</c:forEach>
 </table>
+	<div align="right">
+    		<button type="button" class="btn" id="delete">삭제하기</button>
+   	</div>
 </div>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px; margin-left:110px;">
 		<tr>

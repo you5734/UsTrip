@@ -38,7 +38,7 @@
 	 <select id="getMsg" parameterType="int" resultMap="messageSelectMap">
 	 	SELECT
 	 	msg_no, sender, receiver, send_date, read_date, msg_content, is_read, send_del, receive_del
-	 	FROM message
+	 	FROM message  
 	 	WHERE msg_no = #{value}
 	 </select>
 	 
@@ -63,7 +63,7 @@
 	 <select id="listSendMsg" parameterType="search" resultMap="messageSelectMap">
 	 	SELECT *
 		FROM ( SELECT inner_table.*, ROWNUM AS row_seq
-			FROM ( SELECT msg_no, sender, receiver, send_date, msg_content
+			FROM ( SELECT msg_no, sender, receiver, send_date, msg_content, read_date
 							FROM message 
 							WHERE sender=#{searchKeyword} AND send_del = 0 ) inner_table
 			WHERE ROWNUM &lt;= #{endRowNum} )

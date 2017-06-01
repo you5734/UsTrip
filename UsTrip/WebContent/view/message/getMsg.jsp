@@ -30,6 +30,13 @@
 				self.location = "/message/sendMsg?msgNo="+msgNo; 
 			});
 		});
+		
+		$( function() {
+			if(! ${ empty message.msgContent }){
+				var mes = '${message.msgContent}'.replace("\r\n","<br/>");
+				$("#msgContent").val(mes);
+			}; 
+		});
 	
 	</script>
 </head>
@@ -67,7 +74,7 @@
 			<!-- Text input-->
 			<div class="form-group" style="height:180px;">
 			  <label class="ccol-md-3 col-lg-3 " align="center" for="msgContent">±Û³»¿ë</label>  
-			  <div class="col-md-4"> ${message.msgContent }
+			  <div class="col-md-4" id="msgContent" name="msgContent"> ${message.msgContent }
 			  </div>
 			</div>
 

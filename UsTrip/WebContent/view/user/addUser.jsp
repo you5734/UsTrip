@@ -101,9 +101,9 @@
 		    			 success : function(JSONData, status) {	
 		    				  	    				 
 		    				 if(! JSONData.result) {
-		    					 $("#checkId").html("존재하는 아이디입니다.");
+		    					 $("#checkId").html("존재하는 아이디입니다.").css('color', 'red');
 		    				 } else {
-		    					 $("#checkId").html("사용가능한 아이디입니다.");
+		    					 $("#checkId").html("사용가능한 아이디입니다.").css('color', 'blue');
 		    				 }	
 	    			 	}
 	    		 });			
