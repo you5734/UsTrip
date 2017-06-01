@@ -9,9 +9,11 @@ public class Message {
 	private String sender;
 	private String receiver;
 	private Date sendDate;
-	private Date readDate;
+	private String readDate;
 	private String msgContent;
 	private int isRead;
+	private int sendDel;
+	private int receiveDel;	
 	
 	//Contructor
 	public Message() {
@@ -34,7 +36,7 @@ public class Message {
 		return sendDate;
 	}
 
-	public Date getReadDate() {
+	public String getReadDate() {
 		return readDate;
 	}
 
@@ -62,7 +64,7 @@ public class Message {
 		this.sendDate = sendDate;
 	}
 
-	public void setReadDate(Date readDate) {
+	public void setReadDate(String readDate) {
 		this.readDate = readDate;
 	}
 
@@ -74,10 +76,27 @@ public class Message {
 		this.isRead = isRead;
 	}
 
+	public int getSendDel() {
+		return sendDel;
+	}
+
+	public int getReceiveDel() {
+		return receiveDel;
+	}
+
+	public void setSendDel(int sendDel) {
+		this.sendDel = sendDel;
+	}
+
+	public void setReceiveDel(int receiveDel) {
+		this.receiveDel = receiveDel;
+	}
+
 	@Override
 	public String toString() {
 		return "Message [msgNo=" + msgNo + ", sender=" + sender + ", receiver=" + receiver + ", sendDate=" + sendDate
-				+ ", readDate=" + readDate + ", msgContent=" + msgContent + ", isRead=" + isRead + "]";
+				+ ", readDate=" + readDate + ", msgContent=" + msgContent + ", isRead=" + isRead + ", sendDel="
+				+ sendDel + ", receiveDel=" + receiveDel + "]";
 	}
 	
 }

@@ -23,7 +23,19 @@
 					self.location = "/user/updateUser?userId=${user.userId}"
 			  });
 		 });
-		
+		 $(function() {
+			 $( ".btn.btn-info.btn" ).on("click" , function() {
+				 $(self.location).attr("href","/message/sendMsg");
+					/* self.location = "/message/sendMsg" */
+			  });
+		 });
+		 
+		 $(function() {
+			 $( "#list" ).on("click" , function() {
+				 alert("ddd");
+				 self.location = "/message/listSendMsg" 
+			  });
+		 });
 	</script>
 	
     <style>
@@ -76,6 +88,8 @@
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-4 text-center">
 					<button type="button" class="btn btn-info">회원정보수정</button>
+					<button type="button" class="btn btn-info btn" href="#">쪽지보내기</button>
+					<button type="button" class="btn btn-info" id="list">보낸쪽지함</button>
 				</div>	
 			</div>
 		</form>

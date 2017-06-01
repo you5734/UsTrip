@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = userDao.getUser(userId);
 		
-		if(user != null ) {
+		if(user != null ) {	//userId가 존재한다면 false
 			result = false;
 		}
 		return result;

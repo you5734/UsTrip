@@ -198,27 +198,7 @@
 											    				<input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all" >
 											    			</div>
 											    		</div><hr>												  
-<!-- 											  
-											    	 <div class="form-group">
-													      <label for="nickName" >닉네임</label>
-													      		<input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
-													     	 	<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
-													     </div>
-													       <div class="form-group">
-														      <label for="pw">비밀번호</label>
-														      <input type="password" name="password" id="pw" class="text ui-widget-content ui-corner-all">
-													      </div>
-													      <label for="pw2">비밀번호확인</label>
-														  <input type="password" name="password2" id="pw2" class="text ui-widget-content ui-corner-all">
-														      	<div id="checkpw" style="color:red; font-size:12px;"></div>
-													      
-													      <label for="gender" >성별</label>
-													      <input type="radio" name="gender" id="gender" value="m" >남
-													      <input type="radio" name="gender" id="gender" value="f" >여<br>
-													      
-													      <label for="birthDate">생년월일</label>
-													      <input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all"><hr>
-		 -->											      
+
  													      <div class="form-group">
 														      <div class=" col-sm-offset text-center">
 															      <button type="submit" class="btn btn-info btn" id="add">등록</button>

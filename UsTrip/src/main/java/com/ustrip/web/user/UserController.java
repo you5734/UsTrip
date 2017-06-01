@@ -124,7 +124,7 @@ public class UserController {
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
-			destinate="forward:/view/user/withdrawUser.jsp";
+			destinate="redirect:/user/getUser?userId="+dbUser.getUserId();
 		} 		
 		System.out.println(session.getAttribute("user"));
 		
@@ -179,7 +179,5 @@ public class UserController {
 
 		return "forward:/user/login";
 	}
-	
-	
 	
 }
