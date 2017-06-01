@@ -58,7 +58,7 @@
 	 	INTO image (image_no, blog_no, server_img_name)(
 	 	SELECT seq_image_no.nextval, A.* from(
 	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
-		 	SELECT #{item.blogNo}, #{item.server_img_name} FROM DUAL
+		 	SELECT #{item.blogNo}, #{item.serverImgName} FROM DUAL
 	 	</foreach>
 	 	)A)
 	 </insert>
@@ -106,6 +106,14 @@
 		UPDATE blog 
 		<set> 
 		review=#{review}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <update	id="updateScore"	parameterType="blog" >
+		UPDATE blog 
+		<set> 
+		score=#{score}
 	   	</set>
 	   	WHERE blog_no=#{blogNo}
 	 </update>

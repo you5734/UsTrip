@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +97,38 @@ public class BlogController {
 		assetService.addAsset(asset);
 		System.out.println(asset);
 		model.addAttribute("asset", asset);
+	}
+	
+	@RequestMapping(value={"addJsonImage"})
+	public void addJsonImage( @ModelAttribute("blog") Blog blog, Model model, HttpServletRequest request ) throws Exception {
+		
+		System.out.println("/addJsonImage : GET");
+		
+		List<MultipartFile> files = blog.getFiles();
+        List<String> fileNames = new ArrayList<String>();
+        Map<String, List<Image>> map=new HashMap<String, List<Image>>();
+        if (null != files && files.size() > 0) 
+        {	
+        	int i=0;
+            for (MultipartFile multipartFile : files) {
+ 
+                String fileName = multipartFile.getOriginalFilename();
+                String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
+                
+                File imageFile = new File(request.getSession().getServletContext().getRealPath("/")+"images/upload/blog/", newFileName);
+                multipartFile.transferTo(imageFile);
+                Image image=new Image();
+                image.setServerImgName(newFileName);
+                image.setBlogNo(blog.getBlogNo());
+                
+                blog.getImages().add(image);
+            }
+        }
+        map.put("list", blog.getImages());
+        blogService.addImage(map);
+        Blog blog2=blogService.getJsonBlog(blog.getBlogNo());
+        map.put("list2", blog2.getImages());
+        model.addAttribute("list",map.get("list2"));
 	}
 	
 	@RequestMapping(value={"getJsonBlog/{blogNo}"}, method=RequestMethod.GET)
@@ -181,12 +216,12 @@ public class BlogController {
 		return "forward:/view/blog/updateBlg.jsp";
 	}
 	
-	@RequestMapping(value={"updateJsonScore/{score}"}, method=RequestMethod.GET)
-	public void updateJsonScore( @PathVariable int score ) throws Exception {
+	@RequestMapping(value={"updateJsonScore/{score}/{blogNo}"}, method=RequestMethod.GET)
+	public void updateJsonScore( @ModelAttribute Blog blog ) throws Exception {
 		
 		System.out.println("/updateJsonScore : GET");
 
-		blogService.updateScore(score);
+		blogService.updateScore(blog);
 	}
 	
 	@RequestMapping(value={"deleteJsonTag/{tagNo}"}, method=RequestMethod.GET)

@@ -98,21 +98,6 @@ public class Blog {
 		this.place = place;
 	}
 	
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-
-	public List<MultipartFile> getFiles() {
-		return files;
-	}
-
-	public void setFiles(List<MultipartFile> files) {
-		this.files = files;
-	}
 
 	public List<HashTag> getHashTags() {
 		return hashTags;
@@ -128,6 +113,22 @@ public class Blog {
 
 	public void setAssets(List<Asset> assets) {
 		this.assets = assets;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
 	}
 
 	@Override

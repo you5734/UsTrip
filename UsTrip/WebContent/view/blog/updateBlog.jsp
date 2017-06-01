@@ -12,6 +12,9 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.form.js"></script>
+	<link href="/css/lightbox.css" rel="stylesheet">
+  	<script src="/js/lightbox.js"></script>
 	
 	<style>
 	    #dialog-form { display:none; }
@@ -25,7 +28,6 @@
 
 		var blogNo=$('#blogNo').val();
 		var travNo=$('#travNo').val();
-		var tagCount=parseInt($('#tagCount').val()) || 0;
 	
 	/* $(function() {
 		$( "#add" ).on("click" , function() {
@@ -63,9 +65,9 @@
 		
 		$('body').on('click' , '#tagPlus', function() {
 			var tag=$('#hashTag').val();
-			var blogNo=$('#blogNo').val();
+			var blogNo=$('#blogNo').val();/* 
 			alert(tagCount);
-			if(tagCount<=10){
+			if(tagCount<=10){ */
 				$.ajax( 
 						{
 							url : "/blog/addJsonTag/"+tag+"/"+blogNo,
@@ -83,12 +85,12 @@
 					    				  
 								$($("#tagSpan")).prepend(addTag);
 								$(this).prev('input').val("");
-								tagCount++;
+								/* tagCount++; */
 							}
 						});
-			}else{
+			/* }else{
 				alert("태그는 최대 10개까지 가능합니다.");
-			}
+			} */
 			
 		});
 		
@@ -171,7 +173,7 @@
 			if(0.1<=score&&score<=5){
 				$.ajax( 
 						{
-							url : "/blog/updateJsonScore/"+score,
+							url : "/blog/updateJsonScore/"+score+"/"+blogNo,
 							method : "GET" ,
 							dataType : "json" ,
 							headers : {
@@ -180,19 +182,17 @@
 							},
 							context : this,
 							success : function(serverData , status) {
-								alert("점수변경");
+								alert("점수업데이트");
 								$("#score").val(score);
 							}
 						});
 			}else{
 				alert("점수는 0.1~5.0까지 가능합니다.")
-				$("#score").val(0.0);
 			}
 		});
 		
 		$('body').on('click' , '#updateReview', function() {
-			var review=$("#review").html();
-			alert(review);
+			var review=$("#review").val();
 			
 			$.ajax( 
 					{
@@ -205,10 +205,25 @@
 						},
 						context : this,
 						success : function(serverData , status) {
-							$('#'+assetNo+'').remove();
-							$(this).remove();
+							$('#review').val(review);
+							alert("리뷰업데이트");
 						}
 					});
+		});
+		
+		$("#btn").click(function(){
+			
+			$('#addImage').ajaxForm({
+		    	complete : function(serverData) {
+							/* var addImage+'<span class=images><a href="/images/upload/blog/'+serverData.image[i].serverImgName+'" rel="lightbox">'
+				 			+'<img src="/images/upload/blog/'+serverData.image[i].serverImgName+'" class="img-responsive"></a></span>'; */
+
+					 /* alert(JSON.stringify(serverData));
+					 	 	
+					 
+			 	 	 alert("dd"); */
+				}
+		   	}); 
 		});
 		
 	});
@@ -218,7 +233,7 @@
 	<body>
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
-				<form class="form-horizontal" enctype="multipart/form-data" method="POST" action="updateBlog">
+				<form class="form-horizontal" enctype="multipart/form-data" id="addImage" name="addImage" action="/blog/addJsonImage" method="POST">
 					<fieldset>
 						<input type="hidden" name="blogNo" id="blogNo" value="${blog.blogNo}">
 						<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
@@ -238,20 +253,39 @@
 			          	<div class="form-group">
 			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></label>
 			            	<div class="col-sm-6">
-			              		<input type="text" class="form-control" name="score" id="score" value="${blog.score.equals(0)? blog.score:"점수입력(0.1~5.0)"}"  >
+			              		<input type="text" class="form-control" name="score" id="score" value="${!blog.score.equals("0.0")? blog.score:"점수입력(0.1~5.0)"}" >
 			            	</div>
 			            	<div class="col-sm-4">
 			            		<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-check" aria-hidden="true" id="updateScore"></i></label>
 			            	</div>
 			          	</div>
+						<hr/>
 						
-			          	<!-- <div class="form-group">
+						
+						<div class="form-group">
 			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
-			            	<div class="col-sm-10">
-			              		<input type="file" name="files[]" id="file" multiple/>
+			            	<div class="col-sm-8">
+			            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
+				              		<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
+		                    		<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+			            		</c:forEach>
 			            	</div>
-			          	</div> -->
-			          	
+			            	<label class="col-sm-2 control-label" for="textinput">
+				              		
+				            </label>
+			          	</div>
+						
+			          	<div class="form-group">
+			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
+			            	<div class="col-sm-8">
+			              		<input type="file" name="files" id="fileName" multiple/>
+			            	</div>
+			            	<label class="col-sm-2 control-label" for="textinput">
+				              		<button type="submit" id="btn">확인</button>
+				            </label>
+			          	</div>
+			          	<hr/>
+	      			
 			          	<c:forEach items="${blog.assets}" var="assets" varStatus="status">
 		               		<div class="form-group" id="${assets.assetNo}">
 			         	 		<label class="col-md-2 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>
@@ -327,7 +361,7 @@
 			            	</div>
 			         	</div>
 	        		</fieldset>
-	      		</form>
+	        	</form>
 	    	</div>
 		</div>
 	</body>

@@ -12,6 +12,7 @@ import com.ustrip.common.Search;
 import com.ustrip.service.blog.BlogDAO;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
+import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.TempBlog;
 
 
@@ -45,6 +46,11 @@ public class BlogDAOImpl implements BlogDAO{
 	public Blog getJsonBlog(int blogNo) throws Exception {
 		return sqlSession.selectOne("BlogMapper.getBlog", blogNo);
 	}
+
+	@Override
+	public void addImage(Map<String, List<Image>> map) throws Exception {
+		sqlSession.insert("BlogMapper.addImage", map);
+	}
 	
 	@Override
 	public int deleteBlog(int blogNo) throws Exception {
@@ -58,8 +64,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public void updateScore(int score) throws Exception {
-		sqlSession.update("BlogMapper.updateScore", score);
+	public void updateScore(Blog blog) throws Exception {
+		sqlSession.update("BlogMapper.updateScore", blog);
 	}
 
 	@Override
