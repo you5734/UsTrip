@@ -19,13 +19,15 @@ public interface BlogDAO {
 	
 	public List<Blog> listBlog(Search search) throws Exception;
 	
-	public void listPicture(int travNo) throws Exception;
+	public List<Image> listPicture(int blogNo) throws Exception;
+	
+	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception;
 	
 	public void addLikeTravel(Search search) throws Exception;
 	
 	public void deleteLikeTravel(Search search) throws Exception;
 	
-	public void checkLikeTravel(Search search) throws Exception;
+	public boolean checkLikeTravel(String userId, int travelNo) throws Exception;
 	
 	public Map<String, Object> listLikeTravel(Search search) throws Exception;
 	
@@ -42,5 +44,9 @@ public interface BlogDAO {
 	public void updateReview(Blog blog) throws Exception;
 
 	public void addImage(Map<String, List<Image>> map) throws Exception;
+
+	public List<Integer> listBlogNo(int travelNo) throws Exception;
+
+	public List<Blog> listBlogImage(Search search) throws Exception;
 
 }
