@@ -45,10 +45,29 @@
     
 	<script type="text/javascript">	
 	
+	function populateTestObject(){
+		var asset = new InventoryAddParam();
+		asset.travNo = 4;
+		asset.blogNo = 3001;
+		asset.usage = "멍청이";
+		asset.charge = 2500;
+		asset.assetCategory = "식비";
+		return asset;}
 	
+	function populateTestObject1(){
+		var asset = new InventoryAddParam();
+		asset.travNo = 4;
+		asset.blogNo = 3001;
+		asset.usage = "다운이";
+		asset.charge = 2500;
+		asset.assetCategory = "교통비";
+		return asset;}
 	
 		    $(function() {	
-		    	$("form").attr("method" , "POST").attr("action" , "/asset/getAsset?travNo=4").submit();
+		    	 $("form").attr("method" , "POST").attr("action" , "/asset/getAsset?travNo=4").submit();
+		    	var asset = []
+		    	var asset1 = populateTestObject();
+		    	var asset2 =populateTestObject1();
 								});
 	</script>
 	

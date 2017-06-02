@@ -173,5 +173,12 @@ public class AssetController {
 		assetService.deleteAsset(assetNo);
 	}
 	
+	@RequestMapping(value="test",method=RequestMethod.POST)
+	   public void test(@ModelAttribute("asset")List<Asset> asset
+	                    ,HttpSession session,Model model
+	                     ) throws Exception{
+		System.out.println("***************************"+asset);
+	}
+	
 	
 }
