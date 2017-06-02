@@ -9,32 +9,48 @@ function mentor(){
 			success : function(J , status) { 
 				
 			$('#event').remove();
-				var list = '';
+				var list = '';				
 				for(var i in J.board){
+					var regdate = new Date(J.board[i].regDate).format("yyyy/MM/dd");
+					 var adid = '';
+					 var adchar = '';
 					list = list+
 				'<div class="panel panel-default" id="event">'+
 				'<div class="panel-heading">'+                
-                '<b id="#'+J.board[i].boardNo+'" >'+
-	             J.board[i].boardTitle+' ['+J.board[i].countComment+']'+
-		         '</b></div>'+
+				'<div class="row">'+
+		         '<div class="col-md-1" align="left">'+J.board[i].boardNo+'</div>'+
+		         '<div class="col-md-5" align="center"><b id="#'+J.board[i].boardNo+'">'+J.board[i].boardTitle+'</b></div>'+
+		         '<div class="col-md-2" align="left" style="margin-left:13px;">'+J.board[i].nickName+'</div>'+
+		         '<div class="col-md-2" align="left" style="margin-left:5px;">'+regdate+'</div>'+
+		         '<div class="col-md-1" align="left" style="margin-left:5px;">'+J.board[i].hits+
+		         '</div></div></div>'+
 	             '<div id="'+J.board[i].boardNo+'" class="panel-collapse collapse"><div class="panel-body">'+
 	             '<div class="row"><div class="col-md-4">'+
 	             '<img src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="height:400px; width:350px;">'+
 	             '</div><div class="col-md-8">'+
          		J.board[i].boardContent+
          		'</div></div><hr/><div id="appendcom"><h6 align="right">'+
-         		J.board[i].countComment+' Comments'+
+         		J.board[i].countComment+'  개의 댓글이 달려있습니다.'+
 				'</h6>'+
 				'<div id="'+J.board[i].boardNo+'c"></div>'+
 				'<hr/>'+ 
-                '<h4><i class="fa fa-paper-plane-o"></i>Your Comment</h4>'+        
+                '<h4><i class="fa fa-paper-plane-o"></i>댓글작성</h4>'+        
                 '<textarea class="form-control" rows="3"  id="'+J.board[i].boardNo+'cal" maxlength="200"></textarea>'+
-                '<div>200 / <span id="'+J.board[i].boardNo+'chars">200</span><button class="comment-btn " style="margin-top:10px; float: right;" >Comment</button></div>'+
+                '<div>200 / <span id="'+J.board[i].boardNo+'chars">200</span><button class="comment-btn " style="margin-top:10px; float: right;" >댓글등록</button></div><br/><br/>'+
                 '</div></div></div>'
-					
+                '<script type="text/javascript">'+
+                'var maxLength = 200;'+					
+					 'for(var i in J.board){'+
+						 'adid= #'+J.board[i].boardNo+'cal;'+
+						 'adchar = #'+J.board[i].boardNo+'chars;'+
+				     '$(adid).keyup(function() {'+
+				       'var length = $(this).val().length;'+
+				       'var length = maxLength-length;'+
+				       '$(adchar).text(length);'+
+				     '});}</script>'
 				}
-				$('.panel-group').html(list);
-				countChar(J);
+				$('#body').html(list);
+				countChar(J)
 				comment(J);
 				selectCate();
 			}						
@@ -51,6 +67,7 @@ function party(){
 			},
 			success : function(J , status) { 
 				$('#event').remove();
+				var regdate = new Date(J.board[i].regDate).format("yyyy/MM/dd");
 				var list = '';				
 				for(var i in J.board){
 					var reg = new Date(J.board[i].regDate);

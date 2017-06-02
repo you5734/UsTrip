@@ -21,14 +21,14 @@
 	
 	<script>
 	$(function () {	
-	 	/*  mentor();
+	 	  mentor();
         $('#men').on('click',function(){
         	mentor();
         });
         
         $('#part').on('click',function(){
         	party();
-        });   */
+        });   
         
         $('#expandAll').on('click',function(){
             
@@ -49,12 +49,12 @@
             });
         });       
         
-        /* var maxLength = 200;
+       var maxLength = 200;
         $('textarea').keyup(function() {
           var length = $(this).val().length;
           var length = maxLength-length;
           $('#chars').text(length);
-        }); */
+        }); 
                
 });
   </script>
@@ -78,17 +78,28 @@
              <a id="collapseAll" href="#" class="btn btn-default" role="button">Collapse All</a>
             </div><br/>
         </div></div>
-       
-            <div class="panel-group" style="margin-top:50px;">
-            
+        
+             <div class="panel-group" style="margin-top:50px;">
+             <div class="row" >
+	         <div class="col-md-1" align="left" style="margin-left:10px;"><h4>번호</h4></div>
+	         <div class="col-md-5" align="center"><h4>제목</h4></div>
+	         <div class="col-md-2" align="left" ><h4>닉네임</h4></div>
+	         <div class="col-md-2" align="left"><h4>등록일짜</h4></div>
+	         <div class="col-md-1" align="left"><h4>조회수</h4></div>
+	         </div><div id="body">
           <!--   여기부터 반복구간 -->
          
-                <div class="panel panel-default">
+               <!--  <div class="panel panel-default">
                     <div class="panel-heading">
-                              <b id="#collapseThree">
-                                Collapsible Group Item #3
-                              </b>
-
+                     <div class="row">
+			         <div class="col-md-1" align="left">번호</div>
+			         <div class="col-md-5" align="center"><b id="#collapseThree">Collapsible Group Item #3</b></div>
+			         <div class="col-md-2" align="left" style="margin-left:13px;">닉네임</div>
+			         <div class="col-md-2" align="left" style="margin-left:5px;">등록일짜</div>
+			         <div class="col-md-1" align="left" style="margin-left:5px;">조회수</div>
+			         </div>
+                              
+</div>
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse">
                         <div class="panel-body">
@@ -123,15 +134,15 @@
                             
                             <hr/> 
                             <h4><i class="fa fa-paper-plane-o"></i>댓글작성</h4>        
-                            <textarea class="form-control" rows="3"  id="textareaChars" maxlength="200"></textarea>
-                            <div>200 / <span id="chars">200</span> 글자 남았습니다.<button class="comment-btn " style="margin-top:10px; float: right;" >댓글등록</button></div>
+                            <div><textarea class="form-control" rows="3"  id="textareaChars" maxlength="200"></textarea>
+                            200 / <span id="chars">200</span> 글자 남았습니다.<button class="comment-btn " style="margin-top:10px; float: right;" >댓글등록</button></div>
                                                                 
                 </div>
             </div>
-        </div>
+        </div> -->
          <!--반복구간끝-->
         </div>
-        
+        </div>
         </div>
 			
 </body>
