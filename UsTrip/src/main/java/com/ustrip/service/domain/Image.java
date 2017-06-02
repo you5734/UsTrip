@@ -5,6 +5,7 @@ public class Image {
 	private int imgNo;
 	private int blogNo;
 	private String serverImgName;
+	private int travelNo;
 	
 	public Image() {
 	}
@@ -33,11 +34,18 @@ public class Image {
 		this.serverImgName = serverImgName;
 	}
 
+	public int getTravelNo() {
+		return travelNo;
+	}
+
+	public void setTravelNo(int travelNo) {
+		this.travelNo = travelNo;
+	}
+
 	@Override
 	public String toString() {
-		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", serverImgName="
-				+ serverImgName + "]";
+		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", serverImgName=" + serverImgName + ", travelNo="
+				+ travelNo + "]";
 	}
-	
 	
 }

@@ -1,5 +1,7 @@
 package com.ustrip.service.blog.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,9 +81,35 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public void listPicture(int travNo) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public List<Image> listPicture(int blogNo) throws Exception {
+		return sqlSession.selectList("BlogMapper.listPicture", blogNo);
+	}
+
+	@Override
+	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception {
+		List<Blog> list=new ArrayList<Blog>();
+		for(int i=0; i<blogNo.size(); i++){
+			Blog blog=sqlSession.selectOne("BlogMapper.getBlog", blogNo.get(i));
+			List<Image> temp=sqlSession.selectList("BlogMapper.listImgByBlogNo", blogNo.get(i));
+			blog.setImages(temp);
+			list.add(blog);
+		}
+		return list;
+	}
+
+	@Override
+	public List<Integer> listBlogNo(int travelNo) throws Exception {
+		return sqlSession.selectList("BlogMapper.listBlogNo", travelNo);
+	}
+
+	@Override
+	public List<Blog> listBlogImage(Search search) throws Exception {
+		/*Map<Integer, List<Image>> map=new HashMap<Integer, List<Image>>();
+		for(int i=0; i<search.getPlaceOrder().size(); i++){
+			List<Image> temp=sqlSession.selectList("BlogMapper.listImgByBlogNo", search.getPlaceOrder().get(i));
+			map.put(search.getPlaceOrder().get(i), temp);
+		}*/
+		return sqlSession.selectList("BlogMapper.listBlogImage", search);
 	}
 
 	@Override
@@ -97,9 +125,17 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public void checkLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
+	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
+		Search search=new Search();
+		search.setSearchKeyword(userId);
+		search.setSearchCondition(Integer.toString(travelNo));
 		
+		int count=sqlSession.selectOne("BlogMapper.checkLikeTravel", search);
+		if(count==0){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	@Override
@@ -113,8 +149,6 @@ public class BlogDAOImpl implements BlogDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
 
 
 }

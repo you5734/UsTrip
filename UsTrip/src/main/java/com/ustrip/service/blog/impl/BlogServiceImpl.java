@@ -75,9 +75,23 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public void listPicture(int travNo) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public List<Image> listPicture(int blogNo) throws Exception {
+		return blogDAO.listPicture(blogNo);
+	}
+	
+	@Override
+	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception {
+		return blogDAO.listImgByBlogNo(blogNo);
+	}
+
+	@Override
+	public List<Integer> listBlogNo(int travelNo) throws Exception {
+		return blogDAO.listBlogNo(travelNo);
+	}
+
+	@Override
+	public List<Blog> listBlogImage(Search search) throws Exception {
+		return blogDAO.listBlogImage(search);
 	}
 
 	@Override
@@ -93,9 +107,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public void checkLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
+		return blogDAO.checkLikeTravel(userId, travelNo);
 	}
 
 	@Override
@@ -103,6 +116,5 @@ public class BlogServiceImpl implements BlogService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

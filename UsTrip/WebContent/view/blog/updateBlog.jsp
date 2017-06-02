@@ -226,6 +226,13 @@
 		   	}); 
 		});
 		
+		$('body').on('click' , '#confirm', function() {
+			var date=$('#visitDate').val().split("-");
+			
+			
+			self.location="/blog/listBlog?travelNo="+travNo+"&visitDate="+date[0]+date[1]+date[2];
+		});
+		
 	});
 
 </script>
@@ -233,10 +240,11 @@
 	<body>
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
-				<form class="form-horizontal" enctype="multipart/form-data" id="addImage" name="addImage" action="/blog/addJsonImage" method="POST">
+				<form class="form-horizontal" enctype="multipart/form-data" id="addImage" name="addImage" action="addJsonImage" method="POST">
 					<fieldset>
 						<input type="hidden" name="blogNo" id="blogNo" value="${blog.blogNo}">
 						<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
+						<input type="hidden" name="visitDate" id="visitDate" value="${blog.visitDate}">
 			          	<legend><i class="fa fa-map-marker" aria-hidden="true"></i>${blog.place}</legend>
 			
 			          	<div class="form-group">
@@ -281,7 +289,7 @@
 			              		<input type="file" name="files" id="fileName" multiple/>
 			            	</div>
 			            	<label class="col-sm-2 control-label" for="textinput">
-				              		<button type="submit" id="btn">확인</button>
+				              		<input type="submit" id="btn" value="확인">
 				            </label>
 			          	</div>
 			          	<hr/>
@@ -356,7 +364,7 @@
 		                <hr/>
 			         	<div class="col-sm-offset-2 col-sm-10">
 			         		<div class="pull-right">
-			            		<input type="submit" class="btn btn-default" id="update" value="확인">
+			            		<input type="button" class="btn btn-default" id="confirm" value="확인">
 			                	<input type="button" class="btn btn-default" id="cancel" value="취소">
 			            	</div>
 			         	</div>

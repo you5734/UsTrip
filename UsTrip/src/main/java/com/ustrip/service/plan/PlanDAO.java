@@ -16,4 +16,6 @@ public interface PlanDAO {
 	public void startBlog(int travelNo);
 
 	public List<Integer> listPlaceNo(Search search);
+
+	public List<Integer> listPlaceNoTemp(int travelNo);
 }
