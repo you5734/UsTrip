@@ -1,6 +1,7 @@
 package com.ustrip.service.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Board {
 	
@@ -12,6 +13,8 @@ public class Board {
 	private String boardTitle;
 	private Date regDate;
 	private int boardCategory;
+	private int countComment;
+	private List<Comment> myComment;
 	
 	public Board(){}
 
@@ -79,9 +82,25 @@ public class Board {
 		this.boardCategory = boardCategory;
 	}
 	
+	public int getCountComment() {
+		return countComment;
+	}
+
+	public void setCountComment(int countComment) {
+		this.countComment = countComment;
+	}
+
+	public List<Comment> getMyComment() {
+		return myComment;
+	}
+
+	public void setMyComment(List<Comment> myComment) {
+		this.myComment = myComment;
+	}
+
 	@Override
 	public String toString() {
-		return "boardVO = [ boardNo : "+boardNo+", nickName : "+travNo+", hits : "+hits+", boardContent : "+boardContent+", boardTitle : "+boardTitle+", regDate : "+regDate+", boardCategory : "+boardCategory+" ]";
+		return "boardVO = [ boardNo : "+boardNo+", nickName : "+travNo+", hits : "+hits+", boardContent : "+boardContent+", boardTitle : "+boardTitle+", regDate : "+regDate+", boardCategory : "+boardCategory+"countComment : "+countComment+"myComment : "+myComment+" ]";
 	}
 
 }
