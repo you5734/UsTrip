@@ -37,14 +37,13 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public List<Integer> listPlaceNo(int travelNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Integer> listPlaceNo(Search search) {
+		return planDAO.listPlaceNo(search);
 	}
 
 	@Override
-	public List<Integer> listPlaceNo(Search search) {
-		return planDAO.listPlaceNo(search);
+	public List<Integer> listPlaceNoTemp(int travelNo) throws Exception {
+		return planDAO.listPlaceNoTemp(travelNo);
 	}
 
 	

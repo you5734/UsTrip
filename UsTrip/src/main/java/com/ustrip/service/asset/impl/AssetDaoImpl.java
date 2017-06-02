@@ -54,4 +54,9 @@ public class AssetDaoImpl implements AssetDao{
 		return sqlSession.selectOne("AssetMapper.oneAsset",assetNo);
 	}
 
+	@Override
+	public List<Asset> getAssetByBlogNo(int blogNo) throws Exception {
+		return sqlSession.selectList("AssetMapper.getAssetByBlogNo",blogNo);
+	}
+
 }

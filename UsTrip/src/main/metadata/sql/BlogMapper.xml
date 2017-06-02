@@ -24,6 +24,7 @@
 		<id 	property="imgNo" 			column="image_no"/>
 		<result property="blogNo" 			column="blog_no" 			jdbcType="NUMERIC" />
 		<result property="serverImgName" 	column="server_img_name" 	jdbcType="VARCHAR" />
+		<result property="travelNo"			column="trav_no"			jdbcType="NUMERIC" />
 	</resultMap>
 	
 	<resultMap id="tagSelectMap" type="hashTag">
@@ -44,22 +45,21 @@
 		
 	 </insert>
 	 
-	 <insert	id="addHashTag"	parameterType="map">
+	 <insert	id="addHashTag"	parameterType="hashTag" useGeneratedKeys="false">
 	 	INSERT
-	 	INTO hash_tag (tag_no, blog_no, hash_tag)(
-	 	SELECT seq_tag_no.nextval, A.* from(
-	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
-		 	SELECT #{item.blogNo}, #{item.hashTag} FROM DUAL
-	 	</foreach>
-	 	)A)
+	 	INTO hash_tag (tag_no, blog_no, hash_tag)
+	 	VALUES (seq_tag_no.nextval, #{blogNo}, #{hashTag})
+	 	<selectKey keyProperty="tagNo" resultType="Integer" order="AFTER">
+        	SELECT seq_tag_no.currval FROM dual
+    	</selectKey>
 	 </insert>
 	 
 	 <insert	id="addImage"	parameterType="map">
 	 	INSERT
-	 	INTO image (image_no, blog_no, server_img_name)(
-	 	SELECT seq_img_no.nextval, A.* from(
+	 	INTO image (image_no, blog_no, server_img_name, trav_no)(
+	 	SELECT seq_image_no.nextval, A.* from(
 	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
-		 	SELECT #{item.blogNo}, #{item.server_img_name} FROM DUAL
+		 	SELECT #{item.blogNo}, #{item.serverImgName}, #{item.travelNo} FROM DUAL
 	 	</foreach>
 	 	)A)
 	 </insert>
@@ -82,7 +82,18 @@
 	 	SELECT
 	 	blog_no, memo, trav_no, visit_date, place_no, city_no, review, score, place
 	 	FROM blog
-	 	WHERE trav_no=#{searchKeyword} AND 
+	 	WHERE trav_no=#{searchKeyword} AND visit_date=TO_DATE(#{searchDate}, 'YY/MM/DD') AND
+	 	place_no IN
+	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
+	 		#{item.value}
+	 	</foreach>
+	 </select>
+	 
+	 <select id="listBlogImage" parameterType="search" resultMap="blogSelectMap">
+	 	SELECT
+	 	blog_no, trav_no, visit_date, place_no, place
+	 	FROM blog
+	 	WHERE trav_no=#{searchKeyword} AND
 	 	place_no IN
 	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
 	 		#{item.value}
@@ -93,15 +104,60 @@
 	 	SELECT
 	 	image_no, blog_no, server_img_name
 	 	FROM image
-	 	WHERE blog_no=#{blog_no}
+	 	WHERE blog_no=#{blogNo}
+	 </select>
+	 
+	 <select id="listImgByBlogNo" parameterType="map" resultMap="imageSelectMap">
+	 	SELECT
+	 	image_no, server_img_name, blog_no, trav_no
+	 	FROM image
+	 	WHERE blog_no=#{blogNo}
 	 </select>
 	 
 	 <select id="listHashTag" parameterType="int" resultMap="tagSelectMap">
 	 	SELECT 
 	 	tag_no, blog_no, hash_tag
 	 	FROM hash_tag
-	 	WHERE blog_no=#{blog_no}
+	 	WHERE blog_no=#{blogNo}
 	 </select>
+	 
+	<select id="listBlogNo" parameterType="int" resultType="int">
+	 	SELECT DISTINCT
+	 	blog_no
+	 	FROM blog
+	 	WHERE trav_no=#{travelNo}
+	 </select>
+	 
+	 <update	id="updateReview"	parameterType="blog" >
+		UPDATE blog 
+		<set> 
+		review=#{review}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <update	id="updateScore"	parameterType="blog" >
+		UPDATE blog 
+		<set> 
+		score=#{score}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
+	 
+	 <delete	id="deleteHashTag" parameterType="int">
+	 	DELETE FROM hash_tag
+	 	WHERE tag_no=#{tagNo}
+	 </delete>
+	 
+	 <select id="checkLikeTravel" parameterType="search" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM(			SELECT like_no
+	 					FROM like_travel
+	 					WHERE user_id=#{searchKeyword} AND trav_no=#{searchCondition}
+	 					)countTable
+	 </select>
+	 
+
 	  <!-- 
 	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
 	 	SELECT
@@ -110,22 +166,6 @@
 	 	WHERE user_id=#{userId}
 	 </select>
 	 
-	 <select id="checkLikeTravel" parameterType="string" resultType="int">
-	 	SELECT COUNT(*)
-	 	FROM(			SELECT like_no
-	 					FROM like_travel
-	 					WHERE user_id=#{userId} AND trav_no=#{travNo}
-	 					)countTable
-	 </select>
-	 
-	 <update	id="updateBlog"	parameterType="blog" >
-		UPDATE blog 
-		<set> 
-		review=#{review:VARCHAR},
-		score=#{score:NUMERIC}
-	   	</set>
-	   	WHERE blog_no=#{blogNo}
-	 </update>
 	 
 	 <update	id="updateHashTag"	parameterType="hashTag" >
 		UPDATE hash_tag

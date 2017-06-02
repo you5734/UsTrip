@@ -1,16 +1,17 @@
 package com.ustrip.web.blog;
 
-import java.util.Date;
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-import javax.servlet.http.HttpSession;
+
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +31,6 @@ import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
-import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanService;
@@ -70,12 +70,75 @@ public class BlogController {
 		return "forward:/blog/listBlog?travelNo="+travelNo;
 	}
 	
+	@RequestMapping(value={"addJsonTag/{tag}/{blogNo}"}, method=RequestMethod.GET)
+	public void addJsonTag( @PathVariable int blogNo, @PathVariable String tag, Model model ) throws Exception {
+		
+		System.out.println("/addJsonTag : GET");
+		
+		HashTag hashtag=new HashTag();
+		hashtag.setBlogNo(blogNo);
+		hashtag.setHashTag(tag);
+		
+		blogService.addJsonTag(hashtag);
+		
+		model.addAttribute("hashTag", hashtag);
+	}
+	
+	@RequestMapping(value={"addJsonAsset/{charge}/{blogNo}/{travNo}/{assetCategory}/{usage}"}, method=RequestMethod.GET)
+	public void addJsonAsset( @ModelAttribute("asset") Asset asset, Model model ) throws Exception {
+		
+		System.out.println("/addJsonAsset : GET");
+		Blog blog=blogService.getJsonBlog(asset.getBlogNo());
+		asset.setVisitDate(blog.getVisitDate());
+		
+		assetService.addAsset(asset);
+		System.out.println(asset);
+		model.addAttribute("asset", asset);
+	}
+	
+	@RequestMapping(value={"addJsonImage"}, method=RequestMethod.POST)
+	public void addJsonImage( @ModelAttribute("blog") Blog blog, Model model, HttpServletRequest request ) throws Exception {
+		
+		System.out.println("/addJsonImage : GET");
+		
+		List<MultipartFile> files = blog.getFiles();
+        List<String> fileNames = new ArrayList<String>();
+        Map<String, List<Image>> map=new HashMap<String, List<Image>>();
+        if (null != files && files.size() > 0) 
+        {	
+        	int i=0;
+            for (MultipartFile multipartFile : files) {
+ 
+                String fileName = multipartFile.getOriginalFilename();
+                String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
+                
+                File imageFile = new File(request.getSession().getServletContext().getRealPath("/")+"images/upload/blog/", newFileName);
+                multipartFile.transferTo(imageFile);
+                Image image=new Image();
+                image.setServerImgName(newFileName);
+                image.setBlogNo(blog.getBlogNo());
+                image.setTravelNo(blog.getTravNo());
+                
+                blog.getImages().add(image);
+            }
+        }
+        map.put("list", blog.getImages());
+        blogService.addImage(map);
+        Blog blog2=blogService.getJsonBlog(blog.getBlogNo());
+        map.put("list2", blog2.getImages());
+        model.addAttribute("list",map.get("list2"));
+	}
+	
 	@RequestMapping(value={"getJsonBlog/{blogNo}"}, method=RequestMethod.GET)
 	public void getJsonBlog( @PathVariable int blogNo, Model model ) throws Exception {
 		
 		System.out.println("/getJsonBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
+		blog.setAssets(asset);
+		
+		System.out.println(blog);
 		model.addAttribute("blog", blog);
 	}
 
@@ -85,26 +148,53 @@ public class BlogController {
 
 		System.out.println("/listBlog : GET");
 		String destination="forward:/view/blog/listBlog.jsp";
+		String userId="user01";
 		
 		Search search=new Search();
-		
-		List<Travel> travel=planService.checkBlogStart(travelNo);
-		
-		if(travel.get(0).getIsBlogStart()==1){
-			search.setSearchKeyword(Integer.toString(travelNo));
-			search.setSearchDate(visitDate);
-			List<Integer> listPlaceNo=planService.listPlaceNo(search);
+
+		if(visitDate!=null){
+			List<Travel> travel=planService.checkBlogStart(travelNo);
 			
-			search.setPlaceOrder(listPlaceNo);
-			List<Blog> blog=blogService.listBlog(search);
-			model.addAttribute("list", blog);
+			if(travel.get(0).getIsBlogStart()==1){
+				search.setSearchKeyword(Integer.toString(travelNo));
+				search.setSearchDate(visitDate);
+				List<Integer> listPlaceNo=planService.listPlaceNo(search);
+				
+				search.setPlaceOrder(listPlaceNo);
+				List<Blog> blog=blogService.listBlog(search);
+				List<Asset> asset=assetService.getAssetByBlogNo(blog.get(0).getBlogNo());
+				
+				boolean isLiked=this.checkLikeTravel(userId, travelNo);
+				model.addAttribute("list", blog);
+				model.addAttribute("asset",asset);
+				model.addAttribute("isLiked",isLiked);
+			}else{
+				model.addAttribute("travel", travel);
+				destination="forward:/view/blog/addBlog.jsp";
+			}
 		}else{
-			model.addAttribute("travel", travel);
-			destination="forward:/view/blog/addBlog.jsp";
+			List<Integer> listPlaceNo=planService.listPlaceNoTemp(travelNo);
+			search.setPlaceOrder(listPlaceNo);
+			List<Blog> blog=blogService.listBlogImage(search);
+			model.addAttribute("list", blog);
+			destination="forward:/view/blog/listPicture.jsp";
 		}
 		
 		
 		return destination;
+	}
+	
+	@RequestMapping(value="listPicture", method=RequestMethod.GET)
+	public String listPicture( @RequestParam("travelNo") int travelNo, Model model ) throws Exception {
+
+		System.out.println("/listPicture : GET");
+		
+		List<Integer> blogNo=blogService.listBlogNo(travelNo);
+		List<Blog> list=blogService.listImgByBlogNo(blogNo);
+		
+		model.addAttribute("list", list);
+		
+		return "forward:/view/blog/listPicture.jsp";
 	}
 	
 	@RequestMapping(value="updateBlog", method=RequestMethod.GET)
@@ -113,38 +203,42 @@ public class BlogController {
 		System.out.println("/updateBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
+		blog.setAssets(asset);
 		model.addAttribute("blog", blog);
 		
 		return "forward:/view/blog/updateBlog.jsp";
 	}
 	
-	@RequestMapping(value="updateBlog", method=RequestMethod.POST)
-	public String updateBlog( @ModelAttribute("blog") Blog blog, HttpSession session) throws Exception {
+	@RequestMapping(value={"updateJsonScore/{score}/{blogNo}"}, method=RequestMethod.GET)
+	public void updateJsonScore( @ModelAttribute Blog blog ) throws Exception {
 		
-		System.out.println("/updateBlog : POST");
-		/*List<MultipartFile> files = blog.getFiles();
+		System.out.println("/updateJsonScore : GET");
+
+		blogService.updateScore(blog);
+	}
+	
+	@RequestMapping(value={"deleteJsonTag/{tagNo}"}, method=RequestMethod.GET)
+	public void deleteJsonTag( @PathVariable int tagNo ) throws Exception {
 		
-        if (null != files && files.size() > 0) 
-        {
-            for (MultipartFile multipartFile : files) {
-            	
-                String fileName = multipartFile.getOriginalFilename();
-                String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
- 
-                File imageFile = new File(session.getServletContext().getRealPath("/")+"images/upload/blog/", newFileName);
-                multipartFile.transferTo(imageFile);
-            }
-            
-        }*/
-        
-        System.out.println(blog);
-        
-        blogService.updateBlog(blog);
-        for(Asset i: blog.getAssets()){
-        	assetService.addAsset(i);
-        }
-        
-		return "forward:/view/blog/updateBlg.jsp";
+		System.out.println("/deleteJsonTag : GET");
+
+		blogService.deleteTag(tagNo);
+	}
+	
+	@RequestMapping(value={"updateJsonReview/{blogNo}/{review}"}, method=RequestMethod.GET)
+	public void updateJsonReview( @ModelAttribute Blog blog ) throws Exception {
+		
+		System.out.println("/updateJsonReview : GET");
+
+		blogService.updateJsonReview(blog);
+	}
+	
+	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
+		
+		System.out.println("/checkLikeTravel");
+
+		return blogService.checkLikeTravel(userId, travelNo);
 	}
 
 }

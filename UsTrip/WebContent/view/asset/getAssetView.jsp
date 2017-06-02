@@ -39,15 +39,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
       
 	<style>
- 		body {padding-top : 50px;}      
- 		
- 	 	 .canvasjs-chart-tooltip{
-  /* right: auto !important;
-  left: 5px !important;
-  top: 5px !important;
-  bottom: auto !important;
-  position:fixed; */
-}  
+ 		body {padding-top : 50px;}   
      </style>
     
 	<script type="text/javascript">	
@@ -72,15 +64,11 @@
     <li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
   </ul>
 
-  <div class="tab-content">
-    <div class="tab-pane fade in active">
       <div id="listasset" style="width: inherit;
         max-width: 100%;
         height: auto;"></div>
     </div>
      
-  </div>
-</div>	
 <jsp:include page="/view/asset/updateAssetView.jsp" />
 
 </body>

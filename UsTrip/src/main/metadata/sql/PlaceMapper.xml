@@ -50,4 +50,15 @@
 	 		next_place_no=place_no
 	 </select>
 	 
+	 <select id="listPlaceNoTemp" parameterType="int" resultType="int">
+	 	SELECT
+	 	place_no
+	 	FROM place
+	 	WHERE trav_no=#{travelNo}
+	 	START WITH
+	 		pre_place_no IS NULL
+	 	CONNECT BY PRIOR
+	 		next_place_no=place_no
+	 </select>
+	 
 </mapper>

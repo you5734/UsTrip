@@ -44,4 +44,9 @@ public class PlanDAOImpl implements PlanDAO {
 		return sqlSession.selectList("PlaceMapper.listPlaceNo", search);
 	}
 
+	@Override
+	public List<Integer> listPlaceNoTemp(int travelNo) {
+		return sqlSession.selectList("PlaceMapper.listPlaceNoTemp", travelNo);
+	}
+
 }

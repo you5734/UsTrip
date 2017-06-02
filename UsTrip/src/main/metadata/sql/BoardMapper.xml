@@ -6,4 +6,52 @@
 
 <mapper namespace="BoardMapper">
 
+<resultMap id="boardSelectMap" type="board"  >
+		<result property="boardNo" 				column="BOARD_NO" 			jdbcType="INTEGER"/>
+  		<result property="travNo" 				column="TRAV_NO" 			jdbcType="INTEGER"/>
+  		<result property="hits" 					column="HITS"					jdbcType="INTEGER"/>
+  		<result property="regDate" 				column="REG_DATE" 			jdbcType="DATE"/>
+  		<result property="nickName" 			column="NICKNAME" 			jdbcType="VARCHAR"/>
+  		<result property="boardContent" 		column="BOARD_CONTENT" 	jdbcType="VARCHAR"/>
+  		<result property="boardTitle" 			column="BOARD_TITLE" 		jdbcType="VARCHAR"/>
+  		<result property="boardCategory" 		column="BOARD_CATEGORY" jdbcType="INTEGER"/>
+  	</resultMap>
+  	
+  	<insert 	id="addBoard"	 parameterType="board" >
+  	  INSERT 
+      INTO board
+      VALUES(SEQ_BOARD_NO.nextval, #{nickName}, #{travNo}, #{hits}, #{boardContent}, #{boardTitle}, SYSDATE, #{boardCategory})
+  	 </insert>
+  	 
+  	 <update	id="updateBoard"	parameterType="board" >
+	   	UPDATE board
+	   	<set>
+	   		TRAV_NO 	= #{travNo} ,
+			HITS	= #{hits} ,
+			NICKNAME	=	#{nickName},
+			BOARD_CONTENT = #{boardContent},
+			BOARD_TITLE = #{boardTitle},
+			BOARD_CATEGORY = #{boardCategory}
+	   	</set>
+	   	WHERE BOARD_NO = #{boardNo}
+	 </update>
+	 
+	 <delete id="deleteBoard" parameterType="board" >
+	 DELETE FROM board
+	 WHERE BOARD_NO = #{boardNo}
+	 </delete>
+	 
+	 <select  id="listBoard"  parameterType="board"	resultMap="boardSelectMap">
+	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 FROM board
+	 WHERE BOARD_CATEGORY = #{boardCategory}
+	 ORDER BY REG_DATE DESC
+	 </select>
+	 
+	  <select  id="getBoard"  parameterType="board"	resultMap="boardSelectMap">
+	  SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	  FROM board
+	  WHERE BOARD_NO = #{boardNo}
+	  </select>
+
 </mapper>

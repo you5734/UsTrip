@@ -15,7 +15,7 @@ public interface PlanService {
 	
 	public void startBlog(int travelNo) throws Exception;
 	
-	public List<Integer> listPlaceNo(int travelNo) throws Exception;
+	public List<Integer> listPlaceNo(Search search) throws Exception;
 
-	public List<Integer> listPlaceNo(Search search);
+	public List<Integer> listPlaceNoTemp(int travelNo) throws Exception;
 }
