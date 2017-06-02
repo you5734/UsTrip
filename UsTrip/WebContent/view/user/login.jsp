@@ -16,6 +16,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+	<script src="https://apis.google.com/js/api:client.js"></script>
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	
 	<!-- ///////////////////////// Modal popup  및 달력UI /////////////////////////////// -->
@@ -57,6 +60,37 @@
 	        }
 	      });
 	    };
+
+	    //google
+	    $( function() {
+				var googleUser = {};
+			$(".buttonText").on("click" , function() {
+				console.log("dddddddd");
+				gapi.load('auth2', function(){
+				// Retrieve the singleton for the GoogleAuth library and set up the client.
+				 auth2 = gapi.auth2.init({
+					client_id: '240419245572-40o3ev6lrtro935gb6aqvske3rv8toah.apps.googleusercontent.com',
+					cookiepolicy: 'single_host_origin',
+					// Request scopes in addition to 'profile' and 'email'
+					//scope: 'additional_scope'
+				});
+				attachSignin(document.getElementById('customBtn'));
+				});
+			});;
+	    });
+		
+		function attachSignin(element) {
+			console.log(element.id); 
+
+			auth2.attachClickHandler(element, {},
+				function(googleUser) {
+				document.getElementById('name').innerText = "Signed in: " +
+				/*  googleUser.getBasicProfile().getName(); */
+				googleUser.getBasicProfile().getEmail();
+			}, function(error) {
+				alert(JSON.stringify(error, undefined, 2));
+			});
+		}
 		
 		//로그인 Event처리
 		$( function() {
@@ -99,8 +133,42 @@
     	input.text { width:60%; padding: .4em; }
 		fieldset { padding:0; border:0; margin-top:5px; }
 		.validateTips { border: solid transparent; padding: 0.3em; color:red; }
+		
+		#customBtn {
+			display: inline-block;
+			background: white;
+			color: #444;
+			width: 190px;
+			border-radius: 5px;
+			border: thin solid #888;
+			box-shadow: 1px 1px 1px grey;
+			white-space: nowrap;
+		}
+		#customBtn:hover {
+			cursor: pointer;
+		}
+		span.label {
+			font-family: serif;
+			font-weight: normal;
+		}
+		span.icon {
+			background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			width: 42px;
+			height: 42px;
+		}
+		span.buttonText {
+			display: inline-block;
+			vertical-align: middle;
+			padding-left: 42px;
+			padding-right: 42px;
+			font-size: 14px;
+			font-weight: bold;
+			/* Use the Roboto font that is loaded in the <head> */
+			font-family: 'Roboto', sans-serif;
+		}
 	</style>
-	
 </head>
 <body class="bodycss">
         <div class="top-content" align="center">
@@ -148,6 +216,7 @@
 					                        <button type="button" class="btn" id="join">Join us!</button>
 				                        </div>
 				                        
+				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
 				                        <div class="form-group">
 					  		 				<div class="col-sm-offset text-center">					      
 					      						<a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -155,7 +224,18 @@
 												</a>
 					   						 </div>
 					 					 </div>
-					 					 </form>
+					 					 
+					 					 <!-- ////////////////  google 로그인 버튼 ////////////////// -->
+										<div id="gSignInWrapper">
+											<span class="label"> </span>
+												<div id="customBtn" class="customGPlusSignIn">
+													<span class="icon"></span>
+													<span class="buttonText">Google</span>
+												</div>
+											</div>
+											<div id="name"></div>
+										<!-- <script>startApp();</script> -->
+					 				</form>
 			                    </div>
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
 					 					 <div id="dialog-form" title="추가정보 입력">

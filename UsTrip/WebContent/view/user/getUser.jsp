@@ -36,6 +36,12 @@
 				 self.location = "/message/listSendMsg" 
 			  });
 		 });
+		 
+		 $(function() {
+			 $( "#listUser" ).on("click" , function() {
+				 $("form").attr("method" , "POST").attr("action" , "/user/getUserList").submit();
+			  });
+		 });
 	</script>
 	
     <style>
@@ -86,10 +92,11 @@
 			
 			<!-- Button -->
 			<div class="form-group">
-				<div class="col-sm-offset-4 col-sm-4 text-center">
+				<div class="col-sm-offset-5 col-sm-5 text-center" >
 					<button type="button" class="btn btn-info">회원정보수정</button>
 					<button type="button" class="btn btn-info btn" href="#">쪽지보내기</button>
 					<button type="button" class="btn btn-info" id="list">보낸쪽지함</button>
+					<button type="button" class="btn btn-info" id="listUser">모든회원정보</button>
 				</div>	
 			</div>
 		</form>

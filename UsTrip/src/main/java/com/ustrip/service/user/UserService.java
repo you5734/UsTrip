@@ -30,5 +30,7 @@ public interface UserService {
 	
 	//È¸¿øÅ»Åð
 	public void withdrawUser(String userId) throws Exception;
+	
+	public String getRandomPassword(int length) throws Exception;
 		
 }

@@ -3,6 +3,7 @@ package com.ustrip.service.user.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -87,6 +88,19 @@ public class UserServiceImpl implements UserService {
 		userDao.withdrawUser(userId);
 	}
 	
+	public String getRandomPassword(int length) throws Exception { 
+		String uuid="";
+		
+		for (int i = 0;i < length; i++) { 
+			 uuid = UUID.randomUUID().toString().replaceAll("-", "");
+			 uuid = uuid.substring(0, 10);
+		     System.out.println(i + ") " +uuid); 
+		 } 
+		 
+		 System.out.println("uuid :: " + uuid);
+
+		 return uuid;
+	}
 
 
 }

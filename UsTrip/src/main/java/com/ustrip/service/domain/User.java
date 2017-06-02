@@ -8,7 +8,7 @@ public class User {
 	private String userId;
 	private String password;
 	private String nickName;
-	private char gender;
+	private String gender;
 	private Date birthDate;
 	private String profileImage;
 	private int role;
@@ -35,7 +35,7 @@ public class User {
 	}
 
 
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
 
@@ -75,7 +75,7 @@ public class User {
 	}
 
 
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 

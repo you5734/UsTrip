@@ -32,7 +32,13 @@
 		});
 		
 		$( function() {
-			if(! ${ empty message.msgContent }){
+			$("#confirm").bind("click", function() {
+				history.go(-1);
+			});
+		});
+		
+		$( function() {
+			if( ! (${ empty message.msgContent }()){
 				var mes = '${message.msgContent}'.replace("\r\n","<br/>");
 				$("#msgContent").val(mes);
 			}; 
@@ -82,7 +88,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-4 text-center">
 						<button type="button" class="btn btn-info">답장보내기</button>
-						<button type="button" class="btn btn-info btn">확인</button>
+						<button type="button" class="btn btn-info btn" id="confirm">확인</button>
 				</div>	
 			</div>
 		</form>
