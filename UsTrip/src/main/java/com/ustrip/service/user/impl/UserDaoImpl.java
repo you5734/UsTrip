@@ -54,5 +54,10 @@ public class UserDaoImpl implements UserDao {
 	public int getTotalCount(Search search) throws Exception{
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
+	//È¸¿øÅ»Åð
+	public  void withdrawUser(String userId) throws Exception{
+		sqlSession.update("UserMapper.withdrawUser", userId);
+	}
+	
 
 }

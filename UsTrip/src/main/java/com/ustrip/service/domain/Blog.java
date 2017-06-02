@@ -1,6 +1,10 @@
 package com.ustrip.service.domain;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Blog {
 	
@@ -12,6 +16,11 @@ public class Blog {
 	private int cityNo;
 	private String review;
 	private float score;
+	private String place;
+	private List<Image> images=new ArrayList<Image>();
+	private List<MultipartFile> files;
+	private List<HashTag> hashTags=new ArrayList<HashTag>();
+	private List<Asset> assets=new ArrayList<Asset>();
 
 	public Blog() {
 		// TODO Auto-generated constructor stub
@@ -81,10 +90,53 @@ public class Blog {
 		this.score = score;
 	}
 
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	
+
+	public List<HashTag> getHashTags() {
+		return hashTags;
+	}
+
+	public void setHashTags(List<HashTag> hashTags) {
+		this.hashTags = hashTags;
+	}
+
+	public List<Asset> getAssets() {
+		return assets;
+	}
+
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+
 	@Override
 	public String toString() {
 		return "Blog [blogNo=" + blogNo + ", memo=" + memo + ", travNo=" + travNo + ", visitDate=" + visitDate
-				+ ", placeNo=" + placeNo + ", cityNo=" + cityNo + ", review=" + review + ", score=" + score + "]";
+				+ ", placeNo=" + placeNo + ", cityNo=" + cityNo + ", review=" + review + ", score=" + score + ", place="
+				+ place + ", images=" + images + ", files=" + files + ", hashTags=" + hashTags + ", assets=" + assets
+				+ "]";
 	}
 
 }

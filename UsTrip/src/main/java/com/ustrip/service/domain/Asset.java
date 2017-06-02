@@ -15,6 +15,7 @@ public class Asset {
 	private Date startDate;
 	private Date endDate;
 	private int totalDate;
+	private Date regDate;
 	
 	public Asset(){		
 	}
@@ -107,9 +108,16 @@ public class Asset {
 		this.endDate = endDate;
 	}
 
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
 	@Override
 	public String toString() {
 		return "AssetVo = [assetNo : "+assetNo+", travNo : "+travNo+", blogNo : "+blogNo+", visitDate : "+visitDate+", usage : "+usage+", assetCategory : "+assetCategory+", charge : "+charge+" ]";
-				}
-
+	}
 }

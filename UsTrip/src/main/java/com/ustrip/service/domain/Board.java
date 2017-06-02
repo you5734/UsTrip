@@ -102,5 +102,5 @@ public class Board {
 	public String toString() {
 		return "boardVO = [ boardNo : "+boardNo+", nickName : "+travNo+", hits : "+hits+", boardContent : "+boardContent+", boardTitle : "+boardTitle+", regDate : "+regDate+", boardCategory : "+boardCategory+"countComment : "+countComment+"myComment : "+myComment+" ]";
 	}
-
+	
 }

@@ -18,8 +18,7 @@ public class UserServiceImpl implements UserService {
 	
 	///Field
 	@Autowired
-	@Qualifier("userDaoImpl")
-	
+	@Qualifier("userDaoImpl")	
 	private UserDao userDao;
 	
 	public void setUserDao(UserDao userDao) {
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = userDao.getUser(userId);
 		
-		if(user != null ) {
+		if(user != null ) {	//userId°¡ Á¸ÀçÇÑ´Ù¸é false
 			result = false;
 		}
 		return result;
@@ -81,6 +80,11 @@ public class UserServiceImpl implements UserService {
 		map.put("totalCount", totalCount);
 		
 		return map;
+	}
+	
+	//È¸¿øÅ»Åð
+	public void withdrawUser(String userId) throws Exception{
+		userDao.withdrawUser(userId);
 	}
 	
 

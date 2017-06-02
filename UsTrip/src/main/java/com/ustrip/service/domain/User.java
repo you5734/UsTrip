@@ -2,8 +2,6 @@ package com.ustrip.service.domain;
 
 import java.sql.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class User {
 	
 	//Field
@@ -21,7 +19,7 @@ public class User {
 	public User() {
 	}
 
-	//Method
+
 	public String getUserId() {
 		return userId;
 	}

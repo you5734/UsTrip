@@ -9,14 +9,14 @@
  	
  	
 	<resultMap id="userSelectMap" type="user">
-		<result property="userId" 					column="user_id" 				jdbcType="VARCHAR"/>
+		<result property="userId" 				column="user_id" 				jdbcType="VARCHAR"/>
 		<result property="nickName"			column="nickname" 			jdbcType="VARCHAR" />
-		<result property="password" 			column="passwd" 				jdbcType="VARCHAR" />
+		<result property="password" 			column="passwd" 			jdbcType="VARCHAR" />
 		<result property="birthDate" 			column="birth_date" 			jdbcType="DATE" />
-		<result property="profileImage" 	column="profile_image" 	jdbcType="VARCHAR" />
+		<result property="profileImage" 		column="profile_img" 		jdbcType="VARCHAR" />
 		<result property="gender" 				column="gender" 				jdbcType="VARCHAR" />
-		<result property="role" 						column="role" 						jdbcType="NUMERIC" />
-		<result property="isDelete" 				column="is_delete" 				jdbcType="NUMERIC" />
+		<result property="role" 					column="role" 					jdbcType="NUMERIC" />
+		<result property="isDelete" 			column="is_delete" 			jdbcType="NUMERIC" />
 		
 	</resultMap>
 	
@@ -24,7 +24,7 @@
 		 <insert id="addUser" parameterType="user">
 		 	INSERT
 		 	INTO users
-		 	VALUES ( 	#{userId}, 
+		 	VALUES ( 		#{userId}, 
 							 	#{nickName}, 
 							 	#{password}, 
 							 	#{birthDate}, 
@@ -38,7 +38,7 @@
 		 <insert id="extraUserInfo" parameterType="user">
 		 	INSERT
 		 	INTO users
-		 	VALUES ( 	#{userId}, 
+		 	VALUES ( 		#{userId}, 
 							 	#{nickName}, 
 							 	#{password}, 
 							 	#{birthDate}, 
@@ -51,7 +51,7 @@
 		<!-- SQL : SELECT ONE 정보조회-->
 		 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 			SELECT
-			user_id, nickName, password, birthDate, profileImage, gender, role, isDelete
+			user_id, nickName, passwd, birth_date, profile_img, gender, role, is_delete
 			FROM users 
 			WHERE user_id = #{value}
 		 </select>
@@ -64,5 +64,26 @@
 			WHERE nickname = #{value}
 		 </select>
 		 
+		 <!-- SQL : UPDATE 회원정보수정-->
+		 <update	id="updateUser"	parameterType="user" >
+		   	UPDATE users
+		   	<set>
+		   		nickName 	= #{nickName},
+				passwd		= #{password},
+				profile_img 	= #{profileImage:VARCHAR}
+		   	</set>
+		   	WHERE user_id = #{userId}
+		 </update>	 
 		 
+		 <!-- SQL : UPDATE 회원탈퇴-->
+		 <update	id="withdrawUser"	parameterType="string" >
+		   	UPDATE users
+		   	<set>
+		   		is_delete = 0
+		   	</set>
+		   	WHERE user_id = #{userId}
+		 </update>	 
+		 
+		 
+			 
 </mapper>

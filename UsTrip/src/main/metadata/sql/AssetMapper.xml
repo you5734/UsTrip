@@ -20,10 +20,13 @@
   		<result property="totalDate" 				column="TOTAL_DATE" 			jdbcType="INTEGER"/>
   	</resultMap>
   	
-  	 <insert 	id="addAsset"	 parameterType="asset" >
+  	 <insert 	id="addAsset"	 parameterType="asset" useGeneratedKeys="false">
   	  INSERT 
-      INTO asset
-      VALUES(SEQ_ASSET_NO.nextval, #{travNo}, #{blogNo}, #{visitDate}, SYSDATE, #{assetCategory},  #{usage:VARCHAR}, #{charge})
+      INTO asset (asset_no, trav_no, blog_no, visit_date, reg_date, asset_category, usage, charge)
+      VALUES(SEQ_ASSET_NO.nextval, #{travNo}, #{blogNo}, #{visitDate}, SYSDATE, #{assetCategory}, #{usage:VARCHAR}, #{charge})
+  	  <selectKey keyProperty="assetNo" resultType="Integer" order="AFTER">
+        	SELECT seq_asset_no.currval FROM dual
+      </selectKey>
   	 </insert>
   	 
   	 <update	id="updateAsset"	parameterType="asset" >
@@ -45,6 +48,11 @@
 	 WHERE ASSET_NO = #{assetNo}
 	 </delete>
 	 
+	 <delete id="deleteAssetByBlogNo" parameterType="int" >
+	 	DELETE FROM asset
+	 	WHERE blog_no = #{blogNo}
+	 </delete>
+	 
 	 <select  id="getAsset"  parameterType="asset"	resultMap="assetSelectMap">
 	 select a.asset_no,a.trav_no,a.blog_no,a.visit_date,a.asset_category,a.usage,charge,t.trav_title,t.start_date,t.total_date
 from
@@ -59,6 +67,12 @@ from
 (select asset_no,trav_no,blog_no,visit_date,reg_date,asset_category,usage,charge from asset) a,
 (select trav_no,trav_title,start_date,total_date from travel) t
 where a.trav_no(+) = t.trav_no and a.asset_no = #{assetNo}
+	  </select>
+	  
+	  <select  id="getAssetByBlogNo"  parameterType="int"	resultMap="assetSelectMap">
+	  	SELECT usage, asset_category, asset_no, charge
+	  	FROM asset
+	  	WHERE blog_no=#{blogNo}
 	  </select>
   	
  </mapper>
