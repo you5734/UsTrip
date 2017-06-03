@@ -127,7 +127,7 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
-	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
+	public String login(@ModelAttribute("user") User user , HttpSession session, Model model ) throws Exception{
 		
 		System.out.println("/user/login : POST");
 
@@ -138,7 +138,9 @@ public class UserController {
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
-			destinate="redirect:/user/getUser?userId="+dbUser.getUserId();
+			model.addAttribute("user", user);
+			/*destinate="redirect:/user/getUser?userId="+dbUser.getUserId();*/
+			destinate="redirect:/view/user/listTravel.jsp";
 		} 		
 		System.out.println(session.getAttribute("user"));
 		
@@ -159,9 +161,25 @@ public class UserController {
 	}
 
 	@RequestMapping( value="updateUser", method=RequestMethod.POST )
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
+	public String updateUser( @ModelAttribute("user") User user, @RequestParam("file") MultipartFile file,
+			Model model , HttpSession session, HttpServletRequest request) throws Exception{
 
 		System.out.println("/user/updateUser : POST");
+		
+		String fileName = file.getOriginalFilename();
+		String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);		
+		user.setProfileImage(newFileName);		
+		//System.out.println("fileName :: " + fileName);
+		//System.out.println("newFileName :: " + newFileName);
+		
+		try{
+			//request.getSession().getServletContext().getRealPath("/")
+			File imageFile = new File(request.getSession().getServletContext().getRealPath("/") + "images/upload/profile/", newFileName );
+			System.out.println("imageFile :: " + imageFile);
+			file.transferTo(imageFile);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}	
 
 		userService.updateUser(user);
 		
