@@ -47,11 +47,27 @@
 	        		  var tempId = userId.split(".");
 	        		  console.log("userId :: " + userId);
 	        		  console.log("tempId :: " + tempId);
-	        		  /* 타계정 로그인 시 처음방문한 사람인지 확인 
-	        		  * self.location="/user/getUser?tempId="+tempId; */
+	        		  /* 타계정 로그인 시 처음방문한 사람인지 확인 */
 	        		  
-	        		  self.location="/view/user/login.jsp?kakao=0&tempId="+tempId;	
-	        		
+					$.ajax(
+						 {
+			    			 url : '/user/checkUserId/'+tempId,
+			    			 method : "GET",
+			    			 dataType : "json",
+			    			 headers : {
+			    				 "Accept" : "application/json",
+			    				 "Content-Type" : "application/json"
+		    				 },
+			    			 context : this,
+			    			 success : function(JSONData, status) {		    				 
+			    				   				 
+			    				 if( JSONData.result ) {
+			    					 self.location="/view/user/login.jsp?kakao=0&tempId="+tempId;	
+			    				 } else {
+			    					 self.location="/user/getUser?userId="+userId;						 
+			    				 }	
+		    			 	}
+		    		 });	
 	        	  }	//success:(res) close	        	  
 	          });
 	        },
@@ -60,38 +76,54 @@
 	        }
 	      });
 	    };
-
+//	client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
 	    //google
-	    $( function() {
-				var googleUser = {};
-			$(".buttonText").on("click" , function() {
-				console.log("dddddddd");
-				gapi.load('auth2', function(){
-				// Retrieve the singleton for the GoogleAuth library and set up the client.
-				 auth2 = gapi.auth2.init({
-					client_id: '240419245572-40o3ev6lrtro935gb6aqvske3rv8toah.apps.googleusercontent.com',
-					cookiepolicy: 'single_host_origin',
-					// Request scopes in addition to 'profile' and 'email'
-					//scope: 'additional_scope'
-				});
-				attachSignin(document.getElementById('customBtn'));
-				});
-			});;
-	    });
+		$( function() {
+		    $(".buttonText").on("click" , function() {
+		    	alert("ddd");
+				gapi.load('auth2', function() {
+					auth2 = gapi.auth2.init({
+					client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
+					fetch_basic_profile: false,
+					scope: 'profile'
+		  		});
 		
-		function attachSignin(element) {
-			console.log(element.id); 
-
-			auth2.attachClickHandler(element, {},
-				function(googleUser) {
-				document.getElementById('name').innerText = "Signed in: " +
-				/*  googleUser.getBasicProfile().getName(); */
-				googleUser.getBasicProfile().getEmail();
-			}, function(error) {
-				alert(JSON.stringify(error, undefined, 2));
+				// Sign the user in, and then retrieve their ID.
+				auth2.signIn().then(function() {
+				    console.log(auth2.currentUser.get().getId());
+				    
+				    var profile = auth2.currentUser.get().getBasicProfile();
+				    console.log('Email: ' + profile.getEmail());
+				    
+				    var userId = profile.getEmail();
+	        		var tempId = userId.split(".");
+	        		
+					$.ajax(
+						 {
+			    			 url : '/user/checkUserId/'+tempId,
+			    			 method : "GET",
+			    			 dataType : "json",
+			    			 headers : {
+			    				 "Accept" : "application/json",
+			    				 "Content-Type" : "application/json"
+		    				 },
+			    			 context : this,
+			    			 success : function(JSONData, status) {		    				 
+			    				   				 
+			    				 if( JSONData.result ) {	//처음방문자일경우
+									self.location="/view/user/login.jsp?google=1&tempId="+tempId;
+			    				 } else {	//이미 등록된 회원일경우
+			    					 self.location="/user/getUser?userId="+userId;					 
+			    				 }	
+		    			 	}
+		    		 });	
+	        		  
+	        	/* 	self.location="/view/user/login.jsp?google=1&tempId="+tempId;	 */
+				  });
+				});
 			});
-		}
-		
+		});
+	    
 		//로그인 Event처리
 		$( function() {
 			
@@ -111,9 +143,7 @@
 					alert('패스워드를 입력하지 않으셨습니다.');
 					$("#password").focus();
 					return;
-				} else {
-					
-				}
+				} 
 				
 				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 			});							
@@ -138,7 +168,7 @@
 			display: inline-block;
 			background: white;
 			color: #444;
-			width: 190px;
+			width: 180px;
 			border-radius: 5px;
 			border: thin solid #888;
 			box-shadow: 1px 1px 1px grey;
@@ -227,14 +257,12 @@
 					 					 
 					 					 <!-- ////////////////  google 로그인 버튼 ////////////////// -->
 										<div id="gSignInWrapper">
-											<span class="label"> </span>
-												<div id="customBtn" class="customGPlusSignIn">
-													<span class="icon"></span>
-													<span class="buttonText">Google</span>
-												</div>
+											<div id="customBtn" class="customGPlusSignIn" style="width:180px;" >
+												<span class="icon"></span>
+													<span class="buttonText" >Google</span>
 											</div>
-											<div id="name"></div>
-										<!-- <script>startApp();</script> -->
+										</div>
+										<div id="name"></div>
 					 				</form>
 			                    </div>
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
@@ -286,8 +314,9 @@
 														 	  </div>
 													 	  </div> 
 													 	  
-													 	  <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
+													 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
 								     					 <input type="hidden" value="${param.kakao}" id="kakao">
+								     					 <input type="hidden" value="${param.google}" id="google">
 													      <!-- Allow form submission with keyboard without duplicating the dialog button -->
 													       <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
 												  </form>
@@ -307,7 +336,7 @@
 	
 	var dialog, form;
 	
-	if($('#kakao').val() =="0" ) {
+	if($('#kakao').val() =="0" || $('#google').val() == '1' ) {
 		var userId = $("#tempId").val();
 		alert("userId :: 가져오닝" + userId);
 		dialog = $('#dialog-form').dialog({			
