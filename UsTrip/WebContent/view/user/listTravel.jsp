@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,37 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<script src="https://use.fontawesome.com/04438b50a5.js"></script>
+	
+	<script type="text/javascript">
+	
+	 $(function() {
+			$( "#follow" ).on("click" , function() {
+				var targetUserId = $("#userId").val();
+				alert("targetUserid :: " + targetUserId);
+				targetUserId=targetUserId.split(".");
+				/* self.location="/user/addFollow?targetUserId="+targetUserId; */
+				
+				$.ajax(
+					{
+						url : '/user/addFollow/'+targetUserId,
+						method : "GET",
+						dataType : "json",
+						headers : {
+							 "Accept" : "application/json",
+							 "Content-Type" : "application/json"
+						 },
+						 context : this,
+						 success : function(JSONData, status) {
+							 $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff');
+							 
+						 }
+					}		
+				)
+			});
+		});	
+		
+	
+	</script>
 	
 	<style>
 		body {
@@ -124,19 +156,25 @@
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
-					<div class="profile-usertitle-name" id=nickName>
+					<div class="profile-usertitle-name">
 						${user.nickName}
 					</div>
-					<div class="profile-usertitle-job" id="userId">
+					<div class="profile-usertitle-job">
+					<input type="hidden" id="userId" value="${user.userId}">
 						${user.userId}
 					</div>
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follow</button>
-					<button type="button" class="btn btn-danger btn-sm">Message</button>
+					<input type="button" class="btn btn-sm" id="follow" value="follow">
+					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
 				</div>
+				<div class="profile-userbuttons">
+					<button type="button" class="btn btn-sm">회원정보수정</button>
+					<button type="button" class="btn btn-sm">회원정보조회</button>
+				</div>
+				
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">

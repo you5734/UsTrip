@@ -17,7 +17,6 @@
 		<result property="gender" 				column="gender" 				jdbcType="VARCHAR" />
 		<result property="role" 					column="role" 					jdbcType="NUMERIC" />
 		<result property="isDelete" 			column="is_delete" 			jdbcType="NUMERIC" />
-		
 	</resultMap>
 	
 	<!-- SQL : INSERT 기본 회원가입-->

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ustrip.common.Page;
 import com.ustrip.common.Search;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
 import com.ustrip.service.user.UserService;
 
@@ -276,5 +277,29 @@ public class UserController {
 	    return "redirect:/user/login";
 	  }
 	
+	@RequestMapping( value="addFollow/{targetUserId}", method=RequestMethod.GET )
+	public String addFollow( @PathVariable String targetUserId, HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/user/addFollow : GET");
+		
+		targetUserId=targetUserId.replace(",", ".");
+		String sessionId=((User)session.getAttribute("user")).getUserId();
+
+		userService.addFollow(targetUserId, sessionId);
+
+		return "forward:/view/user/listTravel.jsp";
+	}
+	
+/*	@RequestMapping( value="listTravel", method=RequestMethod.GET )
+	public String listTravel( @RequestParam("targetUserId") String targetUserId, HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/user/addFollow : GET");
+		
+		String sessionId=((User)session.getAttribute("user")).getUserId();
+
+		userService.addFollow(targetUserId, sessionId);
+
+		return "forward:/view/user/listTravel.jsp";
+	}*/
 	
 }

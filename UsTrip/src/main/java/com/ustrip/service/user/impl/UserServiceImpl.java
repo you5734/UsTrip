@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ustrip.common.Search;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
 import com.ustrip.service.user.UserDao;
 import com.ustrip.service.user.UserService;
@@ -102,5 +103,13 @@ public class UserServiceImpl implements UserService {
 		 return uuid;
 	}
 
+	public void addFollow(String targetUserId, String folUserId) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("targetUserId", targetUserId);
+		map.put("folUserId", folUserId);
+		userDao.addFollow(map);
+	}
 
 }

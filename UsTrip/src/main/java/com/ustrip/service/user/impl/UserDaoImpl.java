@@ -1,6 +1,7 @@
 package com.ustrip.service.user.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ustrip.common.Search;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
 import com.ustrip.service.user.UserDao;
 
@@ -59,5 +61,9 @@ public class UserDaoImpl implements UserDao {
 		sqlSession.update("UserMapper.withdrawUser", userId);
 	}
 	
+	public void addFollow(Map<String, Object> map) throws Exception{
+		System.out.println("map :::::::::::::::: " + map);
+		sqlSession.insert("FollowMapper.addFollow", map);
+	}
 
 }

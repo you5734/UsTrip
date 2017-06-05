@@ -80,7 +80,6 @@
 	    //google
 		$( function() {
 		    $(".buttonText").on("click" , function() {
-		    	alert("ddd");
 				gapi.load('auth2', function() {
 					auth2 = gapi.auth2.init({
 					client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',

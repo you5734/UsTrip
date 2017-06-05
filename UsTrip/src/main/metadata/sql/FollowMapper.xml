@@ -6,4 +6,21 @@
 
 <mapper namespace="FollowMapper">
 
+	
+	<resultMap id="followSelectMap" type="follow">
+		<result property="followNo" 			column="follow_no" 			jdbcType="NUMERIC" />
+		<result property="folUserId" 			column="fol_user_id" 		jdbcType="VARCHAR"/>
+		<result property="targetUserId"		column="target_user_id" 	jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- SQL : INSERT 팔로우 추가-->
+	<insert id="addFollow" parameterType="map">
+		INSERT
+		INTO follow
+		VALUES ( 	seq_follow_no.nextval, 
+					 	#{folUserId}, 
+					 	#{targetUserId}
+				)		 	
+	</insert>
+
 </mapper>
