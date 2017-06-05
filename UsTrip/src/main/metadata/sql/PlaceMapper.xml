@@ -61,4 +61,23 @@
 	 		next_place_no=place_no
 	 </select>
 	 
+	 <insert id="addPlace" parameterType="place">
+		INSERT INTO place(place_no, city_no, trav_no, place_id, place, 
+		place_x, place_y, pre_place_no, next_place_no, memo, visit_date)		
+		VALUES (seq_place_no.nextval, #{cityNo}, #{travelNo}, #{placeId}, #{place},
+				#{placeX}, #{placeY}, #{prePlaceNo:NUMERIC}, #{nextPlaceNo:NUMERIC}, #{memo}, #{visitDate})
+	</insert>
+	
+	
+	
+	<!-- SQL : SELECT ONE -->
+	<!-- WHERE 부분 PLACE명으로 바꿀지 생각해봐야함 
+	아직 작동 안함 오류남 -->
+	<select id="getPlace" parameterType="string"	resultMap="placeSelectMap">
+		SELECT
+		*		
+		FROM place 
+		WHERE place_no = #{value}
+	</select>
+	 
 </mapper>
