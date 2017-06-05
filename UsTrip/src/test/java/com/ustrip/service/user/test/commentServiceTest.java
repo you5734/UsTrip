@@ -46,7 +46,7 @@ public class commentServiceTest {
 	@Qualifier("commentServiceImpl")
 	private CommentService commentdService;
 	
-	@Test
+	//@Test
 	public void testfindpur() throws Exception {
 		
 		Comment comment = new Comment();
@@ -87,7 +87,7 @@ public class commentServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testget() throws Exception {
 		
 		HashMap hm = new HashMap();
