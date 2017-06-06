@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.ustrip.common.Search;
 import com.ustrip.service.board.BoardDao;
 import com.ustrip.service.domain.Board;
 
@@ -30,13 +31,6 @@ public class BoardDaoImpl implements BoardDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("BoardMapper.addBoard",board);
 	}
-
-	@Override
-	public List<Board> listBoard(int boardCategory) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("BoardMapper.listBoard",boardCategory);
-	}
-
 	@Override
 	public int updateBoard(Board board) throws Exception {
 		// TODO Auto-generated method stub
@@ -53,6 +47,24 @@ public class BoardDaoImpl implements BoardDao {
 	public Board getBoard(int boardNo) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("BoardMapper.getBoard", boardNo);
+	}
+
+	@Override
+	public List<Board> listBoardDESC(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("BoardMapper.getBoardDESC",search);
+	}
+
+	@Override
+	public List<Board> listBoardASC(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("BoardMapper.getBoardASC",search);
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("BoardMapper.getTotalCount",search);
 	}
 
 }

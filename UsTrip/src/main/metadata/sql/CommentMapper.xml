@@ -45,5 +45,12 @@
 	 </foreach>
 	 ORDER BY REG_DATE DESC
 	 </select>
+	 
+	 <select  id="getComment"  parameterType="comment"	resultMap="commentSelectMap">
+	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT
+	 FROM board_comment
+	 WHERE BOARD_NO = #{boardNo}
+	 ORDER BY REG_DATE DESC
+	 </select>
 
 </mapper>

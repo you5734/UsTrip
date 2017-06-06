@@ -50,4 +50,10 @@ public class CommentServiceImpl implements CommentService{
 		return commentDao.deleteComment(commentNo);
 	}
 
+	@Override
+	public List<Comment> getComment(int boardNo) throws Exception {
+		// TODO Auto-generated method stub
+		return commentDao.getComment(boardNo);
+	}
+
 }

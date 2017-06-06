@@ -87,7 +87,7 @@ public class commentServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testget() throws Exception {
 		
 		HashMap hm = new HashMap();
@@ -102,6 +102,14 @@ public class commentServiceTest {
 		Assert.assertEquals(2, comment.size());
 		
 	}
+	
+	//@Test
+		public void testget1() throws Exception {
+			
+			List<Comment> check = commentdService.getComment(70004);
+			Assert.assertEquals(3, check.size());
+			
+		}
 		
 }
 	
