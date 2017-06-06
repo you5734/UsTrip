@@ -46,7 +46,7 @@ public class commentServiceTest {
 	@Qualifier("commentServiceImpl")
 	private CommentService commentdService;
 	
-	@Test
+	//@Test
 	public void testfindpur() throws Exception {
 		
 		Comment comment = new Comment();
@@ -102,6 +102,14 @@ public class commentServiceTest {
 		Assert.assertEquals(2, comment.size());
 		
 	}
+	
+	//@Test
+		public void testget1() throws Exception {
+			
+			List<Comment> check = commentdService.getComment(70004);
+			Assert.assertEquals(3, check.size());
+			
+		}
 		
 }
 	

@@ -19,6 +19,8 @@ public class Search {
 	private int startRowNum;
 	private List<Integer> placeOrder;
 	private String searchDate;
+	private int boardCategory;
+	private String order;
 
 	///Constructor
 	public Search() {
@@ -69,11 +71,23 @@ public class Search {
 	public void setSearchDate(String searchDate) {
 		this.searchDate = searchDate;
 	}
+	public int getBoardCategory() {
+		return boardCategory;
+	}
+	public void setBoardCategory(int boardCategory) {
+		this.boardCategory = boardCategory;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
 				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
-				+ ", placeOrder=" + placeOrder + ", searchDate=" + searchDate + "]";
+				+ ", placeOrder=" + placeOrder + ", searchDate=" + searchDate +", order ="+order+", boardCategory ="+boardCategory+ "]";
 	}
 	
 }

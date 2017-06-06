@@ -66,9 +66,14 @@
 	 
 	 <insert	id="addLikeTravel" parameterType="String">
 	 	INSERT
-	 	like_no, user_id, trav_no
-	 	INTO like_travel
+	 	INTO like_travel(like_no, user_id, trav_no)
 	 	VALUES (seq_like_no.nextval, #{travNo}, #{userId})
+	 </insert>
+	 
+	 <insert id="addLike" parameterType="search">
+	 	INSERT
+	 	INTO like_travel(like_no, user_id, trav_no)
+	 	VALUES(seq_like_no.nextval, #{searchKeyword}, #{searchCondition})
 	 </insert>
 	 
 	 <select	id="getBlog"	parameterType="int"		resultMap="blogSelectMap">
@@ -149,6 +154,11 @@
 	 	WHERE tag_no=#{tagNo}
 	 </delete>
 	 
+	 <delete	id="deleteImage" parameterType="int">
+	 	DELETE FROM image
+	 	WHERE image_no=#{imgNo}
+	 </delete>
+	 
 	 <select id="checkLikeTravel" parameterType="search" resultType="int">
 	 	SELECT COUNT(*)
 	 	FROM(			SELECT like_no
@@ -157,8 +167,12 @@
 	 					)countTable
 	 </select>
 	 
-
-	  <!-- 
+	 <delete id="deleteLike" parameterType="search">
+	 	DELETE
+	 	FROM like_travel
+	 	WHERE trav_no=#{searchCondition} AND user_id=#{searchKeyword}
+	 </delete>
+	 
 	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
 	 	SELECT
 	 	like_no, trav_no, user_id
@@ -166,29 +180,4 @@
 	 	WHERE user_id=#{userId}
 	 </select>
 	 
-	 
-	 <update	id="updateHashTag"	parameterType="hashTag" >
-		UPDATE hash_tag
-		<set> 
-			<foreach item="item" collection="list" separator=",">
-				tag_no=#{item.tagNo},
-				blog_no=#{item.blogNo},
-				hash_tag=#{item.hashTag}
-			</foreach>
-	   	</set>
-	   	WHERE blog_no=#{blogNo}
-	 </update>
-	 
-	 <delete id="deleteBlog" parameterType="int">
-	 	DELETE
-	 	FROM blog
-	 	WHERE blog_no=#{blogNo}
-	 </delete>
-	 
-	 <delete id="deleteImage" parameterType="int">
-	 	DELETE
-	 	FROM image
-	 	WHERE image_no=#{imageNo}
-	 </delete>
-		 -->
 </mapper>

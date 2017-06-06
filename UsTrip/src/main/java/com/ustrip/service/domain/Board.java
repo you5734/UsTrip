@@ -100,7 +100,7 @@ public class Board {
 
 	@Override
 	public String toString() {
-		return "boardVO = [ boardNo : "+boardNo+", nickName : "+travNo+", hits : "+hits+", boardContent : "+boardContent+", boardTitle : "+boardTitle+", regDate : "+regDate+", boardCategory : "+boardCategory+"countComment : "+countComment+"myComment : "+myComment+" ]";
+		return "boardVO = [ boardNo : "+boardNo+", nickName : "+travNo+", hits : "+hits+", boardContent : "+boardContent+", boardTitle : "+boardTitle+", regDate : "+regDate+", boardCategory : "+boardCategory+"countComment : "+countComment+" ]";
 	}
 	
 }

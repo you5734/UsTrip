@@ -16,11 +16,6 @@
 	<link href="/css/lightbox.css" rel="stylesheet">
   	<script src="/js/lightbox.js"></script>
 	
-	<style>
-	    #dialog-form { display:none; }
-    	input.text { width:60%; padding: .4em; }
-		.validateTips { border: solid transparent; padding: 0.3em; color:blue; }
-  	</style>
   	
 	<script type="text/javascript">
 	
@@ -211,6 +206,25 @@
 					});
 		});
 		
+		$('body').on('click' , '#deleteImage', function() {
+			var imgNo=$(this).next().val();
+			
+			$.ajax( 
+					{
+						url : "/blog/deleteJsonImage/"+imgNo,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						context : this,
+						success : function(serverData , status) {
+							$( "#"+imgNo+"" ).remove();
+						}
+					});
+		});
+		
 		$("#btn").click(function(){
 			
 			$('#addImage').ajaxForm({
@@ -270,18 +284,19 @@
 						<hr/>
 						
 						
-						<div class="form-group">
-			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
-			            	<div class="col-sm-8">
-			            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
-				              		<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-		                    		<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
-			            		</c:forEach>
-			            	</div>
-			            	<label class="col-sm-2 control-label" for="textinput">
-				              		
-				            </label>
-			          	</div>
+							<div class="form-group">
+				            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
+				            	<div class="col-sm-8">
+				            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
+					            		<span id="${images.imgNo}">
+							              	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
+					                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+							              	<i class="fa fa-times" aria-hidden="true" id="deleteImage"></i>
+				                    		<input type="hidden" value="${images.imgNo}">
+				                    	</span>
+			          				</c:forEach>
+				            	</div>
+				          	</div>
 						
 			          	<div class="form-group">
 			            	<label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
