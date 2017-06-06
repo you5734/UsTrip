@@ -18,6 +18,21 @@
 		<result property="thumbNail" 			column="thumb_nail" 		jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<insert id="addTravel" parameterType="travel">
+		INSERT INTO travel(trav_no, user_id, trav_title, trav_theme, member_count, 
+		start_date, total_date, is_blog_start, thumb_nail)
+		VALUES (seq_trav_no.nextval, #{userId}, #{travTitle}, #{travTheme}, #{memberCount},
+				#{startDate}, #{totalDate}, #{isBlogStart}, #{thumbNail:VARCHAR})
+	</insert>
+	
+	<!-- SQL : SELECT ONE -->
+	<select id="getTravel" parameterType="travel"	resultMap="travelSelectMap">
+		SELECT
+		*		
+		FROM travel 
+		WHERE trav_title=#{value}
+	</select>
+	
 	 <select id="checkBlogStart" parameterType="int" resultMap="travelSelectMap">
 	 	SELECT
 	 	trav_no, is_blog_start, trav_title, TO_CHAR(start_date,'yy/MM/dd') start_date, user_id

@@ -16,6 +16,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+	<script src="https://apis.google.com/js/api:client.js"></script>
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	
 	<!-- ///////////////////////// Modal popup  및 달력UI /////////////////////////////// -->
@@ -44,11 +47,27 @@
 	        		  var tempId = userId.split(".");
 	        		  console.log("userId :: " + userId);
 	        		  console.log("tempId :: " + tempId);
-	        		  /* 타계정 로그인 시 처음방문한 사람인지 확인 
-	        		  * self.location="/user/getUser?tempId="+tempId; */
+	        		  /* 타계정 로그인 시 처음방문한 사람인지 확인 */
 	        		  
-	        		  self.location="/view/user/login.jsp?kakao=0&tempId="+tempId;	
-	        		
+					$.ajax(
+						 {
+			    			 url : '/user/checkUserId/'+tempId,
+			    			 method : "GET",
+			    			 dataType : "json",
+			    			 headers : {
+			    				 "Accept" : "application/json",
+			    				 "Content-Type" : "application/json"
+		    				 },
+			    			 context : this,
+			    			 success : function(JSONData, status) {		    				 
+			    				   				 
+			    				 if( JSONData.result ) {
+			    					 self.location="/view/user/login.jsp?kakao=0&tempId="+tempId;	
+			    				 } else {
+			    					 self.location="/user/getUser?userId="+userId;						 
+			    				 }	
+		    			 	}
+		    		 });	
 	        	  }	//success:(res) close	        	  
 	          });
 	        },
@@ -57,7 +76,53 @@
 	        }
 	      });
 	    };
+//	client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
+	    //google
+		$( function() {
+		    $(".buttonText").on("click" , function() {
+				gapi.load('auth2', function() {
+					auth2 = gapi.auth2.init({
+					client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
+					fetch_basic_profile: false,
+					scope: 'profile'
+		  		});
 		
+				// Sign the user in, and then retrieve their ID.
+				auth2.signIn().then(function() {
+				    console.log(auth2.currentUser.get().getId());
+				    
+				    var profile = auth2.currentUser.get().getBasicProfile();
+				    console.log('Email: ' + profile.getEmail());
+				    
+				    var userId = profile.getEmail();
+	        		var tempId = userId.split(".");
+	        		
+					$.ajax(
+						 {
+			    			 url : '/user/checkUserId/'+tempId,
+			    			 method : "GET",
+			    			 dataType : "json",
+			    			 headers : {
+			    				 "Accept" : "application/json",
+			    				 "Content-Type" : "application/json"
+		    				 },
+			    			 context : this,
+			    			 success : function(JSONData, status) {		    				 
+			    				   				 
+			    				 if( JSONData.result ) {	//처음방문자일경우
+									self.location="/view/user/login.jsp?google=1&tempId="+tempId;
+			    				 } else {	//이미 등록된 회원일경우
+			    					 self.location="/user/getUser?userId="+userId;					 
+			    				 }	
+		    			 	}
+		    		 });	
+	        		  
+	        	/* 	self.location="/view/user/login.jsp?google=1&tempId="+tempId;	 */
+				  });
+				});
+			});
+		});
+	    
 		//로그인 Event처리
 		$( function() {
 			
@@ -77,9 +142,7 @@
 					alert('패스워드를 입력하지 않으셨습니다.');
 					$("#password").focus();
 					return;
-				} else {
-					
-				}
+				} 
 				
 				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 			});							
@@ -99,8 +162,42 @@
     	input.text { width:60%; padding: .4em; }
 		fieldset { padding:0; border:0; margin-top:5px; }
 		.validateTips { border: solid transparent; padding: 0.3em; color:red; }
+		
+		#customBtn {
+			display: inline-block;
+			background: white;
+			color: #444;
+			width: 180px;
+			border-radius: 5px;
+			border: thin solid #888;
+			box-shadow: 1px 1px 1px grey;
+			white-space: nowrap;
+		}
+		#customBtn:hover {
+			cursor: pointer;
+		}
+		span.label {
+			font-family: serif;
+			font-weight: normal;
+		}
+		span.icon {
+			background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			width: 42px;
+			height: 42px;
+		}
+		span.buttonText {
+			display: inline-block;
+			vertical-align: middle;
+			padding-left: 42px;
+			padding-right: 42px;
+			font-size: 14px;
+			font-weight: bold;
+			/* Use the Roboto font that is loaded in the <head> */
+			font-family: 'Roboto', sans-serif;
+		}
 	</style>
-	
 </head>
 <body class="bodycss">
         <div class="top-content" align="center">
@@ -148,6 +245,7 @@
 					                        <button type="button" class="btn" id="join">Join us!</button>
 				                        </div>
 				                        
+				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
 				                        <div class="form-group">
 					  		 				<div class="col-sm-offset text-center">					      
 					      						<a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -155,7 +253,16 @@
 												</a>
 					   						 </div>
 					 					 </div>
-					 					 </form>
+					 					 
+					 					 <!-- ////////////////  google 로그인 버튼 ////////////////// -->
+										<div id="gSignInWrapper">
+											<div id="customBtn" class="customGPlusSignIn" style="width:180px;" >
+												<span class="icon"></span>
+													<span class="buttonText" >Google</span>
+											</div>
+										</div>
+										<div id="name"></div>
+					 				</form>
 			                    </div>
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
 					 					 <div id="dialog-form" title="추가정보 입력">
@@ -206,8 +313,9 @@
 														 	  </div>
 													 	  </div> 
 													 	  
-													 	  <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
+													 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
 								     					 <input type="hidden" value="${param.kakao}" id="kakao">
+								     					 <input type="hidden" value="${param.google}" id="google">
 													      <!-- Allow form submission with keyboard without duplicating the dialog button -->
 													       <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
 												  </form>
@@ -227,7 +335,7 @@
 	
 	var dialog, form;
 	
-	if($('#kakao').val() =="0" ) {
+	if($('#kakao').val() =="0" || $('#google').val() == '1' ) {
 		var userId = $("#tempId").val();
 		alert("userId :: 가져오닝" + userId);
 		dialog = $('#dialog-form').dialog({			

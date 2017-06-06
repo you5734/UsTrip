@@ -3,6 +3,7 @@ package com.ustrip.service.user;
 import java.util.Map;
 
 import com.ustrip.common.Search;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
 
 public interface UserService {
@@ -30,5 +31,9 @@ public interface UserService {
 	
 	//È¸¿øÅ»Åð
 	public void withdrawUser(String userId) throws Exception;
+	
+	public String getRandomPassword(int length) throws Exception;
+	
+	public void addFollow(String targetUserId, String sessionId) throws Exception;
 		
 }

@@ -1,8 +1,10 @@
 package com.ustrip.service.user;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ustrip.common.Search;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
 
 public interface UserDao {
@@ -30,5 +32,8 @@ public interface UserDao {
 	
 	//È¸¿øÅ»Åð
 	public void withdrawUser(String userId) throws Exception;
+	
+	//follow Ãß°¡
+	public void addFollow(Map<String, Object> map) throws Exception;
 
 }

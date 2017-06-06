@@ -104,7 +104,7 @@
 
 <div class="container">
 	<h2 align="center">회원정보수정</h2><br>
-		<!-- <form class="form-horizontal" enctype="multipart/form-data"> -->
+		<form class="form-horizontal" enctype="multipart/form-data">
 		<form class="form-horizontal">
 
 		<!-- Text input-->
