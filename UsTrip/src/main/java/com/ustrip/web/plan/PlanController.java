@@ -1,8 +1,5 @@
 package com.ustrip.web.plan;
-/*
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +10,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.model2.mvc.common.Page;
-import com.model2.mvc.common.Search;
-import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.Purchase;
-import com.model2.mvc.service.domain.User;
-import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.user.UserService;
+import com.ustrip.service.domain.City;
+import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
+import com.ustrip.service.plan.PlanService;
+import com.ustrip.service.user.UserService;
 
 @Controller
-@RequestMapping("/purchase/*")
+@RequestMapping("/plan/*")
 public class PlanController {
 	///Field
 		@Autowired
-		@Qualifier("purchaseServiceImpl")
-		private PurchaseService purchaseService;
-		
-		@Autowired
-		@Qualifier("productServiceImpl")
-		private ProductService productService;
+		@Qualifier("planServiceImpl")
+		private PlanService planService;
 		
 		@Autowired
 		@Qualifier("userServiceImpl")
@@ -57,139 +44,94 @@ public class PlanController {
 		int pageSize;
 		
 		
-		//@RequestMapping("/addPurchaseView.do")
-		@RequestMapping( value="addPurchase", method=RequestMethod.GET )
-		public ModelAndView addPurchaseView(@RequestParam("prodNo") int prodNo ,@ModelAttribute("purchase") Purchase purchase,Model model) throws Exception {
+		//Travel 테이블
+		@RequestMapping( value="addTravel", method=RequestMethod.GET )
+		public String addTravel() throws Exception{
 			
-			Product product = productService.findProduct(prodNo);
-			ModelAndView modelAndView=new ModelAndView();
-	
-			
-			modelAndView.addObject("product",product);
-			modelAndView.setViewName("/purchase/addPurchaseView.jsp");
-			
-			return modelAndView;		
-			}
-		
-		//@RequestMapping("/addPurchase.do")
-		@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-		public String addPurchase(@RequestParam("userId") String userId, @RequestParam("prodNo") String stringProdNo, @ModelAttribute("purchase") Purchase purchase, Model model) throws Exception {
-			
-			System.out.println("/purchase/addPurchase : POST");
-			
-			int prodNo = Integer.parseInt(stringProdNo);
-			Product purchaseProd = productService.findProduct(prodNo);
-			purchase.setPurchaseProd(purchaseProd);
-			
-			User buyer = userService.getUser(userId);
-			purchase.setBuyer(buyer);
-			
-			purchaseService.addPurchase(purchase);
-			
-			model.addAttribute("purchase",purchase);
-			
-			return "forward:/purchase/addPurchase.jsp";
-		}
-		public String addPurchase(@ModelAttribute("purchase") Purchase purchase,Model model) throws Exception {
+			System.out.println("/plan/addTravel : GET");
 
-			
-			//Business Logic
-			System.out.println("sssssssssssssssssssssss"+purchase);
-			Product product=productService.findProduct(prodNo);
-			User user = userService.getUser(userId);
-			purchase.setBuyer(user);
-			purchase.setPurchaseProd(product);
-			//System.out.println("잘됐으면 좋겠당"+user);
-			purchaseService.addPurchase(purchase);
-			System.out.println("왜 안나와"+purchase);
-			
-			model.addAttribute("purchase",purchase);
-			
-			return "forward:/purchase/addPurchase.jsp";
-		}
-		
-		@RequestMapping( value="getPurchase")
-		public String getPurchase( @RequestParam("tranNo") int tranNo ,HttpSession session, Model model ) throws Exception {
-			
-			System.out.println("/getPurchase.do");
-			//Business Logic
-			Purchase purchase = purchaseService.getPurchase(tranNo);
-			// Model 과 View 연결
-			model.addAttribute("purchase", purchase);
-			
-			return "forward:/purchase/getPurchase.jsp";
+			return "redirect:/view/plan/addTravel.jsp";
 		}
 		
 		
-		@RequestMapping(value = "updatePurchaseView", method=RequestMethod.GET)
-		public String updatePurchase(@RequestParam("tranNo") int tranNo , Model model) throws Exception{
+		@RequestMapping( value="addTravel", method=RequestMethod.POST )
+		public String addTravel(@ModelAttribute("travel") Travel travel,
+									HttpSession session) throws Exception{
+			
+			System.out.println("/plan/addTravel : POST");
+			
+			planService.addTravel(travel);
+			
+			session.setAttribute("travel", planService.getTravel(travel));
+			
+			return "redirect:/view/plan/addCity.jsp";
+		}
 
-			System.out.println("/updatePurchaseView");
-			
-			Purchase purchase = purchaseService.getPurchase(tranNo);
-			
-			model.addAttribute("purchase", purchase);
-			//Business Logic
-			//purchaseService.updatePurchase(purchase);
-			
-			return "forward:/purchase/updatePurchaseView.jsp";
-		}
 		
-		@RequestMapping(value = "updatePurchaseView" , method = RequestMethod.POST)
-		public String updatePurchase(@ModelAttribute ("purchase") Purchase purchase ,@RequestParam("buyerId")String buyerId ) throws Exception{
+		//City 테이블
+		@RequestMapping( value="addCity", method=RequestMethod.POST )
+		public String addCity(@ModelAttribute("city") City city, 
+									HttpSession session) throws Exception{
 			
-			User user = userService.getUser(buyerId);
-			purchase.setBuyer(user);
+			System.out.println("/plan/addCity : POST");
 			
-			purchaseService.updatePurchase(purchase);
+			planService.addCity(city);
 			
-			return "redirect:/purchase/listPurchase";
+			session.setAttribute("city", planService.getCity(city));
+			
+			return "redirect:/view/plan/addPlace.jsp";
 		}
 		
 		
-		@RequestMapping(value = "listPurchase")
-		//@RequestMapping( value="addPurchase", method=RequestMethod.POST )
-		public String listPurchase( @ModelAttribute("search") Search search , HttpSession session ,Model model , HttpServletRequest request) throws Exception{
-			System.out.println("1빠");
+		//Place 테이블
+		@RequestMapping( value="addPlace", method=RequestMethod.POST )
+		public String addPlace(@ModelAttribute("place") Place place) throws Exception{
 			
-			String buyerId = ((User)session.getAttribute("user")).getUserId();
+			System.out.println("/plan/addPlace : POST");
 			
-			System.out.println("/listPurchase.do");
+			planService.addPlace(place);
 			
-			if(search.getCurrentPage() ==0 ){
-				search.setCurrentPage(1);
-			}
-			search.setPageSize(pageSize);
-			System.out.println("2빠");
-			// Business logic 수행
-			Map<String , Object> map=purchaseService.getPurchaseList(search,buyerId);
-			System.out.println("3빠");
-			Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-			System.out.println(resultPage);
-			System.out.println("4빠");
-			// Model 과 View 연결
-			model.addAttribute("list", map.get("list"));
-			model.addAttribute("resultPage", resultPage);
-			model.addAttribute("search", search);
-			System.out.println("5빠");
-			return "forward:/purchase/listPurchase.jsp";
+			return "redirect:/index.jsp";
+		}
+		@RequestMapping( value="getPlan", method=RequestMethod.GET )
+		public String getPlan() throws Exception{
+			
+			System.out.println("/plan/getPlan : GET");
+						
+			return "redirect:/view/plan/getPlan.jsp";
 		}
 		
-		@RequestMapping(value="updateTranCodeByProd")
-		public String UpdateTranCodeByProdAction(@RequestParam("prodNo") int prodNo ) throws Exception {
+		
+		// 아직 안함......
+		@RequestMapping( value="getPlan", method=RequestMethod.POST )
+		public String getPlan(@ModelAttribute("plan") Travel travel) throws Exception{
 			
-			Purchase purchase = purchaseService.getPurchase2(prodNo);
-			purchaseService.updateTranCode(purchase);
+			System.out.println("/plan/getPlan : POST");
 			
-			return "redirect:/product/listProduct?menu=manage";
+			return "redirect:/view/plan/getPlan.jsp";
 		}
 		
-		@RequestMapping(value="updateTranCode")
-		public String UpdateTranCode(@RequestParam("tranNo") int tranNo ) throws Exception {
+		
+		
+		
+		@RequestMapping( value="addTest", method=RequestMethod.GET )
+		public String addTest() throws Exception{
 			
-			Purchase purchase = purchaseService.getPurchase(tranNo);
-			purchaseService.updateTranCode(purchase);		
-			
-			return "redirect:/purchase/listPurchase.jsp";
+			System.out.println("/plan/addTest : GET");
+						
+			return "redirect:/view/plan/addTest.jsp";
 		}
-	}*/
+		
+		
+		
+		@RequestMapping( value="addTest", method=RequestMethod.POST )
+		public String addTest(@ModelAttribute("plan") Travel travel) throws Exception{
+			
+			System.out.println("/plan/addTest : POST");
+			
+			return "redirect:/view/plan/addTest.jsp";
+		}
+		
+		
+		
+	}
