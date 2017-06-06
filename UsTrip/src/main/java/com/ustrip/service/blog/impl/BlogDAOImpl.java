@@ -15,6 +15,7 @@ import com.ustrip.service.blog.BlogDAO;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
+import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.TempBlog;
 
 
@@ -55,9 +56,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 	
 	@Override
-	public int deleteBlog(int blogNo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteBlog(int blogNo) throws Exception {
+		sqlSession.delete("BlogMapper.deleteBlog", blogNo);
 	}
 
 	@Override
@@ -81,8 +81,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public List<Image> listPicture(int blogNo) throws Exception {
-		return sqlSession.selectList("BlogMapper.listPicture", blogNo);
+	public void deleteImage(int imgNo) throws Exception {
+		sqlSession.delete("BlogMapper.deleteImage", imgNo);
 	}
 
 	@Override
@@ -104,24 +104,7 @@ public class BlogDAOImpl implements BlogDAO{
 
 	@Override
 	public List<Blog> listBlogImage(Search search) throws Exception {
-		/*Map<Integer, List<Image>> map=new HashMap<Integer, List<Image>>();
-		for(int i=0; i<search.getPlaceOrder().size(); i++){
-			List<Image> temp=sqlSession.selectList("BlogMapper.listImgByBlogNo", search.getPlaceOrder().get(i));
-			map.put(search.getPlaceOrder().get(i), temp);
-		}*/
 		return sqlSession.selectList("BlogMapper.listBlogImage", search);
-	}
-
-	@Override
-	public void addLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -139,16 +122,26 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public Map<String, Object> listLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LikeTravel> listLikeTravel(String userId) throws Exception {
+		return sqlSession.selectList("BlogMapper.listLikeTravel", userId);
 	}
 
 	@Override
-	public int getTotalCount(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteJsonLike(int travNo, String userId) throws Exception {
+		Search search=new Search();
+		search.setSearchKeyword(userId);
+		search.setSearchCondition(Integer.toString(travNo));
+		sqlSession.delete("BlogMapper.deleteLike", search);
 	}
+
+	@Override
+	public void addJsonLike(int travNo, String userId) throws Exception {
+		Search search=new Search();
+		search.setSearchKeyword(userId);
+		search.setSearchCondition(Integer.toString(travNo));
+		sqlSession.delete("BlogMapper.addLike", search);
+	}
+
 
 
 }

@@ -129,6 +129,15 @@ public class BlogController {
         model.addAttribute("list",map.get("list2"));
 	}
 	
+	@RequestMapping(value={"addJsonLike/{travNo}"}, method=RequestMethod.GET)
+	public void addJsonLike( @PathVariable int travNo, Model model ) throws Exception {
+		
+		System.out.println("/addJsonLike : GET");
+		String userId="user01"; //技记贸府秦具窃
+		blogService.addJsonLike(travNo, userId);
+	}
+	
+	
 	@RequestMapping(value={"getJsonBlog/{blogNo}"}, method=RequestMethod.GET)
 	public void getJsonBlog( @PathVariable int blogNo, Model model ) throws Exception {
 		
@@ -148,7 +157,7 @@ public class BlogController {
 
 		System.out.println("/listBlog : GET");
 		String destination="forward:/view/blog/listBlog.jsp";
-		String userId="user01";
+		String userId="user01"; //技记贸府秦具窃
 		
 		Search search=new Search();
 
@@ -162,12 +171,14 @@ public class BlogController {
 				
 				search.setPlaceOrder(listPlaceNo);
 				List<Blog> blog=blogService.listBlog(search);
-				List<Asset> asset=assetService.getAssetByBlogNo(blog.get(0).getBlogNo());
+				for(int i=0; i<blog.size(); i++){
+					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+					blog.get(i).setAssets(asset);
+				}
 				
-				boolean isLiked=this.checkLikeTravel(userId, travelNo);
 				model.addAttribute("list", blog);
-				model.addAttribute("asset",asset);
-				model.addAttribute("isLiked",isLiked);
+				model.addAttribute("isLiked",this.checkLikeTravel(userId, travelNo));
+				model.addAttribute("writer", travel.get(0).getUserId());
 			}else{
 				model.addAttribute("travel", travel);
 				destination="forward:/view/blog/addBlog.jsp";
@@ -218,12 +229,22 @@ public class BlogController {
 		blogService.updateScore(blog);
 	}
 	
-	@RequestMapping(value={"deleteJsonTag/{tagNo}"}, method=RequestMethod.GET)
-	public void deleteJsonTag( @PathVariable int tagNo ) throws Exception {
-		
-		System.out.println("/deleteJsonTag : GET");
+	@RequestMapping(value="updatePlace", method=RequestMethod.GET)
+	public String updatePlace( @RequestParam("travelNo") int travelNo, @RequestParam("visitDate") String visitDate, Model model ) throws Exception {
 
-		blogService.deleteTag(tagNo);
+		System.out.println("/updatePlace : GET");
+		Search search=new Search();
+		
+		search.setSearchKeyword(Integer.toString(travelNo));
+		search.setSearchDate(visitDate);
+		List<Integer> listPlaceNo=planService.listPlaceNo(search);
+		
+		search.setPlaceOrder(listPlaceNo);
+		List<Blog> blog=blogService.listBlog(search);
+		
+		model.addAttribute("blog", blog);
+		
+		return "forward:/view/blog/updatePlace.jsp";
 	}
 	
 	@RequestMapping(value={"updateJsonReview/{blogNo}/{review}"}, method=RequestMethod.GET)
@@ -232,6 +253,36 @@ public class BlogController {
 		System.out.println("/updateJsonReview : GET");
 
 		blogService.updateJsonReview(blog);
+	}
+	
+	@RequestMapping(value={"deleteJsonTag/{tagNo}"}, method=RequestMethod.GET)
+	public void deleteJsonTag( @PathVariable int tagNo ) throws Exception {
+		
+		System.out.println("/deleteJsonTag : GET");
+
+		blogService.deleteTag(tagNo);
+	}
+	
+	@RequestMapping(value={"deleteJsonLike/{travNo}"}, method=RequestMethod.GET)
+	public void deleteJsonLike( @PathVariable int travNo ) throws Exception {
+		
+		System.out.println("/deleteJsonLike : GET");
+		String userId="user01";
+		blogService.deleteJsonLike(travNo, userId);
+	}
+	
+	@RequestMapping(value={"deleteJsonImage/{imgNo}"}, method=RequestMethod.GET)
+	public void deleteJsonImage( @PathVariable int imgNo ) throws Exception {
+		
+		System.out.println("/deleteJsonImage : GET");
+		blogService.deleteJsonImage(imgNo);
+	}
+	
+	@RequestMapping(value={"deleteBlog/{blogNo}"}, method=RequestMethod.GET)
+	public void deleteBlog( @PathVariable int blogNo ) throws Exception {
+		
+		System.out.println("/deleteBlog : GET");
+		blogService.deleteBlog(blogNo);
 	}
 	
 	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
