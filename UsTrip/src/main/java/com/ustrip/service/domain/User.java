@@ -2,7 +2,7 @@ package com.ustrip.service.domain;
 
 import java.sql.Date;
 
-public class User {
+public class User{
 	
 	//Field
 	private String userId;

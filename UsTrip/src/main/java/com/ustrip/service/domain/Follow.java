@@ -1,6 +1,6 @@
 package com.ustrip.service.domain;
 
-public class Follow {
+public class Follow extends User{
 	
 	//Field
 	private int followNo;
