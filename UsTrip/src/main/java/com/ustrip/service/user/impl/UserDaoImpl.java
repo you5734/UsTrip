@@ -1,5 +1,6 @@
 package com.ustrip.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,8 +54,8 @@ public class UserDaoImpl implements UserDao {
 		return sqlSession.selectList("UserMapper.getUserList", search);
 	}
 	
-	public int getTotalCount(Search search) throws Exception{
-		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	public int getUserTotalCount(Search search) throws Exception{
+		return sqlSession.selectOne("UserMapper.getUserTotalCount", search);
 	}
 	//È¸¿øÅ»Åð
 	public  void withdrawUser(String userId) throws Exception{
@@ -64,6 +65,22 @@ public class UserDaoImpl implements UserDao {
 	public void addFollow(Map<String, Object> map) throws Exception{
 		System.out.println("map :::::::::::::::: " + map);
 		sqlSession.insert("FollowMapper.addFollow", map);
+	}
+	
+	public List<Follow> listFollow(Search search) throws Exception{
+		return sqlSession.selectList("FollowMapper.listFollow", search);
+	}
+	
+	public int getFollowTotalCount(Search search) throws Exception{
+		return sqlSession.selectOne("FollowMapper.getFollowTotalCount", search);
+	}
+	
+	public Follow getFollow(String folUserId, String targetUserId) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("folUserId", folUserId);
+		map.put("targetUserId", targetUserId);
+		System.out.println("#####" + map.get("folUserId"));
+		return sqlSession.selectOne("FollowMapper.getFollow",map);
 	}
 
 }

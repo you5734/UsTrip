@@ -28,12 +28,17 @@ public interface UserDao {
 	public List<User> getUserList(Search search) throws Exception;
 	
 	//page처리를 위한 전체 row return
-	public int getTotalCount(Search search) throws Exception;
+	public int getUserTotalCount(Search search) throws Exception;
 	
 	//회원탈퇴
 	public void withdrawUser(String userId) throws Exception;
 	
 	//follow 추가
 	public void addFollow(Map<String, Object> map) throws Exception;
+	
+	public List<Follow> listFollow(Search search) throws Exception;
 
+	public int getFollowTotalCount(Search search) throws Exception;
+	
+	public Follow getFollow(String folUserId, String targetUserId) throws Exception;
 }

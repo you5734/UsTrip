@@ -69,13 +69,17 @@ public class UserServiceImpl implements UserService {
 		return userDao.getUser(userId);
 	}
 	
+	public User getUserNickName(String nickName) throws Exception{
+		return userDao.getUser2(nickName);
+	}
+	
 	public void updateUser(User user) throws Exception {
 		userDao.updateUser(user);
 	}
 	
 	public Map<String, Object> getUserList(Search search) throws Exception{
 		List<User> list = userDao.getUserList(search);
-		int totalCount  = userDao.getTotalCount(search);
+		int totalCount  = userDao.getUserTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -110,6 +114,24 @@ public class UserServiceImpl implements UserService {
 		map.put("targetUserId", targetUserId);
 		map.put("folUserId", folUserId);
 		userDao.addFollow(map);
+	}
+	
+	public Map<String, Object> listFollow(Search search, String folUserId) throws Exception{
+		
+		search.setSearchKeyword(folUserId);
+		
+		List<Follow> list = userDao.listFollow(search);
+		int totalCount  = userDao.getFollowTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		
+		return map;
+	}
+	
+	public Follow getFollow(String folUserId, String targetUserId ) throws Exception{
+		return userDao.getFollow(folUserId, targetUserId);
 	}
 
 }

@@ -141,7 +141,9 @@ public class UserController {
 			session.setAttribute("user", dbUser);
 			model.addAttribute("user", user);
 			/*destinate="redirect:/user/getUser?userId="+dbUser.getUserId();*/
-			destinate="redirect:/view/user/listTravel.jsp";
+			/*destinate="redirect:/view/user/listTravel.jsp";*/
+			destinate="forward:/user/getContents";
+			
 		} 		
 		System.out.println(session.getAttribute("user"));
 		
@@ -197,6 +199,18 @@ public class UserController {
 		System.out.println("/user/getUser : GET");
 		//Business Logic
 		User user = userService.getUser(userId);
+		// Model 과 View 연결
+		model.addAttribute("user", user);
+		
+		return "forward:/view/user/getUser.jsp";
+	}
+	
+	@RequestMapping( value="getUserNickName", method=RequestMethod.GET )
+	public String getUserNickName( @RequestParam("nickName") String nickName , Model model ) throws Exception {
+		
+		System.out.println("/user/getUserNickName : GET");
+		//Business Logic
+		User user = userService.getUserNickName(nickName);
 		// Model 과 View 연결
 		model.addAttribute("user", user);
 		
@@ -290,16 +304,46 @@ public class UserController {
 		return "forward:/view/user/listTravel.jsp";
 	}
 	
-/*	@RequestMapping( value="listTravel", method=RequestMethod.GET )
-	public String listTravel( @RequestParam("targetUserId") String targetUserId, HttpSession session, Model model ) throws Exception {
-		
-		System.out.println("/user/addFollow : GET");
+	@RequestMapping( value="getContents", method=RequestMethod.POST )
+	public String getContents( HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
+
+		System.out.println("/user/getContents : GET");
 		
 		String sessionId=((User)session.getAttribute("user")).getUserId();
-
-		userService.addFollow(targetUserId, sessionId);
-
-		return "forward:/view/user/listTravel.jsp";
-	}*/
+		
+		Follow follow = userService.getFollow(sessionId, "b@naver.com");
+		
+		model.addAttribute("follow", follow);
+		
+		return "forward:/view/user/listFollow.jsp";
+	}
+	
+	@RequestMapping( value="listFollow")
+	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/user/listFollow ");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		System.out.println("sessionIddddddddddd :: " + sessionId);
+		
+		// Business logic 수행
+		Map<String , Object> map=userService.listFollow(search, sessionId);
+		System.out.println("mappp :: " + map);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("follow", map);
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/view/user/listFollow.jsp";
+	}
 	
 }
