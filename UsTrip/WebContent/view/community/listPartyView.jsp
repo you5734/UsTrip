@@ -25,7 +25,7 @@
 	
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage)
-		$("form").attr("method" , "POST").attr("action" , "/community/listCommunity").submit();
+		$("#searchForm").attr("method" , "POST").attr("action" , "/community/listCommunity").submit();
 	}
 	
 	$(function () {	
@@ -49,16 +49,15 @@
 		});
 		
 		$('b').hover(function(){
-			$(this).attr('class','text-warning');
+			$(this).attr('class','text-danger');
 		},function(){
 			$(this).attr('class','text-default');
 		});
 		
 		$('b').on('click',function(){
-			
-			var objectID=$(this).attr('id');
-			
-			alert(objectID);
+			var objectID=$(this).attr('id');			
+			$("#currentPage").val('${resultPage.currentPage}');
+			$("form").attr("method" , "POST").attr("action" , "/community/getBoard?boardNo="+objectID).submit();
 		        });
 		
 		$('font').on('click',function(){
@@ -87,7 +86,7 @@
 		});
 		
 		$('font').hover(function(){
-			$(this).attr('class','text-warning');
+			$(this).attr('class','text-danger');
 		},function(){
 			$(this).attr('class','text-default');
 		});
@@ -150,12 +149,12 @@
     
     <div class="row">
     	<div class="col-md-6 text-left">
-		    	<p class="text-primary">
+		    	<p class="text-danger">
 		    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
 		    	</p>
 		    </div>
     <div class="col-md-6 text-right" >
-    <form class="form-inline" name="detailForm">
+    <form class="form-inline" name="detailForm" id="searchForm">
 	    <select class="form-control" name="searchCondition"  id="searchCondition" style="width:130px;">
 		  <option value="0" ${ (search.searchCondition=="0" ? "selected" : "")}>게시물 번호</option>
 		  <option value="1" ${ (search.searchCondition=="1" ? "selected" : "")}>게시물 제목</option>
@@ -167,7 +166,7 @@
 	    <input type="hidden" id="currentPage" name="currentPage" value=""/>  
 	    <input type="hidden" id="boardCategory" name="boardCategory" value="1"/>
 	    <input type="hidden" id="order" name="order" value=""/>
-		<button class="btn btn-default" type="button" id="search">검색</button>
+		<button class="btn btn-danger" type="button" id="search">검색</button>
 		</form>
     	</div>
     </div>
@@ -186,16 +185,16 @@
             
 	</div>
 	
-		<table class="table">               
+		        
 		<ul class="list-group"> 
 		    
 		<c:set var="i" value="0" />
 		<c:forEach var="board" items="${list}">
 		  	<li class="list-group-item">		
 			<div class="row">
-				<div class="col-md-2 text-default" align="left">${board.boardNo}</div>
+				<div class="col-md-2 text-default" align="left">${board.numbering}</div>
 				<div class="col-md-6" align="left" style="display: flex; justify-content: left;">
-				<b class="text-default"style="width: 400px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"  id="${board.boardNo}">${board.boardTitle}<c:if test='${board.countComment > 0}'> [ ${board.countComment} ]</c:if></b>
+				<b class="text-default" style="width: 400px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"  id="${board.boardNo}">${board.boardTitle}<c:if test='${board.countComment > 0}'> [ ${board.countComment} ]</c:if></b>
 				</div>
 				<div class="col-md-2 " ><font class="text-default">${board.nickName}</font></div>
 				<div class="col-md-1" align="left"><fmt:formatDate value="${board.regDate}" pattern="yyyy/MM/dd"/></div>
@@ -205,7 +204,7 @@
 		</c:forEach>
 		
 		</ul>
-		</table>		
+		
 	</div>
 	
 	<jsp:include page="/view/common/pageNavigator.jsp" />

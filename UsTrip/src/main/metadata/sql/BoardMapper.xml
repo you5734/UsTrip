@@ -108,5 +108,11 @@
 		
 		</if>		) countTable					
 	 </select>
+	 
+	 <select  id="getBoard"  parameterType="board"	resultMap="boardSelectMap">
+	 	SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 	FROM board
+	 	WHERE BOARD_NO = #{boardNo}
+	 </select>
 
 </mapper>

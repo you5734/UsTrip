@@ -79,10 +79,10 @@ public class commentServiceTest {
 				
 	}
 	
-	//@Test
+	@Test
 	public void testdel() throws Exception {
 		
-		int check = commentdService.deleteComment(80003);
+		int check = commentdService.deleteComment(80024);
 		Assert.assertEquals(1, check);
 		
 	}

@@ -91,7 +91,7 @@ public class boardServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testget() throws Exception {
 		
 		Board check = boardService.getBoard(70002);
@@ -100,7 +100,7 @@ public class boardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testlist() throws Exception {
 		
 		Search search = new Search();
@@ -109,13 +109,9 @@ public class boardServiceTest {
 		search.setBoardCategory(0);
 		search.setPageSize(5);
 		
-		Map<String , Object> map = boardService.listBoard(search);
-		List<Board> reci = (List<Board>)map.get("list");	
-		int a = Integer.parseInt((String) map.get("totalCount"));
-		
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), 3, 5);
-		
-		Assert.assertEquals(3, a );
+		List<Board> map = boardService.listBoard(search);
+				
+		Assert.assertEquals(3, map );
 		
 	}
 	

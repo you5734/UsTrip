@@ -16,5 +16,7 @@ public interface CommentService {
 	public int deleteComment(int commentNo)throws Exception;
 	
 	public List<Comment> getComment(int boardNo)throws Exception;
+	
+	public Comment oneComment(int commentNo)throws Exception;
 
 }

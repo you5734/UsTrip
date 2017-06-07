@@ -56,4 +56,10 @@ public class CommentServiceImpl implements CommentService{
 		return commentDao.getComment(boardNo);
 	}
 
+	@Override
+	public Comment oneComment(int commentNo) throws Exception {
+		// TODO Auto-generated method stub
+		return commentDao.oneComment(commentNo);
+	}
+
 }

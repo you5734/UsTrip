@@ -10,12 +10,14 @@ public interface BoardService {
 	
 	public int addBoard(Board board)throws Exception;
 	
-	public Map<String,Object> listBoard(Search search)throws Exception;
+	public List<Board> listBoard(Search search)throws Exception;
 	
 	public int updateBoard(Board board)throws Exception;
 	
 	public int deleteBoard(int boardNo)throws Exception;
 	
 	public Board getBoard(int boardNo)throws Exception;
+	
+	public int getTotalCount(Search search)throws Exception;
 	
 }
