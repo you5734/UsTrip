@@ -18,7 +18,7 @@
 	<script type="text/javascript">
 	function fncGetAllList(currentPage) {
 		$("#currentPage").val(currentPage);		
-		$("form").attr("method" , "POST").attr("action" , "/user/getUserList").submit();
+		$("form").attr("method" , "POST").attr("action" , "/user/listUser").submit();
 	}
 
 		//검색 처리

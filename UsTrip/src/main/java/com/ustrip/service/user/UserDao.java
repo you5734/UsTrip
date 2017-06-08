@@ -41,4 +41,15 @@ public interface UserDao {
 	public int getFollowTotalCount(Search search) throws Exception;
 	
 	public Follow getFollow(String folUserId, String targetUserId) throws Exception;
+	
+	public void updateFollow(Follow follow ) throws Exception;
+	
+	public List<Follow> listFollowing(Search search) throws Exception;
+	
+	public List<Follow> isFollowing(Search search) throws Exception;
+	
+	public int getFollowingTotalCount(Search search) throws Exception;
+	
+	public void deleteFollow(String folUserId, String targetUserId) throws Exception;
+		
 }

@@ -6,6 +6,7 @@ public class Follow extends User{
 	private int followNo;
 	private String folUserId;
 	private String targetUserId;
+	private int isFollowing;		//맞팔여부 '0'인경우 X / '1'인경우 맞팔
 
 	//Controctor
 	public Follow() {
@@ -35,10 +36,18 @@ public class Follow extends User{
 		this.targetUserId = targetUserId;
 	}
 
+	public int getIsFollowing() {
+		return isFollowing;
+	}
+
+	public void setIsFollowing(int isFollowing) {
+		this.isFollowing = isFollowing;
+	}
+
 	@Override
 	public String toString() {
-		return "Follow [followNo=" + followNo + ", folUserId=" + folUserId + ", targetUserId=" + targetUserId + "]";
+		return "Follow [followNo=" + followNo + ", folUserId=" + folUserId + ", targetUserId=" + targetUserId
+				+ ", isFollowing=" + isFollowing + "]";
 	}
-	
-	
+
 }
