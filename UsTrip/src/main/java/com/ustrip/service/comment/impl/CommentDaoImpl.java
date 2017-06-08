@@ -56,4 +56,10 @@ public class CommentDaoImpl implements CommentDao{
 		return sqlSession.selectList("CommentMapper.getComment", boardNo);
 	}
 
+	@Override
+	public Comment oneComment(int commentNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("CommentMapper.oneComment", commentNo);
+	}
+
 }

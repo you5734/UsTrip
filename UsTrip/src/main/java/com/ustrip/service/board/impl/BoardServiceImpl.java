@@ -36,22 +36,22 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Map<String, Object> listBoard(Search search) throws Exception {
+	public List<Board> listBoard(Search search) throws Exception {
 		// TODO Auto-generated method stub		
 		List<Board> list = new ArrayList<Board>();
 		if(search.getOrder().equals("DESC")){
 			list= boardtDao.listBoardDESC(search);
+			int size = list.size();
+			for(int i = 0; i < list.size() ; i++){
+				list.get(i).setNumbering(size-i);
+			}			
 		}else{
 			list= boardtDao.listBoardASC(search);
-		}			
-		
-		int totalCount = boardtDao.getTotalCount(search);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", list );
-		map.put("totalCount", new Integer(totalCount));
-	
-		return map;
+			for(int i = 0; i < list.size() ; i++){
+				list.get(i).setNumbering(i+1);
+			}
+		}		
+		return list;
 	}
 
 	@Override
@@ -70,6 +70,12 @@ public class BoardServiceImpl implements BoardService {
 	public Board getBoard(int boardNo) throws Exception {
 		// TODO Auto-generated method stub
 		return boardtDao.getBoard(boardNo);
+	}
+
+	@Override
+	public int getTotalCount(Search search) throws Exception {
+		// TODO Auto-generated method stub
+		return boardtDao.getTotalCount(search);
 	}
 
 }

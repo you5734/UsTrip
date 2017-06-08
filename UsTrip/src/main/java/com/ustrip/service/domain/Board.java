@@ -14,7 +14,7 @@ public class Board {
 	private Date regDate;
 	private int boardCategory;
 	private int countComment;
-	private List<Comment> myComment;
+	private int numbering;
 	
 	public Board(){}
 
@@ -90,12 +90,12 @@ public class Board {
 		this.countComment = countComment;
 	}
 
-	public List<Comment> getMyComment() {
-		return myComment;
+	public int getNumbering() {
+		return numbering;
 	}
 
-	public void setMyComment(List<Comment> myComment) {
-		this.myComment = myComment;
+	public void setNumbering(int numbering) {
+		this.numbering = numbering;
 	}
 
 	@Override
