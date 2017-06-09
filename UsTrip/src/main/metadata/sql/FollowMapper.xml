@@ -8,10 +8,11 @@
 	
 	<resultMap id="followSelectMap" type="follow">
 		<result property="followNo" 			column="follow_no" 			jdbcType="NUMERIC" />
-		<result property="folUserId" 			column="fol_user_id" 		jdbcType="VARCHAR"/>
+		<result property="folUserId" 			column="fol_user_id" 			jdbcType="VARCHAR"/>
 		<result property="targetUserId"		column="target_user_id" 	jdbcType="VARCHAR" />
-		<result property="profileImage"		column="profile_img" 	jdbcType="VARCHAR" />
-		<result property="nickName"			column="nickname" 	jdbcType="VARCHAR" />
+		<result property="isFollowing" 		column="is_following"		jdbcType="NUMERIC"/>
+		<result property="profileImage"		column="profile_img" 		jdbcType="VARCHAR" />
+		<result property="nickName"			column="nickname" 			jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<!-- SQL : INSERT 팔로우 추가-->
@@ -20,7 +21,8 @@
 		INTO follow
 		VALUES ( 	seq_follow_no.nextval, 
 					 	#{folUserId}, 
-					 	#{targetUserId}
+					 	#{targetUserId},
+					 	0
 				)		 	
 	</insert>
 	
@@ -28,25 +30,37 @@
 		SELECT * FROM follow WHERE fol_user_id = #{folUserId} AND target_user_id = #{targetUserId}
 	</select>
 	
+	<update id="updateFollow" parameterType="follow">
+		UPDATE follow 
+		SET is_following = #{isFollowing} 
+		WHERE fol_user_id = #{folUserId} 
+		AND target_user_id = #{targetUserId}
+	</update>
+	
 	<!-- SQL : SELECT LIST -->
 	<select  id="listFollow"  parameterType="search"	resultMap="followSelectMap">
-	  	SELECT f.follow_no, f.fol_user_id , f.target_user_id, u.nickname, u.profile_img
+	  	SELECT f.follow_no, f.fol_user_id , f.target_user_id, f.is_following, u.nickname, u.profile_img
 		FROM follow f, users u
 		WHERE f.fol_user_id=#{searchKeyword}	
 		AND u.user_id = f.target_user_id	
 	 </select>
 	 
-	 		<!-- SQL : SELECT LIST -->
+	<!-- SQL : SELECT LIST -->
 	<select  id="listFollowing"  parameterType="search"	resultMap="followSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT f.follow_no, f.fol_user_id , f.target_user_id, u.nickname, u.profile_img
-												FROM follow f, users u
-												WHERE f.target_user_id=#{searchKeyword}	
-												AND f.fol_user_id = u.user_id		
-											) inner_table
-						WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+		SELECT f.follow_no, f.fol_user_id , f.target_user_id, f.is_following, u.nickname, u.profile_img
+			FROM follow f, users u
+			WHERE f.target_user_id=#{searchKeyword}	
+			AND f.fol_user_id = u.user_id
+	 </select>
+	 
+	 <select id="isFollowing" parameterType="search" resultMap="followSelectMap">
+		 SELECT a.fol_user_id, a.target_user_id, f.follow_no, f.fol_user_id , f.target_user_id, f.is_following, u.nickname, u.profile_img
+			FROM follow f, users u, ( select follow_no, fol_user_id, target_user_id 
+																from follow
+																where fol_user_id=#{searchKeyword}) a
+			WHERE f.target_user_id=#{searchKeyword}
+			AND f.fol_user_id = u.user_id
+			and a.target_user_id = f.fol_user_id
 	 </select>
 	 
 	 <select id="getFollowTotalCount" parameterType="search" resultType="int">
@@ -64,5 +78,9 @@
 	 					WHERE target_user_id = #{searchKeyword}
 	 				 ) countTable
 	 </select>
+	 
+	 <delete id="deleteFollow" parameterType="map">
+	 	DELETE FROM follow WHERE fol_user_id=#{folUserId} AND target_user_id = #{targetUserId}
+	 </delete>
 
 </mapper>

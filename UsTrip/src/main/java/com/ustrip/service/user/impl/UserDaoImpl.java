@@ -76,11 +76,44 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	public Follow getFollow(String folUserId, String targetUserId) throws Exception{
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		map.put("folUserId", folUserId);
 		map.put("targetUserId", targetUserId);
+		
 		System.out.println("#####" + map.get("folUserId"));
+		
 		return sqlSession.selectOne("FollowMapper.getFollow",map);
+	}
+	
+	public void updateFollow(Follow follow) throws Exception {
+		sqlSession.update("FollowMapper.updateFollow	", follow);
+	}
+	
+	public List<Follow> listFollowing(Search search) throws Exception{
+		return sqlSession.selectList("FollowMapper.listFollowing", search);
+	}
+	
+	public List<Follow> isFollowing(Search search) throws Exception{
+		
+		return sqlSession.selectList("FollowMapper.isFollowing", search);
+	}
+	
+	public int getFollowingTotalCount(Search search) throws Exception{
+		return sqlSession.selectOne("FollowMapper.getFollowingTotalCount", search);
+	}
+	
+	public void deleteFollow(String folUserId, String targetUserId) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("folUserId", folUserId);
+		map.put("targetUserId", targetUserId);
+		
+		System.out.println("# :: " + map.get("folUserId"));
+		
+		sqlSession.selectOne("FollowMapper.deleteFollow",map);
 	}
 
 }

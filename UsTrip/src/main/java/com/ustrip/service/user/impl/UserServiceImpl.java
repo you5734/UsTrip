@@ -113,7 +113,21 @@ public class UserServiceImpl implements UserService {
 		
 		map.put("targetUserId", targetUserId);
 		map.put("folUserId", folUserId);
+		
+		String temp = targetUserId;
+		targetUserId = folUserId;
+		folUserId = temp;
+		
+		Follow follow = userDao.getFollow(folUserId, targetUserId);
+		
+		if( follow != null ) {
+			follow.setIsFollowing(1);
+			userDao.updateFollow(follow);
+			System.out.println("follow ¹¹´× :: " + follow);
+			userDao.addFollow(map);
+		} else {
 		userDao.addFollow(map);
+		}
 	}
 	
 	public Map<String, Object> listFollow(Search search, String folUserId) throws Exception{
@@ -133,5 +147,25 @@ public class UserServiceImpl implements UserService {
 	public Follow getFollow(String folUserId, String targetUserId ) throws Exception{
 		return userDao.getFollow(folUserId, targetUserId);
 	}
+	
+	public Map<String, Object> listFollowing(Search search, String targetUserId) throws Exception{
+		
+		search.setSearchKeyword(targetUserId);
+		
+		List<Follow> list = userDao.listFollowing(search);
+		int totalCount  = userDao.getFollowingTotalCount(search);
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		
+		return map;
+	}
+	
+	public void deleteFollow(String folUserId, String targetUserId ) throws Exception{
+		userDao.deleteFollow(folUserId, targetUserId);
+	}
+	
 
 }

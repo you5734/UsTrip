@@ -116,8 +116,6 @@
 			    				 }	
 		    			 	}
 		    		 });	
-	        		  
-	        	/* 	self.location="/view/user/login.jsp?google=1&tempId="+tempId;	 */
 				  });
 				});
 			});
@@ -158,6 +156,9 @@
 	</script>		
 	
 	<style>
+		.bodycss{
+			margin-top: 70px;
+		}
 		#dialog-form { display:none; }
     	input.text { width:60%; padding: .4em; }
 		fieldset { padding:0; border:0; margin-top:5px; }

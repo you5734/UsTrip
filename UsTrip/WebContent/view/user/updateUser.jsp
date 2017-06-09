@@ -94,7 +94,7 @@
     </script>
     
     <style>
-    	.container{
+    	.form-horizontal{
     		margin-top: 50px;
     	}
     </style>
@@ -103,61 +103,68 @@
 <body>
 
 <div class="container">
-	<h2 align="center">회원정보수정</h2><br>
-		<form class="form-horizontal" enctype="multipart/form-data">
-		<form class="form-horizontal">
+    <div class="row profile">
+		<jsp:include page="/view/user/getProfile.jsp"/>
+			<div class="col-md-9">
+	          	<div class="profile-content">
+					<div class="row">
+						<div>
+							<div class="profile-sidebar">
+								<form class="form-horizontal" enctype="multipart/form-data">
 
-		<!-- Text input-->
-		<!-- Text input-->
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="userId">I D</label>  
-		  <div class="col-md-4">
-		  	<input type="text" id="userId" name="userId"  value="${user.userId}" class="form-control input-md" readonly>
-		  	<div style="color:red; font-size:12px;">ID 수정불가</div>
-		  </div>
-		</div>
-		
-		<!-- Text input-->
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="nickName">닉네임</label>  
-		  <div class="col-md-4">
-		  	<input type="text" id="nickName" name="nickName" value="${user.nickName}"class="form-control input-md">
-		  	<div id="checkNick" style="color:red; font-size:12px;">닉네임 변경 시 중복체크를 해야합니다.</div>
-		  </div>
-		</div>
-		
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="password">비밀번호</label>  
-		  <div class="col-md-4">
-		  	<input type="password" id="password" name="password" class="form-control input-md">
-		  </div>
-		</div>
-		
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="password2">비밀번호확인</label>  
-		  <div class="col-md-4">
-		  	<input type="password" id="password2" name="password2" class="form-control input-md">
-		    <div id="checkpw" style="color:red; font-size:12px;"></div>
-		  </div>
-		</div>
-		
-		<!-- /////////////  프로필이미지등록  ////////////////////// -->
-		<div class="form-group">
-			<label class="col-md-4 control-label" for="profileImage" >프로필이미지</label>	
-			<div class="col-md-4">	  			
-		   		<input type="file" id="profileImage" name="file">
-		   	</div>
-		</div>
-		
-		<!-- Button -->
-		<div class="form-group">
-			<div class="col-sm-offset-4 col-sm-4 text-center">
-				<button type="button" class="btn btn-info btn">수정</button>
-				<button type="button" class="btn btn-info" href="#">취소</button>
-			</div>	
-		</div>
-
-		</form>
+									<div class="form-group">
+									  <label class="col-md-4 control-label" for="userId">I D</label>  
+									  <div class="col-md-4">
+									  	<input type="text" id="userId" name="userId"  value="${user.userId}" class="form-control input-md" readonly>
+									  	<div style="color:red; font-size:12px;">ID 수정불가</div>
+									  </div>
+									</div>
+									
+									<div class="form-group">
+									  <label class="col-md-4 control-label" for="nickName">닉네임</label>  
+									  <div class="col-md-4">
+									  	<input type="text" id="nickName" name="nickName" value="${user.nickName}"class="form-control input-md">
+									  	<div id="checkNick" style="color:red; font-size:12px;">닉네임 변경 시 중복체크를 해야합니다.</div>
+									  </div>
+									</div>
+									
+									<div class="form-group">
+									  <label class="col-md-4 control-label" for="password">비밀번호</label>  
+									  <div class="col-md-4">
+									  	<input type="password" id="password" name="password" class="form-control input-md">
+									  </div>
+									</div>
+									
+									<div class="form-group">
+									  <label class="col-md-4 control-label" for="password2">비밀번호확인</label>  
+									  <div class="col-md-4">
+									  	<input type="password" id="password2" name="password2" class="form-control input-md">
+									    <div id="checkpw" style="color:red; font-size:12px;"></div>
+									  </div>
+									</div>
+									
+									<!-- /////////////  프로필이미지등록  ////////////////////// -->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for="profileImage" >프로필이미지</label>	
+										<div class="col-md-4">	  			
+									   		<input type="file" id="profileImage" name="file">
+									   	</div>
+									</div>
+									
+									<!-- Button -->
+									<div class="form-group">
+										<div class="col-sm-offset-4 col-sm-4 text-center">
+											<button type="button" class="btn btn-info btn">수정</button>
+											<button type="button" class="btn btn-info" href="#">취소</button>
+										</div>	
+									</div>
+								</form>
+								</div>
+							</div>         	
+						</div>
+					</div>
+				</div>
+	</div>
 </div>
 
 </body>

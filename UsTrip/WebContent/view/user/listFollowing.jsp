@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,11 +13,11 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<script type="text/javascript">
+
+		<script type="text/javascript">
 	
 		 $(function() {
-				$( "#listfollow" ).on("click" , function() {
+				$( ".followTarget" ).on("click" , function() {
 					var targetUserId = $(".followTarget").val();
 					alert("targetUserid :: " + targetUserId);
 					targetUserId=targetUserId.split(".");
@@ -35,8 +36,7 @@
 									/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
 									/* location.reload(); */
 									/*  $(this).val('following'); */
-									alert("wwwwwwwww");
-									 
+									alert("ffff");
 								 }
 							}		
 						)
@@ -67,12 +67,12 @@
 			text-align:center;
 		}
 	</style>
-</head>
+ </head>
 <body>
 <div class="container">
     <div class="row profile">
 		<jsp:include page="/view/user/getProfile.jsp"/>
-		
+<!-- 		///////////////////////////////////////////// -->
 			<div class="col-md-9">
 	          	<div class="profile-content">
 					<div class="row">
@@ -82,15 +82,16 @@
 			 					 	<c:forEach var="follow" items="${list}">
 										<c:set var="i" value="${ i+1 }" />
 											<div class="profile-pic" style="width:180px; float: left; height:250px;">
+											 <br><br><br>
 												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
-												<span>${follow.nickName }	<%-- //	${follow.targetUserId } --%></span><br>
-												<c:choose >
+												<span>${follow.nickName }	<%-- //	${follow.folUserId } --%></span><br>
+													<c:choose >
 														<c:when test="${follow.isFollowing == 1}">
-															<input type="button" class="btn btn-info btn-sm" id="listfollowing" value="following">
+															<input type="button" class="btn btn-info btn-sm" id="following" value="following">
 														</c:when>
 														<c:otherwise >
-															<input type="hidden" class="followTarget" value="${follow.targetUserId }">
-															<input type="button" class="btn btn-sm" id="listfollow" value="follow">
+														<input type="hidden" class="followTarget" value="${follow.folUserId }">
+															<input type="button" class="btn btn-sm" id="follow" value="follow">
 														</c:otherwise>
 													</c:choose>
 											</div>
@@ -100,6 +101,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- ///////////////// -->
 	</div>
 </div>
 </body>
