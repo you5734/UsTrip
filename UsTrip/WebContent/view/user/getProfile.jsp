@@ -166,6 +166,10 @@
 	</style>
 
 		<div class="col-md-3">
+		<div>
+		<a href="http://localhost:8080/community/listCommunity"> 커뮤니티</a>
+		<a href="http://localhost:8080/view/plan/addTravel.jsp"> 플랜</a>
+		</div>
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">

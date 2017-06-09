@@ -52,10 +52,10 @@
           <a class="dropdown-toggle"  data-toggle="dropdown" >개인정보 관리<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a >개인정보 조회</a></li>  
-            <c:if test="${user.role == 'admin' }">        
+           <%--  <c:if test="${user.role == 'admin' }">        
             <li class="divider"></li>           
             <li><a>회원정보 조회</a></li>
-            </c:if> 
+            </c:if>  --%>
           </ul>
         </li> 
         
