@@ -45,37 +45,58 @@
 	});
 	
 	$(function() {
-		
-		var tagIndex=1;
-		var assetIndex=1;
-		
-		function showDialog() {
-			var dialog;
-			
-			dialog = $('#dialog-form').dialog({
-				resizable:false,
-				modal: true,
-				width:'auto'
-			});
-		}
-		
-		
-		
+
 		$('body').on('click' , '.fa-pencil', function() {
 			self.location="/blog/updateBlog?blogNo="+$(this).next().val();
-			/* 
-			var index=$(this).next().val();
-			var scoreTag='<div class="col-md-4"><input type="text" name="score" id="score" size="25" placeholder="점수를 남겨주세요(0.1~5.0)">'
-						+'<i class="fa fa-check-square-o" aria-hidden="true" id=""></i></div>';
-			$($('.stars')[index]).html(scoreTag); */
-			
+		});
+		
+		$('body').on('click' , '.fa-times', function() {
+			self.location="/blog/deleteBlog?blogNo="+$(this).prev().val();
 		});
 		
 		$('body').on('click' , '#listPicture', function() {
-			self.location="/blog/listBlog?travelNo="+$("#travNo").val();
+			self.location="/blog/listPicture?travelNo="+$("#travNo").val();
 		});
 		
+		$('body').on('click' , '#travLike', function() {
+			
+			if($(this).val()=='좋아요취소'){
+				$.ajax( 
+						{
+							url : "/blog/deleteJsonLike/"+$("#travNo").val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							context : this,
+							success : function(serverData , status) {
+								$(this).val('좋아요');
+							}
+						});
+			}else{
+				$.ajax( 
+						{
+							url : "/blog/addJsonLike/"+$("#travNo").val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							context : this,
+							success : function(serverData , status) {
+								$(this).val('좋아요취소');
+							}
+						});
+			}
+			
+		});
 		
+		$('body').on('click' , '#addPlace', function() {
+			self.location="/blog/updatePlace?travelNo="+$("#travNo").val()+"?"+$("#visitDate").val();
+		});
 	}); 
 	
 	
@@ -84,43 +105,68 @@
 	</script>
 </head>
 <body>
-	
 	<div class="container">
 		<input type="button" class="btn btn-default" id="listPicture" value="사진첩">
-		<c:if test='${isLiked}'>
-		  	<input type="button" class="btn" id="cancel" value="좋아요취소" >
-		</c:if>
-		<c:if test='${!isLiked}'>
-		  	<input type="button" class="btn" id="wishList" value="좋아요" >
-		</c:if>
+		<%-- <c:if test='${user.userId}==${writer}'> --%>
+			<input type="button" class="btn btn-default" id="addPlace" value="장소추가">
+		<%-- </c:if> --%>
+		<%-- <c:if test='${user.userId}=!${writer}'> --%>
+			<c:if test='${isLiked}'>
+			  	<input type="button" class="btn" id="travLike" value="좋아요취소" >
+			</c:if>
+			<c:if test='${!isLiked}'>
+			  	<input type="button" class="btn" id="travLike" value="좋아요" >
+			</c:if>
+		<%-- </c:if> --%>
+		
 		<div class="row">
 	        <div class="timeline-centered">
 	        <c:set var="i" value="0" />
 			<c:forEach items="${list}" var="blog" varStatus="status">
 				<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
+				<input type="hidden" name="visitDate" id="visitDate" value="${blog.visitDate}">
 		        <article class="timeline-entry">
 		            <div class="timeline-entry-inner">
 		                <div class="timeline-icon bg-warning">
-		                    <i class="fa fa-map-marker" aria-hidden="true"></i>
 		                </div>
 		                <div class="timeline-label">
-		                    <div class='timeline-head'>${blog.place}
-			                    <i class="fa fa-pencil" aria-hidden="true" style="margin:10"></i>
-			                    <input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
-			                    <i class="fa fa-times" aria-hidden="true"></i>
-		                    </div>
-		                    <span class="stars">${blog.score}</span>
+		                	<div id="wrapper">
+		                		<div id="first">
+		                			<i class="fa fa-map-marker" aria-hidden="true"></i>
+		                		</div>
+			                    <div id="second">${blog.place}
+			                    	<span class="myIcon">
+				                    	<i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px"></i>
+				                   	 	<input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
+				                    	<i class="fa fa-times" aria-hidden="true"></i>
+				                    </span>
+			                    </div>
+			                </div>
+			                <div id="wrapper">
+		                		<div id="first">
+		                		</div>
+		                		<div id="second">
+			               		<span class="stars">${blog.score}</span>
+			               		</div>
+			               	</div>
 		                    <br/>
 		                    ${!empty blog.review? blog.review:""}<hr/>
 		                    <c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
 		                    	<span>
 		                    		#${hashTags.hashTag}
-		                    		<input type="hidden" value="${hashTags.tagNo}" name="tagNo">
 		                    	</span>
 		                    </c:forEach><hr/>
+		                    
 		                    <c:forEach items="${blog.images}" var="images" varStatus="status3">
 		                    	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
 		                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+		                    </c:forEach><hr/>
+		                    
+		                    <c:forEach items="${blog.assets}" var="assets" varStatus="status4">
+		                    	<span style="border-left: 1px solid #eee;">${assets.assetCategory}</span>
+		                    	<span style="border-left: 1px solid #eee;">${assets.usage}</span>
+		                    	<span style="border-left: 1px solid #eee;">${assets.charge}</span>
+		                    	<br/>
 		                    </c:forEach><hr/>
 		                	
 		                	<div class="timeline-head">${blog.memo}</div>

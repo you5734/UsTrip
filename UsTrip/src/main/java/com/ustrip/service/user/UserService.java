@@ -23,6 +23,9 @@ public interface UserService {
 	// 내정보확인 / 로그인
 	public User getUser(String userId) throws Exception;
 	
+	//닉네임으로 정보조회
+	public User getUserNickName(String nickName) throws Exception;
+	
 	// 내정보수정
 	public void updateUser(User user) throws Exception;
 		
@@ -35,5 +38,8 @@ public interface UserService {
 	public String getRandomPassword(int length) throws Exception;
 	
 	public void addFollow(String targetUserId, String sessionId) throws Exception;
-		
+	
+	public Map<String, Object> listFollow(Search search, String folUserId) throws Exception;
+	
+	public Follow getFollow(String folUserId, String targetUserId) throws Exception;	
 }

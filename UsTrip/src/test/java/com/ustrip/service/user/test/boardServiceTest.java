@@ -4,6 +4,7 @@ package com.ustrip.service.user.test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ustrip.common.Page;
+import com.ustrip.common.Search;
 import com.ustrip.service.asset.AssetService;
 import com.ustrip.service.board.BoardService;
 import com.ustrip.service.domain.Asset;
@@ -51,8 +54,8 @@ public class boardServiceTest {
 		board.setNickName("user001");;
 		board.setHits(0);;
 		board.setBoardContent("가나다라마바사아어ㅐ대쟈더랮댜ㅓ래");
-		board.setBoardTitle("부산여행가고싶어요");
-		board.setBoardCategory(0);
+		board.setBoardTitle("일본 또 가고싶어요!");
+		board.setBoardCategory(1);
 		
 		int check = boardService.addBoard(board);
 
@@ -88,7 +91,7 @@ public class boardServiceTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testget() throws Exception {
 		
 		Board check = boardService.getBoard(70002);
@@ -97,12 +100,18 @@ public class boardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testlist() throws Exception {
 		
-		List<Board> check = boardService.listBoard(1);
-
-		Assert.assertEquals(0, check.size());
+		Search search = new Search();
+		search.setCurrentPage(1);
+		search.setOrder("DESC");
+		search.setBoardCategory(0);
+		search.setPageSize(5);
+		
+		List<Board> map = boardService.listBoard(search);
+				
+		Assert.assertEquals(3, map );
 		
 	}
 	

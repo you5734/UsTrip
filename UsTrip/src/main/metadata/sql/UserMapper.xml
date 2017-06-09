@@ -105,7 +105,7 @@
 		 </select>
 			 
 		<!-- SQL : SELECT ROW Count -->	 
-		 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+		 <select  id="getUserTotalCount"  parameterType="search"	 resultType="int">
 		  	SELECT COUNT(*)
 		  	FROM(	SELECT user_id , nickName , profile_img, gender, is_delete
 							FROM users 

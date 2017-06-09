@@ -1,5 +1,5 @@
-function mentor(){
-	 $.ajax("/community/getCommunityListJSON/0",{
+function boardList(con){
+	 $.ajax("/community/getCommunityListJSON/"+con,{
 			method : "GET" ,
 			dataType : "json" ,
 			headers : {
@@ -8,22 +8,23 @@ function mentor(){
 			},
 			success : function(J , status) { 
 				
-			$('#event').remove();
+				$('#body').empty();
+
 				var list = '';				
 				for(var i in J.board){
 					var regdate = new Date(J.board[i].regDate).format("yyyy/MM/dd");
 					 var adid = '';
 					 var adchar = '';
 					list = list+
-				'<div class="panel panel-default" id="event">'+
+				'<li class="list-group-item"><div class="row" >'+
 				'<div class="panel-heading">'+                
 				'<div class="row">'+
-		         '<div class="col-md-1" align="left">'+J.board[i].boardNo+'</div>'+
-		         '<div class="col-md-5" align="center"><b id="#'+J.board[i].boardNo+'">'+J.board[i].boardTitle+'</b></div>'+
-		         '<div class="col-md-2" align="left" style="margin-left:13px;">'+J.board[i].nickName+'</div>'+
-		         '<div class="col-md-2" align="left" style="margin-left:5px;">'+regdate+'</div>'+
-		         '<div class="col-md-1" align="left" style="margin-left:5px;">'+J.board[i].hits+
-		         '</div></div></div>'+
+		         '<div class="col-md-2" align="left">'+J.board[i].boardNo+'</div>'+
+		         '<div class="col-md-6" align="left" style="display: flex; justify-content: left;"><b style="width: 400px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" id="'+J.board[i].boardNo+'">'+J.board[i].boardTitle+'</b></div>'+
+		         '<div class="col-md-2" align="left"><c>'+J.board[i].nickName+'</c></div>'+
+		         '<div class="col-md-1" align="left">'+regdate+'</div>'+
+		         '<div class="col-md-1" align="center">'+J.board[i].hits+
+		         '</div></li>'
 	             '<div id="'+J.board[i].boardNo+'" class="panel-collapse collapse"><div class="panel-body">'+
 	             '<div class="row"><div class="col-md-4">'+
 	             '<img src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="height:400px; width:350px;">'+
@@ -49,72 +50,57 @@ function mentor(){
 				       '$(adchar).text(length);'+
 				     '});}</script>'
 				}
+				
 				$('#body').html(list);
-				countChar(J)
-				comment(J);
-				selectCate();
-			}						
-							})
-}
-
-function party(){
-	 $.ajax("/community/getCommunityListJSON/1",{
-			method : "GET" ,
-			dataType : "json" ,
-			headers : {
-				"Accept" : "application/json",
-				"Content-Type" : "application/json"
-			},
-			success : function(J , status) { 
-				$('#event').remove();
-				var regdate = new Date(J.board[i].regDate).format("yyyy/MM/dd");
-				var list = '';				
 				for(var i in J.board){
-					var reg = new Date(J.board[i].regDate);
-					list = list+
-				'<div class="panel panel-default" id="event">'+
-				'<div class="panel-heading">'+                
-                '<b id="#'+J.board[i].boardNo+'" >'+
-	             J.board[i].boardTitle+' ['+J.board[i].countComment+']'+
-		         '</b></div>'+
-	             '<div id="'+J.board[i].boardNo+'" class="panel-collapse collapse"><div class="panel-body">'+
-	             '<div class="row"><div class="col-md-4">'+
-	             '<img src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="height:400px; width:350px;">'+
-	             '</div><div class="col-md-8">'+
-         		J.board[i].boardContent+
-         		'</div></div><hr/><div id="appendcom"><h6 align="right">'+
-         		J.board[i].countComment+' Comments'+
-				'</h6>'+
-				'<div id="'+J.board[i].boardNo+'c"></div>'+
-				'<hr/>'+ 
-                '<h4><i class="fa fa-paper-plane-o"></i>Your Comment</h4>'+        
-                '<textarea class="form-control" rows="3"  id="'+J.board[i].boardNo+'cal" maxlength="200"></textarea>'+
-                '<div>200 / <span id="'+J.board[i].boardNo+'chars">200</span><button class="comment-btn " style="margin-top:10px; float: right;" >Comment</button></div>'+
-                '</div></div></div>'
-					
-				}
-				$('.panel-group').html(list);
-				countChar(J);
-				comment(J);
+					if(J.board[i].countComment > 0) {
+						var find = '#'+J.board[i].boardNo;;
+						var count = ' ['+J.board[i].countComment+']';
+						$(find).append(count);
+					}
+					}		
+				
 				selectCate();
-			}						
-							})
-}
+				
+			}//success ³¡						
+							})//ajax³¡
+}//function ³¡
 
 function selectCate(){
+	
+	$('li').hover(function(){
+		if($('#board').attr('class') == 'panel panel-info'){
+			$(this).css('background-color','lightblue');
+		}else{
+			$(this).css('background-color','PeachPuff ');
+		}
+	},function(){
+		$(this).css('background-color','white');
+	});
+	
+	$('b').hover(function(){
+		$(this).css('color','white');
+	},function(){
+		$(this).css('color','black');
+	});
+	
 	$('b').on('click',function(){
 		
 		var objectID=$(this).attr('id');
 		
-						if($(objectID).hasClass('in'))
-						{
-	                        $(objectID).collapse('hide');
-					}
-					
-					else{
-	                        $(objectID).collapse('show');
-					}
+		alert(objectID);
 	        });
+	
+	$('c').on('click',function(){
+		var adad = $(this).text();
+		alert(adad);
+	});	
+	
+	$('c').hover(function(){
+		$(this).css('color','white');
+	},function(){
+		$(this).css('color','black');
+	});
 }
 
 function countChar(J){

@@ -1,19 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
 	<script src="https://use.fontawesome.com/04438b50a5.js"></script>
 	
 	<script type="text/javascript">
@@ -36,15 +23,45 @@
 						 },
 						 context : this,
 						 success : function(JSONData, status) {
-							 $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff');
+							/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
+							/* location.reload(); */
+							 $(this).val('following');
 							 
 						 }
 					}		
 				)
 			});
 		});	
-		
-	
+	 
+	 $(function() {
+		 
+			$( "#listFollow" ).on("click" , function() {
+				alert("dd");
+				self.location="/user/listFollow";
+			});
+			
+			$( "#update" ).on("click" , function() {
+				var userId = $("#userId").val();
+				alert("userIddddddd " + userId)
+				self.location="/user/updateUser?userId="+userId;
+			});
+			
+			$( "#getUser" ).on("click" , function() {
+				var userId = $("#userId").val();
+				alert("userId :: " + userId)
+				self.location="/user/getUser?userId="+userId;
+			});
+			
+			$('.test').on('click', function() {
+				if ($('.test').hasClass('active')) {
+					$('.test').removeClass('active')
+				}
+				$(this).addClass('active');
+				
+			})
+			
+	 });
+	 
 	</script>
 	
 	<style>
@@ -142,11 +159,7 @@
 		}
 	
 	</style>
-</head>
-<body>
 
-<div class="container">
-    <div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
@@ -167,34 +180,40 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<input type="button" class="btn btn-sm" id="follow" value="follow">
-					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
+				<%-- 	<c:if test="${sessionScope.user.userId != user.userId }"> --%>
+					 <c:choose >
+						 <c:when test="${ empty follow.targetUserId }">
+							<input type="button" class="btn btn-sm" id="follow" value="follow">
+						</c:when>
+						<c:otherwise >
+							<input type="button" class="btn btn-sm" id="following" value="following">
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-sm">회원정보수정</button>
-					<button type="button" class="btn btn-sm">회원정보조회</button>
+					<button type="button" class="btn btn-sm" id="update">회원정보수정</button>
+					<button type="button" class="btn btn-sm" id="getUser">회원정보조회</button>
 				</div>
-				
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="active">
+						<li class="test">
 							<a href="#">
 							<i class="fa fa-plane" aria-hidden="true"></i>
 							등록한 여행 </a>
 						</li>
-						<li>
+						<li  class="test">
 							<a href="#">
 							<i class="fa fa-heart" aria-hidden="true"></i>
 							좋아요한 여행</a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="fa fa-user-circle" aria-hidden="true"></i>
+						</li >
+						<li id="listFollow" class="active test">
+							<a href="#">
+							<i class="fa fa-user-circle" aria-hidden="true" ></i>
 							팔로우 </a>
 						</li>
-						<li>
+						<li class="test">
 							<a href="#">
 							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 							팔로잉 </a>
@@ -204,18 +223,4 @@
 				<!-- END MENU -->
 			</div>
 		</div>
-		<div class="col-md-9">
-            <div class="profile-content">
-			   Some user related content goes here...
-            </div>
-		</div>
-	</div>
-</div>
-<center>
-<strong>Powered by <a href="http://j.mp/metronictheme" target="_blank">KeenThemes</a></strong>
-</center>
-<br>
-<br>
-
-</body>
-</html>
+		

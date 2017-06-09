@@ -13,6 +13,7 @@ import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
+import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
@@ -49,9 +50,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public int deleteBlog(int blogNo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteBlog(int blogNo) throws Exception {
+		blogDAO.deleteBlog(blogNo);
 	}
 
 	@Override
@@ -73,10 +73,9 @@ public class BlogServiceImpl implements BlogService{
 	public void deleteTag(int tagNo) throws Exception {
 		blogDAO.deleteTag(tagNo);
 	}
-
 	@Override
-	public List<Image> listPicture(int blogNo) throws Exception {
-		return blogDAO.listPicture(blogNo);
+	public void deleteJsonImage(int imgNo) throws Exception {
+		blogDAO.deleteImage(imgNo);
 	}
 	
 	@Override
@@ -95,26 +94,23 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public void addLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
 		return blogDAO.checkLikeTravel(userId, travelNo);
 	}
 
 	@Override
-	public Map<String, Object> listLikeTravel(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LikeTravel> listLikeTravel(String userId) throws Exception {
+		return blogDAO.listLikeTravel(userId);
+	}
+
+	@Override
+	public void deleteJsonLike(int travNo, String userId) throws Exception {
+		blogDAO.deleteJsonLike(travNo, userId);
+	}
+
+	@Override
+	public void addJsonLike(int travNo, String userId) throws Exception {
+		blogDAO.addJsonLike(travNo, userId);
 	}
 
 }

@@ -50,4 +50,16 @@ public class CommentDaoImpl implements CommentDao{
 		return sqlSession.delete("CommentMapper.deleteComment",commentNo);
 	}
 
+	@Override
+	public List<Comment> getComment(int boardNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("CommentMapper.getComment", boardNo);
+	}
+
+	@Override
+	public Comment oneComment(int commentNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("CommentMapper.oneComment", commentNo);
+	}
+
 }
