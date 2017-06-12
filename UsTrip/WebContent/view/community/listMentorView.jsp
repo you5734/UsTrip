@@ -21,6 +21,11 @@
 	
 	<script src="/js/dateFormat.js"></script>
 	
+	<link href="/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
+    <script src="/js/jquery.contextMenu.js" type="text/javascript"></script>
+    <script src="/js/jquery.ui.position.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+	
 	<script>
 	
 	function fncGetList(currentPage) {
@@ -28,7 +33,7 @@
 		$("#searchForm").attr("method" , "POST").attr("action" , "/community/listCommunity").submit();
 	}
 	
-	$(function () {	
+	$(function () {		
 		
 		var current ='${resultPage.currentPage}';
 		
@@ -56,13 +61,16 @@
 		
 		$('b').on('click',function(){			
 			var objectID=$(this).attr('id');			
-			$("#currentPage").val('${resultPage.currentPage}');
+			$("#currentPage").val(current);
+			$('#order').val('${search.order}');
 			$("form").attr("method" , "POST").attr("action" , "/community/getBoard?boardNo="+objectID).submit();
 		        });
 		
 		$('font').on('click',function(){
 			var adad = $(this).text();
-			alert(adad);
+			/* alert(adad); */
+			popmenu(adad);
+			
 		});	
 		
 		$('#orderby').on('click',function(){		
@@ -89,7 +97,7 @@
 			$(this).attr('class','text-primary');
 		},function(){
 			$(this).attr('class','text-default');
-		});
+		}); 
 		
 		$('#men').on('click',function(){
 			$('#searchKeyword').val(null);
@@ -112,6 +120,91 @@
         }); 
       
 });
+	
+	function popmenu(userId){
+	    $.contextMenu({
+	        selector: 'font', 
+	        trigger: 'left',
+	        callback: function(key, options) {
+	            if(key == '1'){
+	            	$('#searchKeyword').val(userId);
+	            	$('#c').val('2');
+	            	$('#boardCategory').val('0');
+	            	fncGetList(1);
+	            }else if(key == '2'){
+	            	swal({
+	            		  title: userId+'님의 \n여행페이지로 이동하시겠습니까?',
+	            		  text: userId+"님의 여행페이지로가서 다른여행도 구경해보세요",
+	            		  type: 'question',
+	            		  showCancelButton: true,
+	            		  confirmButtonColor: '#3085d6',
+	            		  cancelButtonColor: '#d33',
+	            		  confirmButtonText: '간다'
+	            		}).then(function () {
+	            		  swal(
+	            		    '성공!',
+	            		    '페이지가 완성되면 연결합니다.',
+	            		    'success'
+	            		  )
+	            		})
+	            }else{
+	            	swal({
+	            		  title: userId+' 님을\n Follow 하시겠습니까?',
+	            		  text: userId+" 님을 Follow해서 여행을 함께하세요!",
+	            		  type: 'question',
+	            		  showCancelButton: true,
+	            		  confirmButtonColor: '#3085d6',
+	            		  cancelButtonColor: '#d33',
+	            		  confirmButtonText: 'Follw'
+	            		}).then(function () {
+	            			//ajax으로 follow추가
+	            			swal({
+	            				  title: userId+'님을 Follow를 했습니다',
+	            				  text: "Follow화면으로 가시겠습니까?",
+	            				  type: 'success',
+	            				  showCancelButton: true,
+	            				  confirmButtonColor: '#3085d6',
+	            				  cancelButtonColor: '#d33',
+	            				  confirmButtonText: '간다'
+	            				}).then(function () {
+	            				  swal(
+	            				    '성공!',
+	            				    '마이페이지 완성되면 그쪽으로 보냅니다..',
+	            				    'success'
+	            				  )
+	            				})
+	            		})
+	            }
+	        },
+	        items: {
+	            "1": {name: "작성자의 글 모두보기"},
+	            "2": {name: "작성자의 여행페이지로"},
+	            "3": {name: "작성자를 Follow 하기"}
+	        }
+	    });
+	}
+	
+	function today(){
+
+		var date = new Date();
+		 
+	    var year = date.getFullYear(); //년도
+	    var month = date.getMonth()+1; //월
+	    var day = date.getDate(); //일
+	 
+	    if ((day+"").length < 2) {       // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+	        day = "0" + day;
+	    }
+	    
+	    if ((month+"").length < 2) {       // 일이 한자리 수인 경우 앞에 0을 붙여주기 위해
+	    	month = "0" + month;
+	    }
+	 
+	    var getToday = year+"/"+month+"/"+day;
+		
+		return getToday;
+		
+	}
   </script>
   <style type="text/css">
   body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;}
@@ -145,7 +238,6 @@
 			</div>        
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
-    
     <div class="row">
     	<div class="col-md-6 text-left">
 		    	<p class="text-primary">

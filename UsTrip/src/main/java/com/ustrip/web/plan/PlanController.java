@@ -21,117 +21,79 @@ import com.ustrip.service.user.UserService;
 @RequestMapping("/plan/*")
 public class PlanController {
 	///Field
-		@Autowired
-		@Qualifier("planServiceImpl")
-		private PlanService planService;
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 		
-		@Autowired
-		@Qualifier("userServiceImpl")
-		private UserService userService;
-			
-		public PlanController(){
-			System.out.println(this.getClass());
-		}
-		
-		//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
-		//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
-		@Value("#{commonProperties['pageUnit']}")
-		//@Value("#{commonProperties['pageUnit'] ?: 3}")
-		int pageUnit;
-		
-		@Value("#{commonProperties['pageSize']}")
-		//@Value("#{commonProperties['pageSize'] ?: 2}")
-		int pageSize;
-		
-		
-		//Travel 테이블
-		@RequestMapping( value="addTravel", method=RequestMethod.GET )
-		public String addTravel() throws Exception{
-			
-			System.out.println("/plan/addTravel : GET");
-
-			return "redirect:/view/plan/addTravel.jsp";
-		}
-		
-		
-		@RequestMapping( value="addTravel", method=RequestMethod.POST )
-		public String addTravel(@ModelAttribute("travel") Travel travel,
-									HttpSession session) throws Exception{
-			
-			System.out.println("/plan/addTravel : POST");
-			
-			planService.addTravel(travel);
-			
-			session.setAttribute("travel", planService.getTravel(travel));
-			
-			return "redirect:/view/plan/addCity.jsp";
-		}
-
-		
-		//City 테이블
-		@RequestMapping( value="addCity", method=RequestMethod.POST )
-		public String addCity(@ModelAttribute("city") City city, 
-									HttpSession session) throws Exception{
-			
-			System.out.println("/plan/addCity : POST");
-			
-			planService.addCity(city);
-			
-			session.setAttribute("city", planService.getCity(city));
-			
-			return "redirect:/view/plan/addPlace.jsp";
-		}
-		
-		
-		//Place 테이블
-		@RequestMapping( value="addPlace", method=RequestMethod.POST )
-		public String addPlace(@ModelAttribute("place") Place place) throws Exception{
-			
-			System.out.println("/plan/addPlace : POST");
-			
-			planService.addPlace(place);
-			
-			return "redirect:/index.jsp";
-		}
-		@RequestMapping( value="getPlan", method=RequestMethod.GET )
-		public String getPlan() throws Exception{
-			
-			System.out.println("/plan/getPlan : GET");
-						
-			return "redirect:/view/plan/getPlan.jsp";
-		}
-		
-		
-		// 아직 안함......
-		@RequestMapping( value="getPlan", method=RequestMethod.POST )
-		public String getPlan(@ModelAttribute("plan") Travel travel) throws Exception{
-			
-			System.out.println("/plan/getPlan : POST");
-			
-			return "redirect:/view/plan/getPlan.jsp";
-		}
-		
-		
-		
-		
-		@RequestMapping( value="addTest", method=RequestMethod.GET )
-		public String addTest() throws Exception{
-			
-			System.out.println("/plan/addTest : GET");
-						
-			return "redirect:/view/plan/addTest.jsp";
-		}
-		
-		
-		
-		@RequestMapping( value="addTest", method=RequestMethod.POST )
-		public String addTest(@ModelAttribute("plan") Travel travel) throws Exception{
-			
-			System.out.println("/plan/addTest : POST");
-			
-			return "redirect:/view/plan/addTest.jsp";
-		}
-		
-		
-		
+	public PlanController(){
+		System.out.println(this.getClass());
 	}
+	
+	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
+	//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
+	@Value("#{commonProperties['pageUnit']}")
+	//@Value("#{commonProperties['pageUnit'] ?: 3}")
+	int pageUnit;
+	
+	@Value("#{commonProperties['pageSize']}")
+	//@Value("#{commonProperties['pageSize'] ?: 2}")
+	int pageSize;
+	
+	
+	//Travel 테이블
+	@RequestMapping( value="addTravel", method=RequestMethod.GET )
+	public String addTravel() throws Exception{
+		
+		System.out.println("/plan/addTravel : GET");
+
+		return "redirect:/view/plan/addTravel.jsp";
+	}
+	
+	
+	@RequestMapping( value="addTravel", method=RequestMethod.POST )
+	public String addTravel(@ModelAttribute("travel") Travel travel,
+								HttpSession session) throws Exception{
+		
+		System.out.println("/plan/addTravel : POST");
+		
+		planService.addTravel(travel);
+		
+		session.setAttribute("travel", planService.getTravel(travel));
+		
+		return "redirect:/view/plan/addCity.jsp";
+	}
+
+	
+	//City 테이블
+	@RequestMapping( value="addCity", method=RequestMethod.POST )
+	public String addCity(@ModelAttribute("city") City city, 
+								HttpSession session) throws Exception{
+		
+		System.out.println("/plan/addCity : POST");
+		
+		planService.addCity(city);
+		
+		session.setAttribute("city", planService.getCity(city));
+		
+		return "redirect:/view/plan/addPlace.jsp";
+	}
+	
+	
+	//Place 테이블
+	@RequestMapping( value="addPlace", method=RequestMethod.POST )
+	public String addPlace(@ModelAttribute("place") Place place) throws Exception{
+		
+		System.out.println("/plan/addPlace : POST");
+		
+		planService.addPlace(place);
+		
+		return "redirect:/view/plan/addTravel.jsp";
+	}
+	
+	
+	
+}// end of class PlanController
