@@ -121,9 +121,14 @@ public class UserServiceImpl implements UserService {
 		Follow follow = userDao.getFollow(folUserId, targetUserId);
 		
 		if( follow != null ) {
+			System.out.println("map!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + map);
+			/*System.out.println("followwwwww 构具 ::  " + follow);
 			follow.setIsFollowing(1);
 			userDao.updateFollow(follow);
-			System.out.println("follow 构醋 :: " + follow);
+			System.out.println("follow 构醋 :: " + follow);*/
+			int isFollowing = 1;
+			map.put("isFollowing", isFollowing);
+			System.out.println("mapppppppppppppppp :::::: " +  map);
 			userDao.addFollow(map);
 		} else {
 		userDao.addFollow(map);

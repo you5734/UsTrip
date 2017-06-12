@@ -298,10 +298,12 @@ public class UserController {
 		
 		targetUserId=targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
+		
+		if(sessionId != targetUserId) {
+			userService.addFollow(targetUserId, sessionId);
+		}
 
-		userService.addFollow(targetUserId, sessionId);
-
-		return "forward:/view/user/listTravel.jsp";
+		return "forward:/user/getContents";
 	}
 	
 	@RequestMapping( value="getContents", method=RequestMethod.POST )

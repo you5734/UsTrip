@@ -84,15 +84,7 @@
 											<div class="profile-pic" style="width:180px; float: left; height:250px;">
 												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
 												<span>${follow.nickName }	<%-- //	${follow.targetUserId } --%></span><br>
-												<c:choose >
-														<c:when test="${follow.isFollowing == 1}">
-															<input type="button" class="btn btn-info btn-sm" id="listfollowing" value="following">
-														</c:when>
-														<c:otherwise >
-															<input type="hidden" class="followTarget" value="${follow.targetUserId }">
-															<input type="button" class="btn btn-sm" id="listfollow" value="follow">
-														</c:otherwise>
-													</c:choose>
+													<input type="button" class="btn btn-info btn-sm" id="listfollowing" value="following">
 											</div>
 									</c:forEach>
 								</div>

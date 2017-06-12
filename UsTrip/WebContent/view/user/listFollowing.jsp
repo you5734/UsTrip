@@ -17,8 +17,9 @@
 		<script type="text/javascript">
 	
 		 $(function() {
-				$( ".followTarget" ).on("click" , function() {
-					var targetUserId = $(".followTarget").val();
+				$( "#follow" ).on("click" , function() {
+					alert("dd");
+					var targetUserId = $("#followTarget").val();
 					alert("targetUserid :: " + targetUserId);
 					targetUserId=targetUserId.split(".");
 					
@@ -35,8 +36,8 @@
 								 success : function(JSONData, status) {
 									/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
 									/* location.reload(); */
-									/*  $(this).val('following'); */
-									alert("ffff");
+									  $(this).val('following'); 
+									/* alert("ffff"); */
 								 }
 							}		
 						)
@@ -90,7 +91,7 @@
 															<input type="button" class="btn btn-info btn-sm" id="following" value="following">
 														</c:when>
 														<c:otherwise >
-														<input type="hidden" class="followTarget" value="${follow.folUserId }">
+														<input type="hidden" class="followTarget" id="followTarget" value="${follow.folUserId }">
 															<input type="button" class="btn btn-sm" id="follow" value="follow">
 														</c:otherwise>
 													</c:choose>

@@ -19,6 +19,7 @@
 	
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 	<script src="https://apis.google.com/js/api:client.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	
 	<!-- ///////////////////////// Modal popup  ¹× ´Þ·ÂUI /////////////////////////////// -->
@@ -83,6 +84,7 @@
 				gapi.load('auth2', function() {
 					auth2 = gapi.auth2.init({
 					client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
+					cookiepolicy: 'single_host_origin',
 					fetch_basic_profile: false,
 					scope: 'profile'
 		  		});
@@ -90,6 +92,7 @@
 				// Sign the user in, and then retrieve their ID.
 				auth2.signIn().then(function() {
 				    console.log(auth2.currentUser.get().getId());
+				    console.log(auth2.googleUser.get().getBasicProfile());
 				    
 				    var profile = auth2.currentUser.get().getBasicProfile();
 				    console.log('Email: ' + profile.getEmail());

@@ -22,7 +22,7 @@
 		VALUES ( 	seq_follow_no.nextval, 
 					 	#{folUserId}, 
 					 	#{targetUserId},
-					 	0
+					 	#{isFollowing}
 				)		 	
 	</insert>
 	
@@ -32,9 +32,10 @@
 	
 	<update id="updateFollow" parameterType="follow">
 		UPDATE follow 
-		SET is_following = #{isFollowing} 
-		WHERE fol_user_id = #{folUserId} 
-		AND target_user_id = #{targetUserId}
+		<set>
+			 is_following = #{isFollowing} 
+		</set>
+		WHERE follow_no=#{followNo}
 	</update>
 	
 	<!-- SQL : SELECT LIST -->
