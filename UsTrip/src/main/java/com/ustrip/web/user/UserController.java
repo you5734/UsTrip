@@ -122,7 +122,7 @@ public class UserController {
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
 		
-		System.out.println("/user/logon : GET");
+		System.out.println("/user/login : GET");
 
 		return "redirect:/view/user/login.jsp";
 	}
@@ -372,21 +372,20 @@ public class UserController {
 		System.out.println(resultPage);
 		
 		System.out.println("mapppppppp :: " + map);
-		// Model °ú View ¿¬°á
+		
 		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("isFollowing", map.get("isFollowing"));
-		//model.addAttribute("follow", map);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
 		return "forward:/view/user/listFollowing.jsp";
 	}
 	
-	@RequestMapping( value="deleteFollow", method=RequestMethod.GET )
-	public String deleteFollow( HttpSession session, Model model, @RequestParam("userId") String targetUserId ) throws Exception {
+	@RequestMapping( value="deleteFollow/{targetUserId}", method=RequestMethod.GET )
+	public String deleteFollow( HttpSession session, Model model, @PathVariable String targetUserId ) throws Exception {
 
 		System.out.println("/user/deleteFollow : GET");
 		
+		targetUserId = targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
 		
 		userService.deleteFollow(sessionId, targetUserId);

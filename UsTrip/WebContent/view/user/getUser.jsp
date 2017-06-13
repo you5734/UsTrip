@@ -51,6 +51,13 @@
     	.col-sm-8.col-md-8{
     		height:40px;
     	}
+    	.profile-content {
+    		min-height: 472px !important;
+    	}
+    	.col-md-9 {
+    		min-height: 35px !important;
+    		/* ¾È¸ÔÈù´ç */
+    	}
     </style>
        
 </head>

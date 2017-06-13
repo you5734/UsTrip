@@ -16,14 +16,15 @@
 	<script type="text/javascript">
 	
 		 $(function() {
-				$( "#listfollow" ).on("click" , function() {
-					var targetUserId = $(".followTarget").val();
+				$( ".btn.btn-info" ).on("click" , function() {
+					var targetUserId = $(this).next().val();
 					alert("targetUserid :: " + targetUserId);
+					
 					targetUserId=targetUserId.split(".");
 					
 					$.ajax(
 							{
-								url : '/user/addFollow/'+targetUserId,
+								url : '/user/deleteFollow/'+targetUserId,
 								method : "GET",
 								dataType : "json",
 								headers : {
@@ -34,9 +35,7 @@
 								 success : function(JSONData, status) {
 									/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
 									/* location.reload(); */
-									/*  $(this).val('following'); */
-									alert("wwwwwwwww");
-									 
+									 self.location="/user/listFollow"
 								 }
 							}		
 						)
@@ -83,8 +82,9 @@
 										<c:set var="i" value="${ i+1 }" />
 											<div class="profile-pic" style="width:180px; float: left; height:250px;">
 												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
-												<span>${follow.nickName }	<%-- //	${follow.targetUserId } --%></span><br>
-													<input type="button" class="btn btn-info btn-sm" id="listfollowing" value="following">
+												<span>${follow.nickName }</span><br>
+													<input type="button" class="btn btn-info btn-sm"  value="Following">
+													<input type="hidden" class="followTarget" id="followTarget" value="${follow.targetUserId }">
 											</div>
 									</c:forEach>
 								</div>

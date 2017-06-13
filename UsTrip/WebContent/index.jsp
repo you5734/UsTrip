@@ -9,9 +9,9 @@
 <html>
 	<head>
 	<meta charset="UTF-8">
-		<title>Intensify by TEMPLATED</title>
+		<title>USTRIP</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="/css/main.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		
 		 <link href="/css/fullscreenDemo.css" rel="stylesheet" type="text/css">
@@ -43,6 +43,7 @@
 		            muted: true
 		          });
 		      }); 
+			
 		</script>
 		
 		<style>
@@ -54,19 +55,19 @@
 	</head>
 	<body >
 		<!-- Header -->
-			<header id="header">
+		<!-- 	<header id="header">
 				<nav class="left">
 					<a href="#menu"><span>Menu</span></a>
 				</nav>
 				<a href="index.jsp" class="logo">UsTrip</a>
 				<nav class="right">
-					<a href="#" class="button alt">Log in</a>
+					<a class="button alt" id="login">Log in</a>
 					<a href="#" class="button alt">join</a>
 				</nav>
-			</header>
+			</header> -->
 
 		<!-- Menu -->
-			<nav id="menu">
+		<!-- 	<nav id="menu">
 				<ul class="links">
 					<li><a>Home</a></li>
 					<li><a>어스토리</a></li>
@@ -76,8 +77,9 @@
 				<ul class="actions vertical"> 
 					<li><a href="#" class="button fit">Login</a></li>
 				</ul>
-			</nav>
-
+			</nav> -->
+			<jsp:include page="/common/toolbar.jsp"/>
+	<!-- //////////툴바 및 메뉴바/////////// -->
 			 <div class="block-container">
 				<div class="block">
 					<h3>당신의 아름다운 대한민국을 여행하세요</h3><br>
@@ -193,12 +195,12 @@
 			</footer>
 
 		<!-- Scripts -->
-			<script src="js/jquery.min.js"></script>
-			<script src="js/jquery.scrolly.min.js"></script>
-			<script src="js/skel.min.js"></script>
-			<script src="js/util.js"></script>
-			<script src="js/main.js"></script>
-			<script src="js/vidbg.min.js"></script>
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/jquery.scrolly.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/util.js"></script>
+			<script src="/js/main.js"></script>
+			<script src="/js/vidbg.min.js"></script>
 
 	</body>
 </html>

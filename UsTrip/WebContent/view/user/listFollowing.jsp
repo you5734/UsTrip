@@ -17,15 +17,65 @@
 		<script type="text/javascript">
 	
 		 $(function() {
-				$( "#follow" ).on("click" , function() {
-					alert("dd");
-					var targetUserId = $("#followTarget").val();
+				$( ".btn.btn-sm" ).on("click" , function() {
+					var targetUserId = $(this).next().val();
+					alert("targetUserid :: " + targetUserId);
+				
+					targetUserId=targetUserId.split(".");					
+					destination = $(this).val();
+					
+					alert("destinateeeeeeeeeeeee ::" + destination);
+					
+					if( destination == "Follow" ) {
+						
+						$.ajax(
+								{
+									url : '/user/addFollow/'+targetUserId,
+									method : "GET",
+									dataType : "json",
+									headers : {
+										 "Accept" : "application/json",
+										 "Content-Type" : "application/json"
+									 },
+									 context : this,
+									 success : function(JSONData, status) {
+										/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
+										 location.reload(); 
+										  /* self.location="/user/listFollowing" */
+									 }
+								}		
+							)
+					} else  if( destination == "Following" ) {
+						$.ajax(
+								{
+									url : '/user/deleteFollow/'+targetUserId,
+									method : "GET",
+									dataType : "json",
+									headers : {
+										 "Accept" : "application/json",
+										 "Content-Type" : "application/json"
+									 },
+									 context : this,
+									 success : function(JSONData, status) {
+										/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
+										location.reload(); 
+										 /* $('#listfollowing').addClass("btn btn-sm").val('follow'); */
+									 }
+								}		
+							)
+						}
+					});
+				});	
+	/* 	 $(function() {
+				$(".btn-info" ).on("click" , function() {
+					alert("√Îº“æﬂ!!!");
+					var targetUserId = $(this).prev().val();
 					alert("targetUserid :: " + targetUserId);
 					targetUserId=targetUserId.split(".");
 					
 					$.ajax(
 							{
-								url : '/user/addFollow/'+targetUserId,
+								url : '/user/deleteFollow/'+targetUserId,
 								method : "GET",
 								dataType : "json",
 								headers : {
@@ -34,16 +84,17 @@
 								 },
 								 context : this,
 								 success : function(JSONData, status) {
-									/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
-									/* location.reload(); */
+									  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); 
+									 location.reload(); 
 									  $(this).val('following'); 
-									/* alert("ffff"); */
+									  $('#listfollowing').addClass("btn btn-sm").val('follow'); 
+									 self.location="/user/listFollow"
 								 }
 							}		
 						)
 					});
 				});	
-				
+		  */
 	</script>
 	
 	<style>
@@ -86,13 +137,15 @@
 											 <br><br><br>
 												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
 												<span>${follow.nickName }	<%-- //	${follow.folUserId } --%></span><br>
+													<input type="hidden" class="followTarget" value="${follow.folUserId }">
 													<c:choose >
 														<c:when test="${follow.isFollowing == 1}">
-															<input type="button" class="btn btn-info btn-sm" id="following" value="following">
+															<input type="button" class="btn btn-info btn-sm" id="following" value="Following">
+															<input type="hidden" class="followTarget" value="${follow.folUserId }">
 														</c:when>
 														<c:otherwise >
-														<input type="hidden" class="followTarget" id="followTarget" value="${follow.folUserId }">
-															<input type="button" class="btn btn-sm" id="follow" value="follow">
+															<input type="button" class="btn btn-sm" id="follow" value="Follow">
+															<input type="hidden" class="followTarget" value="${follow.folUserId }">
 														</c:otherwise>
 													</c:choose>
 											</div>

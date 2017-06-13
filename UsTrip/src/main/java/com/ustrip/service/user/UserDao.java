@@ -50,6 +50,6 @@ public interface UserDao {
 	
 	public int getFollowingTotalCount(Search search) throws Exception;
 	
-	public void deleteFollow(String folUserId, String targetUserId) throws Exception;
+	public void deleteFollow(Map<String, Object> map) throws Exception;
 		
 }

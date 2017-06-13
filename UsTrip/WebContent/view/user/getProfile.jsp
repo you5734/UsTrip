@@ -166,10 +166,10 @@
 	</style>
 
 		<div class="col-md-3">
-			<div>
+<!-- 			<div>
 			<a>커뮤니티</a>
 			<a>플랜</a>
-			</div>
+			</div> -->
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">

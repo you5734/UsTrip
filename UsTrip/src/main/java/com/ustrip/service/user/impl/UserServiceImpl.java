@@ -122,13 +122,19 @@ public class UserServiceImpl implements UserService {
 		
 		if( follow != null ) {
 			System.out.println("map!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + map);
-			/*System.out.println("followwwwww 构具 ::  " + follow);
+			
 			follow.setIsFollowing(1);
+			
 			userDao.updateFollow(follow);
-			System.out.println("follow 构醋 :: " + follow);*/
+			
+			System.out.println("follow 构醋 :: " + follow);
+			
 			int isFollowing = 1;
+			
 			map.put("isFollowing", isFollowing);
+			
 			System.out.println("mapppppppppppppppp :::::: " +  map);
+			
 			userDao.addFollow(map);
 		} else {
 		userDao.addFollow(map);
@@ -160,7 +166,6 @@ public class UserServiceImpl implements UserService {
 		List<Follow> list = userDao.listFollowing(search);
 		int totalCount  = userDao.getFollowingTotalCount(search);
 		
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("totalCount", totalCount);
@@ -169,8 +174,30 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void deleteFollow(String folUserId, String targetUserId ) throws Exception{
-		userDao.deleteFollow(folUserId, targetUserId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("targetUserId", targetUserId);
+		map.put("folUserId", folUserId);
+		
+		String temp = targetUserId;
+		targetUserId = folUserId;
+		folUserId = temp;
+		
+		System.out.println("map俊 淬变霸 公均捞衬 :: " + map);
+		
+		Follow follow = userDao.getFollow(folUserId, targetUserId);
+		
+		if( follow != null) {
+			
+			follow.setIsFollowing(0);
+			
+			userDao.updateFollow(follow);
+			System.out.println("follow delete??????????????????? :: " +follow);
+			
+		}
+		userDao.deleteFollow(map);
+	/*	userDao.deleteFollow(folUserId, targetUserId);*/
 	}
-	
 
 }

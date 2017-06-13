@@ -18,6 +18,10 @@
 		font: inherit;
 		vertical-align: baseline;
 	}
+	
+	body {
+		padding-top:60px;
+	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
@@ -226,7 +230,7 @@
 	}
 
 	.row > * {
-		float: left;
+		/* float: left; */
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
@@ -1843,9 +1847,9 @@
 	label {
 		color: #727a82;
 		display: block;
-		font-size: 0.9em;
+		font-size: 1.1em;
 		font-weight: 700;
-		margin: 0 0 1em 0;
+		margin: 20px 0 1em 0;
 	}
 
 	input[type="text"],
@@ -2397,7 +2401,7 @@
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		background-color: #f6755e;
-		border-radius: 4px;
+		border-radius: 7px;
 		border: 0;
 		color: #ffffff;
 		cursor: pointer;
@@ -2405,7 +2409,7 @@
 		font-family: "Montserrat", sans-serif;
 		height: 3.5em;
 		line-height: 3.5em;
-		padding: 0 3.5em;
+		padding: 0 2.5em;
 		text-align: center;
 		text-decoration: none;
 		white-space: nowrap;

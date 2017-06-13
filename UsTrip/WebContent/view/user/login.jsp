@@ -10,9 +10,17 @@
 	<meta charset="EUC-KR">
 	
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
     
-    <!-- ///////////////////////카카오톡로그인버튼 추가/////////////////////////////// -->
+    <!-- ///////////////////////카카오 및 구글로그인 연동/////////////////////////////// -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -20,16 +28,12 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 	<script src="https://apis.google.com/js/api:client.js"></script>
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<!-- ////////////////////////////////////////////////////////////////////////// -->
 	
 	<!-- ///////////////////////// Modal popup  및 달력UI /////////////////////////////// -->
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  	<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- ///////////////////////// Modal popup /////////////////////////////// -->
-		
+	
 	<script type="text/javascript">
 	
 	// 카카오톡 로그인버튼 처리
@@ -129,7 +133,7 @@
 			
 			$("#userId").focus();
 			
-			$("#login").on("click" , function() {
+			$("#signin").on("click" , function() {
 				var id=$("input:text").val();
 				var pw=$("input:password").val();
 				
@@ -151,7 +155,7 @@
 		
 		// 회원원가입화면이동
 		$( function() {
-			$("#join").on("click" , function() {
+			$("#joinus").on("click" , function() {
 				self.location = "/user/addUser"
 			});
 		});
@@ -159,12 +163,12 @@
 	</script>		
 	
 	<style>
-		.bodycss{
-			margin-top: 70px;
+		.form-group{
+			margin-bottom:15px;
 		}
+
 		#dialog-form { display:none; }
     	input.text { width:60%; padding: .4em; }
-		fieldset { padding:0; border:0; margin-top:5px; }
 		.validateTips { border: solid transparent; padding: 0.3em; color:red; }
 		
 		#customBtn {
@@ -203,7 +207,8 @@
 		}
 	</style>
 </head>
-<body class="bodycss">
+<body>
+	<jsp:include page="/common/toolbar.jsp"/>
         <div class="top-content" align="center">
             <div class="inner-bg">
                 <div class="container">
@@ -216,26 +221,22 @@
                         </div>
                     </div>
                    
-                    <div class="row">
+                    <div class="row" style="margin:2em 0 -1px 28em;">
                    	 	<div class="col-sm-4"></div>
                         <div class="col-sm-4">
                         	
                         	<div class="form-box">
 	                        	<div class="form-top">
 	                        		<div class="form-top-left">
+	                        			<i class="fa fa-lock"></i>
 	                        			<h4>Login to our site</h4>
 	                            		<p>Enter userid and password to log on:</p>
 	                        		</div>
-	                        		
-	                        		<div class="form-top-right">
-	                        			<i class="fa fa-lock"></i>
-	                        		</div>
-	                            </div>
 	                            
 	                            <div class="form-bottom">
 				                    <form role="form" action="" method="post" class="login-form">
 				                    	<div class="form-group">
-				                    		<label class="sr-only" for="form-username">Username</label>
+				                    		<label class="sr-only" for="form-username">UserId</label>
 				                        	<input type="text" name="userId" placeholder="UserId..." class="form-username form-control" id="userId">
 				                        </div>
 				                        
@@ -245,8 +246,8 @@
 				                        </div>
 				                        
 				                        <div class="form-group">
-					                        <button type="submit" class="btn" id="login">Sign in!</button>
-					                        <button type="button" class="btn" id="join">Join us!</button>
+					                        <button type="submit" class="btn" id="signin">Sign in!</button>
+					                        <button type="button" class="btn" id="joinus">Join us!</button>
 				                        </div>
 				                        
 				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
@@ -330,6 +331,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         
     </body>
