@@ -1619,7 +1619,7 @@
 
 	body, input, select, textarea {
 		color: #767d85;
-		font-family: "Open Sans", Arial, Helvetica, sans-serif;
+		font-family: "Open Sans", Montserrat, Arial, Helvetica, sans-serif;
 		font-size: 13pt;
 		font-weight: 300;
 		line-height: 1.65;
@@ -1930,7 +1930,7 @@
 	input[type="password"],
 	input[type="email"],
 	select {
-		height: 3.5em;
+		height: 34px;
 		line-height: 3.5em;
 	}
 

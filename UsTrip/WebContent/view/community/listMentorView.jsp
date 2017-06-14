@@ -7,7 +7,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-	 <link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/main.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
+
+	<link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -47,7 +57,7 @@
 			fncGetList(1);
 		});
 		
-		$('li').hover(function(){			
+		$('.list-group-item').hover(function(){			
 			$(this).css('background-color','lightblue');		
 		},function(){
 			$(this).css('background-color','white');
@@ -211,9 +221,8 @@
   </style>
   </head>
 <body>
-
-<jsp:include page="/view/common/toolbar.jsp" />
-
+<%-- <jsp:include page="/view/common/toolbar.jsp" /> --%>
+<jsp:include page="/common/toolbar.jsp" />
 	<div class="container" >
 	
 		<div class="jumbotron" 
@@ -257,7 +266,7 @@
 	    <input type="hidden" id="currentPage" name="currentPage" value=""/>  
 	    <input type="hidden" id="boardCategory" name="boardCategory" value="0"/>
 	    <input type="hidden" id="order" name="order" value=""/>
-		<button class="btn btn-primary" type="button" id="search">검색</button>
+		<button class="btn btn-primary btn-sm" type="button" id="search">검색</button>
 		</form>
     	</div>
     </div>

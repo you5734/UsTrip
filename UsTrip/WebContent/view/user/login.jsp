@@ -13,6 +13,7 @@
     <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
      
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
@@ -163,9 +164,9 @@
 	</script>		
 	
 	<style>
-		.form-group{
+ 		.form-group{
 			margin-bottom:15px;
-		}
+		} 
 
 		#dialog-form { display:none; }
     	input.text { width:60%; padding: .4em; }
@@ -221,7 +222,7 @@
                         </div>
                     </div>
                    
-                    <div class="row" style="margin:2em 0 -1px 28em;">
+                    <div class="row" >
                    	 	<div class="col-sm-4"></div>
                         <div class="col-sm-4">
                         	
@@ -246,8 +247,8 @@
 				                        </div>
 				                        
 				                        <div class="form-group">
-					                        <button type="submit" class="btn" id="signin">Sign in!</button>
-					                        <button type="button" class="btn" id="joinus">Join us!</button>
+					                        <button type="submit" class="button" id="signin">Sign in!</button>
+					                        <button type="button" class="button" id="joinus">Join us!</button>
 				                        </div>
 				                        
 				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
@@ -273,56 +274,57 @@
 					 					 <div id="dialog-form" title="추가정보 입력">
 											  <p class="validateTips">모든정보를 입력해주세요</p>											 
 											  <form id="extraUserInfo" action="/user/extraUserInfo" method="POST">
-											    		<div>
-											    			<label for="nickName" >닉네임</label>
-											    			<div style="flaot:left; width: 250px;">
-											    				<input type="text" name="nickName" id="nickName" class="text ui-widget-content ui-corner-all" >
-											    				<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
-											    			</div>
-											    		</div><br>
-											    		
-											    		<div>
-											    			<label for="password" >비밀번호</label>
-											    			<div style="flaot:left; width: 250px;">
-											    				<input type="password" name="password" id="pw" class="text ui-widget-content ui-corner-all" >
-											    			</div>
-											    		</div><br>
-											    		
-											    		<div>
-											    			<label for="password2" >비밀번호확인</label>
-											    			<div style="flaot:left; width: 250px;">
-											    				<input type="password" name="password2" id="pw2" class="text ui-widget-content ui-corner-all" >
-											    				<div id="checkpw" style="color:red; font-size:12px;"></div>
-											    			</div>
-											    		</div><br>		
-											    		
-											    		<div>
-											    			<label for="gender" >성별</label>
-											    			<div style="flaot:left; width: 250px;">
-											    				남<input type="radio" name="gender" id="gender" value="m" >
-													      		여<input type="radio" name="gender" id="gender" value="f" >
-											    			</div>
-											    		</div>	<br>										    											    		
-											    		
-											    		<div>
-											    			<label for="birthDate" >생년월일</label>
-											    			<div style="flaot:left; width: 250px;">
-											    				<input type="text" name="birthDate" id="birthDate" class="text ui-widget-content ui-corner-all" >
-											    			</div>
-											    		</div><hr>												  
+									    													    		
+										    		<div class="form-group">
+										    			<label class="col-md-5 control-label" for="nickName" >닉네임</label>
+										    			<div class="col-sm-7">
+										    				<input type="text" name="nickName" id="nickName" >
+										    				<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
+										    			</div>
+										    		</div><br>
+										    		
+										    		<div class="form-group">
+										    			<label class="col-md-5 control-label" for="password" >비밀번호</label>
+										    			<div class="col-sm-7">
+										    				<input type="password" name="password" id="pw" >
+										    			</div>
+										    		</div>
+<!-- 										    		
+										    		<div class="form-group">
+										    			<label class="col-md-5 control-label" for="password2" >비밀번호확인</label>
+										    			<div class="col-sm-5">
+										    				<input type="password" name="password2" id="pw2" >
+										    				<div id="checkpw" style="color:red; font-size:12px;"></div>
+										    			</div>
+										    		</div><br>		
+										    		
+									    			<div class="form-group">
+										    			<label class="col-md-5 control-label" for="gender" >성별</label>
+										    			<div class="col-sm-7">
+										    				남<input type="radio" name="gender" id="gender" value="m" >
+												      		여<input type="radio" name="gender" id="gender" value="f" >
+										    			</div>
+										    		</div>	<br>										    											    		
+										    		
+										    		<div class="form-group">
+										    			<label class="col-md-4 control-label" for="birthDate" >생년월일</label>
+										    			<div class="col-sm-8">
+										    				<input type="text" name="birthDate" id="birthDate"  >
+										    			</div>
+										    		</div><hr>												  
 
- 													      <div class="form-group">
-														      <div class=" col-sm-offset text-center">
-															      <button type="submit" class="btn btn-info btn" id="add">등록</button>
-															 	  <button type="button" class="btn btn-info" href="#">취소</button>
-														 	  </div>
-													 	  </div> 
+													      <div class="form-group">
+													      <div class="">
+														      <button type="submit" class="btn btn-info btn" id="add">등록</button>
+														 	  <button type="button" class="btn btn-info" href="#">취소</button>
+													 	  </div>
+												 	  </div>  -->
 													 	  
-													 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
-								     					 <input type="hidden" value="${param.kakao}" id="kakao">
-								     					 <input type="hidden" value="${param.google}" id="google">
-													      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-													       <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
+												 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
+							     					 <input type="hidden" value="${param.kakao}" id="kakao">
+							     					 <input type="hidden" value="${param.google}" id="google">
+												      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+												      <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
 												  </form>
 											</div>
 			                        <!--  ////////////////////// Modal Popup /////////////////////// -->
@@ -343,10 +345,10 @@
 	
 	if($('#kakao').val() =="0" || $('#google').val() == '1' ) {
 		var userId = $("#tempId").val();
-		alert("userId :: 가져오닝" + userId);
+		/* console.log("userId :: 가져오닝" + userId); */
 		dialog = $('#dialog-form').dialog({			
-			height: 400,
-			width: 350,
+			height: 550,
+			width: 550,
 			modal: true
 		});		
 	}

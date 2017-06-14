@@ -8,10 +8,7 @@
 	<!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-     
-      <link href="/css/bootstrap-imageupload.css" rel="stylesheet">
-      
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
@@ -20,6 +17,7 @@
 	<script src="/js/main.js"></script>
 	<script src="/js/bootstrap-imageupload.js"></script>
 		
+     <link href="/css/bootstrap-imageupload.css" rel="stylesheet">
 	<!-- ´Þ·ÂUI -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
