@@ -35,7 +35,7 @@
 	
 	 <select id="checkBlogStart" parameterType="int" resultMap="travelSelectMap">
 	 	SELECT
-	 	trav_no, is_blog_start, trav_title, TO_CHAR(start_date,'yy/MM/dd') start_date
+	 	trav_no, is_blog_start, trav_title, TO_CHAR(start_date,'yy/MM/dd') start_date, user_id
 	 	FROM travel
 	 	WHERE trav_no=#{travelNo}
 	 </select>

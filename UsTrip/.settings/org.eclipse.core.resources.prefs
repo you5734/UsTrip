@@ -1,11 +1,8 @@
-<<<<<<< HEAD
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/heads/master
 eclipse.preferences.version=1
 encoding//WebContent/js/community.js=euc-kr
 encoding//WebContent/js/dateFormat.js=euc-kr
 encoding//WebContent/js/graph.js=euc-kr
 encoding//WebContent/view/community/listCommunityView2.jsp=UTF-8
-=======
-eclipse.preferences.version=1
-encoding//WebContent/js/dateFormat.js=euc-kr
-encoding//WebContent/js/graph.js=euc-kr
->>>>>>> refs/heads/master
