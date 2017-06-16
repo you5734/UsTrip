@@ -6,7 +6,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -75,16 +84,11 @@
 	 
 	</script>
 	
-	<style>
-		.form-horizontal{
-			margin-top: 100px;
-		}
-	</style>
 </head>
 <body>
-	
+<jsp:include page="/common/toolbar.jsp"/>
+<div class="container">
 	<form class="form-horizontal">
-		
 		<div class="form-group">
 			  <label class="col-md-4 control-label" for="sender">SENDER</label>  
 			  <div class="col-md-5">
@@ -117,6 +121,6 @@
 			  </div>
 		</div>
 	</form>
-
+</div>
 </body>
 </html>

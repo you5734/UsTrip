@@ -19,6 +19,10 @@
 		vertical-align: baseline;
 	}
 	
+	.container {
+		margin-top:85px !important;
+	}
+	
 	body {
 		padding-top:60px;
 	}

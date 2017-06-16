@@ -27,6 +27,7 @@ import com.ustrip.common.Page;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
+import com.ustrip.service.plan.PlanService;
 import com.ustrip.service.user.UserService;
 
 @Controller
@@ -37,6 +38,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	///Field
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -317,22 +323,29 @@ public class UserController {
 		return "forward:/user/getContents";
 	}
 	
-	@RequestMapping( value="getContents", method=RequestMethod.POST )
-	public String getContents( HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
+	@RequestMapping( value="getListTravel" )
+	public String getListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
 
 		System.out.println("/user/getContents : POST");
 		
 		String sessionId=((User)session.getAttribute("user")).getUserId();
 		User user = userService.getUser(sessionId);
 		
-		if( targetUserId != null ) {
+		search.setSearchKeyword(sessionId);
+		Map<String, Object> map = planService.getListTravel(search);
+		
+		System.out.println("map ¸Ê " + map);
+		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
+		
+/*		if( targetUserId != null ) {
 			Follow follow = userService.getFollow(sessionId, targetUserId);
 			
 			model.addAttribute("follow", follow);
-		}
+		}*/
 		model.addAttribute("user", user);
+		model.addAttribute("travel", map.get("list"));
 		
-		return "forward:/user/listFollow";
+		return "forward:/view/user/listTravel.jsp";
 	}
 	
 	@RequestMapping( value="listFollow")

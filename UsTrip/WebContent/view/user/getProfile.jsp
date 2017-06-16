@@ -34,6 +34,9 @@
 		});	
 	 
 	 $(function() {
+			$( "#listTravel" ).on("click" , function() {
+				self.location="/user/getListTravel";
+			});
 		 
 			$( "#listFollow" ).on("click" , function() {
 				alert("ddddddd");
@@ -86,7 +89,7 @@
 		  float: none;
 		  margin: 0 auto;
 		  width: 50%;
-		  height: 50%;
+		  height: 110px;
 		  -webkit-border-radius: 50% !important;
 		  -moz-border-radius: 50% !important;
 		  border-radius: 50% !important;
@@ -210,7 +213,7 @@
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="active test" >
+						<li class="test" id="listTravel">
 							<a href="#">
 							<i class="fa fa-plane" aria-hidden="true"></i>
 							등록한 여행 </a>

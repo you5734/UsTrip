@@ -1,6 +1,8 @@
 package com.ustrip.service.plan.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
+import com.ustrip.service.domain.Message;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
@@ -83,6 +86,18 @@ public class PlanServiceImpl implements PlanService{
 		planDAO.addTravel(travel);
 		planDAO.addCity(city);
 		planDAO.addPlace(place);
+	}
+	
+	public Map<String, Object> getListTravel(Search search) throws Exception {
+		List<Travel> list = planDAO.getListTravel(search);
+		System.out.println("listtttttttttttttt ::" + list);
+		int totalCount = planDAO.totalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", new Integer(totalCount));
+		
+		return map;
 	}
 
 	

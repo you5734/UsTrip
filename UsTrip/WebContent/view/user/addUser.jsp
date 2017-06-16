@@ -196,7 +196,6 @@
 	</style>
 
 </head>
-	
 <body>
 	<jsp:include page="/common/toolbar.jsp"/>
 		<div class="container">

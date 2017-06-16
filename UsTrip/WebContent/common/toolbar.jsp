@@ -3,8 +3,39 @@
 <!DOCTYPE html >
 
 	<script type="text/javascript">
+	/* 
+		$(function() {
+			
+			$.ajax(
+					 {
+		    			 url : '/message/unReadMsg',
+		    			 method : "POST",
+		    			 dataType : "json",
+		    			 headers : {
+		    				 "Accept" : "application/json",
+		    				 "Content-Type" : "application/json"
+	    				 },
+		    			 context : this,
+		    			 success : function(JSONData, status) {		    				 
+		    				   				 
+		    				 if( JSONData.result ) {
+		    				/*	 console.log("result +++ " + JSONData.result);
+		    					 $('.fa.fa-envelope').html('');
+								$i = $('<i></i>').addClass('fa fa-envelope').attr('aria-hidden', 'true').next().val('뉴');
+								$('.fa.fa-envelope').append($i); 
+								$(".fa fa-envelope").next().val("뉴");
+								$i = $('<i></i>').addClass('fa fa-envelope').attr('aria-hidden', 'true').next().val('뉴');
+								
+		    				 } 
+	    			 	}
+	    		 });	
+		}) */
 		 $(function(){
+			 
 			 $("#login").on("click" , function() {
+				 self.location="/user/login"
+			 });
+			 $(".button.fit").on("click" , function() {
 				 self.location="/user/login"
 			 });
 			 $("#logout").on("click" , function() {
@@ -20,11 +51,15 @@
 			 });
 			 
 			 $(".img-responsive.user-photo").on("click", function() {
-				 self.location="/user/getContents";
+				self.location="/user/getListTravel";
 			 })
 			 
 			 $("#community").on("click" , function() {
 				 self.location="/community/listCommunity"
+			 });
+			 
+			 $(".fa.fa-envelope").on("click" , function() {
+				 self.location="/message/listReceivMsg";
 			 });
 		 });
 	</script>
@@ -45,7 +80,6 @@
 			height: 40px;
 		}
 	</style>
-
 	<!-- Header -->
 	<header id="header">
 		<nav class="left">
@@ -63,7 +97,7 @@
 		 	<nav class="right">
 				<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
 				<a id="my">${sessionScope.user.nickName}</a>
-				<i class="fa fa-envelope" aria-hidden="true"></i>
+					<i class="fa fa-envelope" aria-hidden="true"></i>
 				<a class="" id="logout">Log Out</a>
 			</nav>
 		 </c:if>
@@ -79,7 +113,7 @@
 		</ul>
 		<ul class="actions vertical"> 
 			<c:if test="${empty user}">
-				<li><a href="#" class="button fit">로그인</a></li>
+				<li><a href="#" class="button fit" >로그인</a></li>
 			</c:if>
 			 <c:if test="${ ! empty user }">
 			 	<li><a href="#" class="button fit">로그아웃</a></li>
