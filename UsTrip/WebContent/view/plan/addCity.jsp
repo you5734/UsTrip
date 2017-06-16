@@ -86,9 +86,6 @@
     
     $(function(){
   	  $(document).on("click","#btn-test",function(){
-  			
-  		  movePlace();
-  		  
   			XValue = $(this).parent().find(".cityX").val();
 		  	YValue = $(this).parent().find(".cityY").val();	
 		  	cityValue = encodeURIComponent($(this).parent().find(".city").val());
@@ -438,7 +435,7 @@
                                    var CBroute = new google.maps.Polyline({
                                      path: routes,
                                      geodesic: true,
-                                     strokeColor: '#FF0000',
+                                     strokeColor: '#b31543',
                                      strokeOpacity: 1.0,
                                      strokeWeight: 2
                                    });
@@ -487,11 +484,12 @@
 		
 		<div id="btn">
 			<button onclick="moveStart()">전체루트</button>
+			
+			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right; ' onclick= "{Javascript:movePlace();}">등록하기</button>
 		</div>		
 		<form id="formTag">
 		<input type="hidden" id="jsonC" name="jsonC" value="우아아"/>
 		</form>
-		
  		<div id="map"></div>
 		
 </body>
