@@ -94,8 +94,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
-		return blogDAO.checkLikeTravel(userId, travelNo);
+	public List<LikeTravel> checkLikeTravel(int travelNo) throws Exception {
+		return blogDAO.checkLikeTravel(travelNo);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public interface BlogDAO {
 	
 	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception;
 	
-	public boolean checkLikeTravel(String userId, int travelNo) throws Exception;
+	public List<LikeTravel> checkLikeTravel(int travelNo) throws Exception;
 	
 	public List<LikeTravel> listLikeTravel(String userId) throws Exception;
 

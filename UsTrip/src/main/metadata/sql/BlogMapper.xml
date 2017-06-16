@@ -33,6 +33,12 @@
 		<result property="hashTag" 			column="hash_tag" 			jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<resultMap id="likeSelectMap" type="likeTravel">
+		<result property="likeNo" 			column="LIKE_NO" 			jdbcType="NUMERIC" />
+		<result property="travNo" 			column="TRAV_NO" 			jdbcType="NUMERIC" />
+		<result property="userId" 			column="USER_ID" 			jdbcType="VARCHAR" />
+	</resultMap>
+	
 	
 	<insert 	id="addBlog"	parameterType="map">
 		INSERT 
@@ -87,11 +93,12 @@
 	 	SELECT
 	 	blog_no, memo, trav_no, visit_date, place_no, city_no, review, score, place
 	 	FROM blog
-	 	WHERE trav_no=#{searchKeyword} AND visit_date=TO_DATE(#{searchDate}, 'YY/MM/DD') AND
+	 	WHERE trav_no=#{searchKeyword} AND
 	 	place_no IN
 	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
 	 		#{item.value}
 	 	</foreach>
+	 	ORDER BY visit_date ASC
 	 </select>
 	 
 	 <select id="listBlogImage" parameterType="search" resultMap="blogSelectMap">
@@ -159,12 +166,11 @@
 	 	WHERE image_no=#{imgNo}
 	 </delete>
 	 
-	 <select id="checkLikeTravel" parameterType="search" resultType="int">
-	 	SELECT COUNT(*)
-	 	FROM(			SELECT like_no
-	 					FROM like_travel
-	 					WHERE user_id=#{searchKeyword} AND trav_no=#{searchCondition}
-	 					)countTable
+	 <select id="checkLikeTravel" parameterType="likeTravel" resultMap="likeSelectMap">
+	 	SELECT
+	 	trav_no, user_id
+		FROM like_travel
+		WHERE trav_no=#{travNo}	 					
 	 </select>
 	 
 	 <delete id="deleteLike" parameterType="search">
@@ -173,9 +179,9 @@
 	 	WHERE trav_no=#{searchCondition} AND user_id=#{searchKeyword}
 	 </delete>
 	 
-	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
+	 <select id="listLikeTravel" parameterType="likeTravel" resultMap="likeSelectMap">
 	 	SELECT
-	 	like_no, trav_no, user_id
+	 	trav_no, user_id
 	 	FROM like_travel
 	 	WHERE user_id=#{userId}
 	 </select>
