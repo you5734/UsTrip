@@ -22,7 +22,7 @@
 		VALUES ( 	seq_follow_no.nextval, 
 					 	#{folUserId}, 
 					 	#{targetUserId},
-					 	0
+					 	#{isFollowing}
 				)		 	
 	</insert>
 	
@@ -32,7 +32,9 @@
 	
 	<update id="updateFollow" parameterType="follow">
 		UPDATE follow 
-		SET is_following = #{isFollowing} 
+		<set>
+			 is_following = #{isFollowing} 
+		</set>
 		WHERE fol_user_id = #{folUserId} 
 		AND target_user_id = #{targetUserId}
 	</update>
@@ -54,13 +56,13 @@
 	 </select>
 	 
 	 <select id="isFollowing" parameterType="search" resultMap="followSelectMap">
-		 SELECT a.fol_user_id, a.target_user_id, f.follow_no, f.fol_user_id , f.target_user_id, f.is_following, u.nickname, u.profile_img
+		 SELECT inner.fol_user_id, inner.target_user_id, f.follow_no, f.fol_user_id , f.target_user_id, f.is_following, u.nickname, u.profile_img
 			FROM follow f, users u, ( select follow_no, fol_user_id, target_user_id 
 																from follow
-																where fol_user_id=#{searchKeyword}) a
+																where fol_user_id=#{searchKeyword}) inner
 			WHERE f.target_user_id=#{searchKeyword}
 			AND f.fol_user_id = u.user_id
-			and a.target_user_id = f.fol_user_id
+			and inner.target_user_id = f.fol_user_id
 	 </select>
 	 
 	 <select id="getFollowTotalCount" parameterType="search" resultType="int">

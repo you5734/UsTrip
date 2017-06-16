@@ -123,10 +123,10 @@ public class BlogController {
             }
         }
         map.put("list", blog.getImages());
-        blogService.addImage(map);
-        Blog blog2=blogService.getJsonBlog(blog.getBlogNo());
-        map.put("list2", blog2.getImages());
-        model.addAttribute("list",map.get("list2"));
+       /* blogService.addImage(map);*/
+        /*Blog blog2=blogService.getJsonBlog(blog.getBlogNo());*/
+     /*   map.put("list2", blog2.getImages());
+        model.addAttribute("list",map.get("list2"));*/
 	}
 	
 	@RequestMapping(value={"addJsonLike/{travNo}"}, method=RequestMethod.GET)

@@ -122,7 +122,7 @@ public class UserController {
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
 		
-		System.out.println("/user/logon : GET");
+		System.out.println("/user/login : GET");
 
 		return "redirect:/view/user/login.jsp";
 	}
@@ -142,14 +142,25 @@ public class UserController {
 			model.addAttribute("user", user);
 			/*destinate="redirect:/user/getUser?userId="+dbUser.getUserId();*/
 			/*destinate="redirect:/view/user/listTravel.jsp";*/
-			destinate="forward:/user/getContents?userId="+user.getUserId();
-			
+			/* destinate="forward:/user/getContents?userId="+user.getUserId();*/
+			destinate = "redirect:/index.jsp";
 		} 		
 		System.out.println(session.getAttribute("user"));
 		
 		return destinate;
 //		return "redirect:/user/getUser?userId="+dbUser.getUserId();
 	}
+	
+	@RequestMapping( value="logout", method=RequestMethod.GET )
+	public String logout(HttpSession session ) throws Exception{
+		
+		System.out.println("/user/logout : GET");
+		
+		session.invalidate();
+		
+		return "redirect:/index.jsp";
+	}
+	
 	
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
 	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
@@ -298,10 +309,12 @@ public class UserController {
 		
 		targetUserId=targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
+		
+		if(sessionId != targetUserId) {
+			userService.addFollow(targetUserId, sessionId);
+		}
 
-		userService.addFollow(targetUserId, sessionId);
-
-		return "forward:/view/user/listTravel.jsp";
+		return "forward:/user/getContents";
 	}
 	
 	@RequestMapping( value="getContents", method=RequestMethod.POST )
@@ -370,21 +383,20 @@ public class UserController {
 		System.out.println(resultPage);
 		
 		System.out.println("mapppppppp :: " + map);
-		// Model °ú View ¿¬°á
+		
 		model.addAttribute("list", map.get("list"));
-//		model.addAttribute("isFollowing", map.get("isFollowing"));
-		//model.addAttribute("follow", map);
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
 		return "forward:/view/user/listFollowing.jsp";
 	}
 	
-	@RequestMapping( value="deleteFollow", method=RequestMethod.GET )
-	public String deleteFollow( HttpSession session, Model model, @RequestParam("userId") String targetUserId ) throws Exception {
+	@RequestMapping( value="deleteFollow/{targetUserId}", method=RequestMethod.GET )
+	public String deleteFollow( HttpSession session, Model model, @PathVariable String targetUserId ) throws Exception {
 
 		System.out.println("/user/deleteFollow : GET");
 		
+		targetUserId = targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
 		
 		userService.deleteFollow(sessionId, targetUserId);

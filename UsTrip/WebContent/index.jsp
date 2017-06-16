@@ -1,94 +1,206 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%@ page pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8"%>
+<!DOCTYPE HTML>
+<!--
+	Intensify by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+	<meta charset="UTF-8">
+		<title>USTRIP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		 <link href="/css/fullscreenDemo.css" rel="stylesheet" type="text/css">
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-<html lang="ko">
-	
-<head>
-	<meta charset="EUC-KR">
-  <title>Vidbg.js Demo</title>
-  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-  <link href="/css/fullscreenDemo.css" rel="stylesheet" type="text/css">
-   <link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  
-  $(window).scroll(function() {
-		if ($(document).scrollTop() > 150) {
-          alert('hi');
-		$('.logo').height(200);
+		<script type="text/javascript">
+/*  			$(window).scroll(function() {
+				if ($(document).scrollTop() > 150) {
+			         alert('hi');
+					$('.logo').height(200);
+				} 	else {
+					$('.logo').height(100);
+				}
+			}); */
+			
+		 $(function(){
+		          $('body').vidbg({
+		              'mp4': '/images/media/mp4_video.mp4',
+		              /*   	           		   'webm': '/images/media/webm_video.webm',
+		              'poster': '/images/media/fallback.jpg',  */
+		          }, {
+		            // Options
+		            muted: true,
+		            loop: true,
+		  			overlay: true,
+		            overlayColor: '#000',
+		            overlayAlpha: '0.2',
+		            muted: true
+		          });
+		      }); 
+			
+		</script>
+		
+		<style>
+			.vidbg-container {
+				bottom:30px !important;
+			}
+		</style>
+		
+	</head>
+	<body >
+		<!-- Header -->
+		<!-- 	<header id="header">
+				<nav class="left">
+					<a href="#menu"><span>Menu</span></a>
+				</nav>
+				<a href="index.jsp" class="logo">UsTrip</a>
+				<nav class="right">
+					<a class="button alt" id="login">Log in</a>
+					<a href="#" class="button alt">join</a>
+				</nav>
+			</header> -->
 
-		}
-		else {
-		$('.logo').height(100);
-		}
-		});
-  
-  </script>
-  
-  
-</head>
+		<!-- Menu -->
+		<!-- 	<nav id="menu">
+				<ul class="links">
+					<li><a>Home</a></li>
+					<li><a>Ïñ¥Ïä§ÌÜ†Î¶¨</a></li>
+					<li><a>ÌîåÎûú</a></li>
+					<li><a>Ïª§ÎÆ§ÎãàÌã∞</a></li>
+				</ul>
+				<ul class="actions vertical"> 
+					<li><a href="#" class="button fit">Login</a></li>
+				</ul>
+			</nav> -->
+			<jsp:include page="/common/toolbar.jsp"/>
+	<!-- //////////Ìà¥Î∞î Î∞è Î©îÎâ¥Î∞î/////////// -->
+			 <div class="block-container">
+				<div class="block">
+					<h3>ÎãπÏã†Ïùò ÏïÑÎ¶ÑÎã§Ïö¥ ÎåÄÌïúÎØºÍµ≠ÏùÑ Ïó¨ÌñâÌïòÏÑ∏Ïöî</h3><br>
+						<ul class="actions">
+					  		<li><a href="#one" class="button scrolly">Get Started</a></li>
+					  </ul>
+				</div>
+			</div>
+			
+			<!-- Banner -->
+			<section id="banner">
+				<div class="content">
+<!-- 					
+				<h1>Ipsum sed lorem</h1>
+					<p>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod<br />sed arcu cras consecuat lorem ipsum dolor sit amet.</p>
+					<ul class="actions">
+						<li><a href="#one" class="button scrolly">Get Started</a></li>
+					</ul> -->
+				</div>
+			</section> 
 
-<body>
+		<!-- One -->
+			<section id="one" class="wrapper">
+				<div class="inner flex flex-3">
+					<div class="flex-item left">
+						<div>
+							<h3>Magna ultricies</h3>
+							<p>Morbi in sem quis dui plalorem ipsum<br /> euismod in, pharetra sed ultricies.</p>
+						</div>
+						<div>
+							<h3>Ipsum adipiscing lorem</h3>
+							<p>Tristique yonve cursus jam nulla quam<br /> loreipsu gravida adipiscing lorem</p>
+						</div>
+					</div>
+					<div class="flex-item image fit round">
+						<img src="images/pic01.jpg" alt="" />
+					</div>
+					<div class="flex-item right">
+						<div>
+							<h3>Tempus nullam</h3>
+							<p>Sed adipiscing ornare risus. Morbi estes<br /> blandit sit et amet, sagittis magna.</p>
+						</div>
+						<div>
+							<h3>Suscipit nibh dolore</h3>
+							<p>Pellentesque egestas sem. Suspendisse<br /> modo ullamcorper feugiat lorem.</p>
+						</div>
+					</div>
+				</div>
+			</section> 
 
-<div id="nav">
-  <div class="navbar navbar-inverse navbar-fixed-top" data-spy="affix" data-offset-top="100">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"><img class="img-responsive logo" src="https://cdn4.iconfinder.com/data/icons/adore/118/Camera.png" alt=""></a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
+		<!-- Two -->
+			<section id="two" class="wrapper style1 special">
+				<div class="inner">
+					<h2>Feugiat lorem</h2>
+					<figure>
+					    <blockquote>
+					        "Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra<br /> magna etiam lorem ultricies in diam. Sed arcu cras consequat."
+					    </blockquote>
+					    <footer>
+					        <cite class="author">Jane Anderson</cite>
+					        <cite class="company">CEO, Untitled</cite>
+					    </footer>
+					</figure>
+				</div>
+			</section>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="http://localhost:8080/view/user/login.jsp">Home</a>
-            </li>
-            <li><a href="#about">About</a>
-            </li>
-            <li><a href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-        </div>
-        </div>
-        </div>
+		<!-- Three -->
+			<section id="three" class="wrapper">
+				<div class="inner flex flex-3">
+					<div class="flex-item box">
+						<div class="image fit">
+							<img src="images/pic02.jpg" alt="" />
+						</div>
+						<div class="content">
+							<h3>Consequat</h3>
+							<p>Placerat ornare. Pellentesque od sed euismod in, pharetra ltricies edarcu cas consequat.</p>
+						</div>
+					</div>
+					<div class="flex-item box">
+						<div class="image fit">
+							<img src="images/pic03.jpg" alt="" />
+						</div>
+						<div class="content">
+							<h3>Adipiscing</h3>
+							<p>Morbi in sem quis dui placerat Pellentesque odio nisi, euismod pharetra lorem ipsum.</p>
+						</div>
+					</div>
+					<div class="flex-item box">
+						<div class="image fit">
+							<img src="images/pic04.jpg" alt="" />
+						</div>
+						<div class="content">
+							<h3>Malesuada</h3>
+							<p>Nam dui mi, tincidunt quis, accu an porttitor, facilisis luctus que metus vulputate sem magna.</p>
+						</div>
+					</div>
+				</div>
+			</section>
 
-  <div class="block-container">
-    <div class="block">
-      <h1>Us Trip</h1>
-      <h3>¥ÁΩ≈¿« æ∆∏ß¥ŸøÓ ¥Î«—πŒ±π¿ª ø©«‡«œººø‰</h3>
-    </div>
-  </div>
-  
-  <script type="text/javascript">
-    $(function($){
-          $('body').vidbg({
-              'mp4': '/images/media/mp4_video.mp4',
-              'webm': '/images/media/webm_video.webm',
-              'poster': '/images/media/fallback.jpg',
-          }, {
-            // Options
-            muted: true,
-            loop: true,
-  					overlay: true,
-            overlayColor: '#000',
-            overlayAlpha: '0.2',
-          });
-      });
-  </script>
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<h2>Get In Touch</h2>
+					<ul class="actions">
+						<li><span class="icon fa-phone"></span> <a href="#">(000) 000-0000</a></li>
+						<li><span class="icon fa-envelope"></span> <a href="#">information@untitled.tld</a></li>
+						<li><span class="icon fa-map-marker"></span> 123 Somewhere Road, Nashville, TN 00000</li>
+					</ul>
+				</div>
+				<div class="copyright">
+					&copy; Untitled. Design <a href="https://templated.co">TEMPLATED</a>. Images <a href="https://unsplash.com">Unsplash</a>.
+				</div>
+			</footer>
 
-  <script src="/js/vidbg.min.js"></script>
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/jquery.scrolly.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/util.js"></script>
+			<script src="/js/main.js"></script>
+			<script src="/js/vidbg.min.js"></script>
 
-</body>
+	</body>
 </html>

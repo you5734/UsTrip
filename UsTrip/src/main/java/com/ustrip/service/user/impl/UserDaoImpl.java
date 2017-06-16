@@ -82,13 +82,13 @@ public class UserDaoImpl implements UserDao {
 		map.put("folUserId", folUserId);
 		map.put("targetUserId", targetUserId);
 		
-		System.out.println("#####" + map.get("folUserId"));
+		System.out.println("##### " + map.get("folUserId"));
 		
 		return sqlSession.selectOne("FollowMapper.getFollow",map);
 	}
 	
 	public void updateFollow(Follow follow) throws Exception {
-		sqlSession.update("FollowMapper.updateFollow	", follow);
+		sqlSession.update("FollowMapper.updateFollow", follow);
 	}
 	
 	public List<Follow> listFollowing(Search search) throws Exception{
@@ -96,7 +96,6 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	public List<Follow> isFollowing(Search search) throws Exception{
-		
 		return sqlSession.selectList("FollowMapper.isFollowing", search);
 	}
 	
@@ -104,15 +103,7 @@ public class UserDaoImpl implements UserDao {
 		return sqlSession.selectOne("FollowMapper.getFollowingTotalCount", search);
 	}
 	
-	public void deleteFollow(String folUserId, String targetUserId) throws Exception{
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("folUserId", folUserId);
-		map.put("targetUserId", targetUserId);
-		
-		System.out.println("# :: " + map.get("folUserId"));
-		
+	public void deleteFollow(Map<String, Object> map) throws Exception{
 		sqlSession.selectOne("FollowMapper.deleteFollow",map);
 	}
 
