@@ -15,13 +15,12 @@
 					<li class="disabled">
 				</c:if>
 				<c:if test="${ resultPage.currentPage > resultPage.pageUnit }">
-					<li>
-				</c:if>
+					<li>				
 				<a href="javascript:fncGetAllList('${ resultPage.currentPage-1}')" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 					</li>
-		    
+		    </c:if>
 		    <!--  Áß¾Ó  -->
 			<c:forEach var="i"  begin="${resultPage.beginUnitPage}" end="${resultPage.endUnitPage}" step="1">
 				
@@ -44,12 +43,12 @@
 		  		<li class="disabled">
 			</c:if>
 			<c:if test="${ resultPage.endUnitPage < resultPage.maxPage }">
-				<li>
-			</c:if>
+				<li>			
 		      <a href="javascript:fncGetAllList('${resultPage.endUnitPage+1}')" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>
+		    </c:if>
 		  </ul>
 		</nav>
 		

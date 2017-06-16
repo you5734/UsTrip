@@ -51,56 +51,70 @@
     	.col-sm-8.col-md-8{
     		height:40px;
     	}
+    	.profile-content {
+    		min-height: 472px !important;
+    	}
+    	.col-md-9 {
+    		min-height: 35px !important;
+    		/* 안먹힌당 */
+    	}
     </style>
        
 </head>
 <body>
 
 <div class="container">
-	<h3 align="center">회원정보조회</h3><br>
-		<form class="form-horizontal">
-		  <div class="row">
-			<div class="col-sm-4 col-md-4" align="center">
-				<img alt="User Pic" src="/images/upload/profile/${user.profileImage}" style="width:120px; height:130px;" class="img-circle img-responsive">
-			</div>
-                
-			<!-- Text input-->
-			
-			<div class="col-sm-8 col-md-8">
-			  <label class="col-xs-4 col-md-2" for="userId">아이디</label>  
-			  <div class="col-md-4">${user.userId}</div>
-			</div>
-
-			<!-- Text input-->
-			<div class="col-sm-8 col-md-8">
-			  <label class="col-xs-4 col-md-2" for="nickName">닉네임</label>  
-			  <div class="col-md-4">${user.nickName}</div>
-			</div>
-			<!-- Text input-->
-			<div class="col-sm-8 col-md-8">
-			  <label class="col-xs-4 col-md-2" for="gender">성별</label>  
-			  <div class="col-md-4"> <%-- ${user.gender } --%>
-			  	 ${user.gender == 'm' ? '남자' : '여자' }
-			  </div>
-			</div>
-			
-			<!-- Text input-->
-			<div class="col-sm-8 col-md-8">
-			  <label class="col-xs-4 col-md-2" for="birthDate">생년월일</label>  
-			  <div class="col-md-4">${user.birthDate}</div>
-			</div>
-			<br>
-			<hr>
-			
-			<!-- Button -->
-			<div class="col-sm-offset-5 col-sm-5 text-center" >
-				<button type="button" class="btn btn-info">회원정보수정</button>
-				<button type="button" class="btn btn-info btn" href="#">쪽지보내기</button>
-				<button type="button" class="btn btn-info" id="list">보낸쪽지함</button>
-				<button type="button" class="btn btn-info" id="listUser">모든회원정보</button>
-			</div>	
-		</div>
-	</form>
+    <div class="row profile">
+		<jsp:include page="/view/user/getProfile.jsp"/>
+			<div class="col-md-9">
+	          	<div class="profile-content">
+					<div class="row">
+						<div>
+							<div class="profile-sidebar">
+									<form class="form-horizontal">
+										  <div class="row">
+								<%-- 			<div class="col-sm-4 col-md-4" align="center">
+												<img alt="User Pic" src="/images/upload/profile/${user.profileImage}" style="width:120px; height:130px;" class="img-circle img-responsive">
+											</div>
+								                 --%>
+											
+											<div class="col-sm-offset-3 col-sm-8 ">
+											  <label class="col-xs-4 col-md-2" for="userId">아이디</label>  
+											  <div class="col-md-4">${user.userId}</div>
+											</div>
+								
+											<div class="col-sm-offset-3 col-sm-8 ">
+											  <label class="col-xs-4 col-md-2" for="nickName">닉네임</label>  
+											  <div class="col-md-4">${user.nickName}</div>
+											</div>
+											
+											<div class="col-sm-offset-3 col-sm-8 ">
+											  <label class="col-xs-4 col-md-2" for="gender">성별</label>  
+											  <div class="col-md-4"> <%-- ${user.gender } --%>
+											  	 ${user.gender == 'm' ? '남자' : '여자' }
+											  </div>
+											</div>
+											
+											<div class="col-sm-offset-3 col-sm-8 ">
+											  <label class="col-xs-4 col-md-2" for="birthDate">생년월일</label>  
+											  <div class="col-md-4">${user.birthDate}</div>
+											</div>
+											
+											<div class="col-sm-offset-2 col-sm-8 " >
+												<button type="button" class="btn btn-info">회원정보수정</button>
+												<button type="button" class="btn btn-info btn" href="#">쪽지보내기</button>
+												<button type="button" class="btn btn-info" id="list">보낸쪽지함</button>
+												<button type="button" class="btn btn-info" id="listUser">모든회원정보</button>
+											</div>	
+										</div>
+									</form>
+								</div>
+							</div>         	
+						</div>
+					</div>
+				</div>
+	</div>
 </div>
+
 </body>
 </html>

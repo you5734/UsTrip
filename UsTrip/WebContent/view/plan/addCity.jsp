@@ -12,7 +12,7 @@
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&region=kr"></script>
+    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
 	<style type="text/css">
         html, body {
 			height: 100%;
@@ -151,7 +151,6 @@
         }  
 		//"/product/listProduct?menu=${param.menu}"
 		//var XValue = $(this).parent().find(".cityX").val();
-
 		 
 		// $(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
 		
@@ -200,7 +199,6 @@
   	    strokeWeight: 3
   	  });
   	  poly.setMap(map);
-
   	  // Add a listener for the click event
   	  map.addListener('click', addLatLng); */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  	
@@ -268,14 +266,12 @@
   }// end of initialize() 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////      
     
-
     
     
 /////////////////////////////////////////////////////////////////////////////////////////////////////////    
     function setTemp() {
     	
     	if(tempNum==0){
-
     		start = document.getElementById('temp').value;
     		
     		var newUpButton = "<button>"+start+"</button>"
@@ -350,7 +346,6 @@
     			
     			
     			
-
 			$("#btn").append(newUpButton);
 			
     		$("#formTag").append(newLeftButton);
@@ -376,11 +371,9 @@
 	//	alert(JSON.stringify(event)); // ÁÂÇ¥°ª~~~~
 	
 	  var path = poly.getPath();
-
 	  // Because path is an MVCArray, we can simply append a new coordinate
 	  // and it will automatically appear.
 	  path.push(event.latLng);
-
 	  // Add a new marker at the new plotted point on the polyline.
 	  var marker = new google.maps.Marker({
 	    position: event.latLng,
@@ -439,7 +432,6 @@
                                      strokeOpacity: 1.0,
                                      strokeWeight: 2
                                    });
-
                                    CBroute.setMap(map);
         
       });

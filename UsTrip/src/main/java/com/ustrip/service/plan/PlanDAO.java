@@ -27,4 +27,8 @@ public interface PlanDAO {
 	public Travel getTravel(Travel travel) throws Exception;
 	public City getCity(City city) throws Exception;
 	public Place getPlace(Place place) throws Exception;
+	
+	public List<Travel> getListTravel(Search search) throws Exception;
+	public int totalCount(Search search) throws Exception;
+	
 }

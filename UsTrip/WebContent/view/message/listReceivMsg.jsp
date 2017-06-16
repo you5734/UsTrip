@@ -9,7 +9,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
  	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -31,7 +40,7 @@
 		});
 		
 		$(function() {
-			$("#send").on("click", function() {
+			$("#sendMsg").on("click", function() {
 				self.location="/message/sendMsg";	
 			});
 		});
@@ -69,7 +78,6 @@
 	</script>
 	
 	<style type="text/css">
-		body{margin:150px;}
 		#accordion .glyphicon { margin-right:10px; }
 		.panel-collapse>.list-group .list-group-item:first-child {border-top-right-radius: 0;border-top-left-radius: 0;}
 		.panel-collapse>.list-group .list-group-item {border-width: 1px 0;}
@@ -89,7 +97,7 @@
 </head>
 
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 <div class="container">
 <form name="detailForm">
   <div class="row">
@@ -144,7 +152,6 @@
 		<td class="ct_list_b">읽은날짜</td>	
 	</tr>
 
-
 	<c:set var="i" value="0"/>
 	<c:forEach var="message" items="${list}">
 		<c:set var="i" value="${i+1}"/>
@@ -176,17 +183,15 @@
     		<button type="button" class="btn" id="delete">삭제하기</button>
    	</div>
 </div>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px; margin-left:110px;">
 		<tr>
 			<td align="center">
 				<input type="hidden" id="currentPage" name="currentPage" value="${resultPage.currentPage}"/>
 					<jsp:include page="../../common/pageNavigator_new.jsp"/>	
 	    	</td>
 		</tr>
-	</table>
-
 	</div>
 	</form>
+</div>
 
 </body>
 </html>

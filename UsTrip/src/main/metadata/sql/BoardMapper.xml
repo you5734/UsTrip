@@ -41,17 +41,78 @@
 	 WHERE BOARD_NO = #{boardNo}
 	 </delete>
 	 
-	 <select  id="listBoard"  parameterType="board"	resultMap="boardSelectMap">
-	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
-	 FROM board
-	 WHERE BOARD_CATEGORY = #{boardCategory}
-	 ORDER BY REG_DATE DESC
+	  <select  id="getBoardDESC"  parameterType="search"	resultMap="boardSelectMap">
+	  SELECT *
+	 FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq
+	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	  FROM board
+	  WHERE BOARD_CATEGORY = #{boardCategory}
+			<if test="searchCondition != null">
+				
+					<if test="searchCondition == 0 and searchKeyword !='' ">
+		 				 AND BOARD_NO LIKE '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 1 and searchKeyword !='' ">
+		 				AND BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 2 and searchKeyword !='' ">
+		 				 AND NICKNAME LIKE '%'||#{searchKeyword}||'%'
+					</if>																										
+			
+			</if>	
+			ORDER BY REG_DATE DESC) inner_table
+	 WHERE ROWNUM &lt;= #{endRowNum} ) 
+	 WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	  </select>
+	  
+	  <select  id="getBoardASC"  parameterType="search"	resultMap="boardSelectMap">
+	  SELECT *
+	 FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq
+	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	  FROM board
+	  WHERE BOARD_CATEGORY = #{boardCategory}
+			<if test="searchCondition != null">
+				
+					<if test="searchCondition == 0 and searchKeyword !='' ">
+		 				 AND BOARD_NO LIKE '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 1 and searchKeyword !='' ">
+		 				AND BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
+					</if>
+					<if test="searchCondition == 2 and searchKeyword !='' ">
+		 				 AND NICKNAME LIKE '%'||#{searchKeyword}||'%'
+					</if>																										
+			
+			</if>	
+			ORDER BY REG_DATE ASC) inner_table
+	 WHERE ROWNUM &lt;= #{endRowNum} ) 
+	 WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+	  </select>
+	  
+	  <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM (SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 	FROM board
+	 	WHERE BOARD_CATEGORY = #{boardCategory}
+		<if test="searchCondition != null">
+			
+				<if test="searchCondition == 0 and searchKeyword !='' ">
+	 				 AND BOARD_NO LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				<if test="searchCondition == 1 and searchKeyword !='' ">
+	 				AND BOARD_TITLE LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				<if test="searchCondition == 2 and searchKeyword !='' ">
+	 				 AND NICKNAME LIKE '%'||#{searchKeyword}||'%'
+				</if>																										
+		
+		</if>		) countTable					
 	 </select>
 	 
-	  <select  id="getBoard"  parameterType="board"	resultMap="boardSelectMap">
-	  SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
-	  FROM board
-	  WHERE BOARD_NO = #{boardNo}
-	  </select>
+	 <select  id="getBoard"  parameterType="board"	resultMap="boardSelectMap">
+	 	SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 	FROM board
+	 	WHERE BOARD_NO = #{boardNo}
+	 </select>
 
 </mapper>

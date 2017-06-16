@@ -1,221 +1,278 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	<script src="https://use.fontawesome.com/04438b50a5.js"></script>
-	
-	<script type="text/javascript">
-	
-	 $(function() {
-			$( "#follow" ).on("click" , function() {
-				var targetUserId = $("#userId").val();
-				alert("targetUserid :: " + targetUserId);
-				targetUserId=targetUserId.split(".");
-				/* self.location="/user/addFollow?targetUserId="+targetUserId; */
-				
-				$.ajax(
-					{
-						url : '/user/addFollow/'+targetUserId,
-						method : "GET",
-						dataType : "json",
-						headers : {
-							 "Accept" : "application/json",
-							 "Content-Type" : "application/json"
-						 },
-						 context : this,
-						 success : function(JSONData, status) {
-							 $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff');
-							 
-						 }
-					}		
-				)
-			});
-		});	
-		
-	
-	</script>
-	
 	<style>
-		body {
-		  background: #F1F3FA;
+	
+		html, body {
+			width: 100%;
+			height:100%;
 		}
-		/* Profile container */
-		.profile {
-		  margin: 20px 0;
-		}
-		/* Profile sidebar */
-		.profile-sidebar {
-		  padding: 20px 0 10px 0;
+
+/* 		.profile-sidebar {
+		 // padding: 20px 0 10px 0; 
 		  background: #fff;
 		}
-		.profile-userpic img {
+		.profile-pic img {
 		  float: none;
 		  margin: 0 auto;
-		  width: 50%;
-		  height: 50%;
+		  width:110px;
+		  height:120px;
 		  -webkit-border-radius: 50% !important;
 		  -moz-border-radius: 50% !important;
 		  border-radius: 50% !important;
 		}
-		.profile-usertitle {
-		  text-align: center;
-		  margin-top: 20px;
+		.profile-content{
+			text-align:center;
 		}
-		.profile-usertitle-name {
-		  color: #5a7391;
-		  font-size: 16px;
-		  font-weight: 600;
-		  margin-bottom: 7px;
+		 
+		.margin-bottom-30 { 
+			margin-bottom: 30px;
 		}
-		.profile-usertitle-job {
-		  text-transform: uppercase;
-		  color: #5b9bd1;
-		  font-size: 12px;
-		  font-weight: 600;
-		  margin-bottom: 15px;
-		}
-		.profile-userbuttons {
-		  text-align: center;
-		  margin-top: 10px;
-		}
-		.profile-userbuttons .btn {
-		  text-transform: uppercase;
-		  font-size: 11px;
-		  font-weight: 600;
-		  padding: 6px 15px;
-		  margin-right: 5px;
-		}
-		.profile-userbuttons .btn:last-child {
-		  margin-right: 0px;
-		}
-		.profile-usermenu {
-		  margin-top: 30px;
-		}
-		.profile-usermenu ul li {
-		  border-bottom: 1px solid #f0f4f7;
-		}
-		.profile-usermenu ul li:last-child {
-		  border-bottom: none;
-		}
-		.profile-usermenu ul li a {
-		  color: #93a3b5;
-		  font-size: 14px;
-		  font-weight: 400;
-		}
-		.profile-usermenu ul li a i {
-		  margin-right: 8px;
-		  font-size: 14px;
-		}
-		.profile-usermenu ul li a:hover {
-		  background-color: #fafcfd;
-		  color: #5b9bd1;
-		}
-		.profile-usermenu ul li.active {
-		  border-bottom: none;
-		}
-		.profile-usermenu ul li.active a {
-		  color: #5b9bd1;
-		  background-color: #f6f9fb;
-		  border-left: 2px solid #5b9bd1;
-		  margin-left: -2px;
-		}
-		/* Profile Content */
-		.profile-content {
-		  padding: 20px;
-		  background: #fff;
-		  min-height: 460px;
-		}	
-		.container{
-			margin-top:100px;
-		}
-	
+		
+		
+.post
+{
+    background-color: #FFF;
+    overflow: hidden;
+    box-shadow: 0 0 1px #CCC;
+   //  width:250px; 
+}
+ .post img
+{
+    filter: blur(2px);
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+} 
+.post img:hover
+{
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+    -moz-filter: blur(0px);
+    -o-filter: blur(0px);
+    -ms-filter: blur(0px);
+}
+.post .content
+{
+    padding-bottom: 15px;
+}
+.post .author
+{
+    font-size: 14px;
+    color: #737373;
+    padding: 20px 10px 15px;
+}
+.post .post-img-content
+{
+    height: 134px;
+    position: relative;
+}
+.post .post-img-content img
+{
+    position: absolute;
+}
+.post .post-title
+{
+    display: table-cell;
+    vertical-align: bottom;
+    z-index: 2;
+    position: relative;
+}
+.post .post-title b
+{
+    background-color: rgba(51, 51, 51, 0.58);
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #FFF;
+    padding: 10px 15px;
+    margin-top: 5px;
+}		
+
+*/
+
+
+
+body{
+    background:#eee;;
+}
+.title{
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4) !important;    
+}
+
+.divider-title{
+    border:1px solid #dddddd;
+}
+
+.project {
+    margin-bottom: 30px;
+    vertical-align: top;
+    margin-right: 30px;
+    float: left;
+    cursor: pointer;
+    width:100%;
+}
+
+.project figure {
+    position: relative;
+    display: inline-block;
+    width: 283px;
+    -moz-box-shadow: 0 3px 0 #e2e2e2,transparent 0 0 0;
+    -webkit-box-shadow: 0 3px 0 #e2e2e2,transparent 0 0 0;
+    box-shadow: 0 3px 0 #e2e2e2,transparent 0 0 0;
+    -webkit-box-shadow: 0 3px 0 #e2e2e2;
+    -moz-box-shadow: 0 3px 0 #e2e2e2;
+    box-shadow: 0 3px 0 #e2e2e2;
+}
+
+.project figure figcaption {
+    position: relative;
+    z-index: 10;
+    padding: 8px 18px 11px;
+    background: #fff;
+    -ms-transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    text-align: left;
+    color: #555;
+}
+
+.project figure:hover .actions {
+    opacity: 1;
+}
+
+.project figure .actions {
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(29,29,29,.7);
+    -ms-transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.project figure img {
+    border: 0;
+    width: 100%;
+}
+.btn-warning bnt-action{
+    margin: 0% 0% auto;    
+}
+
+figcaption .project-details {
+    display: block;
+    font-size: 16px;
+    line-height: 33px;
+    color: #0093d0;
+    height: 27px;
+    width: 85%;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+figcaption .project-price {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    font-size: 22px;
+    text-align: right;
+    /* margin-top: 8px; */
+    letter-spacing: -1px;
+    -webkit-font-smoothing: antialiased;
+}
+
+figcaption .project-creator {
+    font-size: 13px;
+    color: #545454;
+    display: block;
+}
+
+figcaption .project-creator {
+    font-size: 13px;
+    color: #545454;
+    display: block;
+}
+
+.project figure .actions button {
+    padding: 13px 20px;
+    font-size: 16px;
+    top: 32%;
+    position: absolute;
+    left: 50%;
+    width: 90%;
+    margin-left: -45%;
+    line-height: 18px;
+    letter-spacing: 1px;
+}                    
+		
 	</style>
 </head>
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 <div class="container">
-    <div class="row profile">
-		<div class="col-md-3">
-			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
-					<img src="/images/upload/profile/${user.profileImage}" class="img-responsive" alt="">
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						${user.nickName}
+	  <div class="row profile">
+		<jsp:include page="/view/user/getProfile.jsp"/>
+			
+			<div class="col-md-9">
+	        	<div class="profile-content">
+				<!-- 	 <div class="row"> -->
+						<div>
+							<div class="profile-sidebar">
+													
+								 <c:forEach var="travel" items="${travel}">				
+										<div class="col-ms-10 col-md-4">
+									        <div class="project">
+									            <figure class="img-responsive">
+									                <img src="http://lorempixel.com/400/300/sports/6/">
+									                <figcaption>
+									                    <span class="project-details">${travel.travTitle }</span>
+									                    <span class="project-price"><strong>${travel.userId }</strong></span>
+									                    <span class="project-creator">2017/03/05~2017/03/09</span>
+									                </figcaption>
+									                <span class="actions">
+									                        <button class="btn btn-warning bnt-action" type="submit" >상세보기</button>
+									                </span>
+									            </figure>
+									       </div>
+									    </div>
+									</c:forEach>		
+					
+						</div>
 					</div>
-					<div class="profile-usertitle-job">
-					<input type="hidden" id="userId" value="${user.userId}">
-						${user.userId}
-					</div>
 				</div>
-				<!-- END SIDEBAR USER TITLE -->
-				<!-- SIDEBAR BUTTONS -->
-				<div class="profile-userbuttons">
-					<input type="button" class="btn btn-sm" id="follow" value="follow">
-					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
-				</div>
-				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-sm">회원정보수정</button>
-					<button type="button" class="btn btn-sm">회원정보조회</button>
-				</div>
-				
-				<!-- END SIDEBAR BUTTONS -->
-				<!-- SIDEBAR MENU -->
-				<div class="profile-usermenu">
-					<ul class="nav">
-						<li class="active">
-							<a href="#">
-							<i class="fa fa-plane" aria-hidden="true"></i>
-							등록한 여행 </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="fa fa-heart" aria-hidden="true"></i>
-							좋아요한 여행</a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="fa fa-user-circle" aria-hidden="true"></i>
-							팔로우 </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
-							팔로잉 </a>
-						</li>
-					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
-		<div class="col-md-9">
-            <div class="profile-content">
-			   Some user related content goes here...
-            </div>
+			<!-- </div> -->
 		</div>
 	</div>
 </div>
-<center>
-<strong>Powered by <a href="http://j.mp/metronictheme" target="_blank">KeenThemes</a></strong>
-</center>
-<br>
-<br>
-
 </body>
 </html>

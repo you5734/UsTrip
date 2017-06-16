@@ -33,6 +33,12 @@
 		<result property="hashTag" 			column="hash_tag" 			jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<resultMap id="likeSelectMap" type="likeTravel">
+		<result property="likeNo" 			column="LIKE_NO" 			jdbcType="NUMERIC" />
+		<result property="travNo" 			column="TRAV_NO" 			jdbcType="NUMERIC" />
+		<result property="userId" 			column="USER_ID" 			jdbcType="VARCHAR" />
+	</resultMap>
+	
 	
 	<insert 	id="addBlog"	parameterType="map">
 		INSERT 
@@ -66,9 +72,14 @@
 	 
 	 <insert	id="addLikeTravel" parameterType="String">
 	 	INSERT
-	 	like_no, user_id, trav_no
-	 	INTO like_travel
+	 	INTO like_travel(like_no, user_id, trav_no)
 	 	VALUES (seq_like_no.nextval, #{travNo}, #{userId})
+	 </insert>
+	 
+	 <insert id="addLike" parameterType="search">
+	 	INSERT
+	 	INTO like_travel(like_no, user_id, trav_no)
+	 	VALUES(seq_like_no.nextval, #{searchKeyword}, #{searchCondition})
 	 </insert>
 	 
 	 <select	id="getBlog"	parameterType="int"		resultMap="blogSelectMap">
@@ -82,11 +93,12 @@
 	 	SELECT
 	 	blog_no, memo, trav_no, visit_date, place_no, city_no, review, score, place
 	 	FROM blog
-	 	WHERE trav_no=#{searchKeyword} AND visit_date=TO_DATE(#{searchDate}, 'YY/MM/DD') AND
+	 	WHERE trav_no=#{searchKeyword} AND
 	 	place_no IN
 	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
 	 		#{item.value}
 	 	</foreach>
+	 	ORDER BY visit_date ASC
 	 </select>
 	 
 	 <select id="listBlogImage" parameterType="search" resultMap="blogSelectMap">
@@ -149,46 +161,29 @@
 	 	WHERE tag_no=#{tagNo}
 	 </delete>
 	 
-	 <select id="checkLikeTravel" parameterType="search" resultType="int">
-	 	SELECT COUNT(*)
-	 	FROM(			SELECT like_no
-	 					FROM like_travel
-	 					WHERE user_id=#{searchKeyword} AND trav_no=#{searchCondition}
-	 					)countTable
+	 <delete	id="deleteImage" parameterType="int">
+	 	DELETE FROM image
+	 	WHERE image_no=#{imgNo}
+	 </delete>
+	 
+	 <select id="checkLikeTravel" parameterType="likeTravel" resultMap="likeSelectMap">
+	 	SELECT
+	 	trav_no, user_id
+		FROM like_travel
+		WHERE trav_no=#{travNo}	 					
 	 </select>
 	 
-
-	  <!-- 
-	 <select id="listLikeTravel" parameterType="string" resultType="likeTravel">
+	 <delete id="deleteLike" parameterType="search">
+	 	DELETE
+	 	FROM like_travel
+	 	WHERE trav_no=#{searchCondition} AND user_id=#{searchKeyword}
+	 </delete>
+	 
+	 <select id="listLikeTravel" parameterType="likeTravel" resultMap="likeSelectMap">
 	 	SELECT
-	 	like_no, trav_no, user_id
+	 	trav_no, user_id
 	 	FROM like_travel
 	 	WHERE user_id=#{userId}
 	 </select>
 	 
-	 
-	 <update	id="updateHashTag"	parameterType="hashTag" >
-		UPDATE hash_tag
-		<set> 
-			<foreach item="item" collection="list" separator=",">
-				tag_no=#{item.tagNo},
-				blog_no=#{item.blogNo},
-				hash_tag=#{item.hashTag}
-			</foreach>
-	   	</set>
-	   	WHERE blog_no=#{blogNo}
-	 </update>
-	 
-	 <delete id="deleteBlog" parameterType="int">
-	 	DELETE
-	 	FROM blog
-	 	WHERE blog_no=#{blogNo}
-	 </delete>
-	 
-	 <delete id="deleteImage" parameterType="int">
-	 	DELETE
-	 	FROM image
-	 	WHERE image_no=#{imageNo}
-	 </delete>
-		 -->
 </mapper>

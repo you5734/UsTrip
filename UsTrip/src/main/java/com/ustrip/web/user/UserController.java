@@ -27,6 +27,7 @@ import com.ustrip.common.Page;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.User;
+import com.ustrip.service.plan.PlanService;
 import com.ustrip.service.user.UserService;
 
 @Controller
@@ -37,6 +38,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	///Field
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -122,7 +128,7 @@ public class UserController {
 	@RequestMapping( value="login", method=RequestMethod.GET )
 	public String login() throws Exception{
 		
-		System.out.println("/user/logon : GET");
+		System.out.println("/user/login : GET");
 
 		return "redirect:/view/user/login.jsp";
 	}
@@ -141,13 +147,26 @@ public class UserController {
 			session.setAttribute("user", dbUser);
 			model.addAttribute("user", user);
 			/*destinate="redirect:/user/getUser?userId="+dbUser.getUserId();*/
-			destinate="redirect:/view/user/listTravel.jsp";
+			/*destinate="redirect:/view/user/listTravel.jsp";*/
+			/* destinate="forward:/user/getContents?userId="+user.getUserId();*/
+			destinate = "redirect:/index.jsp";
 		} 		
 		System.out.println(session.getAttribute("user"));
 		
 		return destinate;
 //		return "redirect:/user/getUser?userId="+dbUser.getUserId();
 	}
+	
+	@RequestMapping( value="logout", method=RequestMethod.GET )
+	public String logout(HttpSession session ) throws Exception{
+		
+		System.out.println("/user/logout : GET");
+		
+		session.invalidate();
+		
+		return "redirect:/index.jsp";
+	}
+	
 	
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
 	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
@@ -203,6 +222,18 @@ public class UserController {
 		return "forward:/view/user/getUser.jsp";
 	}
 	
+	@RequestMapping( value="getUserNickName", method=RequestMethod.GET )
+	public String getUserNickName( @RequestParam("nickName") String nickName , Model model ) throws Exception {
+		
+		System.out.println("/user/getUserNickName : GET");
+		//Business Logic
+		User user = userService.getUserNickName(nickName);
+		// Model °ú View ¿¬°á
+		model.addAttribute("user", user);
+		
+		return "forward:/view/user/getUser.jsp";
+	}
+	
 	@RequestMapping( value="withdrawUser", method=RequestMethod.GET )
 	public String withdrawUser( @RequestParam("userId") String userId ) throws Exception {
 		
@@ -213,8 +244,8 @@ public class UserController {
 		return "forward:/user/login";
 	}
 	
-	@RequestMapping( value="getUserList" )
-	public String getUserList( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	@RequestMapping( value="listUser" )
+	public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/user/getUserList : GET / POST");
 		
@@ -234,7 +265,7 @@ public class UserController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		return "forward:/view/user/getUserList.jsp";
+		return "forward:/view/user/listUser.jsp";
 	}
 	
 	@RequestMapping(value = "findPwd", method=RequestMethod.POST)
@@ -284,22 +315,106 @@ public class UserController {
 		
 		targetUserId=targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
+		
+		if(sessionId != targetUserId) {
+			userService.addFollow(targetUserId, sessionId);
+		}
 
-		userService.addFollow(targetUserId, sessionId);
+		return "forward:/user/getContents";
+	}
+	
+	@RequestMapping( value="getListTravel" )
+	public String getListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
 
+		System.out.println("/user/getContents : POST");
+		
+		String sessionId=((User)session.getAttribute("user")).getUserId();
+		User user = userService.getUser(sessionId);
+		
+		search.setSearchKeyword(sessionId);
+		Map<String, Object> map = planService.getListTravel(search);
+		
+		System.out.println("map ¸Ê " + map);
+		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
+		
+/*		if( targetUserId != null ) {
+			Follow follow = userService.getFollow(sessionId, targetUserId);
+			
+			model.addAttribute("follow", follow);
+		}*/
+		model.addAttribute("user", user);
+		model.addAttribute("travel", map.get("list"));
+		
 		return "forward:/view/user/listTravel.jsp";
 	}
 	
-/*	@RequestMapping( value="listTravel", method=RequestMethod.GET )
-	public String listTravel( @RequestParam("targetUserId") String targetUserId, HttpSession session, Model model ) throws Exception {
+	@RequestMapping( value="listFollow")
+	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
 		
-		System.out.println("/user/addFollow : GET");
+		System.out.println("/user/listFollow ");
 		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		System.out.println("sessionIddddddddddd :: " + sessionId);
+		
+		// Business logic ¼öÇà
+		Map<String , Object> map=userService.listFollow(search, sessionId);
+		System.out.println("mappp :: " + map);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model °ú View ¿¬°á
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("follow", map);
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/view/user/listFollow.jsp";
+	}
+	
+	@RequestMapping( value="listFollowing")
+	public String listFollowing( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/user/listFollowing ");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		System.out.println("sessionIdddd:: " + sessionId);
+		
+		// Business logic ¼öÇà
+		Map<String , Object> map=userService.listFollowing(search, sessionId);
+		System.out.println("map :::::::::::: " + map);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		System.out.println("mapppppppp :: " + map);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:/view/user/listFollowing.jsp";
+	}
+	
+	@RequestMapping( value="deleteFollow/{targetUserId}", method=RequestMethod.GET )
+	public String deleteFollow( HttpSession session, Model model, @PathVariable String targetUserId ) throws Exception {
+
+		System.out.println("/user/deleteFollow : GET");
+		
+		targetUserId = targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
-
-		userService.addFollow(targetUserId, sessionId);
-
-		return "forward:/view/user/listTravel.jsp";
-	}*/
+		
+		userService.deleteFollow(sessionId, targetUserId);
+			
+		return "forward:/user/getContents";
+	}
 	
 }

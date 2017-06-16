@@ -1,6 +1,7 @@
 package com.ustrip.service.plan;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
@@ -31,4 +32,6 @@ public interface PlanService {
 	
 	
 	public void addPlan(Travel travel, City city, Place place) throws Exception;
+	
+	public Map<String, Object> getListTravel(Search search) throws Exception;
 }

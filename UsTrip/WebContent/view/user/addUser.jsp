@@ -6,27 +6,36 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-	
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/bootstrap-imageupload.js"></script>
+		
+     <link href="/css/bootstrap-imageupload.css" rel="stylesheet">
 	<!-- 달력UI -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 	<!-- 달력UI -->
 	
 	<script type="text/javascript">
 	
-	//가입 연결
+	
 	 $(function() {
+		//가입 연결
 		$( ".btn.btn-info" ).on("click" , function() {
 			fncAddUser();
 		});
-	});	
-	
-	//취소 연결
-	$(function() {
+		
+		//취소 연결
 		$("a[href='#' ]").on("click" , function() {
 			$("form")[0].reset();
 		});
@@ -156,22 +165,46 @@
 			}
 		});
 	});
-		
+	
+	// 이미지 업로드 처리
+/* 	$(function(){		
+	    var $imageupload = $('.imageupload');
+	    $imageupload.imageupload();
+	
+	    $('#imageupload-disable').on('click', function() {
+	        $imageupload.imageupload('disable');
+	        $(this).blur();
+	    })
+	
+	    $('#imageupload-enable').on('click', function() {
+	        $imageupload.imageupload('enable');
+	        $(this).blur();
+	    })
+	
+	    $('#imageupload-reset').on('click', function() {
+	        $imageupload.imageupload('reset');
+	        $(this).blur();
+	    }); 
+	});  */
 	
 	</script>
 
-</head>
-	
-<body>
+	<style type="text/css">
+		.container{
+			margin-top:75px;
+		}
+	</style>
 
+</head>
+<body>
+	<jsp:include page="/common/toolbar.jsp"/>
 		<div class="container">
-			<h1 align="center">회원가입</h1>
-			<div class="row">
+			<!-- <div class="row"> -->
 				<form class="form-horizontal" enctype="multipart/form-data">
-			
+					
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="userId">아이디</label>		
-						<div class="col-md-4">		
+						<label class="col-md-4 control-label" for="userId">아 이 디</label>	
+						<div class="col-sm-4">		
 							<input class="form-control input-md" type="text" id="userId" name="userId">
 								<div id="checkId" style="color:red; font-size:12px;">이메일주소로 입력해주세요.</div>
 						</div>
@@ -219,19 +252,29 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="profileImage" >프로필이미지</label>	
 						<div class="col-md-4">	  			
-					   		<input type="file" id="profileImage" name="file">
+							<div class="imageupload panel panel-default">    
+								<img height="200" width="280"  align="middle"/>              
+								<div class="file-tab panel-body" align="center">                
+   									<label class="btn btn-primary btn-file pull-right"  >                    
+										<span>Browse</span>
+										<input type="file" name="file">                                   
+                    				</label>
+                   					<button type="button" class="btn btn-primary pull-right">Remove</button><br/>                   
+                				</div>
+		            		</div>
+					   		
 					   	</div>
 					</div>		
 				
 					<div class="form-group">
 						<div class="col-sm-offset-4 col-sm-4 text-center">
-							<button type="button" class="btn btn-info"  >등록</button>
-							<button type="button" class="btn btn-info" href="#">취소</button>
+							<button type="button" class="btn"  >등록</button>
+							<button type="button" class="btn" href="#">취소</button>
 					</div>	
 				</div>
 										
 			</form>
-		</div>
+		<!-- </div> -->
 	</div>
 	
 </body>

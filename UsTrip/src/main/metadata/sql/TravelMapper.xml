@@ -33,6 +33,18 @@
 		WHERE trav_title=#{value}
 	</select>
 	
+	<select id="getListTravel" parameterType="search"	resultMap="travelSelectMap">
+		  	SELECT *
+			FROM travel
+			WHERE user_id = #{searchKeyword}
+			ORDER BY trav_no
+	</select>
+	
+	<select id="totalCount" parameterType="search" resultType="int">
+	 	SELECT COUNT(*)
+	 	FROM ( SELECT *FROM travel WHERE user_id=#{searchKeyword} ) countTable
+	 </select>
+	
 	 <select id="checkBlogStart" parameterType="int" resultMap="travelSelectMap">
 	 	SELECT
 	 	trav_no, is_blog_start, trav_title, TO_CHAR(start_date,'yy/MM/dd') start_date, user_id

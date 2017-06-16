@@ -7,6 +7,7 @@ import com.ustrip.common.Search;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
+import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.TempBlog;
 
@@ -15,23 +16,15 @@ public interface BlogDAO {
 
 	public void addBlog(Map<String, List<TempBlog>> map) throws Exception;
 	
-	public int deleteBlog(int blogNo) throws Exception;
+	public void deleteBlog(int blogNo) throws Exception;
 	
 	public List<Blog> listBlog(Search search) throws Exception;
 	
-	public List<Image> listPicture(int blogNo) throws Exception;
-	
 	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception;
 	
-	public void addLikeTravel(Search search) throws Exception;
+	public List<LikeTravel> checkLikeTravel(int travelNo) throws Exception;
 	
-	public void deleteLikeTravel(Search search) throws Exception;
-	
-	public boolean checkLikeTravel(String userId, int travelNo) throws Exception;
-	
-	public Map<String, Object> listLikeTravel(Search search) throws Exception;
-	
-	public int getTotalCount(Search search) throws Exception;
+	public List<LikeTravel> listLikeTravel(String userId) throws Exception;
 
 	public Blog getJsonBlog(int blogNo) throws Exception;
 
@@ -48,5 +41,11 @@ public interface BlogDAO {
 	public List<Integer> listBlogNo(int travelNo) throws Exception;
 
 	public List<Blog> listBlogImage(Search search) throws Exception;
+
+	public void deleteJsonLike(int travNo, String userId) throws Exception;
+
+	public void addJsonLike(int travNo, String userId) throws Exception;
+
+	public void deleteImage(int imgNo) throws Exception;
 
 }

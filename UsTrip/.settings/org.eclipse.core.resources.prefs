@@ -1,8 +1,7 @@
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
->>>>>>>=refs/heads/master
+>>>>>>>=refs/remotes/origin/master
 eclipse.preferences.version=1
 encoding//WebContent/js/community.js=euc-kr
 encoding//WebContent/js/dateFormat.js=euc-kr
 encoding//WebContent/js/graph.js=euc-kr
-encoding//WebContent/view/community/listCommunityView2.jsp=UTF-8

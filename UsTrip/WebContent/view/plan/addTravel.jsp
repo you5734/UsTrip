@@ -6,17 +6,16 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
-	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<title>UsTrip</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/sunny/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script> 
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 
 	<style>
@@ -25,26 +24,40 @@
         }
      </style>
      
-<script type="text/javascript">
+	<script type="text/javascript">
 
-		
+
 	$( function() {
 	    $( "#startDate" ).datepicker({
 	      dateFormat : "yy-mm-dd",
+	      minDate: 0,
 		  showOn: "button",
-	      buttonImage: "../images/ct_icon_date.gif",
+	      buttonImage: "http://kr.seaicons.com/wp-content/uploads/2015/06/calendar-icon.png",
 	      buttonImageOnly: true,
 	      showButtonPanel: true,
 	      buttonText: "Select date" 
 	    });
+	    $("img.ui-datepicker-trigger").attr("style", "width:40px; cursor: Pointer;");
 	});
+	
 	
 	
 
 
 	function fncAddTravel() {
-
-		var startDate = $("input[name='startDate']").val();
+		/* null이면 자동 입력 하려 했으나 그냥 무조건 입력되네
+		if($("#userId").text()==""){$("#userId").val("user03");}
+		if($("#travTitle").text()==""){$("#travTitle").val("여행Test");}
+		if($("#startDate").text()==""){$("#startDate").val("17-07-05");}
+		if($("#memberCount").text()==""){$("#memberCount").val(8);}
+		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
+		
+		$("#userId").val("b@naver.com");
+		$("#travTitle").val("여행Test");
+		$("#startDate").
+		val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
+		$("#memberCount").val(8);
+		$("#totalDate").val(10);
 		
 		$("form").attr("method", "POST").attr("action", "/plan/addTravel")
 				.submit();
@@ -52,7 +65,8 @@
 
 	$(function() {
 	
-		$("button[name='등록']").on("click", function() {	
+		$("button[name='등록']").on("click", function() {
+			
 			fncAddTravel();
 		});
 
@@ -82,7 +96,7 @@
 			
 			<!-- 히든유저있던곳	 -->		
 		  <div class="form-group">
-		    <input type="hidden" id="userId" name="userId" value="user01"/>
+		    <input type="hidden" id="userId" name="userId"/>
 		  </div>			
 		
 			

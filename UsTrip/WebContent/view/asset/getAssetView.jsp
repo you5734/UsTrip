@@ -48,14 +48,14 @@
 	
 		    $(function() {	
 		    	 var condi = 4; /* travNo를 넣어준다. */
-		    	newGraph(condi);	
-		    	
+		    	newGraph(condi);
+		    		    	 
 		    	 });
 	</script>
 	
 </head>
 
-<body>
+<body id="update">
 
 	<div class="container">
   <h2><strong>여행 사용 총금액 :: ${sum} 원</strong></h2>
@@ -68,7 +68,7 @@
         max-width: 100%;
         height: auto;"></div>
     </div>
-     
+    
 <jsp:include page="/view/asset/updateAssetView.jsp" />
 
 </body>

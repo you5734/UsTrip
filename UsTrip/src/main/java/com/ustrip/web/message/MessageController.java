@@ -159,5 +159,19 @@ public class MessageController {
 		return destinate;
 	}
 	
+	@RequestMapping( value="unReadMsg", method=RequestMethod.POST )
+	public void unReadMsg( HttpSession session, Model model ) throws Exception{
+	
+		System.out.println("/message/unReadMsg : GET");
+		
+		String receiver = ((User)session.getAttribute("user")).getUserId();
+		
+		boolean unRead = messageService.unReadMsg(receiver);
+		
+		System.out.println(" 쪽지 읽음여부 ????????? " + unRead);
+		
+		model.addAttribute("unRead", new Boolean(unRead));
+		
+	}
 	
 }

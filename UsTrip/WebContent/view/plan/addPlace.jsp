@@ -64,11 +64,9 @@
         text-overflow: ellipsis;
         width: 300px;
       }
-
       #temp:focus {
         border-color: #4d90fe;
       }
-
       .temp-container {
         font-family: Roboto;
       }
@@ -153,7 +151,6 @@
 		  */
 		fncAddPlace();
 	}
-
 	function fncAddPlace() {
 		
 		$("form").attr("method", "POST").attr("action", "/plan/addPlace").submit();
@@ -202,28 +199,23 @@
           var input = document.getElementById('temp');
           var searchBox = new google.maps.places.SearchBox(input);
           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
           // Bias the SearchBox results towards current map's viewport.
           map.addListener('bounds_changed', function() {
             searchBox.setBounds(map.getBounds());
           });
-
           var markers = [];
           // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
           searchBox.addListener('places_changed', function() {
             var places = searchBox.getPlaces();
-
             if (places.length == 0) {
               return;
             }
-
             // Clear out the old markers.
             markers.forEach(function(marker) {
               marker.setMap(null);
             });
             markers = [];
-
             // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function(place) {
@@ -238,7 +230,6 @@
                 anchor: new google.maps.Point(17, 34),
                 scaledSize: new google.maps.Size(25, 25)
               };
-
               // Create a marker for each place.
               markers.push(new google.maps.Marker({
                 map: map,
@@ -246,7 +237,6 @@
                 title: place.name,
                 position: place.geometry.location
               }));
-
               if (place.geometry.viewport) {
                 // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
@@ -264,7 +254,6 @@
   	    strokeWeight: 3
   	  });
   	  poly.setMap(map);
-
   	  // Add a listener for the click event
   	  map.addListener('click', addLatLng);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  	
@@ -385,7 +374,6 @@
     		$("#f"+(tempNum-2)+" input[name='nextPlaceNo']").val(tempNum);
     		
    			Javascript:calcRoute();
-
     		start = end;
     		
     }// setTemp() 끝
@@ -394,11 +382,9 @@
 	//	alert(event); // 뭔진 모르겠고 [object Object] 이렇게 나옴
 	//	alert(JSON.stringify(event));
 	  var path = poly.getPath();
-
 	  // Because path is an MVCArray, we can simply append a new coordinate
 	  // and it will automatically appear.
 	  path.push(event.latLng);
-
 	  // Add a new marker at the new plotted point on the polyline.
 	  var marker = new google.maps.Marker({
 	    position: event.latLng,
@@ -433,7 +419,6 @@
         place_x = place_x.replace(/[^0-9]/g,'');
         
         $("#f"+(tempNum-2)+" input[name='placeX']").val(place_x);
-
         var place_y = JSON.stringify(response.routes[0].legs[0].start_location);
         place_y = place_y.replace(/[^0-9]/g,'');
          
@@ -446,7 +431,6 @@
       });
     }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
-
 	
 	google.maps.event.addDomListener(window, 'load', getLocation);
 	
@@ -499,6 +483,3 @@
 		
 </body>
 </html>
-
-
-

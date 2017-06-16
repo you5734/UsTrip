@@ -28,4 +28,6 @@ public interface MessageDao {
 	
 	public int receiveCount(Search search) throws Exception;	
 	
+	public List<Message> unReadMsg(String receiver) throws Exception;
+	
 }

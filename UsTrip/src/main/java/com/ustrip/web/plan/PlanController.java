@@ -104,7 +104,7 @@ public class PlanController {
 
 		city = new ObjectMapper().readValue(data, City.class);
 		planService.addCity(city);
-		session.setAttribute("city", planService.getCity(city));
+		//session.setAttribute("city", planService.getCity(city));
 	}
 	
 	

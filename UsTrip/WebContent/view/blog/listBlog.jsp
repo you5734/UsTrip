@@ -1,80 +1,181 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<link rel="stylesheet" type="text/css" href="/css/timeline.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" text='text/css'>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  	<link href="/css/lightbox.css" rel="stylesheet">
-  	<script src="/js/lightbox.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+  	
+  	<link href="/css/star-rating.min.css" rel="stylesheet" media="all" type="text/css"/>
+  	<script src="/js/star-rating.min.js" type="text/javascript"></script>
+  	
+    <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/css/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="/js/sortable.js" type="text/javascript"></script>
+    <script src="/js/fileinput.js" type="text/javascript"></script>
+    <script src="/js/theme.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
 	
 	<style>
-	    #dialog-form { display:none; }
-    	input.text { width:60%; padding: .4em; }
-		.validateTips { border: solid transparent; padding: 0.3em; color:blue; }
-  	</style>
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+
+* {
+	pading: 0;
+	margin: 0;
+	font-family: "Lato", sans-serif;
+	position: relative;
+}
+
+.timeline {
+	padding: 40px 0px;
+	width: 80%;
+	margin-left: 10%;
+	margin-bottom: 40px;
+}
+
+.timeline:before {
+	content: "";
+	position: absolute;
+	top: 40px;
+	left: 65px;
+	width: 3px;
+	height: calc(100% - 80px);
+	background: #c0392b;
+}
+
+.timeline .column {
+	margin: 40px 40px 40px 120px;
+}
+
+.timeline .column .title h1 {
+	font-size: 120px;
+	font-weight:600;
+	color: rgba(0,0,0,0.1);
+	font-family: serif;
+	letter-spacing: 3px;
+}
+
+.timeline .column .title h1:before {
+	content: "";
+	position: absolute;
+	left: -62px;
+	top: 86px;
+	width: 10px;
+	height: 10px;
+	background: #fff;
+	border: 3px solid #c0392b;
+}
+
+.timeline .column .title h2 {
+	font-weight:600;
+	margin-top: -60px;
+	font-size: 33px;
+}
+
+.timeline .column .description p {
+	font-size: 13px;
+	line-height: 20px;
+	margin-left: 20px;
+	margin-top: 10px;
+	font-family: serif;
+}
+
+/* .timeline .column .description {
+	border-left: 1px solid #000;
+} */
+
+.main {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 80px;
+}
+
+.main h1 {
+	font-size: 80px;
+	line-height: 60px;
+}
+
+.main p {
+	font-size: 13px;
+	line-height: 20px;
+	font-family: serif;
+	text-align: right;
+}
+
+
+</style>
   	
 	<script type="text/javascript">
-	
-
-	$.fn.stars = function() {
-	    return $(this).each(function() {
-	        var val = parseFloat($(this).html());
-	        var size = Math.max(0, (Math.min(5, val))) * 16;
-	        var $span = $('<span />').width(size);
-	        $(this).html($span);
-	    });
-	}
-	
-	
-	
-	/* $(function() {
-		$( "#add" ).on("click" , function() {
-			 document.forms["updateBlog"].submit(); 
-		});
-	}); */	
-	
+		
 	$(function() {
-    	$('span.stars').stars();
-	});
-	
-	$(function() {
-		
-		var tagIndex=1;
-		var assetIndex=1;
-		
-		function showDialog() {
-			var dialog;
-			
-			dialog = $('#dialog-form').dialog({
-				resizable:false,
-				modal: true,
-				width:'auto'
-			});
-		}
-		
-		
-		
+				
 		$('body').on('click' , '.fa-pencil', function() {
-			self.location="/blog/updateBlog?blogNo="+$(this).next().val();
-			/* 
-			var index=$(this).next().val();
-			var scoreTag='<div class="col-md-4"><input type="text" name="score" id="score" size="25" placeholder="점수를 남겨주세요(0.1~5.0)">'
-						+'<i class="fa fa-check-square-o" aria-hidden="true" id=""></i></div>';
-			$($('.stars')[index]).html(scoreTag); */
-			
+			//self.location="/blog/updateBlog?blogNo="+$(this).attr('temp');
+			$('#exampleModalLong').modal();
+		});
+		
+		$('body').on('click' , '.fa-times', function() {
+			self.location="/blog/deleteBlog?blogNo="+$(this).prev().val();
 		});
 		
 		$('body').on('click' , '#listPicture', function() {
-			self.location="/blog/listBlog?travelNo="+$("#travNo").val();
+			self.location="/blog/listPicture?travelNo="+$("#travNo").val();
 		});
 		
+		$('body').on('click' , '#travLike', function() {
+			
+			if($(this).val()=='좋아요취소'){
+				$.ajax( 
+						{
+							url : "/blog/deleteJsonLike/"+$("#travNo").val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							context : this,
+							success : function(serverData , status) {
+								$(this).val('좋아요');
+							}
+						});
+			}else{
+				$.ajax( 
+						{
+							url : "/blog/addJsonLike/"+$("#travNo").val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							context : this,
+							success : function(serverData , status) {
+								$(this).val('좋아요취소');
+							}
+						});
+			}
+			
+		});
+		
+		$('body').on('click' , '#addPlace', function() {
+			self.location="/blog/updatePlace?travelNo="+$("#travNo").val()+"?"+$("#visitDate").val();
+		});
+		
+		 $('.kv-fa').rating({	   
+			  hoverOnClear: false,
+	            	filledStar: '<i class="fa fa-star"></i>',
+	                emptyStar: '<i class="fa fa-star-o"></i>',
+	                clearButton: '<i class="fa fa-lg fa-minus-circle"></i>',
+	                displayOnly: true, step: 0.5
+	        });
 		
 	}); 
 	
@@ -85,50 +186,85 @@
 </head>
 <body>
 	
-	<div class="container">
 		<input type="button" class="btn btn-default" id="listPicture" value="사진첩">
-		<c:if test='${isLiked}'>
-		  	<input type="button" class="btn" id="cancel" value="좋아요취소" >
-		</c:if>
-		<c:if test='${!isLiked}'>
-		  	<input type="button" class="btn" id="wishList" value="좋아요" >
-		</c:if>
-		<div class="row">
-	        <div class="timeline-centered">
-	        <c:set var="i" value="0" />
-			<c:forEach items="${list}" var="blog" varStatus="status">
-				<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
-		        <article class="timeline-entry">
-		            <div class="timeline-entry-inner">
-		                <div class="timeline-icon bg-warning">
-		                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-		                </div>
-		                <div class="timeline-label">
-		                    <div class='timeline-head'>${blog.place}
-			                    <i class="fa fa-pencil" aria-hidden="true" style="margin:10"></i>
-			                    <input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
-			                    <i class="fa fa-times" aria-hidden="true"></i>
-		                    </div>
-		                    <span class="stars">${blog.score}</span>
-		                    <br/>
-		                    ${!empty blog.review? blog.review:""}<hr/>
-		                    <c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
-		                    	<span>
-		                    		#${hashTags.hashTag}
-		                    		<input type="hidden" value="${hashTags.tagNo}" name="tagNo">
-		                    	</span>
-		                    </c:forEach><hr/>
-		                    <c:forEach items="${blog.images}" var="images" varStatus="status3">
-		                    	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-		                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
-		                    </c:forEach><hr/>
-		                	
-		                	<div class="timeline-head">${blog.memo}</div>
-		                </div>
-		            </div>
-		        </article>
-			</c:forEach>
+		<%-- <c:if test='${user.userId}==${writer}'> --%>
+			<input type="button" class="btn btn-default" id="addPlace" value="장소추가">
+		<%-- </c:if> --%>
+		<%-- <c:if test='${user.userId}=!${writer}'> --%>
+			<c:if test='${isLiked == 1}'>
+			  	<input type="button" class="btn" id="travLike" value="좋아요취소" >
+			</c:if>
+			<c:if test='${isLiked == 0}'>
+			  	<input type="button" class="btn" id="travLike" value="좋아요" >
+			</c:if>
+		<%-- </c:if> --%>
+	
+	<c:set var="i" value="0" />
+	<c:forEach items="${list}" var="blog" varStatus="status">
+		<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
+		<input type="hidden" name="visitDate" id="visitDate" value="${blog.visitDate}">
+		<input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
+		<div class="timeline">
+			<div class="column">
+			
+				<div class="title">
+					<h1> <fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd"/> </h1>
+					<h2>  ${blog.place}</h2>			
+				</div>
+				<div class="row">
+    				<div class="col-md-6 text-left">
+						<input class="kv-fa rating-loading " dir="ltr" data-size="xs" name="score" id="score" value="${blog.score}">
+					</div>
+					<div class="col-md-6 text-center" style="font-size:20px;">
+					<i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px" temp="${blog.blogNo}"></i>/<i class="fa fa-times" aria-hidden="true"></i>
+					</div>
+				</div>
+		
+				<div class="description text-default">		
+		
+				<c:forEach items="${blog.images}" var="images" varStatus="status3">
+		        	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
+		        	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+		        </c:forEach><hr/>
+		
+		 			&nbsp;${!empty blog.review? blog.review:""}<hr/>
+		 			
+		 		<c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
+                	<span>&nbsp;#${hashTags.hashTag}</span>
+                </c:forEach><hr/>
+		                    
+               <c:forEach items="${blog.assets}" var="assets" varStatus="status4">
+               	<span > &nbsp;${assets.assetCategory}</span>
+               	<span > &nbsp;${assets.usage}</span>
+               	<span > &nbsp;${assets.charge}</span>
+               	<br/>
+               </c:forEach><hr/>
+               
+		           &nbsp;${blog.memo}
+		                     
+				</div>
+				
+			</div>
 		</div>
-	</div>
+</c:forEach>
+	
+	<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="updateHuck">       
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-info">확인</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>        
+      </div>
+    </div>
+  </div>
+</div>
+	
 </body>
 </html>

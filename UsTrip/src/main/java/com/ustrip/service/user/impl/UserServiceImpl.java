@@ -69,13 +69,17 @@ public class UserServiceImpl implements UserService {
 		return userDao.getUser(userId);
 	}
 	
+	public User getUserNickName(String nickName) throws Exception{
+		return userDao.getUser2(nickName);
+	}
+	
 	public void updateUser(User user) throws Exception {
 		userDao.updateUser(user);
 	}
 	
 	public Map<String, Object> getUserList(Search search) throws Exception{
 		List<User> list = userDao.getUserList(search);
-		int totalCount  = userDao.getTotalCount(search);
+		int totalCount  = userDao.getUserTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -109,7 +113,91 @@ public class UserServiceImpl implements UserService {
 		
 		map.put("targetUserId", targetUserId);
 		map.put("folUserId", folUserId);
+		
+		String temp = targetUserId;
+		targetUserId = folUserId;
+		folUserId = temp;
+		
+		Follow follow = userDao.getFollow(folUserId, targetUserId);
+		
+		if( follow != null ) {
+			System.out.println("map!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + map);
+			
+			follow.setIsFollowing(1);
+			
+			userDao.updateFollow(follow);
+			
+			System.out.println("follow 构醋 :: " + follow);
+			
+			int isFollowing = 1;
+			
+			map.put("isFollowing", isFollowing);
+			
+			System.out.println("mapppppppppppppppp :::::: " +  map);
+			
+			userDao.addFollow(map);
+		} else {
 		userDao.addFollow(map);
+		}
+	}
+	
+	public Map<String, Object> listFollow(Search search, String folUserId) throws Exception{
+		
+		search.setSearchKeyword(folUserId);
+		
+		List<Follow> list = userDao.listFollow(search);
+		int totalCount  = userDao.getFollowTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		
+		return map;
+	}
+	
+	public Follow getFollow(String folUserId, String targetUserId ) throws Exception{
+		return userDao.getFollow(folUserId, targetUserId);
+	}
+	
+	public Map<String, Object> listFollowing(Search search, String targetUserId) throws Exception{
+		
+		search.setSearchKeyword(targetUserId);
+		
+		List<Follow> list = userDao.listFollowing(search);
+		int totalCount  = userDao.getFollowingTotalCount(search);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("totalCount", totalCount);
+		
+		return map;
+	}
+	
+	public void deleteFollow(String folUserId, String targetUserId ) throws Exception{
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("targetUserId", targetUserId);
+		map.put("folUserId", folUserId);
+		
+		String temp = targetUserId;
+		targetUserId = folUserId;
+		folUserId = temp;
+		
+		System.out.println("map俊 淬变霸 公均捞衬 :: " + map);
+		
+		Follow follow = userDao.getFollow(folUserId, targetUserId);
+		
+		if( follow != null) {
+			
+			follow.setIsFollowing(0);
+			
+			userDao.updateFollow(follow);
+			System.out.println("follow delete??????????????????? :: " +follow);
+			
+		}
+		userDao.deleteFollow(map);
+	/*	userDao.deleteFollow(folUserId, targetUserId);*/
 	}
 
 }

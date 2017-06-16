@@ -74,6 +74,14 @@ public class PlanDAOImpl implements PlanDAO {
 		return sqlSession.selectOne("TravelMapper.getTravel",travel.getTravTitle());
 	}
 	
+	public List<Travel> getListTravel(Search search) throws Exception {
+		return sqlSession.selectList("TravelMapper.getListTravel", search);
+	}
+	
+	public int totalCount(Search search) throws Exception{
+		return sqlSession.selectOne("TravelMapper.totalCount", search);
+	}
+	
 	public City getCity(City city) throws Exception {
 		return sqlSession.selectOne("CityMapper.getCity",city.getCity());
 	}
