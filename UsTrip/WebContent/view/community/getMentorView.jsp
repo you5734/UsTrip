@@ -51,7 +51,7 @@
 			fncGetList(1);
 		});
 		
-		$('li').hover(function(){			
+		$('.list-group-item').hover(function(){				
 			$(this).css('background-color','lightblue');		
 		},function(){
 			$(this).css('background-color','white');
@@ -409,8 +409,6 @@
   </style>
   </head>
 <body>
-
-<jsp:include page="/view/common/toolbar.jsp" />
 
 	<div class="container" >
 	

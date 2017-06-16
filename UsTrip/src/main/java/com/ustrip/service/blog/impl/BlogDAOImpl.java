@@ -108,17 +108,9 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public boolean checkLikeTravel(String userId, int travelNo) throws Exception {
-		Search search=new Search();
-		search.setSearchKeyword(userId);
-		search.setSearchCondition(Integer.toString(travelNo));
+	public List<LikeTravel> checkLikeTravel(int travNo) throws Exception {		
 		
-		int count=sqlSession.selectOne("BlogMapper.checkLikeTravel", search);
-		if(count==0){
-			return false;
-		}else{
-			return true;
-		}
+		return sqlSession.selectList("BlogMapper.checkLikeTravel", travNo);			
 	}
 
 	@Override
