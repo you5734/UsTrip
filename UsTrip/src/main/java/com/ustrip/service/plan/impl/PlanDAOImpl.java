@@ -56,12 +56,12 @@ public class PlanDAOImpl implements PlanDAO {
 	
 	@Override
 	public void addTravel(Travel travel) throws Exception {
-		travel.setTravTitle(travel.getTravTitle()+new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(java.util.Calendar.getInstance().getTime()));
+		travel.setTravTitle(travel.getTravTitle()+"_"+new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(java.util.Calendar.getInstance().getTime()));
 		sqlSession.insert("TravelMapper.addTravel",travel);
 	}
 	
 	public void addCity(City city) throws Exception {
-		city.setCity(city.getCity()+new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(java.util.Calendar.getInstance().getTime()));
+		city.setCity(city.getCity()+"_"+new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(java.util.Calendar.getInstance().getTime()));
 		sqlSession.insert("CityMapper.addCity",city);
 	}
 	

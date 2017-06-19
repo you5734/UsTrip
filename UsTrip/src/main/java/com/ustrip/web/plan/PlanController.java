@@ -2,6 +2,7 @@ package com.ustrip.web.plan;
 
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Place;
@@ -68,8 +70,47 @@ public class PlanController {
 	}
 
 	
+/*
 	//City 테이블
 	@RequestMapping( value="addCity", method=RequestMethod.POST )
+	public String addCity(@ModelAttribute("city") City city, 
+			@RequestBody JSONPObject data ,
+								HttpSession session) throws Exception{
+		
+		System.out.println("/plan/addCity : POST : jsonp");
+		
+		String orgName = data.toString();
+	//	planService.addCity(city);
+		System.out.println("===========================");
+		System.out.println(orgName);
+		System.out.println("===========================");
+	//	session.setAttribute("city", planService.getCity(city));
+		
+		return "redirect:/view/plan/addPlaceJsonTest.jsp";
+	}
+	*/
+	
+	//City 테이블 ajax
+	@RequestMapping( value="addCity", method=RequestMethod.POST )
+	public void addCity(@RequestParam("a") String data,
+						HttpSession session, Model model,
+						City city) throws Exception{
+		
+		
+		System.out.println("/plan/addCity : POST : ajax");
+		System.out.println("############################");
+		System.out.println(data);
+		System.out.println("############################");
+
+		city = new ObjectMapper().readValue(data, City.class);
+		planService.addCity(city);
+		//session.setAttribute("city", planService.getCity(city));
+	}
+	
+	
+	
+	//City 테이블
+	/*@RequestMapping( value="addCity", method=RequestMethod.POST )
 	public String addCity(@ModelAttribute("city") City city, 
 								HttpSession session) throws Exception{
 		
@@ -80,7 +121,7 @@ public class PlanController {
 		session.setAttribute("city", planService.getCity(city));
 		
 		return "redirect:/view/plan/addPlace.jsp";
-	}
+	}*/
 	
 	
 	//Place 테이블
