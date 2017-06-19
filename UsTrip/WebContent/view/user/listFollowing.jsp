@@ -108,14 +108,14 @@
 	</script>
 	
 	<style>
-		.row {
+/* 		.row {
 			margin-top:20px;
 			margin-left:20px;
 		}
 		.profile-sidebar {
-		  /* padding: 20px 0 10px 0; */
+		  /* padding: 20px 0 10px 0;
 		  background: #fff;
-		}
+		} */
 		.profile-pic img {
 		  float: none;
 		  margin: 0 auto;
@@ -140,7 +140,7 @@
 	          	<div class="profile-content">
 					<div class="row">
 						<div>
-							<div class="profile-sidebar">
+							<!-- <div class="profile-sidebar"> -->
 								<c:set var="i" value="0" />
 			 					 	<c:forEach var="follow" items="${list}">
 										<c:set var="i" value="${ i+1 }" />
@@ -161,7 +161,7 @@
 													</c:choose>
 											</div>
 									</c:forEach>
-								</div>
+							<!-- 	</div> -->
 							</div>         	
 						</div>
 					</div>

@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" text='text/css'>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all" type="text/css"/>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -16,12 +16,8 @@
   	<link href="/css/star-rating.min.css" rel="stylesheet" media="all" type="text/css"/>
   	<script src="/js/star-rating.min.js" type="text/javascript"></script>
   	
-    <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-    <link href="/css/theme.css" media="all" rel="stylesheet" type="text/css"/>
-    <script src="/js/sortable.js" type="text/javascript"></script>
-    <script src="/js/fileinput.js" type="text/javascript"></script>
-    <script src="/js/theme.js" type="text/javascript"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+  	<link href="/css/lightbox.css" rel="stylesheet" media="all" type="text/css"/>
+  	<script src="/js/lightbox.js" type="text/javascript"></script>
 	
 	<style>
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
@@ -117,8 +113,7 @@
 	$(function() {
 				
 		$('body').on('click' , '.fa-pencil', function() {
-			//self.location="/blog/updateBlog?blogNo="+$(this).attr('temp');
-			$('#exampleModalLong').modal();
+			self.location="/blog/updateBlog?blogNo="+$(this).attr('temp');
 		});
 		
 		$('body').on('click' , '.fa-times', function() {
@@ -176,7 +171,7 @@
 	                clearButton: '<i class="fa fa-lg fa-minus-circle"></i>',
 	                displayOnly: true, step: 0.5
 	        });
-		
+		 
 	}); 
 	
 	
@@ -213,19 +208,24 @@
 				</div>
 				<div class="row">
     				<div class="col-md-6 text-left">
-						<input class="kv-fa rating-loading " dir="ltr" data-size="xs" name="score" id="score" value="${blog.score}">
+						<input class="kv-fa rating-loading " data-size="xs" id="score" value="${blog.score}">
 					</div>
-					<div class="col-md-6 text-center" style="font-size:20px;">
+					<div class="col-md-6 text-right" style="font-size:20px;">
 					<i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px" temp="${blog.blogNo}"></i>/<i class="fa fa-times" aria-hidden="true"></i>
 					</div>
 				</div>
 		
 				<div class="description text-default">		
 		
+           <div>
 				<c:forEach items="${blog.images}" var="images" varStatus="status3">
-		        	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-		        	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
-		        </c:forEach><hr/>
+		        	<%-- <span class=images><a href="/images/upload/blog/${images.travNo}/${images.serverImgName}" rel="lightbox">
+		        	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" class="img-responsive" data-lightbox="roadtrip"></a></span> --%>
+		        	
+		        	<a class="image-link" href="/images/upload/blog/${images.travNo}/${images.serverImgName}" data-lightbox="set" data-title="${images.originalName}">
+		        	<img class="image" src="/images/upload/blog/${images.travNo}/${images.serverImgName}" alt="${images.originalName}" style="width:150px; height:100px;"></a>
+		        	
+		        </c:forEach></div><hr/>
 		
 		 			&nbsp;${!empty blog.review? blog.review:""}<hr/>
 		 			
@@ -247,24 +247,6 @@
 			</div>
 		</div>
 </c:forEach>
-	
-	<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="updateHuck">       
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-info">확인</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>        
-      </div>
-    </div>
-  </div>
-</div>
-	
+		
 </body>
 </html>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
@@ -51,13 +52,13 @@
 		                    <i class="fa fa-map-marker" aria-hidden="true"></i>
 		                </div>
 		                <div class="timeline-label">
-		                    <div class='timeline-head'>${blog.place}(${blog.visitDate})
+		                    <div class='timeline-head'>${blog.place}( <fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd"/> )
 			                    <input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
 		                    </div>
 		                    
 		                    <c:forEach items="${blog.images}" var="images" varStatus="status3">
-		                    	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-		                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+		                    	<span class=images><a href="/images/upload/blog/${images.travNo}/${images.serverImgName}" rel="lightbox">
+		                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" class="img-responsive"></a></span>
 		                    </c:forEach><hr/>
 		                </div>
 		            </div>

@@ -52,7 +52,7 @@
 		if($("#memberCount").text()==""){$("#memberCount").val(8);}
 		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
 		
-		$("#userId").val("user03");
+		$("#userId").val("b@naver.com");
 		$("#travTitle").val("여행Test");
 		$("#startDate").
 		val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
@@ -104,7 +104,7 @@
 		  <div class="form-group">
 		    <label for="travTitle" class="col-xs-4 col-md-2">여행제목</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목">
+		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목" value='오빠어디가'>
 		    </div>
 		  </div>
 
@@ -112,14 +112,14 @@
 		  <div class="form-group">
 		    <label for="startDate" class="col-xs-4 col-md-2">출발일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭">
+		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭" value='2017-06-15'>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label for="memberCount" class="col-xs-4 col-md-2">인원수</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수">
+		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수" value='2'>
 		    </div>
 		  </div>
 		  		  
@@ -140,7 +140,7 @@
 		  <div class="form-group">
 		    <label for="totalDate" class="col-xs-4 col-md-2">총 숙박일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일">
+		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value='2'>
 		    </div>
 		  </div>
 			<!-- 

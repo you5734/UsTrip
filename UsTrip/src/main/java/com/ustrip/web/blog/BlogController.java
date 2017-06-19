@@ -1,30 +1,14 @@
 package com.ustrip.web.blog;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.asset.AssetService;
@@ -46,6 +31,7 @@ import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
+import com.ustrip.service.domain.User;
 import com.ustrip.service.plan.PlanService;
 
 
@@ -105,45 +91,12 @@ public class BlogController {
 		
 		model.addAttribute("asset", asset);
 	}
-	
-	@RequestMapping(value={"addJsonImage"}, method=RequestMethod.POST)
-	public void addJsonImage( @ModelAttribute("blog") Blog blog, Model model, HttpServletRequest request ) throws Exception {
 		
-		System.out.println("/addJsonImage : GET");
-		
-		List<MultipartFile> files = blog.getFiles();
-        List<String> fileNames = new ArrayList<String>();
-        Map<String, List<Image>> map=new HashMap<String, List<Image>>();
-        if (null != files && files.size() > 0) 
-        {	
-        	int i=0;
-            for (MultipartFile multipartFile : files) {
- 
-                String fileName = multipartFile.getOriginalFilename();
-                String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
-                
-                File imageFile = new File(request.getSession().getServletContext().getRealPath("/")+"images/upload/blog/", newFileName);
-                multipartFile.transferTo(imageFile);
-                Image image=new Image();
-                image.setServerImgName(newFileName);
-                image.setBlogNo(blog.getBlogNo());
-                image.setTravelNo(blog.getTravNo());
-                
-                blog.getImages().add(image);
-            }
-        }
-        map.put("list", blog.getImages());
-        blogService.addImage(map);
-        Blog blog2=blogService.getJsonBlog(blog.getBlogNo());
-        map.put("list2", blog2.getImages());
-        model.addAttribute("list",map.get("list2"));
-	}
-	
 	@RequestMapping(value={"addJsonLike/{travNo}"}, method=RequestMethod.GET)
-	public void addJsonLike( @PathVariable int travNo, Model model ) throws Exception {
+	public void addJsonLike( @PathVariable int travNo, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/addJsonLike : GET");
-		String userId="user01"; //技记贸府秦具窃
+		String userId=((User)session.getAttribute("user")).getUserId();
 		blogService.addJsonLike(travNo, userId);
 	}
 	
@@ -192,7 +145,14 @@ public class BlogController {
 					}
 				}
 				
-				model.addAttribute("list", blog);
+				List<Blog> checkBlog = new ArrayList();
+				for(Blog deleteBlog : blog){
+					if(deleteBlog.getDeleteFlag() == 0){
+						checkBlog.add(deleteBlog);
+					}
+				}
+				
+				model.addAttribute("list", checkBlog);
 				model.addAttribute("isLiked",islike);
 				model.addAttribute("writer", travel.get(0).getUserId());
 			}else{
@@ -314,117 +274,46 @@ public class BlogController {
 	}
 	
 	
-	
-	enum Type {
-
-	    IMAGES("/upload/images", ".jpg", ".bmp", ".gif", ".png", ".jpeg"),
-	    VIDEOS("/upload/videos", ".avi", ".mpeg", ".mpg", ".mp4", ".mov", ".mkv", ".flv"),
-	    MUSICS("/upload/musics", ".mp3", ".wav");
-
-	    private String path;
-	    private String[] formats;
-
-	    Type(String path, String... format) {
-	        this.path = path;
-	        this.formats = format;
-	    }
-
-	    public String[] getFormats() {
-	        return formats;
-	    }
-
-	    public String getPath() {
-	        return path;
-	    }
-	}
-
-	private static String parseFileFormat(String fileName) {
-	    fileName = fileName.toLowerCase();
-	    int dotPosition = fileName.lastIndexOf(".");
-	    String format = fileName.substring(dotPosition, fileName.length());
-	    return format;
-	}
-
-	private Type getType(String fileName) {
-	    String format = parseFileFormat(fileName);
-	    Type[] values = Type.values();
-	    for (int i = 0; i < values.length; i++) {
-	        for (int j = 0; j < values[i].getFormats().length; j++) {
-	            if (values[i] == Type.IMAGES && values[i].getFormats()[j].equals(format)) {
-	                return Type.IMAGES;
-	            } else if (values[i] == Type.VIDEOS && values[i].getFormats()[j].equals(format)) {
-	                return Type.VIDEOS;
-	            } else if (values[i] == Type.MUSICS && values[i].getFormats()[j].equals(format)) {
-	                return Type.MUSICS;
-	            }
-	        }
-	    }
-	    return null;
-	}
-	
-	@RequestMapping("test/{blogNo}")
-	public void getJsontest(HttpServletRequest request,
-			   HttpServletResponse response, @PathVariable int blogNo)
-					   throws ServletException, IOException {
+	@RequestMapping(value={"addJSONImage/{blogNo}/{travNo}"}, method=RequestMethod.POST)
+	public void getJsontest(MultipartHttpServletRequest file,
+			   Model model,@PathVariable int blogNo,@PathVariable int travNo)
+					   throws Exception {
 		
-		 ServletContext context = request.getSession().getServletContext();
-		    if (ServletFileUpload.isMultipartContent(request)) {
-		        try {
-		            String fileName = null;
-		            String filePath;
-		            Type type = null;
-		            List<FileItem> multiparts = new ServletFileUpload(
-		                    new DiskFileItemFactory()).parseRequest(request);
-		            System.out.println("*****"+multiparts);
-		            System.out.println("Multipart size: " + multiparts.size());
-		            for (FileItem item : multiparts) {
-		                if (item.getName() == null || item.getName() == "") {
-		                    continue;
-		                }
-		                System.out.println("Part : " + item.getName());
-		                if (!item.isFormField()) {
-		                    fileName = new File(item.getName()).getName();
-		                    type = getType(fileName);
-		                    filePath = context.getRealPath(type.path);
-		                    if (type != null) {
-		                        SecureRandom random = new SecureRandom();
-		                        fileName = new BigInteger(130, random).toString(32) +
-		                                parseFileFormat(fileName);
-		                        item.write(new File(filePath + File.separator + fileName));
-		                        System.out.println("File uploaded successfully");
-		                        // System.out.println("File path: " + context.getRealPath(type.path));
-		                    } else {
-		                        throw new IllegalStateException("Wrong file format!");
-		                    }
-		                }
-		            }
-		        	
-		        	/*System.out.println("++++"+blogNo);
-		        	String saveFolder = "C:\\Users\\B\\git\\UsTrip\\UsTrip\\WebContent\\images\\upload\\blog\\"+blogNo;
-		        	File targetDir = new File(saveFolder);  
-		            
-		            if(!targetDir.exists()) {    //叼泛配府 绝栏搁 积己.
-		             targetDir.mkdirs();
-		            }
-		            
-		            DiskFileItemFactory factory = new DiskFileItemFactory();
-		            factory.setRepository(targetDir);
-		            ServletFileUpload upload = new ServletFileUpload(factory);
-		            
-		            List<FileItem> items = upload.parseRequest(request);
-		            System.out.println("******"+items);*/
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    } else {
-		        System.out.println("Sorry this Servlet only handles file upload request");
-		    }
-		    PrintWriter out = response.getWriter();
-		    JSONObject json = new JSONObject();
-		    json.put("", "");	
-		    response.setContentType("application/x-json; charset=UTF-8");		    			    
-		    out.print(json);
-		    out.flush();
+		List<MultipartFile> uploadFiles = file.getFiles("blogFile[]");		
+		List<Image> images = new ArrayList(); 
+		
+		String saveFolder = "C:/Users/B/git/UsTrip/UsTrip/WebContent/images/upload/blog/"+travNo;
+		File targetDir = new File(saveFolder);  
+        
+        if(!targetDir.exists()) {   
+         targetDir.mkdirs();
+        }
+
+		System.out.println(uploadFiles);
+		
+		for(int i=0 ; i<uploadFiles.size() ; i++) {			
+			System.out.println(i);
+	          
+				String fileName = uploadFiles.get(i).getOriginalFilename();
+	            String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
+	            	           
+				System.out.println(fileName);
+				System.out.println(newFileName);
+				System.out.println(uploadFiles.get(i));
+	            File uploadFile = new File(saveFolder,newFileName);
+	            uploadFiles.get(i).transferTo(uploadFile);
+	            Image image=new Image();
+                image.setServerImgName(newFileName);
+                image.setOriginalName(fileName);
+                image.setBlogNo(blogNo);
+                image.setTravNo(travNo);
+                images.add(image);
+	          
+		}		
+		blogService.addImage(images);
+				
 	}
+		
+		
 
 }

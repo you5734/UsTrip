@@ -70,7 +70,6 @@
 		    	var asset2 =populateTestObject1();
 								});
 	</script>
-	
 <!-- </head>
 
 <body>

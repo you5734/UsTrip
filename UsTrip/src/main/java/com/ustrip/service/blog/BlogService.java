@@ -32,7 +32,7 @@ public interface BlogService {
 
 	public void updateJsonReview(Blog blog) throws Exception;
 
-	public void addImage(Map<String, List<Image>> map) throws Exception;
+	public int addImage( List<Image> images) throws Exception;
 
 	public List<Blog> listImgByBlogNo(List<Integer> blogNo) throws Exception;
 

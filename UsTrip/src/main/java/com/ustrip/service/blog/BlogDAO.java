@@ -36,7 +36,7 @@ public interface BlogDAO {
 
 	public void updateReview(Blog blog) throws Exception;
 
-	public void addImage(Map<String, List<Image>> map) throws Exception;
+	public int addImage(List<Image> images) throws Exception;
 
 	public List<Integer> listBlogNo(int travelNo) throws Exception;
 

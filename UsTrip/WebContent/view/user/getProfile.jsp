@@ -8,7 +8,7 @@
 	 $(function() {
 			$( "#profileFollow" ).on("click" , function() {
 				var targetUserId = $("#userId").val();
-				alert("targetUserid :: " + targetUserId);
+				/* alert("targetUserid :: " + targetUserId); */
 				targetUserId=targetUserId.split(".");
 				/* self.location="/user/addFollow?targetUserId="+targetUserId; */
 				
@@ -56,19 +56,21 @@
 				self.location="/user/getUser?userId="+userId;
 			});
 			
-/* 			$('.test').on('click', function() {
+			$('.test').on('click', function() {
 				if ($('.test').hasClass('active')) {
 					$('.test').removeClass('active')
 				}
 				$(this).addClass('active');
 				
-			}); */
+			}); 
+			
 			$( "#listBlog" ).on("click" , function() {
 				self.location="/blog/listBlog?travNo=4";
 			});
 			
+
 			
-	 });
+		});
 	 
 	</script>
 	
@@ -216,7 +218,7 @@
 							<i class="fa fa-plane" aria-hidden="true"></i>
 							등록한 여행 </a>
 						</li>
-						<li  class="test">
+						<li  class="test" id="listListTravel">
 							<a href="#">
 							<i class="fa fa-heart" aria-hidden="true"></i>
 							좋아요한 여행</a>

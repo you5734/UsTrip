@@ -25,7 +25,7 @@ public interface PlanService {
 	public void addCity(City city) throws Exception;
 	public void addPlace(Place place) throws Exception;
 	
-	public Travel getTravel(Travel travel) throws Exception;
+	public Travel getTravel(int travNo) throws Exception;
 	public City getCity(City city) throws Exception;
 	public Place getPlace(Place place) throws Exception;
 	

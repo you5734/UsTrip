@@ -40,8 +40,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public void addImage(Map<String, List<Image>> map) throws Exception {
-		blogDAO.addImage(map);
+	public int addImage(List<Image> images) throws Exception {
+		return blogDAO.addImage(images);
 	}
 
 	@Override

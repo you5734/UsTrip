@@ -27,10 +27,10 @@
 	
 	 $(function() {
 			$( ".btn.btn-warning.bnt-action" ).on("click" , function() {
-				var travelNo = $(this).next().val();
-					alert("travelNo :: " + travelNo);
+				var travNo = $(this).next().val();
+					alert("travNo :: " + travNo);
 				/* self.location="/user/getTravel?travelNo="+travelNo; */
-				self.location="/view/user/getTravel.jsp";
+				self.location="/user/getTravel?travNo="+travNo;
 			});
 	 });
 	</script>
