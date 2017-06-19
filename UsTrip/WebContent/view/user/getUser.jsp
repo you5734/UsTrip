@@ -8,7 +8,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -32,7 +40,6 @@
 		 
 		 $(function() {
 			 $( "#list" ).on("click" , function() {
-				 alert("ddd");
 				 self.location = "/message/listSendMsg" 
 			  });
 		 });
@@ -45,9 +52,7 @@
 	</script>
 	
     <style>
-    	.container{
-    		margin-top: 50px;
-    	}
+
     	.col-sm-8.col-md-8{
     		height:40px;
     	}
@@ -62,7 +67,7 @@
        
 </head>
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 <div class="container">
     <div class="row profile">
 		<jsp:include page="/view/user/getProfile.jsp"/>
@@ -72,41 +77,37 @@
 						<div>
 							<div class="profile-sidebar">
 									<form class="form-horizontal">
-										  <div class="row">
+										  <!-- <div class="row"> -->
 								<%-- 			<div class="col-sm-4 col-md-4" align="center">
 												<img alt="User Pic" src="/images/upload/profile/${user.profileImage}" style="width:120px; height:130px;" class="img-circle img-responsive">
 											</div>
 								                 --%>
 											
 											<div class="col-sm-offset-3 col-sm-8 ">
-											  <label class="col-xs-4 col-md-2" for="userId">아이디</label>  
+											  <label class="col-md-3" for="userId">아이디</label>  
 											  <div class="col-md-4">${user.userId}</div>
 											</div>
 								
 											<div class="col-sm-offset-3 col-sm-8 ">
-											  <label class="col-xs-4 col-md-2" for="nickName">닉네임</label>  
+											  <label class="col-md-3" for="nickName">닉네임</label>  
 											  <div class="col-md-4">${user.nickName}</div>
 											</div>
 											
 											<div class="col-sm-offset-3 col-sm-8 ">
-											  <label class="col-xs-4 col-md-2" for="gender">성별</label>  
+											  <label class="col-md-3" for="gender">성별</label>  
 											  <div class="col-md-4"> <%-- ${user.gender } --%>
 											  	 ${user.gender == 'm' ? '남자' : '여자' }
 											  </div>
 											</div>
 											
+										    <div class="form-group">	
 											<div class="col-sm-offset-3 col-sm-8 ">
-											  <label class="col-xs-4 col-md-2" for="birthDate">생년월일</label>  
+											  <label class="col-md-3" for="birthDate">생년월일</label>  
 											  <div class="col-md-4">${user.birthDate}</div>
 											</div>
+											</div>
 											
-											<div class="col-sm-offset-2 col-sm-8 " >
-												<button type="button" class="btn btn-info">회원정보수정</button>
-												<button type="button" class="btn btn-info btn" href="#">쪽지보내기</button>
-												<button type="button" class="btn btn-info" id="list">보낸쪽지함</button>
-												<button type="button" class="btn btn-info" id="listUser">모든회원정보</button>
-											</div>	
-										</div>
+										<!-- </div> -->
 									</form>
 								</div>
 							</div>         	

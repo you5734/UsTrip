@@ -39,43 +39,48 @@
 			});
 		 
 			$( "#listFollow" ).on("click" , function() {
-				alert("ddddddd");
 				self.location="/user/listFollow";
 			});
 			
 			$( "#listFollowing" ).on("click" , function() {
-				alert("dd");
 				self.location="/user/listFollowing";
 			});
 			
 			$( "#update" ).on("click" , function() {
 				var userId = $("#userId").val();
-				alert("userIddddddd " + userId)
 				self.location="/user/updateUser?userId="+userId;
 			});
 			
 			$( "#getUser" ).on("click" , function() {
 				var userId = $("#userId").val();
-				alert("userId :: " + userId)
 				self.location="/user/getUser?userId="+userId;
 			});
 			
-			$('.test').on('click', function() {
+/* 			$('.test').on('click', function() {
 				if ($('.test').hasClass('active')) {
 					$('.test').removeClass('active')
 				}
 				$(this).addClass('active');
 				
-			})
+			}); */
+			$( "#listBlog" ).on("click" , function() {
+				self.location="/blog/listBlog?travNo=4";
+			});
+			
 			
 	 });
 	 
 	</script>
 	
 	<style>
-		body {
-		  background: #F1F3FA;
+			html, body {
+			width: 100%;
+			height:100%;
 		}
+	
+/* 		body {
+		  background: #F1F3FA;
+		} */
 		/* Profile container */
 		.profile {
 		  margin: 20px 0;
@@ -83,7 +88,8 @@
 		/* Profile sidebar */
 		.profile-sidebar {
 		  padding: 20px 0 10px 0;
-		  background: #fff;
+		  background: #F1F3FA;
+		  /* background: #fff; */
 		}
 		.profile-userpic img {
 		  float: none;
@@ -157,17 +163,13 @@
 		  margin-left: -2px;
 		}
 		/* Profile Content */
-		.profile-content {
-		  padding: 20px;
-		  background: #fff;
-		  min-height: 460px;
-		}	
-		.container{
-			margin-top:100px;
-		}
+/* 		.profile-content {
+		  /* padding: 20px; 
+		 background: #F1F3FA;
+		 min-height: 495px; 
+		}	 */
 	
 	</style>
-
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
@@ -228,6 +230,11 @@
 							<a href="#">
 							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 							ÆÈ·ÎÀ× </a>
+						</li>
+						<li id="listBlog" class="test">
+							<a href="#">
+							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+							ºí·Î±× </a>
 						</li>
 					</ul>
 				</div>

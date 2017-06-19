@@ -46,11 +46,11 @@
 			
 		</script>
 		
-		<style>
+<!-- 		<style>
 			.vidbg-container {
 				bottom:30px !important;
 			}
-		</style>
+		</style> -->
 		
 	</head>
 	<body >

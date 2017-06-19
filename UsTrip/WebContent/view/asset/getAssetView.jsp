@@ -7,12 +7,12 @@
 
 <html lang="ko">
 	
-<head>
+<head> 
 	<meta charset="EUC-KR">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title>여행가계부</title>	
+<!-- 	<title>여행가계부</title>	 -->
 		
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
@@ -39,7 +39,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
       
 	<style>
- 		body {padding-top : 50px;}   
+ 	 	body {padding-top : 50px;}    
+ 	.listasset{
+ 		width: inherit;
+        max-width: 100%;
+        height: auto;
+        }
+ 	
      </style>
     
 	<script type="text/javascript">	
@@ -64,12 +70,10 @@
     <li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
   </ul>
 
-      <div id="listasset" style="width: inherit;
-        max-width: 100%;
-        height: auto;"></div>
-    </div>
+      <div id="listasset" ></div>
+ </div> 
     
-<jsp:include page="/view/asset/updateAssetView.jsp" />
+ <jsp:include page="/view/asset/updateAssetView.jsp" />  
 
 </body>
 

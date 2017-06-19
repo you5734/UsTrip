@@ -417,4 +417,15 @@ public class UserController {
 		return "forward:/user/getContents";
 	}
 	
+/*	@RequestMapping( value="getTravel", method=RequestMethod.POST )
+	public String getTravel( HttpSession session, Model model, @RequestParam("travelNo") int travelNo ) throws Exception {
+
+		System.out.println("/user/getTravel : POST");
+		
+			
+		return "";
+	}
+	*/
+	
+	
 }
