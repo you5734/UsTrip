@@ -51,8 +51,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public void addImage(Map<String, List<Image>> map) throws Exception {
-		sqlSession.insert("BlogMapper.addImage", map);
+	public int addImage(List<Image> images) throws Exception {
+		return sqlSession.insert("BlogMapper.addImage", images);
 	}
 	
 	@Override
@@ -90,7 +90,7 @@ public class BlogDAOImpl implements BlogDAO{
 		List<Blog> list=new ArrayList<Blog>();
 		for(int i=0; i<blogNo.size(); i++){
 			Blog blog=sqlSession.selectOne("BlogMapper.getBlog", blogNo.get(i));
-			List<Image> temp=sqlSession.selectList("BlogMapper.listImgByBlogNo", blogNo.get(i));
+			List<Image> temp=sqlSession.selectList("BlogMapper.listImage", blogNo.get(i));
 			blog.setImages(temp);
 			list.add(blog);
 		}

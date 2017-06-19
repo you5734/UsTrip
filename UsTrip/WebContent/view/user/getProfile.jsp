@@ -66,7 +66,11 @@
 				}
 				$(this).addClass('active');
 				
-			})
+			});
+			
+			$( "#listBlog" ).on("click" , function() {
+				self.location="/blog/listBlog?travNo=4";
+			});
 			
 	 });
 	 
@@ -229,6 +233,12 @@
 							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 							ÆÈ·ÎÀ× </a>
 						</li>
+						<li id="listBlog" class="test">
+							<a href="#">
+							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+							ºí·Î±× </a>
+						</li>
+						
 					</ul>
 				</div>
 				<!-- END MENU -->

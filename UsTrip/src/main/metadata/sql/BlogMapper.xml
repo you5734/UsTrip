@@ -16,6 +16,7 @@
 		<result property="review" 			column="review" 		jdbcType="VARCHAR" />
 		<result property="score" 			column="score" 			jdbcType="NUMERIC" />
 		<result property="place"			column="place"			jdbcType="VARCHAR" />
+		<result property="deleteFlag" 			column="delete_flag" 			jdbcType="NUMERIC" />
 		<collection property="images" 		column="blog_no"		javaType="java.util.ArrayList" ofType="image" select="listImage"/>
 		<collection property="hashTags" 	column="blog_no"		javaType="java.util.ArrayList" ofType="hashTag" select="listHashTag"/>
 	</resultMap>
@@ -23,8 +24,9 @@
 	<resultMap id="imageSelectMap" type="image">
 		<id 	property="imgNo" 			column="image_no"/>
 		<result property="blogNo" 			column="blog_no" 			jdbcType="NUMERIC" />
+		<result property="originalName" 	column="ORI_IMG_NAME" 	jdbcType="VARCHAR" />
 		<result property="serverImgName" 	column="server_img_name" 	jdbcType="VARCHAR" />
-		<result property="travelNo"			column="trav_no"			jdbcType="NUMERIC" />
+		<result property="travNo"			column="TRAV_NO"			jdbcType="NUMERIC" />
 	</resultMap>
 	
 	<resultMap id="tagSelectMap" type="hashTag">
@@ -60,14 +62,15 @@
     	</selectKey>
 	 </insert>
 	 
-	 <insert	id="addImage"	parameterType="map">
-	 	INSERT
-	 	INTO image (image_no, blog_no, server_img_name, trav_no)(
-	 	SELECT seq_image_no.nextval, A.* from(
-	 	<foreach item="item" collection="list" separator="UNION ALL" index="index">
-		 	SELECT #{item.blogNo}, #{item.serverImgName}, #{item.travelNo} FROM DUAL
-	 	</foreach>
-	 	)A)
+	 <insert	id="addImage"	parameterType="list">
+	 	INSERT INTO image(IMAGE_NO, BLOG_NO, TRAV_NO, ORI_IMG_NAME, SERVER_IMG_NAME)
+			SELECT seq_image_no.nextval, inner_view.*
+			FROM (
+				<foreach collection="list" item="item" separator="UNION ALL">
+				SELECT #{item.blogNo},#{item.travNo},#{item.originalName},#{item.serverImgName}
+				FROM DUAL
+				</foreach>
+			) inner_view
 	 </insert>
 	 
 	 <insert	id="addLikeTravel" parameterType="String">
@@ -114,14 +117,14 @@
 	 
 	 <select id="listImage" parameterType="int" resultMap="imageSelectMap">
 	 	SELECT
-	 	image_no, blog_no, server_img_name
+	 	*
 	 	FROM image
 	 	WHERE blog_no=#{blogNo}
 	 </select>
 	 
 	 <select id="listImgByBlogNo" parameterType="map" resultMap="imageSelectMap">
 	 	SELECT
-	 	image_no, server_img_name, blog_no, trav_no
+	 	*
 	 	FROM image
 	 	WHERE blog_no=#{blogNo}
 	 </select>
@@ -185,5 +188,13 @@
 	 	FROM like_travel
 	 	WHERE user_id=#{userId}
 	 </select>
+	 
+	 <update id="deleteBlog" parameterType="int">
+	 	UPDATE blog 
+		<set> 
+		delete_flag = #{deleteFlag}
+	   	</set>
+	   	WHERE blog_no=#{blogNo}
+	 </update>
 	 
 </mapper>

@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" text='text/css'>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all" type="text/css"/>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -212,6 +212,23 @@
 	                emptyStar: '<i class="fa fa-star-o"></i>',
 	                clearButton: '<i class="fa fa-lg fa-minus-circle"></i>'
 	        });
+		 
+		 $('body').on('click' , '#uploadFile', function() {
+			 var queryString = $("#blogFile").val() ;
+			var fileForm = $('#fileForm')[0]
+			 var sp = queryString.split(',');			
+			 var formData = new FormData(fileForm);
+			for(var i in sp){
+				formData.append("blogFile[]", sp[i]);
+			}		 
+			$.ajax({
+				    url: "/blog/addJSONImage/"+$('#blogNo').val()+"/"+$('#travNo').val(),
+				    data: formData,
+				    type: 'POST',
+				    contentType: false, 
+				    processData: false
+				}); 
+		 });
 		  		
 	});
 
@@ -225,7 +242,7 @@
 	
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
-				<form class="form-horizontal" >
+				<div class="form-horizontal" >
 					<fieldset>
 						<input type="hidden" name="blogNo" id="blogNo" value="${blog.blogNo}">
 						<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
@@ -260,8 +277,8 @@
 				            	<div class="col-sm-11">
 				            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
 					            		<span id="${images.imgNo}">
-							              	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-					                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+							              	<span class=images><a href="/images/upload/blog/${images.travNo}/${images.serverImgName}" rel="lightbox">
+					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" class="img-responsive"></a></span>
 							              	<i class="fa fa-times" aria-hidden="true" id="deleteImage"></i>
 				                    		<input type="hidden" value="${images.imgNo}">
 				                    	</span>
@@ -269,18 +286,14 @@
 				            	</div>
 				          	</div>
 						
-			          	<div class="form-group">
-			          <!-- 	<input id="file-5" class="file" type="file" name="file" multiple data-preview-file-type="any" data-upload-url="/blog/test"> -->
-			          	<input id="file-5" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="/blog/test/${blog.blogNo}">
-       
-			            	<!-- <label class="col-sm-2 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
-			            	<div class="col-sm-8">
-			              		<input type="file" name="files" id="fileName" multiple/>
-			            	</div>
-			            	<label class="col-sm-2 control-label" for="textinput">
-				              		<input type="submit" id="btn" value="확인">
-				            </label> -->
-			          	</div>
+			          	<form class="form-group"  id="fileForm">
+			          <label class="col-sm-1 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
+			          <div class="col-sm-10">
+			          	<input type="file" accept="image/png, image/jpeg, image/gif" id="blogFile" name="blogFile[]"  multiple style="width:flex;"/>
+			          </div>
+       					<label class="col-sm-1 control-label" for="textinput" ><i class="fa fa-check" aria-hidden="true" id="uploadFile" ></i></label>
+			            
+			          	</form>
 			          	<hr/>
 	      			
 			          	<c:forEach items="${blog.assets}" var="assets" varStatus="status">
@@ -289,7 +302,7 @@
 				              	<div class="col-md-3 col-sm-3 col-xs-3">
 				              		<input type="text" class="form-control" name="category" value="${assets.assetCategory}" readonly/>
 				              	</div>
-				         	  	<div class="col-md-3 col-sm-3 col-xs-3">
+				         	  	<div class="col-md-4 col-sm-3 col-xs-3">
 				              		<input type="text" class="form-control" name="usage" value="${assets.usage}" readonly/>
 				              	</div>
 				       	      	<div class="col-md-3 col-sm-3 col-xs-3">
@@ -314,7 +327,7 @@
 									<option value="기타">기타</option>
 							 	</select>
 			              	</div>
-			         	  	<div class="col-md-3 col-sm-3 col-xs-3">
+			         	  	<div class="col-md-4 col-sm-3 col-xs-3">
 			              		<input type="text" class="form-control" placeholder="사용처" id="usage" />
 			              	</div>
 			       	      	<div class="col-md-3 col-sm-3 col-xs-3">
@@ -358,7 +371,7 @@
 			            	</div>
 			         	</div>
 	        		</fieldset>
-	        	</form>
+	        	</div>
 	    	</div>
 		</div>
 	</body>
