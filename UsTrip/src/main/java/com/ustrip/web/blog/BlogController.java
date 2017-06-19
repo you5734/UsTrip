@@ -148,6 +148,9 @@ public class BlogController {
 				List<Blog> blog=blogService.listBlog(search);
 				for(int i=0; i<blog.size(); i++){
 					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+					for(int j=0; j<asset.size(); j++){
+						blog.get(i).setSumCharge(blog.get(i).getSumCharge()+asset.get(j).getCharge());
+					}
 					blog.get(i).setAssets(asset);
 				}
 				
@@ -198,6 +201,7 @@ public class BlogController {
 		System.out.println("/updateBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		System.out.println("*********"+blog.getVisitDate());
 		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
 		blog.setAssets(asset);
 		model.addAttribute("blog", blog);
@@ -326,7 +330,7 @@ public class BlogController {
 	          
 		}		
 		blogService.addImage(images);
-				
+		model.addAttribute("add",images)	;	
 	}
 		
 		
