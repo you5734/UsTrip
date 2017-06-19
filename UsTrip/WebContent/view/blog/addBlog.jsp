@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('body').on('click' , '#addBlog', function() {
-			self.location="/blog/addBlog?travelNo="+$('#travelNo').val()+"&visitDate="+$('#visitDate').val();
+			self.location="/blog/addBlog?travelNo="+$('#travelNo').val();
 		});
 		
 	});

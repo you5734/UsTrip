@@ -35,6 +35,8 @@
 .timeline {
 	padding: 40px 0px;
 	width: 80%;
+	margin-left: 10%;
+	margin-bottom: 40px;
 }
 
 .timeline:before {
@@ -43,7 +45,7 @@
 	top: 40px;
 	left: 65px;
 	width: 3px;
-	height: 100% ;
+	height: calc(100% - 80px);
 	background: #c0392b;
 }
 
@@ -62,12 +64,12 @@
 .timeline .column .title h1:before {
 	content: "";
 	position: absolute;
-	left: -64px;
+	left: -62px;
 	top: 86px;
 	width: 10px;
 	height: 10px;
 	background: #fff;
-	border: 10px solid #c0392b;
+	border: 3px solid #c0392b;
 }
 
 .timeline .column .title h2 {
@@ -234,7 +236,6 @@
 			<div class="column">
 			
 				<div class="title">
-				<hr/>
 					<h1> <fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd"/> </h1>
 					<h2>  ${blog.place}</h2>			
 				</div>

@@ -16,7 +16,7 @@ import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
-import com.ustrip.service.domain.TempBlog;
+import com.ustrip.service.domain.Place;
 
 
 
@@ -36,8 +36,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 	
 	@Override
-	public void addBlog(Map<String, List<TempBlog>> map) throws Exception {
-		sqlSession.selectList("BlogMapper.addBlog", map);
+	public void addBlog(List<Place> tempBlog) throws Exception {
+		sqlSession.selectList("BlogMapper.addBlog", tempBlog);
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class BlogDAOImpl implements BlogDAO{
 	}
 
 	@Override
-	public List<Blog> listBlog(Search search) throws Exception {
-		return sqlSession.selectList("BlogMapper.listBlog", search);
+	public List<Blog> listBlog(int travNo) throws Exception {
+		return sqlSession.selectList("BlogMapper.listBlog", travNo);
 	}
 
 	@Override
