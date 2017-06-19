@@ -1,30 +1,14 @@
 package com.ustrip.web.blog;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -47,6 +31,7 @@ import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
+import com.ustrip.service.domain.User;
 import com.ustrip.service.plan.PlanService;
 
 
@@ -108,10 +93,10 @@ public class BlogController {
 	}
 		
 	@RequestMapping(value={"addJsonLike/{travNo}"}, method=RequestMethod.GET)
-	public void addJsonLike( @PathVariable int travNo, Model model ) throws Exception {
+	public void addJsonLike( @PathVariable int travNo, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/addJsonLike : GET");
-		String userId="user01"; //技记贸府秦具窃
+		String userId=((User)session.getAttribute("user")).getUserId();
 		blogService.addJsonLike(travNo, userId);
 	}
 	

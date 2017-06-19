@@ -69,9 +69,9 @@ public class PlanDAOImpl implements PlanDAO {
 		sqlSession.insert("PlaceMapper.addPlace",place);
 	}
 	
-	public Travel getTravel(Travel travel) throws Exception {
+	public Travel getTravel(int travNo) throws Exception {
 		
-		return sqlSession.selectOne("TravelMapper.getTravel",travel.getTravTitle());
+		return sqlSession.selectOne("TravelMapper.getTravel",travNo);
 	}
 	
 	public List<Travel> getListTravel(Search search) throws Exception {

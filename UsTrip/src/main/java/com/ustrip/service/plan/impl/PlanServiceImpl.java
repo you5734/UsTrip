@@ -69,8 +69,8 @@ public class PlanServiceImpl implements PlanService{
 		planDAO.addPlace(place);
 	}
 	
-	public Travel getTravel(Travel travel) throws Exception {
-		return planDAO.getTravel(travel);
+	public Travel getTravel(int travNo) throws Exception {
+		return planDAO.getTravel(travNo);
 	}
 	
 	public City getCity(City city) throws Exception{
@@ -90,7 +90,7 @@ public class PlanServiceImpl implements PlanService{
 	
 	public Map<String, Object> getListTravel(Search search) throws Exception {
 		List<Travel> list = planDAO.getListTravel(search);
-		System.out.println("listtttttttttttttt ::" + list);
+//		System.out.println("listtttttttttttttt ::" + list);
 		int totalCount = planDAO.totalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();

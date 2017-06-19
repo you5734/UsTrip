@@ -2,6 +2,8 @@ package com.ustrip.web.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,7 +27,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ustrip.common.Page;
 import com.ustrip.common.Search;
-import com.ustrip.service.domain.Follow;
+import com.ustrip.service.asset.AssetService;
+import com.ustrip.service.blog.BlogService;
+import com.ustrip.service.domain.Asset;
+import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.LikeTravel;
+import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
 import com.ustrip.service.plan.PlanService;
 import com.ustrip.service.user.UserService;
@@ -39,10 +46,17 @@ public class UserController {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 	
-	///Field
 	@Autowired
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("blogServiceImpl")
+	private BlogService blogService;
+	
+	@Autowired
+	@Qualifier("assetServiceImpl")
+	private AssetService assetService;
 	
 	@Value("#{commonProperties['pageUnit']}")
 	int pageUnit;
@@ -417,15 +431,90 @@ public class UserController {
 		return "forward:/user/getContents";
 	}
 	
-/*	@RequestMapping( value="getTravel", method=RequestMethod.POST )
-	public String getTravel( HttpSession session, Model model, @RequestParam("travelNo") int travelNo ) throws Exception {
+	@RequestMapping( value="getTravel", method=RequestMethod.GET )
+	public String getTravel( HttpSession session, Model model, @RequestParam("travNo") int travNo ) throws Exception {
 
-		System.out.println("/user/getTravel : POST");
+		System.out.println("/user/getTravel : GET");
 		
+		String userId=((User)session.getAttribute("user")).getUserId();
+		System.out.println("userId????????????????" + userId);
+		
+		Travel travel = planService.getTravel(travNo);
+		List<LikeTravel> list = blogService.checkLikeTravel(travNo);
+		
+		
+		int result = 0;
+		if( list.size() >0 ) {
+			for( int i=0; i< list.size(); i++) {
+				if( userId.equals(list.get(i).getUserId()) ) {
+					result=1;
+				}
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////////////
+		String destination="forward:/view/blog/listBlog.jsp";
+		int islike=0;
+		
+		Search search=new Search();
+			List<Travel> checkBlogStart=planService.checkBlogStart(travNo);
 			
-		return "";
+			if(checkBlogStart.get(0).getIsBlogStart()==1){
+				List<Integer> listPlaceNo=planService.listPlaceNoTemp(travNo);
+				search.setSearchKeyword(Integer.toString(travNo));
+				search.setPlaceOrder(listPlaceNo);
+				List<Blog> blog=blogService.listBlog(search);
+				for(int i=0; i<blog.size(); i++){
+					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+					blog.get(i).setAssets(asset);
+				}
+				
+				if(userId != null){
+					List<LikeTravel> travNoLike = blogService.checkLikeTravel(travNo);
+					for(LikeTravel T : travNoLike){
+						if(T.getUserId().equals(userId)){
+							islike=1;
+						}
+					}
+				}
+				
+				List<Blog> checkBlog = new ArrayList();
+				for(Blog deleteBlog : blog){
+					if(deleteBlog.getDeleteFlag() == 0){
+						checkBlog.add(deleteBlog);
+					}
+				}
+				
+				model.addAttribute("list", checkBlog);
+				model.addAttribute("isLiked",islike);
+				model.addAttribute("writer", checkBlogStart.get(0).getUserId());
+			}/*else{*/
+				/*model.addAttribute("travel", travel);
+				model.addAttribute("travel", travel);
+				destination="forward:/view/blog/addBlog.jsp";
+			}	*/	
+		
+		model.addAttribute("isLike", result);
+		model.addAttribute("travel", travel);
+		
+		return "forward:/view/user/getTravel.jsp";
 	}
-	*/
 	
-	
+	@RequestMapping( value="listLikeTravel")
+	public String listLikeTravel( HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/user/listLikeTravel ");
+		
+		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		System.out.println("sessionIdddd:: " + sessionId);
+		
+		// Business logic ผ๖วเ
+		 List<LikeTravel> listLikeTravel=blogService.listLikeTravel(sessionId);
+		System.out.println("map :::::::::::: " + listLikeTravel);
+		
+		
+		model.addAttribute("likeTravel", listLikeTravel);
+		
+		return "forward:/view/user/listLikeTrevel.jsp";
+	}
+
 }
