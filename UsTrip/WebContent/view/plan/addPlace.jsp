@@ -11,109 +11,154 @@
 	<title>UsTrip</title>
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
 	<style type="text/css">
         html, body {
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          overflow:hidden
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow:hidden;        
         }
  
-        #map {
-          height: 100%;
-          margin-left: 18%;
-          margin-top: 4%;
+ 		#mainPlace {
+			width: 17%;
+			height: 15%;
+			float:left;
+ 		}
+ 		
+ 		#btn {
+			width: 83%;
+			height: 15%;
+			float:left;
         }
  
- 
+ 		#formTag {			
+			width:17%;
+			height:85%;
+			float:left;
+			overflow:auto;
+		}
+		
+		#map {
+			width:  83%;
+			height: 85%;
+        }
         #panel{
-          position: absolute;
-          margin-top: 3.2%;
-          left: 38%;
-          margin-left: -180px;
-          z-index: 5;
-          background-color: #fff;
-          padding: 5px;
-          border: 1px solid #999;
+			position: fixed;
+			margin-left: 25%;
+          	margin-top: 9%;
+			z-index: 5;
+			background-color: #fff;
+			padding: 3px;
         }
         
-        #btn {
-          position: absolute;
-          top: 10px;
-          left: 32%;
-          margin-left: -180px;
-          z-index: 5;
-          background-color: #fff;
-          padding: 5px;
-          border: 1px solid #999;
-        }
-        form {
-		  width:16.5%;
-  		  height:600px;
-		  float:left;
-		}
+         #temp {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+      #temp:focus {
+        border-color: #4d90fe;
+      }
+      .temp-container {
+        font-family: Roboto;
+      }
+      
+      	#duration, #distance{
+			border:none;
+      	}  
+		
     </style>
-     
-<script type="text/javascript">
 
-		
-	$( function() {
-	    $( "#visitDate" ).datepicker({
-	      dateFormat : "yy-mm-dd",
-		  minDate: 0,
-		  showOn: "button",
-		  buttonImage: "http://kr.seaicons.com/wp-content/uploads/2015/06/calendar-icon.png",
-	      buttonImageOnly: true,
-	      showButtonPanel: true,
-	      buttonText: "Select date" 
-	    });
-	    $("img.ui-datepicker-trigger").attr("style", "width:40px; vertical-align:middle; cursor: Pointer;");
-	});
-	
-	function moveStart(){
-		
-		self.location = "/view/plan/addPlace.jsp";
-		
-	}
-	
-	function movePlace(){ 
-		
-		fncAddPlace();
-		 
-	}
-
-
-	function fncAddPlace() {
-		/* if($("#prePlaceNo").text()==""){			
-		$("#prePlaceNo").val(555);
-		}
-		if($("#nextPlaceNo").text()==""){
-		$("#nextPlaceNo").val(555);			
-		} */
-		$("#prePlaceNo").val(555);
-		$("#nextPlaceNo").val(555);
-		
-		$("form").attr("method", "POST").attr("action", "/plan/addPlace")
-				.submit();
-	}
-
-		
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&sensor=false&region=kr"></script>
     <script>
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
     var map;
-    var geocoder;//
+    var geocoder;
     var temp;
     var start;
     var end;
 	var tempNum = 0;
 	
-
+	var startCityX =  document.location.href.split("?")[1]*1;  
+	var startCityY =  document.location.href.split("?")[2]*1;  
+	var cityValue = decodeURIComponent(document.location.href.split("?")[3]); 
+	
+	
+	
+	$(document).ready(function() {
+		
+		
+	setTemp();
+		var startPlace = "${sessionScope.city.city}";	
+		var strArray = startPlace.split('_');
+		startPlace = strArray[0];
+		$("#f0 input[name='startPlace']").val(startPlace); 
+		
+	});		
+	
+	function moveStart(){
+		
+		//self.location = "/view/plan/addPlace.jsp";
+		
+	}
+		
+	function movePlace(){ 
+		/* 
+		for(var i = 0; i < tempNum-1; i++){
+			
+			$("#f"+(i)+" input[name='stayStart']").val(stayStart);
+			var stayDate = $("#f"+(i)+" input[name='stayDate']").val();
+			var stayEnd = new Date(stayStart);
+	   		stayEnd.setDate((stayEnd.getDate()*1 + stayDate*1));
+	   		stayEnd = stayEnd.getFullYear()+"-"+(stayEnd.getMonth()*1+1)+"-"+stayEnd.getDate();
+			$("#f"+(i)+" input[name='stayEnd']").val(stayEnd)
+			stayStart = stayEnd;
+		}
+		 */
+		//json으로 담기
+      /* 
+        for(var i = 0; i < tempNum-1; i++){
+        	
+	        var placeObj = new Object();
+	        
+	        placeObj.startCity = $("#f"+(i)+" input[name='startCity']").val();
+	        placeObj.city = $("#f"+(i)+" input[name='city']").val();
+	        placeObj.city = $("#f"+(i)+" input[name='city']").val();
+	        placeObj.travelNo = travelNo;
+	        placeObj.cityId = $("#f"+(i)+" input[name='cityId']").val();
+	        placeObj.cityX = $("#f"+(i)+" input[name='cityX']").val();
+	        placeObj.cityY = $("#f"+(i)+" input[name='cityY']").val();
+	        placeObj.preCityNo = $("#f"+(i)+" input[name='preCityNo']").val();
+	        placeObj.nextCityNo = $("#f"+(i)+" input[name='nextCityNo']").val();
+	        placeObj.stayStart = $("#f"+(i)+" input[name='stayStart']").val();
+	        placeObj.stayDate = $("#f"+(i)+" input[name='stayDate']").val();
+	        placeObj.stayEnd = $("#f"+(i)+" input[name='stayEnd']").val();
+	        placeArray.push(placeObj);
+        }
+        
+		placeObj = placeArray;
+        var jsonPlace = JSON.stringify(placeObj);
+        $("#jsonC").val(jsonPlace);
+		
+		  */
+		fncAddPlace();
+	}
+	function fncAddPlace() {
+		
+		$("form").attr("method", "POST").attr("action", "/plan/addPlace").submit();
+				
+	}
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
     function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
@@ -121,25 +166,99 @@
             alert("Not Support Browser");
         }
     }        
- 
+///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
       geocoder = new google.maps.Geocoder();
+			
+		/* cityX = cityX*1; 
+		cityY = cityY*1; */
+		
+		var currentLocation = [];
+		
       var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+    
       var mapOptions = {
-        zoom:16,
+        zoom:13,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: currentLocation
+      /*   center: currentLocation */
+        center : { lat: startCityX ,  lng: startCityY} 
       }
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
       directionsDisplay.setMap(map);
-      
       var markers = [];
       
       google.maps.event.addListener(map, 'click', function(e) {
           getAddress(e.latLng);
           
-        });
+          
+          
+      });
+      
+          // Create the search box and link it to the UI element.
+          var input = document.getElementById('temp');
+          var searchBox = new google.maps.places.SearchBox(input);
+          map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+          // Bias the SearchBox results towards current map's viewport.
+          map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+          });
+          var markers = [];
+          // Listen for the event fired when the user selects a prediction and retrieve
+          // more details for that place.
+          searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+            if (places.length == 0) {
+              return;
+            }
+            // Clear out the old markers.
+            markers.forEach(function(marker) {
+              marker.setMap(null);
+            });
+            markers = [];
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+              if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+              }
+              var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+              };
+              // Create a marker for each place.
+              markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+              }));
+              if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+              } else {
+                bounds.extend(place.geometry.location);
+              }
+            });
+            map.fitBounds(bounds);
+          });
+      
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
+      poly = new google.maps.Polyline({
+  	    strokeColor: '#000000',
+  	    strokeOpacity: 1.0,
+  	    strokeWeight: 3
+  	  });
+  	  poly.setMap(map);
+  	  // Add a listener for the click event
+  	  map.addListener('click', addLatLng);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  	
+      
+      
       function getAddress(latlng) {
     		var geocoder = new google.maps.Geocoder();
     		geocoder.geocode({
@@ -159,83 +278,125 @@
     						map: map
     					}));
     					
-    					 alert(JSON.stringify(results[0]));
+    				//	 alert(JSON.stringify(results[0]));
     					
     					markers.push(JSON.stringify(results[0].address_components[3].long_name)); 
     					/* alert(markers.length); */
     					if($('#startPlace').val() == ""){
   	  					$('#startPlace').val(results[0].address_components[3].long_name);
-  	  					  
-  	  					 
     					}else{
     						$('#place').val(results[0].address_components[3].long_name);
     					}
-    					 alert(markers.length);
+    				//	 alert(markers.length); //마커 갯수
     					if(markers.length%2==0){
     			    		
     			    		end = document.getElementById('place').value;
     			    		Javascript:calcRoute();
     			    		
     			    		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    			    		var newLeftButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"
+    			    		var newLeftButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button></br>"
     			    			
     						$("#btn").append(newUpButton);
-    			    		$(".form-horizontal").append(newLeftButton);			  
+    			    		$("#formTag").append(newLeftButton);			  
     					
     			    	}else if(markers.length%2!=0){
     			    		start = document.getElementById('startPlace').value;
     			    		
+    			    		
     			    		var newUpButton = "<button  onclick=\"movePlace('"+start+"')\">"+start+"</button>"
-    			    		var newLeftButton = "<button  onclick=\"movePlace('"+start+"')\">"+start+"</button>"
+    			    		var newLeftButton = "<button  onclick=\"movePlace('"+start+"')\">"+start+"</button></br>"
     			    			
     						$("#btn").append(newUpButton);				
-    			    		$(".form-horizontal").append(newLeftButton);
+    			    		$("#formTag").append(newLeftButton);
     			    	}
     			    }
     				}		
     			 
     		});    
       }
-  }// end of initialize()  
-      
+  }// end of initialize() 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////      
     
-    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////    
     function setTemp() {
     	
-    	tempNum++;
+    	if(tempNum==0){
     		
-		if(tempNum%2==0){
+    		start = cityValue;
+    		//start = document.getElementById('temp').value;
     		
+    		var newUpButton = "<button>"+start+"</button>"
+    		var newLeftButton = "<button>"+start+"</button>"
+    		
+    		$("#btn").append(newUpButton);
+    		$("#mainPlace").append(newLeftButton);
+			$("#temp").val(null);
+			
+			tempNum++;
+			return;
+    	}
+    		tempNum++;	
+    	
     		end = document.getElementById('temp').value;
-    		$('#place').val(end);
-    		Javascript:calcRoute();
+    		
     		$("#temp").val(null);
-    		var nc = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    		var newLeftButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"
-    		
+    		var newLeftButton = "<form id = 'f"+(tempNum-2)+"'>"    //여긴 하나 있어서 1부터			
+    			+"<input type='text' id='visitDate' name='visitDate'/>"
+    			+"<input type='text' id='startPlace' name='startPlace'/>"
+    			+"<input type='text' id='place' name='place'/>"
+    			+"<input type='text' id='memo' name='memo'/>"
+    			+"<input type='text' id='distance' name='distance'/>"
+    			+"<input type='text' id='duration' name='duration'/>"
+    			+"<input type='hidden' id='cityNo' name='cityNo' value='${sessionScope.city.cityNo}'/>"
+    			+"<input type='hidden' id='travelNo' name='travelNo' value='${sessionScope.city.travelNo}'/>"
+    			+"<input type='hidden' id='placeId' name='placeId'/>"
+    			+"<input type='hidden' id='placeX' name='placeX'/>"
+    			+"<input type='hidden' id='placeY' name='placeY'/>"
+    			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo'/>"
+    			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo'/>"
+    			+"<button  style='WIDTH: 170pt; HEIGHT: 20pt' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
+    			+"</form>"
+    			+"<br></br>";
 			$("#btn").append(newUpButton);
-    		$(".form-horizontal").append(newLeftButton);
-		
-    	}else if(tempNum%2!=0){
-    		start = document.getElementById('temp').value;
-    		$('#startPlace').val(start);
+			if(tempNum>1){
+				
+    		$("#formTag").append(newLeftButton);
+			}
     		
-    		var newUpButton = "<button  onclick=\"movePlace('"+start+"')\">"+start+"</button>"    			    		
-    		var newLeftButton = "<button  onclick=\"movePlace('"+start+"')\">"+start+"</button>"
+    		$("#start").val(start);
+    		$("#end").val(end);    		
     		
-			$("#btn").append(newUpButton);
-    		$(".form-horizontal").append(newLeftButton);
+    		$("#f"+(tempNum-2)+" input[name='startPlace']").val(document.querySelector('#start').value);
+    		$("#f"+(tempNum-2)+" input[name='place']").val(document.querySelector('#end').value);
+    		$("#f"+(tempNum-2)+" input[name='prePlaceNo']").val(tempNum-2);
+    		$("#f"+(tempNum-2)+" input[name='nextPlaceNo']").val(tempNum);
     		
-			$("#temp").val(null);
-    	}
+   			Javascript:calcRoute();
+    		start = end;
+    		
     }// setTemp() 끝
-    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+  function addLatLng(event) {
+	//	alert(event); // 뭔진 모르겠고 [object Object] 이렇게 나옴
+	//	alert(JSON.stringify(event));
+	  var path = poly.getPath();
+	  // Because path is an MVCArray, we can simply append a new coordinate
+	  // and it will automatically appear.
+	  path.push(event.latLng);
+	  // Add a new marker at the new plotted point on the polyline.
+	  var marker = new google.maps.Marker({
+	    position: event.latLng,
+	    title: '#' + path.getLength(),
+	    map: map
+	  });
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
     function calcRoute() {
    
-      var start = document.getElementById('startPlace').value;
-      var end = document.getElementById('place').value;
+      var start = document.querySelector('#start').value;
+      var end = document.querySelector('#end').value;
       
       var mode = "TRANSIT";
  
@@ -247,38 +408,64 @@
       
      
       directionsService.route(request, function(response, status) {
-        
+    	
+    	  
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
         }
+     	
        
         var place_x = JSON.stringify(response.routes[0].legs[0].end_location);
         place_x = place_x.replace(/[^0-9]/g,'');
-        $('#placeX').val(place_x);
-       
+        
+        $("#f"+(tempNum-2)+" input[name='placeX']").val(place_x);
         var place_y = JSON.stringify(response.routes[0].legs[0].start_location);
         place_y = place_y.replace(/[^0-9]/g,'');
-        $('#placeY').val(place_y); 
+         
+        $("#f"+(tempNum-2)+" input[name='placeY']").val(place_y);
         
-        $('#placeId').val(response.geocoded_waypoints[1].place_id);
-   
+        $("#f"+(tempNum-2)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
+         $("#formTag input[name='duration']").eq(tempNum-2).val(JSON.stringify(response.routes[0].legs[0].duration.text));
+        $("#formTag input[name='distance']").eq(tempNum-2).val(JSON.stringify(response.routes[0].legs[0].distance.text)); 
+		
       });
-    }
- 
-    google.maps.event.addDomListener(window, 'load', getLocation);
- 
+    }//end of calcRoute()
+///////////////////////////////////////////////////////////////////////////////////////////////////////// 
+	
+	google.maps.event.addDomListener(window, 'load', getLocation);
+	
     </script>
+    
     </head>
 
 <body>
-	<div class="container">
-		
-		<div class="page-header text-info">
+
+		<div id="panel" >
+            <input type="hidden" id="jsonC" value=""/>
+            <input type="hidden" id="start" value=""/>
+            <input type="hidden" id="end" value=""/>
+            <input type="hidden" id="startX" value=""/>
+            <input type="hidden" id="startY" value=""/>
+            <input id="temp" class="controls" type="text" onkeypress=
+        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+           
+        </div>
+        
+		<div id="mainPlace">
        		<h3>Place테이블입력</h3>
+       		<br>
     	</div>
-			
-		<form class="form-horizontal">
-		  
+		
+		<div id="btn">
+			<button onclick="moveStart()">전체루트</button>
+		</div>		
+		<div id="formTag" class="formC">
+		
+	<%-- 	<form id = "f0">
+		<input type="text" id="visitDate"  name="visitDate" value="${sessionScope.city.stayEnd}"/>
+        <input type="text" id="startPlace" name="startPlace"/>
+        <input type="text" id="place"  name="place"/>
+        <input type="text" id="memo"  name="memo"/>
 		<input type="hidden" id="cityNo" name="cityNo" value="${sessionScope.city.cityNo}"/>
 		<input type="hidden" id="travelNo" name="travelNo" value="${sessionScope.city.travelNo}"/>
 		<input type="hidden" id="placeId" name="placeId"/>
@@ -286,56 +473,13 @@
 		<input type="hidden" id="placeY" name="placeY"/>
 		<input type="hidden" id="prePlaceNo" name="prePlaceNo"/>
 		<input type="hidden" id="nextPlaceNo" name="nextPlaceNo"/>
-					  
-		<div class="form-group">
-		    <label for="visitDate" class="col-xs-4 col-md-2">방문날짜</label>
-		    <div class="col-sm-4">
-		    	<input type="text" class="form-control" id="visitDate"  name="visitDate" placeholder="">
-		    </div>
+		</form>		
+		<br></br> --%>
+		 
+		 
 		</div>
-		  
-		<div class="form-group">
-		    <label for="startPlace" class="col-xs-4 col-md-2">출발장소</label>
-		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="startPlace" name="startPlace" placeholder="">
-		    </div>
-		</div>
-		  
-		<div class="form-group">
-		    <label for="place" class="col-xs-4 col-md-2">도착장소</label>
-		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="place"  name="place" placeholder="">
-		    </div>
-		</div>
-		  
-		<div class="form-group">
-		    <label for="memo" class="col-xs-4 col-md-2">메모</label>
-		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="memo"  name="memo" placeholder="">
-		    </div>
-		</div>
-		  
-		  		  
-		</form>
- 	</div>
-	
-	<div id="panel" >
-            <input type="hidden" id="start" value=""/>
-            <input type="hidden" id="end" value=""/>
-            <input type="text" id="temp" value="" onkeypress=
-        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>	
-           
-        </div>
-        
-        <div id="map">
-        </div>
-        
-        <div id="btn">
-			<button onclick="moveStart()">전체루트</button>
-		</div>	
-	
+		 	
+		<div id="map"></div>
+		
 </body>
 </html>
-
-
-

@@ -25,6 +25,14 @@
 	<link href="/css/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
     <script src="/js/jquery.contextMenu.js" type="text/javascript"></script>
     <script src="/js/jquery.ui.position.min.js" type="text/javascript"></script>
+    
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	
 	<script>
 	
@@ -409,7 +417,7 @@
   </style>
   </head>
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 	<div class="container" >
 	
 		<div class="jumbotron" 

@@ -67,6 +67,11 @@
 				self.location="/blog/listBlog?travNo=4";
 			});
 			
+			});
+			
+			$( "#listBlog" ).on("click" , function() {
+				self.location="/blog/listBlog?travNo=4";
+			});
 			
 	 });
 	 

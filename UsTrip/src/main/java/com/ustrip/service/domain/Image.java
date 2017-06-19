@@ -4,8 +4,9 @@ public class Image {
 	
 	private int imgNo;
 	private int blogNo;
+	private String originalName;
 	private String serverImgName;
-	private int travelNo;
+	private int travNo;
 	
 	public Image() {
 	}
@@ -34,18 +35,25 @@ public class Image {
 		this.serverImgName = serverImgName;
 	}
 
-	public int getTravelNo() {
-		return travelNo;
+	public int getTravNo() {
+		return travNo;
 	}
 
-	public void setTravelNo(int travelNo) {
-		this.travelNo = travelNo;
+	public void setTravNo(int travNo) {
+		this.travNo = travNo;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
 	}
 
 	@Override
 	public String toString() {
-		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", serverImgName=" + serverImgName + ", travelNo="
-				+ travelNo + "]";
+		return "Image [imgNo=" + imgNo + ", blogNo=" + blogNo + ", serverImgName=" + serverImgName +"originName : "+originalName+", travNo : "+travNo+ "]";
 	}
 	
 }
