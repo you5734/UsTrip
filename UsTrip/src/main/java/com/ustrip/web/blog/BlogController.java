@@ -1,10 +1,13 @@
 package com.ustrip.web.blog;
 
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +28,8 @@ import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
+import com.ustrip.service.domain.Travel;
+import com.ustrip.service.domain.User;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.plan.PlanService;
 
@@ -85,10 +90,10 @@ public class BlogController {
 	}
 		
 	@RequestMapping(value={"addJsonLike/{travNo}"}, method=RequestMethod.GET)
-	public void addJsonLike( @PathVariable int travNo, Model model ) throws Exception {
+	public void addJsonLike( @PathVariable int travNo, Model model, HttpSession session ) throws Exception {
 		
 		System.out.println("/addJsonLike : GET");
-		String userId="user01"; //技记贸府秦具窃
+		String userId=((User)session.getAttribute("user")).getUserId();
 		blogService.addJsonLike(travNo, userId);
 	}
 	

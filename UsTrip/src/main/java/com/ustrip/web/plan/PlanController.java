@@ -64,7 +64,7 @@ public class PlanController {
 		
 		planService.addTravel(travel);
 		
-		session.setAttribute("travel", planService.getTravel(travel));
+		session.setAttribute("travel", planService.getTravel(travel.getTravelNo()));
 		
 		return "redirect:/view/plan/addCity.jsp";
 	}

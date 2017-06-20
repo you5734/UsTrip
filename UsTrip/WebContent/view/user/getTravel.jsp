@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +9,8 @@
 
 	<!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" href="/css/main.css" /> 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	 
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
      
 	<script src="/js/jquery.min.js"></script>
@@ -41,23 +44,56 @@
 
 	<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> 
-	
-	
 
 	<script type="text/javascript">	
 	    $(function() {	
-			var condi = 4; /* travNo를 넣어준다. */
+			var condi =  $("#travNo").val(); /* travNo를 넣어준다. */
 	    	newGraph(condi);
     	 });
 	  
 	    $(function() {	
-			$( "tab2" ).on("click" , function() {
-				var travelNo = $(".travNo").val();
-					alert("travelno :: " + travelNo);
-					self.location="/blog/listBlog?travNo=4";
-			});
-    	 }); 
-	    		
+			$('#travLike').on('click' , function() {
+				alert("travvvvvvvvv :: "+ $("#travNo").val());
+				
+				if($(this).val()=='좋아요취소'){
+					$.ajax( 
+							{
+								url : "/blog/deleteJsonLike/"+$("#travNo").val(),
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								context : this,
+								success : function(serverData , status) {
+									$(this).val('좋아요');
+								}
+							});
+				}else{
+					$.ajax( 
+							{
+								url : "/blog/addJsonLike/"+$("#travNo").val(),
+								method : "GET" ,
+								dataType : "json" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								context : this,
+								success : function(serverData , status) {
+									/* $(this).val('좋아요취소'); */
+									
+								 	$("input").remove(".fa.fa-thumbs-up.btn.btn-info.btn-sm");
+									$input = $("<input type='button'/>").addClass('"fa fa-thumbs-up btn btn-info btn-sm').val('delLike');	
+									$(".well").prepend($input);
+									
+								}
+							});
+					}
+				});
+	   	 });
+		    		
 	</script>
 
 	<style>
@@ -102,16 +138,21 @@ a {
 
 /*Fun begins*/
 .tab_container {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 	position: relative;
 }
 
-input, section {
+input{
   clear: both;
   padding-top: 10px;
-  display: none ;
+  display: none;
 }
+ section {
+  clear: both;
+  padding-top: 10px;
+  display: none !important;
+ }
 
 label {
   font-weight: 700;
@@ -200,6 +241,22 @@ label .fa {
   }
 }
 
+.text-divider{
+	margin: 2em 0; 
+	line-height: 0; 
+	text-align: center;
+}
+.text-divider span{
+	background-color: #f5f5f5; 
+	padding: 1em;
+}
+.text-divider:before{ 
+content: " "; 
+display: block; 
+border-top: 1px solid #e3e3e3; 
+border-bottom: 1px solid #f7f7f7;
+}
+
 
 	</style>
 
@@ -216,8 +273,42 @@ label .fa {
 					<div>
 						<!-- <div class="profile-sidebar">  -->
 						
+	<div class="well">
+		<!-- <h6 class="text-divider"><span>Create your snippet's HTML</span></h6> -->
+	<!-- 	<div class="text-divider"></div> -->
+		<c:if test='${isLike == 1}'>
+			<input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="좋아요취소" >
+		</c:if>
+		<c:if test='${isLike == 0}'>
+			<input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="좋아요" value="${isLike }">
+		</c:if>
+	
+      <!--  <input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="Like"> -->
+        <p>
+        <strong>여행제목</strong> ${travel.travTitle }
+        </p>
+		<p>
+        <strong>여행테마</strong> ${travel.travTheme }
+        </p>
+		<p>
+        <strong>인원수</strong> ${travel.memberCount }
+        </p>
+		<p>
+	        <strong>출발일</strong>
+	        <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
+	        <fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+	           ${newFormattedDateString}
+        </p> 
+		<p>
+        <strong>숙박일</strong> ${travel.totalDate-1}박 ${travel.totalDate }일
+        </p>    
+	</div>
+	
+	
+						
 						<div class="tab_container">
 							<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
+							<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
 							<input id="tab1" type="radio" name="tabs" checked>
 							<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
 				
@@ -233,7 +324,12 @@ label .fa {
 							</section>
 				
 							<section id="content2" class="tab-content">
-								
+							<c:if test="${travel.isBlogStart==1 }">
+								<jsp:include page="/view/blog/listBlog.jsp"/> 
+							</c:if>
+							<c:if test="${travel.isBlogStart==0 }">
+								<jsp:include page="/view/blog/addBlog.jsp"/> 
+							</c:if>							
 							</section>
 				
 							<section id="content3" class="tab-content">
@@ -245,7 +341,7 @@ label .fa {
 									<div id="listasset" ></div>
 									<jsp:include page="/view/asset/updateAssetView.jsp" />  
 							</section>
-						</div>
+						</div> 
 					
 					</div>
 				</div>

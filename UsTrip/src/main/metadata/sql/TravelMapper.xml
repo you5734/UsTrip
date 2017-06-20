@@ -26,11 +26,11 @@
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
-	<select id="getTravel" parameterType="travel"	resultMap="travelSelectMap">
+	<select id="getTravel" parameterType="int"	resultMap="travelSelectMap">
 		SELECT
 		*		
 		FROM travel 
-		WHERE trav_title=#{value}
+		WHERE trav_no=#{value}
 	</select>
 	
 	<select id="getListTravel" parameterType="search"	resultMap="travelSelectMap">
