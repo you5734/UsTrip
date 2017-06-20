@@ -36,8 +36,13 @@
 	<select id="getListTravel" parameterType="search"	resultMap="travelSelectMap">
 		  	SELECT *
 			FROM travel
-			WHERE user_id = #{searchKeyword}
+			 <where>
+				 	<if test="searchKeyword != null">
+						 user_id = #{searchKeyword}
+					</if>
+				</where>
 			ORDER BY trav_no
+			
 	</select>
 	
 	<select id="totalCount" parameterType="search" resultType="int">

@@ -61,6 +61,10 @@
 			 $(".fa.fa-envelope").on("click" , function() {
 				 self.location="/message/listReceivMsg";
 			 });
+			 
+/* 			 $("#ustory").on("click" , function() {
+				 self.location="/user/allListTravel";
+			 }); */
 		 });
 	</script>
 	
@@ -107,12 +111,13 @@
 	<nav id="menu">
 		<ul class="links">
 			<li><a>홈</a></li>
-			<li><a>어스토리</a></li>
+			<li><a id="ustory">어스토리</a></li>
 			<li><a>플랜</a></li>
 			<li><a id="community">커뮤니티</a></li>
+			<li><a>이용방법</a></li>
 		</ul>
 		<ul class="actions vertical"> 
-			<c:if test="${empty user}">
+			<c:if test="${ empty user}">
 				<li><a href="#" class="button fit" >로그인</a></li>
 			</c:if>
 			 <c:if test="${ ! empty user }">
