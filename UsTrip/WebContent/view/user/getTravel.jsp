@@ -83,10 +83,10 @@
 								context : this,
 								success : function(serverData , status) {
 									/* $(this).val('좋아요취소'); */
-									
+/* 									
 								 	$("input").remove(".fa.fa-thumbs-up.btn.btn-info.btn-sm");
 									$input = $("<input type='button'/>").addClass('"fa fa-thumbs-up btn btn-info btn-sm').val('delLike');	
-									$(".well").prepend($input);
+									$(".well").prepend($input); */
 									
 								}
 							});
@@ -165,7 +165,7 @@ label {
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  background: #f0f0f0;
+  background: #F1F3FA;
   margin-bottom: 0px !important;
 }
 
@@ -240,6 +240,9 @@ label .fa {
   	opacity: 1;
   }
 }
+.well {
+  background: #ffff !important;
+}
 
 .text-divider{
 	margin: 2em 0; 
@@ -271,79 +274,65 @@ border-bottom: 1px solid #f7f7f7;
 	        	<div class="profile-content">
 				<!-- 	 <div class="row"> -->
 					<div>
-						<!-- <div class="profile-sidebar">  -->
+							<div class="well">
+						        <p>
+						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
+									<c:if test='${isLike == 1}'>
+										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
+									</c:if>
+									<c:if test='${isLike == 0}'>
+										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
+									</c:if> 
+						        </p>
+						          <p>
+						           <strong>여행테마</strong> ${travel.travTheme } | <strong>인원수</strong> ${travel.memberCount }
+						           </p>
+								<p>
+							        <strong>출발일</strong>
+							        <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
+							        <fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
+						        </p> 
+							
+							</div>
 						
-	<div class="well">
-		<!-- <h6 class="text-divider"><span>Create your snippet's HTML</span></h6> -->
-	<!-- 	<div class="text-divider"></div> -->
-		<c:if test='${isLike == 1}'>
-			<input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="좋아요취소" >
-		</c:if>
-		<c:if test='${isLike == 0}'>
-			<input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="좋아요" value="${isLike }">
-		</c:if>
-	
-      <!--  <input type="button" class="fa fa-thumbs-up btn btn-info btn-sm" id="travLike" value="Like"> -->
-        <p>
-        <strong>여행제목</strong> ${travel.travTitle }
-        </p>
-		<p>
-        <strong>여행테마</strong> ${travel.travTheme }
-        </p>
-		<p>
-        <strong>인원수</strong> ${travel.memberCount }
-        </p>
-		<p>
-	        <strong>출발일</strong>
-	        <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
-	        <fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
-	           ${newFormattedDateString}
-        </p> 
-		<p>
-        <strong>숙박일</strong> ${travel.totalDate-1}박 ${travel.totalDate }일
-        </p>    
-	</div>
-	
-	
-						
-						<div class="tab_container">
-							<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
-							<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
-							<input id="tab1" type="radio" name="tabs" checked>
-							<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
-				
-							<input id="tab2" type="radio" name="tabs">
-							<label for="tab2"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
-				
-							<input id="tab3" type="radio" name="tabs">
-							<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
-
-							<section id="content1" class="tab-content">
-								<h3>Headline 1</h3>
-						      	<p>Tab 1 Content.</p>
-							</section>
-				
-							<section id="content2" class="tab-content">
-							<c:if test="${travel.isBlogStart==1 }">
-								<jsp:include page="/view/blog/listBlog.jsp"/> 
-							</c:if>
-							<c:if test="${travel.isBlogStart==0 }">
-								<jsp:include page="/view/blog/addBlog.jsp"/> 
-							</c:if>							
-							</section>
-				
-							<section id="content3" class="tab-content">
-								 <h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
-									<ul class="nav nav-tabs">
-										<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
-										<li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
-									</ul>
-									<div id="listasset" ></div>
-									<jsp:include page="/view/asset/updateAssetView.jsp" />  
-							</section>
-						</div> 
+							<div class="tab_container">
+								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
+								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
+								<input id="tab1" type="radio" name="tabs" checked>
+								<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
 					
-					</div>
+								<input id="tab2" type="radio" name="tabs">
+								<label for="tab2"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
+					
+								<input id="tab3" type="radio" name="tabs">
+								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
+	
+								<section id="content1" class="tab-content">
+									<h3>Headline 1</h3>
+							      	<p>Tab 1 Content.</p>
+								</section>
+					
+								<section id="content2" class="tab-content">
+								<c:if test="${travel.isBlogStart==1 }">
+									<jsp:include page="/view/blog/listBlog.jsp"/> 
+								</c:if>
+								<c:if test="${travel.isBlogStart==0 }">
+									<jsp:include page="/view/blog/addBlog.jsp"/> 
+								</c:if>							
+								</section>
+					
+								<section id="content3" class="tab-content">
+									 <h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
+										<ul class="nav nav-tabs">
+											<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
+											<li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
+										</ul>
+										<div id="listasset" ></div>
+										<jsp:include page="/view/asset/updateAssetView.jsp" />  
+								</section>
+							</div> 
+  					</div>
 				</div>
 			</div>
 		</div>

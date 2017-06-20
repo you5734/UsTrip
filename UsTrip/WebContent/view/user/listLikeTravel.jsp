@@ -28,7 +28,6 @@
 			$( ".btn.btn-warning.bnt-action" ).on("click" , function() {
 				var travNo = $(this).next().val();
 					alert("travNo :: " + travNo);
-				/* self.location="/user/getTravel?travelNo="+travelNo; */
 				self.location="/user/getTravel?travNo="+travNo;
 			});
 	 });
@@ -174,21 +173,21 @@
 						<div>
 					<!-- 		<div class="profile-sidebar"> -->
 													
-								 <c:forEach var="travel" items="${travel}">				
+								 <c:forEach var="likeTravel" items="${likeTravel}">				
 										<div class="col-ms-10 col-md-4">
 									        <div class="project">
 									            <figure class="img-responsive">
-									                <!-- <img src="http://lorempixel.com/400/300/sports/6/"> -->
-									                <img src="/images/upload/blog/${travel.thumbNail }">
+									                 <img src="http://lorempixel.com/400/300/sports/6/"> 
+									            <%--     <img src="/images/upload/blog/${travel.thumbNail }"> --%>
 									                <figcaption>
 									                	<%-- <input type="hidden" class="travelNo" id="travelNo" value="${travel.travelNo}"> --%>
-									                    <span class="project-details">${travel.travTitle }</span>
-									                    <span class="project-price"><strong>${user.nickName }</strong></span>
+									                    <span class="project-details"><%-- ${travel.travTitle } --%> </span>
+									                    <span class="project-price"><strong> ${likeTravel.userId } </strong></span>
 									                    <span class="project-creator">2017/03/05~2017/03/09</span>
 									                </figcaption>
 									                <span class="actions">
 									                	<button class="btn btn-warning bnt-action" type="button" >상세보기</button>
-									                    <input type="hidden" class="travelNo" id="travelNo" value="${travel.travelNo}">
+									                 <%--    <input type="hidden" class="travelNo" id="travelNo" value="${likeTravel.travNo}"> --%>
 									                </span>
 									            </figure>
 									       </div>

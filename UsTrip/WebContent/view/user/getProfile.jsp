@@ -34,6 +34,11 @@
 		});	
 	 
 	 $(function() {
+		 
+			$( "#listLikeTravel" ).on("click" , function() {
+				self.location="/user/listLikeTravel";
+			});
+		 
 			$( "#listTravel" ).on("click" , function() {
 				self.location="/user/getListTravel";
 			});
@@ -64,12 +69,6 @@
 				
 			}); 
 			
-			$( "#listBlog" ).on("click" , function() {
-				self.location="/blog/listBlog?travNo=4";
-			});
-			
-
-			
 		});
 	 
 	</script>
@@ -80,9 +79,6 @@
 			height:100%;
 		}
 	
-/* 		body {
-		  background: #F1F3FA;
-		} */
 		/* Profile container */
 		.profile {
 		  margin: 20px 0;
@@ -91,6 +87,7 @@
 		.profile-sidebar {
 		  padding: 20px 0 10px 0;
 		  background: #F1F3FA;
+		  border-radius : 4px;
 		  /* background: #fff; */
 		}
 		.profile-userpic img {
@@ -164,12 +161,6 @@
 		  border-left: 2px solid #5b9bd1;
 		  margin-left: -2px;
 		}
-		/* Profile Content */
-/* 		.profile-content {
-		  /* padding: 20px; 
-		 background: #F1F3FA;
-		 min-height: 495px; 
-		}	 */
 	
 	</style>
 		<div class="col-md-3">
@@ -213,12 +204,12 @@
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="test" id="listTravel">
+						<li class="test active" id="listTravel">
 							<a href="#">
 							<i class="fa fa-plane" aria-hidden="true"></i>
 							등록한 여행 </a>
 						</li>
-						<li  class="test" id="listListTravel">
+						<li  class="test" id="listLikeTravel">
 							<a href="#">
 							<i class="fa fa-heart" aria-hidden="true"></i>
 							좋아요한 여행</a>
@@ -232,11 +223,6 @@
 							<a href="#">
 							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 							팔로잉 </a>
-						</li>
-						<li id="listBlog" class="test">
-							<a href="#">
-							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
-							블로그 </a>
 						</li>
 					</ul>
 				</div>

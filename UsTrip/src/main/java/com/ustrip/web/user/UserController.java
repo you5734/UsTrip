@@ -440,7 +440,7 @@ public class UserController {
 		System.out.println("userId????????????????" + userId);
 		
 		Travel travel = planService.getTravel(travNo);
-		List<LikeTravel> list = blogService.checkLikeTravel(travNo);
+/*		List<LikeTravel> list = blogService.checkLikeTravel(travNo);
 		
 		
 		int result = 0;
@@ -450,59 +450,66 @@ public class UserController {
 					result=1;
 				}
 			}
-		}
+		}*/
 		//////////////////////////////////////////////////////////////////////////////////
-		String destination="forward:/view/blog/listBlog.jsp";
 		int islike=0;
 				
-			int checkBlogStart=planService.checkBlogStart(travNo);
+		int checkBlogStart=planService.checkBlogStart(travNo);
+		
+		if(checkBlogStart == 1){
 			
-			if(checkBlogStart == 1){
-				
-				List<Blog> blog=blogService.listBlog(travNo);
-				for(int i=0; i<blog.size(); i++){
-					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
-					for(int j=0; j<asset.size(); j++){
-						blog.get(i).setSumCharge(blog.get(i).getSumCharge()+asset.get(j).getCharge());
-					}
-					blog.get(i).setAssets(asset);
+			List<Blog> blog=blogService.listBlog(travNo);
+			for(int i=0; i<blog.size(); i++){
+				List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+				for(int j=0; j<asset.size(); j++){
+					blog.get(i).setSumCharge(blog.get(i).getSumCharge()+asset.get(j).getCharge());
 				}
-				
-				if(userId != null){
-					List<LikeTravel> travNoLike = blogService.checkLikeTravel(travNo);
-					for(LikeTravel T : travNoLike){
-						if(T.getUserId().equals(userId)){
-							islike=1;
-						}
+				blog.get(i).setAssets(asset);
+			}
+			
+			if(userId != null){
+				List<LikeTravel> travNoLike = blogService.checkLikeTravel(travNo);
+				for(LikeTravel T : travNoLike){
+					if(T.getUserId().equals(userId)){
+						islike=1;
 					}
 				}
-				
-				List<Blog> checkBlog = new ArrayList();
-				for(Blog deleteBlog : blog){
-					if(deleteBlog.getDeleteFlag() == 0){
-						checkBlog.add(deleteBlog);
-					}
+			}
+			
+			List<Blog> checkBlog = new ArrayList();
+			for(Blog deleteBlog : blog){
+				if(deleteBlog.getDeleteFlag() == 0){
+					checkBlog.add(deleteBlog);
 				}
-				
-				model.addAttribute("list", checkBlog);
-			/*	model.addAttribute("isLiked",islike);*/
-			}else{
-				model.addAttribute("checkBlogStart", checkBlogStart);
-				destination="forward:/view/blog/addBlog.jsp";
-			}		
+			}
+			
+			model.addAttribute("list", checkBlog);
+			model.addAttribute("isLiked",islike);
+		}else{
+			model.addAttribute("checkBlogStart", checkBlogStart);
+		}		
+		//////////////////////////////////////////////////////////////////////////////////
+		List<Asset> assetList = assetService.getAsset(travNo);
+		int sum = 0;
 		
+		for(Asset asset : assetList){
+			sum += asset.getCharge();
+		}
 		
-		model.addAttribute("isLike", result);
+		model.addAttribute("assetList", assetList);
+		model.addAttribute("sum", sum);
+	
+		/*	model.addAttribute("isLike", result);*/
 		model.addAttribute("travel", travel);
-		
+	
 		return "forward:/view/user/getTravel.jsp";
 	}
 	
-	@RequestMapping( value="listLikeTravel")
+/*	@RequestMapping( value="listLikeTravel")
 	public String listLikeTravel( HttpSession session, Model model ) throws Exception {
 		
 		System.out.println("/user/listLikeTravel ");
-		
+		Travel	travel;
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
 		System.out.println("sessionIdddd:: " + sessionId);
 		
@@ -510,10 +517,16 @@ public class UserController {
 		 List<LikeTravel> listLikeTravel=blogService.listLikeTravel(sessionId);
 		System.out.println("map :::::::::::: " + listLikeTravel);
 		
+		for( int i = 0; i < listLikeTravel.size(); i++) {
+			travel = planService.getTravel(listLikeTravel.get(i).getTravNo());
+			
+			model.addAttribute("trave4l", travel);
+			System.out.println("ttttttravel :: " + travel);
+		}
 		
 		model.addAttribute("likeTravel", listLikeTravel);
 		
-		return "forward:/view/user/listLikeTrevel.jsp";
-	}
+		return "forward:/view/user/listLikeTravel.jsp";
+	}*/
 
 }
