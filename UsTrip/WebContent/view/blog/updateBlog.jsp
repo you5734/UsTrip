@@ -295,7 +295,6 @@
 </head>
 	<body>
 	
-	<div class="container">
 		<div class="row" >
 			<div class="col-sm-5">				
 						<input type="hidden"  id="blogNo" value="${blog.blogNo}">
@@ -334,7 +333,7 @@
 				            	<div class="col-sm-11">
 				            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
 					            		<span id="${images.imgNo}">
-					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" style="width:450px; height:300px;">
+					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" style="width:300px; height:150px;">
 							              	<i class="fa fa-times" aria-hidden="true" id="deleteImage"></i>
 				                    		<input type="hidden" value="${images.imgNo}">
 				                    		</span>
@@ -346,7 +345,7 @@
 			          	<form class="row"  id="fileForm">
 			          <label class="col-sm-1 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
 			          <div class="col-sm-10">
-			          			<span class="btn btn-info btn-file" style="width:945px;">
+			          			<span class="btn btn-info btn-file" style="width:668px;">
 						    파일올리기 <input class="inputfile inputfile-1"  type="file" accept="image/png, image/jpeg, image/gif" id="blogFile" name="blogFile[]"  multiple />	
 						</span>		          		        
 			          </div>
@@ -432,6 +431,5 @@
 			                	</div>	            	
 			         	</div>	        		
 	    	</div>
-		</div>
 	</body>
 </html>

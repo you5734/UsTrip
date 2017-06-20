@@ -94,7 +94,7 @@
 		  float: none;
 		  margin: 0 auto;
 		  width: 50%;
-		  height: 110px;
+		  height: 120px;
 		  -webkit-border-radius: 50% !important;
 		  -moz-border-radius: 50% !important;
 		  border-radius: 50% !important;

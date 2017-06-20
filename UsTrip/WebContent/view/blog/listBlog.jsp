@@ -9,8 +9,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all" type="text/css"/>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	
+	
   	
   	<link href="/css/star-rating.min.css" rel="stylesheet" media="all" type="text/css"/>
   	<script src="/js/star-rating.min.js" type="text/javascript"></script>
@@ -34,14 +34,15 @@
 
 .timeline {
 	padding: 40px 0px;
-	width: 80%;
+	width: 100%;
+	 left: -62px; 
 }
 
 .timeline:before {
 	content: "";
 	position: absolute;
 	top: 40px;
-	left: 65px;
+	left: 68px;
 	width: 3px;
 	height: 100% ;
 	background: #c0392b;
@@ -62,7 +63,7 @@
 .timeline .column .title h1:before {
 	content: "";
 	position: absolute;
-	left: -64px;
+	left: -61px;
 	top: 86px;
 	width: 10px;
 	height: 10px;
@@ -124,7 +125,10 @@
 		   		  cancelButtonColor: '#d33',
 		   		  confirmButtonText: '간다'
 		   		}).then(function () {		   			
-		   			self.location="/blog/updateBlog?blogNo="+temp
+		   			//self.location="/blog/updateBlog?blogNo="+temp 
+		   					alert("temp" + temp);
+		   					var destination="/blog/updateBlog?blogNo="+temp ;
+		   					$("#content2").load(destination);
 		   		})
 		});
 		
@@ -214,7 +218,7 @@
 		
 	</script>
 </head>
-<body>
+<body id="listB">
 	
 		<%-- <input type="button" class="btn btn-default" id="listPicture" value="사진첩">
 			<input type="button" class="btn btn-default" id="addPlace" value="장소추가">

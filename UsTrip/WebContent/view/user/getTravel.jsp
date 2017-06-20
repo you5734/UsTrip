@@ -10,8 +10,11 @@
 	<!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" href="/css/main.css" /> 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	 
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+ 	
+ 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  	 -->
      
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
@@ -52,6 +55,18 @@
     	 });
 	  
 	    $(function() {	
+	    	
+/* 	    	$("#tabs").on("click", function({
+	    		var isBlogStart = $("#isBlogStart").val();
+	    		var travNo = $("#travNo").val()
+	    		if( isBlogStart == 1) {
+	    			$("#content2").load("/blog/listBlog?travNo=" + travNo);
+	    		} else {
+	    			$("#content2").load("/blog/addBlog");
+	    		}
+	    	}
+	    	})
+	    	 */
 			$('#travLike').on('click' , function() {
 				alert("travvvvvvvvv :: "+ $("#travNo").val());
 				
@@ -165,7 +180,7 @@ label {
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  background: #F1F3FA;
+  background: #f0f0f0;
   margin-bottom: 0px !important;
 }
 
@@ -303,7 +318,7 @@ border-bottom: 1px solid #f7f7f7;
 								<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
 					
 								<input id="tab2" type="radio" name="tabs">
-								<label for="tab2"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
+								<label for="tab2" id="tabs"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
 					
 								<input id="tab3" type="radio" name="tabs">
 								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
@@ -314,12 +329,12 @@ border-bottom: 1px solid #f7f7f7;
 								</section>
 					
 								<section id="content2" class="tab-content">
-								<c:if test="${travel.isBlogStart==1 }">
+								 <c:if test="${travel.isBlogStart==1 }">
 									<jsp:include page="/view/blog/listBlog.jsp"/> 
 								</c:if>
 								<c:if test="${travel.isBlogStart==0 }">
 									<jsp:include page="/view/blog/addBlog.jsp"/> 
-								</c:if>							
+								</c:if>						
 								</section>
 					
 								<section id="content3" class="tab-content">
