@@ -5,14 +5,13 @@ import java.util.List;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 
 public interface PlanDAO {
 
-	public List<TempBlog> listPlace(int travelNo);
+	public List<Place> listPlace(int travelNo);
 	
-	public List<Travel> checkBlogStart(int travelNo);
+	public int checkBlogStart(int travelNo);
 	
 	public void startBlog(int travelNo);
 

@@ -18,6 +18,7 @@ public class Blog {
 	private float score;
 	private String place;
 	private int deleteFlag;
+	private int sumCharge;
 	private List<Image> images=new ArrayList<Image>();
 	private List<MultipartFile> files;
 	private List<HashTag> hashTags=new ArrayList<HashTag>();
@@ -138,6 +139,14 @@ public class Blog {
 
 	public void setDeleteFlag(int deleteFlag) {
 		this.deleteFlag = deleteFlag;
+	}
+
+	public int getSumCharge() {
+		return sumCharge;
+	}
+
+	public void setSumCharge(int sumCharge) {
+		this.sumCharge = sumCharge;
 	}
 
 	@Override

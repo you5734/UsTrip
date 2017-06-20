@@ -454,17 +454,17 @@ public class UserController {
 		//////////////////////////////////////////////////////////////////////////////////
 		String destination="forward:/view/blog/listBlog.jsp";
 		int islike=0;
-		
-		Search search=new Search();
-			List<Travel> checkBlogStart=planService.checkBlogStart(travNo);
+				
+			int checkBlogStart=planService.checkBlogStart(travNo);
 			
-			if(checkBlogStart.get(0).getIsBlogStart()==1){
-				List<Integer> listPlaceNo=planService.listPlaceNoTemp(travNo);
-				search.setSearchKeyword(Integer.toString(travNo));
-				search.setPlaceOrder(listPlaceNo);
-				List<Blog> blog=blogService.listBlog(search);
+			if(checkBlogStart == 1){
+				
+				List<Blog> blog=blogService.listBlog(travNo);
 				for(int i=0; i<blog.size(); i++){
 					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+					for(int j=0; j<asset.size(); j++){
+						blog.get(i).setSumCharge(blog.get(i).getSumCharge()+asset.get(j).getCharge());
+					}
 					blog.get(i).setAssets(asset);
 				}
 				
@@ -485,13 +485,12 @@ public class UserController {
 				}
 				
 				model.addAttribute("list", checkBlog);
-				model.addAttribute("isLiked",islike);
-				model.addAttribute("writer", checkBlogStart.get(0).getUserId());
-			}/*else{*/
-				/*model.addAttribute("travel", travel);
-				model.addAttribute("travel", travel);
+			/*	model.addAttribute("isLiked",islike);*/
+			}else{
+				model.addAttribute("checkBlogStart", checkBlogStart);
 				destination="forward:/view/blog/addBlog.jsp";
-			}	*/	
+			}		
+		
 		
 		model.addAttribute("isLike", result);
 		model.addAttribute("travel", travel);

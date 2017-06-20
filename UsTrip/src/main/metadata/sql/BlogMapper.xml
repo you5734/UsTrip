@@ -42,11 +42,11 @@
 	</resultMap>
 	
 	
-	<insert 	id="addBlog"	parameterType="map">
+	<insert 	id="addBlog"	parameterType="list">
 		INSERT 
 		INTO blog (blog_no, memo, trav_no, visit_date, place_no, city_no, place)(
 		SELECT seq_blog_no.nextval, A.* from(
-		<foreach item="item" collection="list" separator="UNION ALL" index="index">
+		<foreach item="item" collection="list" separator="UNION ALL">
 			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, TO_DATE(#{item.visitDate},'YY/MM/DD'), #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
 		</foreach>
 		)A)
@@ -92,15 +92,11 @@
 	 	WHERE blog_no=#{blogNo}
 	 </select>
 	 
-	<select id="listBlog" parameterType="search" resultMap="blogSelectMap">
+	<select id="listBlog" parameterType="blog" resultMap="blogSelectMap">
 	 	SELECT
-	 	blog_no, memo, trav_no, visit_date, place_no, city_no, review, score, place
+	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place
 	 	FROM blog
-	 	WHERE trav_no=#{searchKeyword} AND
-	 	place_no IN
-	 	<foreach item="item" collection="placeOrder" separator="," open="(" close=")">
-	 		#{item.value}
-	 	</foreach>
+	 	WHERE trav_no=#{travNo}
 	 	ORDER BY visit_date ASC
 	 </select>
 	 

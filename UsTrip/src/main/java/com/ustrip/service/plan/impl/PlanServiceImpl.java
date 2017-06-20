@@ -12,7 +12,6 @@ import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Message;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanDAO;
 import com.ustrip.service.plan.PlanService;
@@ -28,12 +27,12 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
-	public List<TempBlog> listPlace(int travelNo) throws Exception {
+	public List<Place> listPlace(int travelNo) throws Exception {
 		return planDAO.listPlace(travelNo);
 	}
 
 	@Override
-	public List<Travel> checkBlogStart(int travelNo) throws Exception {
+	public int checkBlogStart(int travelNo) throws Exception {
 		return planDAO.checkBlogStart(travelNo);
 	}
 

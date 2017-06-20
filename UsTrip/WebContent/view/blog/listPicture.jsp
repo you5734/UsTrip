@@ -9,7 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/timeline.css">
 	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" text='text/css'>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   	<link href="/css/lightbox.css" rel="stylesheet">
@@ -65,6 +64,7 @@
 		        </article>
 			</c:forEach>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

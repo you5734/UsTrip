@@ -1,5 +1,6 @@
 package com.ustrip.service.plan.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanDAO;
 
@@ -30,13 +30,24 @@ public class PlanDAOImpl implements PlanDAO {
 	}
 	
 	@Override
-	public List<TempBlog> listPlace(int travelNo) {
-		return sqlSession.selectList("PlaceMapper.listPlace", travelNo);
+	public List<Place> listPlace(int travNo) {
+		List<Place> resultBlog = new ArrayList<Place>();
+		List<City> places = sqlSession.selectList("CityMapper.listCity",travNo);
+		
+		for(City placeNos : places){			
+			System.out.println(" city No : "+placeNos.getCityNo());
+			List<Place> temp = sqlSession.selectList("PlaceMapper.listPlace",placeNos.getCityNo());
+			for(Place tempBlog : temp){
+				System.out.println("tempBlog : "+tempBlog);
+				resultBlog.add(tempBlog);
+			}
+		}		
+		return resultBlog;
 	}
 
 	@Override
-	public List<Travel> checkBlogStart(int travelNo) {
-		return sqlSession.selectList("TravelMapper.checkBlogStart", travelNo);
+	public int checkBlogStart(int travelNo) {
+		return sqlSession.selectOne("TravelMapper.checkBlogStart", travelNo);
 	}
 
 	@Override

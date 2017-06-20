@@ -6,14 +6,13 @@ import java.util.Map;
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 
 public interface PlanService {
 
-	public List<TempBlog> listPlace(int travelNo) throws Exception;
+	public List<Place> listPlace(int travelNo) throws Exception;
 	
-	public List<Travel> checkBlogStart(int travelNo) throws Exception;
+	public int checkBlogStart(int travelNo) throws Exception;
 	
 	public void startBlog(int travelNo) throws Exception;
 	

@@ -26,8 +26,7 @@
 		<typeAlias alias="comment" type="com.ustrip.service.domain.Comment" />
 		<typeAlias alias="board" type="com.ustrip.service.domain.Board" />
 		<typeAlias alias="follow" type="com.ustrip.service.domain.Follow" />
-		<typeAlias alias="message" type="com.ustrip.service.domain.Message" />
-		<typeAlias alias="tempBlog" type="com.ustrip.service.domain.TempBlog" />			
+		<typeAlias alias="message" type="com.ustrip.service.domain.Message" />		
 		<typeAlias alias="search" type="com.ustrip.common.Search" /> 
 	</typeAliases>
 	

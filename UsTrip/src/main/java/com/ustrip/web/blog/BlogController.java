@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ustrip.common.Search;
 import com.ustrip.service.asset.AssetService;
 import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Asset;
@@ -29,9 +28,9 @@ import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
+import com.ustrip.service.domain.Place;
 import com.ustrip.service.plan.PlanService;
 
 
@@ -59,15 +58,13 @@ public class BlogController {
 	@RequestMapping(value="addBlog", method=RequestMethod.GET)
 	public String addBlog( @RequestParam("travelNo") int travelNo, Model model ) throws Exception {
 
-		System.out.println("/addBlog : POST");
-		Map<String, List<TempBlog>> map=new HashMap<String, List<TempBlog>>();
+		System.out.println("/addBlog : GET");
 		
-		List<TempBlog> list=planService.listPlace(travelNo);
-		map.put("list", list);
-		blogService.addBlog(map);
+		List<Place> list=planService.listPlace(travelNo);		
+		blogService.addBlog(list);
 		planService.startBlog(travelNo);
 		
-		return "forward:/blog/listBlog?travelNo="+travelNo;
+		return "forward:/blog/listBlog?travNo="+travelNo;
 	}
 	
 	@RequestMapping(value="addJsonTag", method=RequestMethod.POST)
@@ -116,28 +113,28 @@ public class BlogController {
 
 	
 	@RequestMapping(value="listBlog", method=RequestMethod.GET)
-	public String listBlog( @RequestParam("travNo") int travelNo, 
+	public String listBlog( @RequestParam("travNo") int travNo, 
 			@RequestParam(value="userId", required=false) String userId, Model model ) throws Exception {
 
 		System.out.println("/listBlog : GET");
 		String destination="forward:/view/blog/listBlog.jsp";
 		int islike=0;
-		
-		Search search=new Search();
-			List<Travel> travel=planService.checkBlogStart(travelNo);
+				
+			int travel=planService.checkBlogStart(travNo);
 			
-			if(travel.get(0).getIsBlogStart()==1){
-				List<Integer> listPlaceNo=planService.listPlaceNoTemp(travelNo);
-				search.setSearchKeyword(Integer.toString(travelNo));
-				search.setPlaceOrder(listPlaceNo);
-				List<Blog> blog=blogService.listBlog(search);
+			if(travel == 1){
+				
+				List<Blog> blog=blogService.listBlog(travNo);
 				for(int i=0; i<blog.size(); i++){
 					List<Asset> asset=assetService.getAssetByBlogNo(blog.get(i).getBlogNo());
+					for(int j=0; j<asset.size(); j++){
+						blog.get(i).setSumCharge(blog.get(i).getSumCharge()+asset.get(j).getCharge());
+					}
 					blog.get(i).setAssets(asset);
 				}
 				
 				if(userId != null){
-					List<LikeTravel> travNoLike = blogService.checkLikeTravel(travelNo);
+					List<LikeTravel> travNoLike = blogService.checkLikeTravel(travNo);
 					for(LikeTravel T : travNoLike){
 						if(T.getUserId().equals(userId)){
 							islike=1;
@@ -154,7 +151,6 @@ public class BlogController {
 				
 				model.addAttribute("list", checkBlog);
 				model.addAttribute("isLiked",islike);
-				model.addAttribute("writer", travel.get(0).getUserId());
 			}else{
 				model.addAttribute("travel", travel);
 				destination="forward:/view/blog/addBlog.jsp";
@@ -183,6 +179,7 @@ public class BlogController {
 		System.out.println("/updateBlog : GET");
 		
 		Blog blog=blogService.getJsonBlog(blogNo);
+		System.out.println("*********"+blog.getVisitDate());
 		List<Asset> asset=assetService.getAssetByBlogNo(blogNo);
 		blog.setAssets(asset);
 		model.addAttribute("blog", blog);
@@ -210,7 +207,7 @@ public class BlogController {
 		blogService.updateScore(blog);
 	}
 	
-	@RequestMapping(value="updatePlace", method=RequestMethod.GET)
+	/*@RequestMapping(value="updatePlace", method=RequestMethod.GET)
 	public String updatePlace( @RequestParam("travelNo") int travelNo, @RequestParam("visitDate") String visitDate, Model model ) throws Exception {
 
 		System.out.println("/updatePlace : GET");
@@ -226,7 +223,7 @@ public class BlogController {
 		model.addAttribute("blog", blog);
 		
 		return "forward:/view/blog/updatePlace.jsp";
-	}
+	}*/
 	
 	@RequestMapping(value="updateJsonReview", method=RequestMethod.POST)
 	public void updateJsonReview( @ModelAttribute("blog") Blog blog, Model model ) throws Exception {
@@ -311,7 +308,7 @@ public class BlogController {
 	          
 		}		
 		blogService.addImage(images);
-				
+		model.addAttribute("add",images)	;	
 	}
 		
 		

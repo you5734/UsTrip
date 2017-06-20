@@ -73,6 +73,7 @@ where a.trav_no(+) = t.trav_no and a.asset_no = #{assetNo}
 	  	SELECT usage, asset_category, asset_no, charge
 	  	FROM asset
 	  	WHERE blog_no=#{blogNo}
+	  	ORDER BY asset_category ASC
 	  </select>
   	
  </mapper>
