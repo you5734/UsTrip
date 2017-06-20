@@ -22,8 +22,10 @@
     <script src="/js/fileinput.js" type="text/javascript"></script>
     <script src="/js/theme.js" type="text/javascript"></script>
   	
-	
-  	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>    
+
 	<script type="text/javascript">
 	
 	$(function() {
@@ -75,6 +77,7 @@
   				  
 			$("#tagSpan").append(addTag);
 			$('#hashTag').val("");
+			timesEvent();
 					}, "json" );  
 			
 		});
@@ -89,7 +92,7 @@
 					charge:$("#charge").val(),	 
 					visitDate:	visitdate}
 			 $.post( "/blog/addJsonAsset", postdata , function( serverData ) {
-				var addAsset='<div class="form-group" id="'+serverData.asset.assetNo+'">'
+				var addAsset='<div class="row" id="'+serverData.asset.assetNo+'">'
 				   +'<label class="col-md-1 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>'
 				   +'<div class="col-md-3 col-sm-3 col-xs-3">'
 				   +'<input type="text" class="form-control" name="category" value="'+serverData.asset.assetCategory+'" readonly/></div>'
@@ -103,6 +106,7 @@
 		$(addAsset).insertBefore($("#asset:last"));
 		$('#charge').last().val("");
 		$('#usage').last().val("");
+		timesEvent();
 				}, "json" );  
 			
 		});
@@ -161,8 +165,7 @@
 								"Content-Type" : "application/json"
 							},
 							context : this,
-							success : function(serverData , status) {
-								alert("점수업데이트");
+							success : function(serverData , status) {							
 								$("#score").val(score);
 							}
 						});
@@ -199,11 +202,12 @@
 					});
 		});
 		
-		$('body').on('click' , '#confirm', function() {
-			var date=$('#visitDate').val().split("-");
-			
-			
-			self.location="/blog/listBlog?travNo="+travNo+"&visitDate="+date[0]+date[1]+date[2];
+		$('body').on('click' , '#confirm', function() {			
+			self.location="/blog/listBlog?travNo="+travNo
+		});
+		
+		$('body').on('click' , '#cancle', function() {			
+			location.reload();
 		});
 		
 		 $('.kv-fa').rating({	   
@@ -228,9 +232,61 @@
 				    contentType: false, 
 				    processData: false
 				}); 
+			
+			window.setTimeout("rePicture()", 2000);	
+			
 		 });
-		  		
-	});
+		 
+		 $('.fa-check').hover(function(){
+				$(this).attr('class','fa fa-check text-danger');
+			},function(){
+				$(this).attr('class','fa fa-check text-default');
+			}); 
+		 
+		 $('.fa-check').on('click',function(){
+			 swal({
+					title:'정상적으로 반영되었습니다.',
+					text: "작성하신 내용이 정상적으로 입력/수정되었습니다.",
+			   		  type: 'success'
+			 })
+			 });
+					
+	$('.fa-times').hover(function(){
+		$(this).attr('class','fa fa-times text-danger');
+	},function(){
+		$(this).attr('class','fa fa-times text-default');
+	}); 
+ 
+ $('.fa-times').on('click',function(){
+	 swal({
+			title:'정상적으로 삭제되었습니다.',
+			text: "작성하신 내용이 정상적으로 삭제되었습니다.",
+	   		  type: 'success'
+	 })
+	 });
+		
+});
+	
+	function timesEvent(){
+		$('.fa-times').hover(function(){
+			$(this).attr('class','fa fa-times text-danger');
+		},function(){
+			$(this).attr('class','fa fa-times text-default');
+		}); 
+	 
+	 $('.fa-times').on('click',function(){
+		 swal({
+				title:'정상적으로 삭제되었습니다.',
+				text: "작성하신 내용이 정상적으로 삭제되었습니다.",
+		   		  type: 'success'
+		 })
+		 });
+	}
+	
+	function rePicture(){
+		/* $('#divLoad').load("/blog/updateBlog?blogNo="+$('#blogNo').val()); */
+		 location.reload();
+	}
 
 </script>
 <style type="text/css">
@@ -239,21 +295,21 @@
 </head>
 	<body>
 	
-	
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<div class="form-horizontal" >
-					<fieldset>
+	<div class="container">
+		<div class="row" >
+			<div class="col-sm-5">				
 						<input type="hidden"  id="blogNo" value="${blog.blogNo}">
 						<input type="hidden"  id="travNo" value="${blog.travNo}">
 						<input type="hidden"  id="visitDate" value="<fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd" />">
 						
 			          	<h2 class="text-success"><i class="fa fa-map-marker" aria-hidden="true"></i> ${blog.place}</h2>
+			          	</div>
+			          	</div>
 			          	<hr/>			
-			          	<div class="form-group">
+			          	<div class="row">
 			            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></label>
 			            	<div class="col-sm-10">
-			              		<textarea class="form-control text-default" style="width:flex; height:150px;" name="review" id="review" >${!empty blog.review? blog.review : "리뷰를 남겨주세요"}</textarea>
+			              		<textarea class="form-control text-default" style="width:flex; height:150px;" name="review" id="review" onclick="this.value=''">${!empty blog.review? blog.review : "리뷰를 남겨주세요"}</textarea>
 			            	</div>
 			            	<label class="col-sm-1 control-label" for="textinput">
 				              		<i class="fa fa-check" aria-hidden="true" id="updateReview"></i>
@@ -261,7 +317,7 @@
 			          	</div>
 		                <hr/>
 						
-			          	<div class="form-group">
+			          	<div class="row">
 			            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></label>
 			            	<div class="col-sm-10">
 			            	<input class="kv-fa rating-loading " dir="ltr" data-size="sm" name="score" id="score" value="${blog.score}">
@@ -273,31 +329,33 @@
 						<hr/>
 						
 						
-							<div class="form-group">
+							<div class="row">
 				            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
 				            	<div class="col-sm-11">
 				            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
 					            		<span id="${images.imgNo}">
-					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" style="width:450px; height:300px;"></span>
+					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" style="width:450px; height:300px;">
 							              	<i class="fa fa-times" aria-hidden="true" id="deleteImage"></i>
 				                    		<input type="hidden" value="${images.imgNo}">
-				                    	<br/>
+				                    		</span>
+				                    	
 			          				</c:forEach>
 				            	</div>
 				          	</div>
-						
-			          	<form class="form-group"  id="fileForm">
+						<hr/>
+			          	<form class="row"  id="fileForm">
 			          <label class="col-sm-1 control-label" for="textinput"><i class="fa fa-camera" aria-hidden="true"></i></label>
 			          <div class="col-sm-10">
-			          	<input type="file" accept="image/png, image/jpeg, image/gif" id="blogFile" name="blogFile[]"  multiple style="width:flex;"/>
+			          			<span class="btn btn-info btn-file" style="width:945px;">
+						    파일올리기 <input class="inputfile inputfile-1"  type="file" accept="image/png, image/jpeg, image/gif" id="blogFile" name="blogFile[]"  multiple />	
+						</span>		          		        
 			          </div>
        					<label class="col-sm-1 control-label" for="textinput" ><i class="fa fa-check" aria-hidden="true" id="uploadFile" ></i></label>
-			            
-			          	</form>
+			            </form>
 			          	<hr/>
 	      			
 			          	<c:forEach items="${blog.assets}" var="assets" varStatus="status">
-		               		<div class="form-group" id="${assets.assetNo}">
+		               		<div class="row" id="${assets.assetNo}">
 			         	 		<label class="col-md-1 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></label>
 				              	<div class="col-md-3 col-sm-3 col-xs-3">
 				              		<input type="text" class="form-control" name="category" value="${assets.assetCategory}" readonly/>
@@ -315,7 +373,7 @@
 			         		</div>
 		                </c:forEach>
 			          	
-			          	<div class="form-group" id="asset">
+			          	<div class="row" id="asset">
 			         	 	<label class="col-md-1 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></label>
 			              	<div class="col-md-3 col-sm-3 col-xs-3">
 			                  	<select class="form-control" name="assetCategory" id="assetCategory" >
@@ -340,7 +398,7 @@
 			         	
 		                <hr/>
 			         	
-			         	<div class="form-group">
+			         	<div class="row">
 			            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-hashtag" aria-hidden="true"></i></label>
 			            	<div class="col-sm-11" id="tagSpan" >
 			            		<c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
@@ -348,11 +406,12 @@
 			                		<i class="fa fa-times" aria-hidden="true" id="deleteTag"></i>
 			                		<input type="hidden" value="${hashTags.tagNo}">
 			                		<input type="hidden" value="${status2.index}" id="tagCount">
+			                		<br/>
 			                	</c:forEach>
 		                	</div>
 		                </div>
 			
-			          	<div class="form-group">
+			          	<div class="row">
 			            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-hashtag" aria-hidden="true"></i></label>
 			            	<div class="col-sm-10">
 			              		<input type="text" name="hashTag" id="hashTag" class="form-control" style="width: flex;" maxlength="10" id="hashTag" value="" >
@@ -364,14 +423,14 @@
 						
 					    <br/>
 		                <hr/>
-			         	<div class="col-sm-offset-2 col-sm-10">
-			         		<div class="pull-right">
-			            		<input type="button" class="btn btn-default" id="confirm" value="확인">
-			                	<input type="button" class="btn btn-default" id="cancel" value="취소">
-			            	</div>
-			         	</div>
-	        		</fieldset>
-	        	</div>
+		                <div class="row">
+		                <div class="col-sm-10"></div>
+			         	<div class="col-sm-2">
+			         			<div class="btn-group" data-toggle="buttons">			         	
+			            		<input type="button" class="btn btn-info" id="confirm" value="되돌아가기">
+			                	<input type="button" class="btn btn-info" id="cancel" value="취소">		
+			                	</div>	            	
+			         	</div>	        		
 	    	</div>
 		</div>
 	</body>
