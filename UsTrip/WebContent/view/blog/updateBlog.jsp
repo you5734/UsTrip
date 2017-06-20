@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -68,12 +69,12 @@
 					blogNo:$('#blogNo').val() }
 				
 				$.post( "/blog/addJsonTag", addTag , function( serverData ) {
-					var addTag='<span name="hashTag">#'+serverData.hashTag.hashTag+'</span>'
+					var addTag='<span name="hashTag" class="text-primary">#'+serverData.hashTag.hashTag+'</span>'
   				  +'<i class="fa fa-times" aria-hidden="true" id="deleteTag"></i>'
   				  +'<input type="hidden" value="'+serverData.hashTag.tagNo+'"><br/>';
   				  
-			$("#tagSpan").prepend(addTag);
-			$(this).prev('input').val("");
+			$("#tagSpan").append(addTag);
+			$('#hashTag').val("");
 					}, "json" );  
 			
 		});
@@ -87,13 +88,12 @@
 					usage:$("#usage").val(),	  		
 					charge:$("#charge").val(),	 
 					visitDate:	visitdate}
-		
 			 $.post( "/blog/addJsonAsset", postdata , function( serverData ) {
 				var addAsset='<div class="form-group" id="'+serverData.asset.assetNo+'">'
-				   +'<label class="col-md-2 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>'
+				   +'<label class="col-md-1 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></i></label>'
 				   +'<div class="col-md-3 col-sm-3 col-xs-3">'
 				   +'<input type="text" class="form-control" name="category" value="'+serverData.asset.assetCategory+'" readonly/></div>'
-				   +'<div class="col-md-3 col-sm-3 col-xs-3">'
+				   +'<div class="col-md-4 col-sm-3 col-xs-3">'
 				   +'<input type="text" class="form-control" name="usage" value="'+serverData.asset.usage+'" readonly/>'
 				   +'</div><div class="col-md-3 col-sm-3 col-xs-3">'
 				   +'<input type="text" class="form-control" name="charge" value="'+serverData.asset.charge+'" readonly/></div>'
@@ -244,9 +244,10 @@
 			<div class="col-md-4 col-md-offset-4">
 				<div class="form-horizontal" >
 					<fieldset>
-						<input type="hidden" name="blogNo" id="blogNo" value="${blog.blogNo}">
-						<input type="hidden" name="travNo" id="travNo" value="${blog.travNo}">
-						<input type="hidden" name="visitDate" id="visitDate" value="${blog.visitDate}">
+						<input type="hidden"  id="blogNo" value="${blog.blogNo}">
+						<input type="hidden"  id="travNo" value="${blog.travNo}">
+						<input type="hidden"  id="visitDate" value="<fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd" />">
+						
 			          	<h2 class="text-success"><i class="fa fa-map-marker" aria-hidden="true"></i> ${blog.place}</h2>
 			          	<hr/>			
 			          	<div class="form-group">
@@ -277,11 +278,10 @@
 				            	<div class="col-sm-11">
 				            		<c:forEach items="${blog.images}" var="images" varStatus="status3">
 					            		<span id="${images.imgNo}">
-							              	<span class=images><a href="/images/upload/blog/${images.travNo}/${images.serverImgName}" rel="lightbox">
-					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" class="img-responsive"></a></span>
+					                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" style="width:450px; height:300px;"></span>
 							              	<i class="fa fa-times" aria-hidden="true" id="deleteImage"></i>
 				                    		<input type="hidden" value="${images.imgNo}">
-				                    	</span>
+				                    	<br/>
 			          				</c:forEach>
 				            	</div>
 				          	</div>
@@ -342,9 +342,9 @@
 			         	
 			         	<div class="form-group">
 			            	<label class="col-sm-1 control-label" for="textinput"><i class="fa fa-hashtag" aria-hidden="true"></i></label>
-			            	<div class="col-sm-11">
+			            	<div class="col-sm-11" id="tagSpan" >
 			            		<c:forEach items="${blog.hashTags}" var="hashTags" varStatus="status2">
-			                		<span id="tagSpan" class="text-primary"> #${hashTags.hashTag} </span>
+			                		<span class="text-primary"> #${hashTags.hashTag} </span>
 			                		<i class="fa fa-times" aria-hidden="true" id="deleteTag"></i>
 			                		<input type="hidden" value="${hashTags.tagNo}">
 			                		<input type="hidden" value="${status2.index}" id="tagCount">

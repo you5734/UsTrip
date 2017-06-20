@@ -15,7 +15,6 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 
 
 @Service("blogServiceImpl")
@@ -30,8 +29,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 	
 	@Override
-	public void addBlog(Map<String, List<TempBlog>> map) throws Exception {
-		blogDAO.addBlog(map);
+	public void addBlog(List<Place> tempBlog) throws Exception {
+		blogDAO.addBlog(tempBlog);
 	}
 
 	@Override
@@ -55,8 +54,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 
 	@Override
-	public List<Blog> listBlog(Search search) throws Exception {
-		return blogDAO.listBlog(search);
+	public List<Blog> listBlog(int travNo) throws Exception {
+		return blogDAO.listBlog(travNo);
 	}
 	
 	@Override

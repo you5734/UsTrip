@@ -45,9 +45,9 @@
 	 	FROM ( SELECT *FROM travel WHERE user_id=#{searchKeyword} ) countTable
 	 </select>
 	
-	 <select id="checkBlogStart" parameterType="int" resultMap="travelSelectMap">
+	 <select id="checkBlogStart" parameterType="int" resultType="int">
 	 	SELECT
-	 	trav_no, is_blog_start, trav_title, TO_CHAR(start_date,'yy/MM/dd') start_date, user_id
+	 	is_blog_start
 	 	FROM travel
 	 	WHERE trav_no=#{travelNo}
 	 </select>

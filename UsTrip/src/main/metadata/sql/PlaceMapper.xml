@@ -16,27 +16,16 @@
 		<result property="place" 			column="place" 			jdbcType="VARCHAR" />
 		<result property="placeX" 			column="place_x" 		jdbcType="NUMERIC" />
 		<result property="placeY" 			column="place_y" 		jdbcType="NUMERIC"  />
-		<result property="visitDate" 		column="visit_date" 	jdbcType="VARCHAR" />
+		<result property="visitDate" 		column="visit_date" 	jdbcType="DATE" />
 		<result property="memo" 			column="memo" 			jdbcType="VARCHAR" />
 	</resultMap>
-	<resultMap id="tempBlogSelectMap" type="tempBlog">
-		<result property="placeNo" 			column="place_no" 		jdbcType="NUMERIC"/>
-		<result property="cityNo"			column="city_no" 		jdbcType="NUMERIC" />
-		<result property="travelNo"			column="trav_no" 		jdbcType="NUMERIC" />
-		<result property="place" 			column="place" 			jdbcType="VARCHAR" />
-		<result property="visitDate" 		column="visit_date" 	jdbcType="VARCHAR" />
-		<result property="memo" 			column="memo" 			jdbcType="VARCHAR" />
-	</resultMap>
-	 
-	 <select id="listPlace" parameterType="int" resultMap="tempBlogSelectMap">
+	
+	 <select id="listPlace" parameterType="place" resultMap="placeSelectMap">
 	 	SELECT 
-	 	place_no, city_no, trav_no, place, TO_CHAR(visit_date,'yy/mm/dd') visit_date, memo
+	 	place_no, city_no, trav_no, place, visit_date, memo
 	 	FROM place
-	 	WHERE trav_no=#{travelNo}
-	 	START WITH
-	 		pre_place_no IS NULL
-	 	CONNECT BY PRIOR
-	 		next_place_no=place_no
+	 	WHERE city_no = #{cityNo}
+	 	ORDER BY PRE_PLACE_NO ASC
 	 </select>
 	 
 	 <select id="listPlaceNo" parameterType="search" resultType="int">
