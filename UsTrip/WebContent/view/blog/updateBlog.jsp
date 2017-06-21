@@ -290,11 +290,12 @@
 
 </script>
 <style type="text/css">
-  body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;}
+  body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;
+  width:50%;}
   </style>
 </head>
 	<body>
-	
+	<div class="container">
 		<div class="row" >
 			<div class="col-sm-5">				
 						<input type="hidden"  id="blogNo" value="${blog.blogNo}">
@@ -429,7 +430,8 @@
 			            		<input type="button" class="btn btn-info" id="confirm" value="되돌아가기">
 			                	<input type="button" class="btn btn-info" id="cancel" value="취소">		
 			                	</div>	            	
-			         	</div>	        		
+			         	</div>	
+			         	</div>        		
 	    	</div>
 	</body>
 </html>

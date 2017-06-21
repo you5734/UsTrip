@@ -53,7 +53,7 @@
 	
 	
 		    $(function() {	
-		    	 var condi = 4; /* travNo를 넣어준다. */
+		    	 var condi = 500; /* travNo를 넣어준다. */
 		    	newGraph(condi);
 		    		    	 
 		    	 });

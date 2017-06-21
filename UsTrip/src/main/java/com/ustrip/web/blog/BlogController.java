@@ -25,6 +25,7 @@ import com.ustrip.service.asset.AssetService;
 import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
@@ -309,6 +310,26 @@ public class BlogController {
 		}		
 		blogService.addImage(images);
 		model.addAttribute("add",images)	;	
+	}
+	
+	@RequestMapping(value="getMap", method=RequestMethod.GET)
+	public String getMap( @RequestParam("travNo") int travNo, Model model ) throws Exception {
+		List<City> listCity = planService.blogCity(travNo);
+		model.addAttribute("listCity",listCity);
+		model.addAttribute("travNo",travNo);
+		return "forward:/view/blog/mapFrame.jsp";
+	}
+	
+	@RequestMapping(value={"getMapCity/{travNo}"}, method=RequestMethod.GET)
+	public void getMapCity( @PathVariable int travNo, Model model ) throws Exception {
+		List<City> listCity = planService.blogCity(travNo);
+		model.addAttribute("listCity",listCity);
+	}
+	
+	@RequestMapping(value={"getMapPlace/{cityNo}"}, method=RequestMethod.GET)
+	public void getMapPlace( @PathVariable int cityNo, Model model ) throws Exception {
+		List<Place> listPlace = planService.blogPlace(cityNo);
+		model.addAttribute("listPlace",listPlace);
 	}
 		
 		
