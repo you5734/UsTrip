@@ -30,11 +30,11 @@
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
-	<select id="getCity" parameterType="city"	resultMap="CitySelectMap">
+	<select id="getCity" parameterType="int"	resultMap="CitySelectMap">
 		SELECT
-		*		
+		*	
 		FROM city 
-		WHERE city = #{value}
+		WHERE trav_no = #{value}
 	</select>
 	
 	<select id="listCity" parameterType="city"	resultMap="CitySelectMap">

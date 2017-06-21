@@ -93,8 +93,8 @@ public class PlanDAOImpl implements PlanDAO {
 		return sqlSession.selectOne("TravelMapper.totalCount", search);
 	}
 	
-	public City getCity(City city) throws Exception {
-		return sqlSession.selectOne("CityMapper.getCity",city.getCity());
+	public List<City> getCity(int travNo) throws Exception {
+		return sqlSession.selectList("CityMapper.getCity", travNo);
 	}
 	
 	public Place getPlace(Place place) throws Exception {

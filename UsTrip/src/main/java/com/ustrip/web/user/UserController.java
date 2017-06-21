@@ -31,6 +31,7 @@ import com.ustrip.service.asset.AssetService;
 import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
+import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
@@ -323,7 +324,7 @@ public class UserController {
 	  }
 	
 	@RequestMapping( value="addFollow/{targetUserId}", method=RequestMethod.GET )
-	public String addFollow( @PathVariable String targetUserId, HttpSession session, Model model ) throws Exception {
+	public void addFollow( @PathVariable String targetUserId, HttpSession session, Model model ) throws Exception {
 		
 		System.out.println("/user/addFollow : GET");
 		
@@ -334,7 +335,7 @@ public class UserController {
 			userService.addFollow(targetUserId, sessionId);
 		}
 
-		return "forward:/user/getContents";
+		/*return "forward:/user/getContents";*/
 	}
 	
 	@RequestMapping( value="getListTravel" )
@@ -362,25 +363,27 @@ public class UserController {
 		return "forward:/view/user/listTravel.jsp";
 	}
 	
-/*	@RequestMapping( value="allListTravel" )
-	public String allListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String userId ) throws Exception {
+	@RequestMapping( value="allListTravel" )
+	public String allListTravel( @ModelAttribute("search") Search search, Model model) throws Exception {
 
-		System.out.println("/user/allListTravel : POST");
-		
+		System.out.println("/user/allListTravel ");
+		System.out.println("search " + search);
 		Map<String, Object> map = planService.getListTravel(search);
+		
+		
+		for( int i =0; i < map.size(); i++)  {
+			
+			ArrayList<Travel> a =  (ArrayList<Travel>) map.get("list");
+			System.out.println("" + a.get(i).getUserId());
+		}
 		
 		System.out.println("map ¸Ê " + map);
 		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
 		
-		if( targetUserId != null ) {
-			Follow follow = userService.getFollow(sessionId, targetUserId);
-			
-			model.addAttribute("follow", follow);
-		}
 		model.addAttribute("travel", map.get("list"));
 		
 		return "forward:/view/user/allListTravel.jsp";
-	}*/
+	}
 	
 	
 	@RequestMapping( value="listFollow")
@@ -453,14 +456,23 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="getTravel", method=RequestMethod.GET )
-	public String getTravel( HttpSession session, Model model, @RequestParam("travNo") int travNo ) throws Exception {
+	public String getTravel( HttpSession session, Model model, @RequestParam("travNo") int travNo, 
+							@RequestParam( value="userId", required=false ) String travUserId) throws Exception {
 
 		System.out.println("/user/getTravel : GET");
+		
+		if( travUserId != null ) {
+			User user = userService.getUser(travUserId);
+			model.addAttribute("user", user);
+		}
 		
 		String userId=((User)session.getAttribute("user")).getUserId();
 		System.out.println("userId????????????????" + userId);
 		
 		Travel travel = planService.getTravel(travNo);
+		List<City> city = planService.getCity(travNo);
+		
+	
 /*		List<LikeTravel> list = blogService.checkLikeTravel(travNo);
 		
 		
@@ -522,11 +534,12 @@ public class UserController {
 	
 		/*	model.addAttribute("isLike", result);*/
 		model.addAttribute("travel", travel);
+		model.addAttribute("city", city);
 	
 		return "forward:/view/user/getTravel.jsp";
 	}
 	
-/*	@RequestMapping( value="listLikeTravel")
+	@RequestMapping( value="listLikeTravel")
 	public String listLikeTravel( HttpSession session, Model model ) throws Exception {
 		
 		System.out.println("/user/listLikeTravel ");
@@ -538,16 +551,9 @@ public class UserController {
 		 List<LikeTravel> listLikeTravel=blogService.listLikeTravel(sessionId);
 		System.out.println("map :::::::::::: " + listLikeTravel);
 		
-		for( int i = 0; i < listLikeTravel.size(); i++) {
-			travel = planService.getTravel(listLikeTravel.get(i).getTravNo());
-			
-			model.addAttribute("trave4l", travel);
-			System.out.println("ttttttravel :: " + travel);
-		}
-		
 		model.addAttribute("likeTravel", listLikeTravel);
 		
 		return "forward:/view/user/listLikeTravel.jsp";
-	}*/
+	}
 
 }

@@ -298,10 +298,10 @@ border-bottom: 1px solid #f7f7f7;
 							<div class="well">
 						        <p>
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
-									<c:if test='${isLike == 1}'>
+									<c:if test='${checkBlogStart == 1}'>
 										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
 									</c:if>
-									<c:if test='${isLike == 0}'>
+									<c:if test='${checkBlogStart == 0}'>
 										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
 									</c:if> 
 						        </p>
@@ -330,8 +330,9 @@ border-bottom: 1px solid #f7f7f7;
 								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
 	
 								<section id="content1" class="tab-content">
-									<h3>Headline 1</h3>
-							      	<p>Tab 1 Content.</p>
+									<!-- <h3>Headline 1</h3>
+							      	<p>Tab 1 Content.</p> -->
+							      	<jsp:include page="/view/plan/getCity.jsp"/> 
 								</section>
 					
 								<section id="content2" class="tab-content">

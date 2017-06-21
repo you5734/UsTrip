@@ -1,5 +1,7 @@
 package com.ustrip.web.plan;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -135,6 +137,17 @@ public class PlanController {
 		return "redirect:/view/plan/addTravel.jsp";
 	}
 	
+	@RequestMapping( value="getCity", method=RequestMethod.POST )
+	public String getCity(@ModelAttribute("travNo") int travNo, Model model) throws Exception{
+		
+		System.out.println("/plan/getCity : POST");
+		
+		List<City> city = planService.getCity(travNo);
+		
+		model.addAttribute("city", city);
+		
+		return "redirect:/view/plan/getCity.jsp";
+	}
 	
 	
 }// end of class PlanController
