@@ -534,8 +534,14 @@ public class UserController {
 	
 		/*	model.addAttribute("isLike", result);*/
 		model.addAttribute("travel", travel);
-		model.addAttribute("city", city);
-	
+	/*	model.addAttribute("city", city);*/
+		
+		List<City> listCity = planService.blogCity(travNo);
+		model.addAttribute("listCity",listCity);
+		model.addAttribute("travNo",travNo);
+/*		List<City> listCity2 = planService.blogCity(travNo);
+		model.addAttribute("listCity",listCity2);
+	*/
 		return "forward:/view/user/getTravel.jsp";
 	}
 	

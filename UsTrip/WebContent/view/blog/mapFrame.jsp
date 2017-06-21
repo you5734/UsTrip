@@ -55,7 +55,6 @@
 	                    strokeOpacity: 1.0,
 	                    strokeWeight: 2
 	                  });
-
 						polylinePath.setMap(map);
 	                } 
 			 
@@ -165,7 +164,7 @@
 <div class="col-md-10">
 </div>
 <div class="col-md-2">
-<button value="${travNo}" name="city" class="btn btn-info">ÀüÃ¼°æ·Î º¸±â</button><br/>
+<button value="${travNo}" name="city" class="btn btn-info">ì „ì²´ê²½ë¡œë³´ê¸°</button><br/>
 <c:forEach items="${listCity}" var="city" varStatus="status">
 <button name="place" class="btn btn-info" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}">${city.city}</button><br/>
 </c:forEach>
