@@ -340,7 +340,7 @@ public class UserController {
 	@RequestMapping( value="getListTravel" )
 	public String getListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
 
-		System.out.println("/user/getContents : POST");
+		System.out.println("/user/getListTravel : POST");
 		
 		String sessionId=((User)session.getAttribute("user")).getUserId();
 		User user = userService.getUser(sessionId);
@@ -361,6 +361,27 @@ public class UserController {
 		
 		return "forward:/view/user/listTravel.jsp";
 	}
+	
+/*	@RequestMapping( value="allListTravel" )
+	public String allListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String userId ) throws Exception {
+
+		System.out.println("/user/allListTravel : POST");
+		
+		Map<String, Object> map = planService.getListTravel(search);
+		
+		System.out.println("map ¸Ê " + map);
+		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
+		
+		if( targetUserId != null ) {
+			Follow follow = userService.getFollow(sessionId, targetUserId);
+			
+			model.addAttribute("follow", follow);
+		}
+		model.addAttribute("travel", map.get("list"));
+		
+		return "forward:/view/user/allListTravel.jsp";
+	}*/
+	
 	
 	@RequestMapping( value="listFollow")
 	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {

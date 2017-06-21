@@ -274,6 +274,12 @@ display: block;
 border-top: 1px solid #e3e3e3; 
 border-bottom: 1px solid #f7f7f7;
 }
+.listasset{
+		/* width: inherit; */
+       /* max-width: 100%; */
+       height: auto;
+       width:100%;
+ }
 
 
 	</style>
@@ -344,7 +350,7 @@ border-bottom: 1px solid #f7f7f7;
 											<li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
 										</ul>
 										<div id="listasset" ></div>
-										<jsp:include page="/view/asset/updateAssetView.jsp" />  
+									 <jsp:include page="/view/asset/updateAssetView.jsp" /> 
 								</section>
 							</div> 
   					</div>

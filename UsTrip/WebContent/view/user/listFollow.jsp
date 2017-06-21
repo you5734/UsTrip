@@ -71,7 +71,7 @@
 									 var $div = $('<div></div>').addClass('profile-pic').css({'width' : '180px', 'float' : 'left'}),
 									 	$img = $('<img></img>').addClass('img-responsive'),
 									 	$span = $('<span></span>'),
-									 	$button = $('<button type="button"></button>').addClass('btn btn-sm').text('Following');		
+									 	$button = $('<input type="button">').addClass('btn btn-sm').val('Following');		
 									 $button.attr('data-followTarget', result.targetUserId);
 									 
 									 $img.attr('src', '/images/upload/profile/' + result.profileImage);
