@@ -30,4 +30,6 @@ public interface PlanDAO {
 	public List<Travel> getListTravel(Search search) throws Exception;
 	public int totalCount(Search search) throws Exception;
 	
+	public List<City> blogCity(int travNo) throws Exception;
+	public List<Place> blogPlace(int cityNo) throws Exception;	
 }

@@ -33,4 +33,7 @@ public interface PlanService {
 	public void addPlan(Travel travel, City city, Place place) throws Exception;
 	
 	public Map<String, Object> getListTravel(Search search) throws Exception;
+	
+	public List<City> blogCity(int travNo) throws Exception;
+	public List<Place> blogPlace(int cityNo) throws Exception;
 }

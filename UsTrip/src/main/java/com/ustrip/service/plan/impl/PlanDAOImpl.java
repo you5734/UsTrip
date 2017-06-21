@@ -100,5 +100,15 @@ public class PlanDAOImpl implements PlanDAO {
 	public Place getPlace(Place place) throws Exception {
 		return sqlSession.selectOne("PlaceMapper.getPlace",place.getPlaceNo());
 	}
+	@Override
+	public List<City> blogCity(int travNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("CityMapper.listCity",travNo);
+	}
+	@Override
+	public List<Place> blogPlace(int cityNo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("PlaceMapper.listPlace",cityNo);
+	}
 
 }

@@ -100,5 +100,17 @@ public class PlanServiceImpl implements PlanService{
 		return map;
 	}
 
+	@Override
+	public List<City> blogCity(int travNo) throws Exception {
+		// TODO Auto-generated method stub
+		return planDAO.blogCity(travNo);
+	}
+
+	@Override
+	public List<Place> blogPlace(int cityNo) throws Exception {
+		// TODO Auto-generated method stub
+		return planDAO.blogPlace(cityNo);
+	}
+
 	
 }

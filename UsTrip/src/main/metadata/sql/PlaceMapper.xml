@@ -22,7 +22,7 @@
 	
 	 <select id="listPlace" parameterType="place" resultMap="placeSelectMap">
 	 	SELECT 
-	 	place_no, city_no, trav_no, place, visit_date, memo
+	 	place_no, city_no, trav_no, place, visit_date, memo,place_x,place_y
 	 	FROM place
 	 	WHERE city_no = #{cityNo}
 	 	ORDER BY PRE_PLACE_NO ASC
