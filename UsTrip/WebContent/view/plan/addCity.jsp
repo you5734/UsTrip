@@ -76,6 +76,7 @@
     var start;
     var end;
 	var tempNum = 0;
+	var cityId;
 	var XValue;
 	var YValue;
 	var cityValue;
@@ -83,33 +84,37 @@
 	var stayStart;
 	var stayDate;
 	var stayEnd;
-    
+	
+	 $(function(){
+	  	  $(document).on("click","#btn-route",function(){
+			
+				startRoute = encodeURIComponent($(this).parent().find(".startCity").val());
+				endRoute = encodeURIComponent($(this).parent().find(".city").val());
+				
+				window.open('/view/plan/route.jsp?'+startRoute+"?"+endRoute);
+	 
+	    });
+	   });
     $(function(){
   	  $(document).on("click","#btn-test",function(){
-  			XValue = $(this).parent().find(".cityX").val();
-		  	YValue = $(this).parent().find(".cityY").val();	
-		  	cityValue = encodeURIComponent($(this).parent().find(".city").val());
-			stayStart = encodeURIComponent($(this).parent().find(".stayStart").val());
-			stayDate = encodeURIComponent($(this).parent().find(".stayDate").val());
-			stayEnd = encodeURIComponent($(this).parent().find(".stayEnd").val());
-			
-			var lct = "/view/plan/addPlace.jsp?"+XValue+"?"+YValue+"?"+cityValue+"?"+stayStart+"?"+stayDate+"?"+stayEnd;
-			
-			self.location = lct;
-  	  });
-  	  
-  	$(document).on("click","#전체루트",function(){
+  		XValue = $(this).parent().find(".cityX").val();
+	  	YValue = $(this).parent().find(".cityY").val();	
+		stayStart = encodeURIComponent($(this).parent().find(".stayStart").val());
+		stayDate = encodeURIComponent($(this).parent().find(".stayDate").val());
+		stayEnd = encodeURIComponent($(this).parent().find(".stayEnd").val());
+		cityId = $(this).parent().find(".cityId").val();
 		
-	  	/* 	alert("CB()")
-	    	var latlng= "(37.55002139332707, 125.84461212158203)";
-	    	alert(latlng)
-	    	getAddress(latlng); */
-		  });
+		var lct = "/plan/addPlace?data="+travelNo+"/"+cityId+"/"
+				+XValue+"/"+YValue+"/"+stayStart+"/"+stayDate+"/"+stayEnd;
+			
+	/* 		self.location = lct; */
+	window.open(lct);
+  	  });
     });
     
-	function movePlace(){ 
+    function movePlace(){ 
 		
-		 for(var i = 0; i < tempNum-1; i++){
+		 for(var i = 0; i < tempNum; i++){
 			
 			
 			$("#f"+(i)+" input[name='stayStart']").val(stayStart);
@@ -118,9 +123,11 @@
 	   		stayEnd.setDate((stayEnd.getDate()*1 + stayDate*1));
 	   		stayEnd = stayEnd.getFullYear()+"-"+(stayEnd.getMonth()*1+1)+"-"+stayEnd.getDate();
 			$("#f"+(i)+" input[name='stayEnd']").val(stayEnd)
+			
+			
 			stayStart = stayEnd;
 	    	
-        	eval("var cityObj"+i+"= new Object()");
+       	eval("var cityObj"+i+"= new Object()");
 				    
 			eval("cityObj"+i).city = $("#f"+(i)+" input[name='city']").val();
 			eval("cityObj"+i).travelNo = travelNo;
@@ -132,10 +139,10 @@
 			eval("cityObj"+i).stayStart = $("#f"+(i)+" input[name='stayStart']").val();
 			eval("cityObj"+i).stayDate = $("#f"+(i)+" select[name='stayDate']").val();
 			eval("cityObj"+i).stayEnd = $("#f"+(i)+" input[name='stayEnd']").val();
-			 
-			//cityArray.push();
 			
 			var jsonCity = JSON.stringify(eval("cityObj"+i));
+				
+			
 		        	
 	        $.ajax({
 	        	type : "POST",
@@ -143,24 +150,16 @@
 	        	data :{ a:jsonCity},
 	        	datatype : "json",
 	        	context: this,
-	        	success: function(result)
-	        	{
-	        		alert(result);
-	        	}
-	        }); 	        
-        }  
-		//"/product/listProduct?menu=${param.menu}"
-		//var XValue = $(this).parent().find(".cityX").val();
+	        	success : function(result){
+	                
+	        		}
+	        	
+	        }); 
+			
+			
+       }  
 		 
-		// $(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
-		
-		
-       
-		//$("form").attr("method", "POST").attr("action", "/plan/addPlace").submit();
-		
-		//self.location = "/product/listProduct?menu=search";
-		
-	
+		 
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,13 +176,22 @@
       geocoder = new google.maps.Geocoder();
     
       var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-    
+  
       var mapOptions = {
         zoom:8,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: currentLocation
-      }
+        center: {lat: 36.8488, lng: 127.7792} 
+    }
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      
+      var input = document.getElementById('temp');
+      var options = {
+        types: ['(cities)'],
+        componentRestrictions: {country: 'kr'}
+      };
+
+      autocomplete = new google.maps.places.Autocomplete(input, options);
+    
       directionsDisplay.setMap(map);
       var markers = [];
       
@@ -191,17 +199,7 @@
           getAddress(e.latLng);
           
       });
-    
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
-     /*  poly = new google.maps.Polyline({
-  	    strokeColor: '#000000',
-  	    strokeOpacity: 1.0,
-  	    strokeWeight: 3
-  	  });
-  	  poly.setMap(map);
-  	  // Add a listener for the click event
-  	  map.addListener('click', addLatLng); */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  	
+    	
       function getAddress(latlng) {
     		var geocoder = new google.maps.Geocoder();
     		geocoder.geocode({
@@ -276,7 +274,24 @@
     		
     		var newUpButton = "<button>"+start+"</button>"
     		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
-    		
+    		var newLeftDiv = "<div id = 'f0' style='display:none'>"    
+    			+"<input type='hidden' id='startCity' name='startCity' class='startCity'/>"
+    			+"<input type='hidden' id='city' name='city' class='city'/>"
+    			+"</br>"
+    			+"<label>숙박일</label>"
+    		    +"<select id='stayDate' name='stayDate' class='stayDate'>"
+    		    +"<option>0</option>"
+    		    +"<option selected='selected'>0</option>"
+    		    +"</select>"
+    			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='"+travelNo+"'/>"
+    			+"<input type='hidden' id='cityId' name='cityId' class='cityId'/>"
+    			+"<input type='hidden' id='cityX' name='cityX' class='cityX'/>"
+    			+"<input type='hidden' id='cityY' name='cityY' class='cityY'/>"
+    			+"<input type='hidden' id='preCityNo' name='preCityNo' value='0'/>"
+    			+"<input type='hidden' id='nextCityNo' name='nextCityNo' value='2'/>"
+    			+"<input type='hidden' id='stayStart' name='stayStart' class='stayStart'/>"
+    			+"<input type='hidden' id='stayEnd' name='stayEnd' class='stayEnd'/>"
+    			+"</div>";
     		
     		    var address1 = document.getElementById('temp').value;
     		    geocoder.geocode( { 'address': address1}, function(results, status) {
@@ -296,10 +311,17 @@
     		     
     		    });
     		  
-    		
+    		$("#formTag").append(newLeftDiv);
     		$("#btn").append(newUpButton);
     		$("#mainCity").append(newLeftButton);
 			$("#temp").val(null);
+    		$("#start").val(start);
+    		$("#end").val(start);    		
+    	    Javascript:calcRoute();			
+			
+    		$("#f"+(tempNum-2)+" input[name='startCity']").val(document.querySelector('#start').value);  
+    		$("#f"+(tempNum-2)+" input[name='city']").val(document.querySelector('#start').value);  
+			
 			
 			tempNum++;
 			return;
@@ -313,14 +335,14 @@
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
     		
-    		var newLeftButton = "<div id = 'f"+(tempNum-2)+"'>"    
+    		var newLeftButton = "<div id = 'f"+(tempNum-1)+"'>"    
     			+"<input type='text' id='duration' name='duration'/>"
 				+"<input type='text' id='distance' name='distance'/>"
-    			+"<input type='hidden' id='startCity' name='startCity'/>"
+    			+"<input type='hidden' id='startCity' name='startCity' class='startCity'/>"
     			+"<input type='hidden' id='city' name='city' class='city'/>"
     			+"</br>"
     			+"<label>숙박일</label>"
-    		    +"<select id='stayDate' name='stayDate'>"
+    		    +"<select id='stayDate' name='stayDate' class='stayDate'>"
     		    +"<option>1</option>"
     		    +"<option selected='selected'>2</option>"
     		    +"<option>3</option>"
@@ -332,14 +354,15 @@
     		    +"<option>9</option>"
     		    +"<option>10</option>"
     		    +"</select>"
+    		    +"<button type='button' id = 'btn-route'>교통정보 보기</button>"
     			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='"+travelNo+"'/>"
-    			+"<input type='hidden' id='cityId' name='cityId'/>"
+    			+"<input type='hidden' id='cityId' name='cityId' class='cityId'/>"
     			+"<input type='hidden' id='cityX' name='cityX' class='cityX'/>"
     			+"<input type='hidden' id='cityY' name='cityY' class='cityY'/>"
     			+"<input type='hidden' id='preCityNo' name='preCityNo'/>"
     			+"<input type='hidden' id='nextCityNo' name='nextCityNo'/>"
-    			+"<input type='hidden' id='stayStart' name='stayStart'/>"
-    			+"<input type='hidden' id='stayEnd' name='stayEnd'/>"
+    			+"<input type='hidden' id='stayStart' name='stayStart' class='stayStart'/>"
+    			+"<input type='hidden' id='stayEnd' name='stayEnd' class='stayEnd'/>"
     			+"</br>"
     			+"<button type='button' id = 'btn-test' style='WIDTH: 170pt;'>"+end+"</button>"
     			+"</div>";
@@ -349,17 +372,16 @@
 			$("#btn").append(newUpButton);
 			
     		$("#formTag").append(newLeftButton);
-    		
-    		
+			
     		$("#start").val(start);
     		$("#end").val(end);    		
     		
-    		$("#f"+(tempNum-2)+" input[name='startCity']").val(document.querySelector('#start').value);
-    		$("#f"+(tempNum-2)+" input[name='city']").val(document.querySelector('#end').value);
-    		$("#f"+(tempNum-2)+" input[name='preCityNo']").val(tempNum-2);
-    		$("#f"+(tempNum-2)+" input[name='nextCityNo']").val(tempNum);
-    		
-    		
+    	
+    		$("#f"+(tempNum-1)+" input[name='startCity']").val(document.querySelector('#start').value);
+    		$("#f"+(tempNum-1)+" input[name='city']").val(document.querySelector('#end').value);
+    		$("#f"+(tempNum-1)+" input[name='preCityNo']").val(tempNum-1);
+    		$("#f"+(tempNum-1)+" input[name='nextCityNo']").val(tempNum+1);
+    	
     	    Javascript:calcRoute();
     		
     		start = end;
@@ -386,7 +408,7 @@
    
       var start = document.querySelector('#start').value;
       var end = document.querySelector('#end').value;
-      
+     
       var mode = "TRANSIT";
  
       var request = {
@@ -403,9 +425,15 @@
         var cityX = response.routes[0].legs[0].end_location.lat();
         var cityY = response.routes[0].legs[0].end_location.lng();
         
-        $("#f"+(tempNum-2)+" input[name='cityX']").val(cityX);
-        $("#f"+(tempNum-2)+" input[name='cityY']").val(cityY);
-        $("#f"+(tempNum-2)+" input[name='cityId']").val(response.geocoded_waypoints[1].place_id);
+        if(tempNum==0){
+        	$("#f"+(tempNum-2)+" input[name='cityX']").val(cityX);
+            $("#f"+(tempNum-2)+" input[name='cityY']").val(cityY);
+            $("#f"+(tempNum-2)+" input[name='cityId']").val(response.geocoded_waypoints[1].place_id);
+        }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        $("#f"+(tempNum-1)+" input[name='cityX']").val(cityX);
+        $("#f"+(tempNum-1)+" input[name='cityY']").val(cityY);
+        $("#f"+(tempNum-1)+" input[name='cityId']").val(response.geocoded_waypoints[1].place_id);
         
         var rere = JSON.stringify(response.routes[0].legs[0].duration.text);
         
@@ -413,13 +441,13 @@
         cityXY.lat = cityX;
         cityXY.lng = cityY;
       
-       var marrk = cityXY;
+        var marrk = cityXY;
         routes.push(cityXY);
-   
-         $("#f"+(tempNum-2)+" input[name='duration']").val(JSON.stringify(
-        		 response.routes[0].legs[0].duration.text).replace("\"",'').replace("\"",''));
-        $("#f"+(tempNum-2)+" input[name='distance']").val(JSON.stringify(
-        		response.routes[0].legs[0].distance.text).replace("\"",'').replace("\"",'')); 
+		   
+        $("#f"+(tempNum-1)+" input[name='duration']").val(JSON.stringify(
+       		 response.routes[0].legs[0].duration.text).replace("\"",'').replace("\"",''));
+        $("#f"+(tempNum-1)+" input[name='distance']").val(JSON.stringify(
+       		response.routes[0].legs[0].distance.text).replace("\"",'').replace("\"",''));  
         
       			  var marker = new google.maps.Marker({
     	    		position: marrk,
@@ -480,7 +508,6 @@
 			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right; ' onclick= "{Javascript:movePlace();}">등록하기</button>
 		</div>		
 		<form id="formTag">
-		<input type="hidden" id="jsonC" name="jsonC" value="우아아"/>
 		</form>
  		<div id="map"></div>
 		

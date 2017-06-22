@@ -25,9 +25,11 @@ public interface PlanService {
 	public void addPlace(Place place) throws Exception;
 	
 	public Travel getTravel(int travNo) throws Exception;
+	public Travel getTravel(Travel travel) throws Exception;
 	public List<City> getCity(int travNo) throws Exception;
 	public Place getPlace(Place place) throws Exception;
 	
+	public Object getCityNo(String tNo ,String cId) throws Exception;
 	
 	
 	public void addPlan(Travel travel, City city, Place place) throws Exception;

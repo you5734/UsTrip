@@ -1,9 +1,13 @@
 package com.ustrip.service.plan.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -93,8 +97,22 @@ public class PlanDAOImpl implements PlanDAO {
 		return sqlSession.selectOne("TravelMapper.totalCount", search);
 	}
 	
+	public City getCity(City city) throws Exception {
+		return sqlSession.selectOne("CityMapper.getCity",city.getTravelNo());
+	}
+	
+	public Object getCityNo(String tNo ,String cId) throws Exception{
+		
+		City city = new City(); 
+		city.setTravelNo(Integer.parseInt(tNo));
+		city.setCityId(cId);
+		
+		return (Object) sqlSession.selectList("CityMapper.getCityNo", city);
+	}
+
 	public List<City> getCity(int travNo) throws Exception {
 		return sqlSession.selectList("CityMapper.getCity", travNo);
+
 	}
 	
 	public Place getPlace(Place place) throws Exception {
@@ -109,6 +127,11 @@ public class PlanDAOImpl implements PlanDAO {
 	public List<Place> blogPlace(int cityNo) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("PlaceMapper.listPlace",cityNo);
+	}
+	
+public Travel getTravel(Travel travel) throws Exception {
+		
+		return sqlSession.selectOne("TravelMapper.getTravelTravel",travel.getTravTitle());
 	}
 
 }

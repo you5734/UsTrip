@@ -35,6 +35,12 @@
 		WHERE trav_no=#{value}
 	</select>
 	
+	<select id="getTravelTravel" parameterType="travel" resultMap="travelSelectMap">
+		SELECT
+		*		
+		FROM travel 
+		WHERE trav_title=#{value}
+	</select>
 	<select id="getListTravel" parameterType="search"	resultMap="travelSelectMap">
 		  	select t.trav_no, t.trav_title, t.trav_theme, t.member_count, 
 				t.start_date, t.total_date, t.is_blog_start, t.thumb_nail, u.user_id, u.nickname

@@ -72,8 +72,16 @@ public class PlanServiceImpl implements PlanService{
 		return planDAO.getTravel(travNo);
 	}
 	
+	public Travel getTravel(Travel travel) throws Exception {
+		return planDAO.getTravel(travel);
+	}
+	
 	public List<City> getCity(int travNo) throws Exception{
 		return planDAO.getCity(travNo);
+	}
+	
+	public Object getCityNo(String tNo ,String cId) throws Exception{
+		return planDAO.getCityNo(tNo, cId);
 	}
 	
 	public Place getPlace(Place place) throws Exception{

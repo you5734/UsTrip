@@ -45,5 +45,16 @@
 		ORDER BY pre_city_no ASC
 	</select>
 	
+	<select id="getCityNo" parameterType="city"	resultMap="CitySelectMap">
+		SELECT
+		*		
+		FROM city
+		WHERE city_id = #{cityId} and trav_no = #{travelNo}
+	</select>
+	
+	<!-- 
+		return sqlSession.selectOne("CityMapper.getCity",city.getTravelNo());
+		return sqlSession.selectOne("CityMapper.getCityNo",tNo, cId);
+	 -->
 	
 </mapper>
