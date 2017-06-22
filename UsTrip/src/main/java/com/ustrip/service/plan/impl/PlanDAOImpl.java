@@ -131,7 +131,7 @@ public class PlanDAOImpl implements PlanDAO {
 	
 public Travel getTravel(Travel travel) throws Exception {
 		
-		return sqlSession.selectOne("TravelMapper.getTravel",travel.getTravTitle());
+		return sqlSession.selectOne("TravelMapper.getTravelTravel",travel.getTravTitle());
 	}
 
 }
