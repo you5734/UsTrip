@@ -45,4 +45,6 @@ public interface BlogService {
 
 	public void deleteJsonImage(int imgNo) throws Exception;
 	
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception;
+	
 }

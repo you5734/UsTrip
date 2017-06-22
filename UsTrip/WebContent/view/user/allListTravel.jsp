@@ -185,8 +185,6 @@
 							        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
 							         					출발일 ${newFormattedDateString} | 여행일수 ${travel.totalDate }일</span>
 									                    
-									                   
-									                    
 									                </figcaption>
 									                <span class="actions">
 									                	<button class="btn btn-warning bnt-action" type="button" >상세보기</button>

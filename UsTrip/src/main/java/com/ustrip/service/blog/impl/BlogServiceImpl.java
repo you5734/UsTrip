@@ -111,5 +111,9 @@ public class BlogServiceImpl implements BlogService{
 	public void addJsonLike(int travNo, String userId) throws Exception {
 		blogDAO.addJsonLike(travNo, userId);
 	}
+	
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception {
+		return blogDAO.getListLikeTravel(search);
+	}
 
 }

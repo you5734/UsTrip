@@ -26,7 +26,15 @@
 
 		<script type="text/javascript">
 	
+		
+		
 		 $(function() {
+			 
+			 var sessionId = $("#sessionId").val();
+				var userId = $("#userId").val();
+				alert("sessionId :: " + sessionId);
+				alert("userId ::" + userId);
+				 if( sessionId == userId ) { 
 				$( ".btn.btn-sm" ).on("click" , function() {
 					var targetUserId = $(this).next().val();
 					alert("targetUserid :: " + targetUserId);
@@ -75,7 +83,8 @@
 							)
 						}
 					});
-				});	
+				 }
+			});	
 	/* 	 $(function() {
 				$(".btn-info" ).on("click" , function() {
 					alert("√Îº“æﬂ!!!");

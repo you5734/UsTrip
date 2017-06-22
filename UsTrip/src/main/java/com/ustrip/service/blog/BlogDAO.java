@@ -46,5 +46,7 @@ public interface BlogDAO {
 	public void addJsonLike(int travNo, String userId) throws Exception;
 
 	public void deleteImage(int imgNo) throws Exception;
+	
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception;
 
 }

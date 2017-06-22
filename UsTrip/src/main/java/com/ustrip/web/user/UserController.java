@@ -335,22 +335,30 @@ public class UserController {
 			userService.addFollow(targetUserId, sessionId);
 		}
 
-		/*return "forward:/user/getContents";*/
 	}
 	
 	@RequestMapping( value="getListTravel" )
-	public String getListTravel( Search search, HttpSession session, Model model, @RequestParam(value="userId", required=false) String targetUserId ) throws Exception {
+	public String getListTravel( Search search, HttpSession session, Model model, 
+						@RequestParam(value="travUserId", required=false) String travUserId ) throws Exception {
 
 		System.out.println("/user/getListTravel : POST");
 		
 		String sessionId=((User)session.getAttribute("user")).getUserId();
-		User user = userService.getUser(sessionId);
 		
+		if( travUserId != null ) {
+			if(  ! (sessionId.equals(travUserId)) ) {
+				sessionId = travUserId;
+			}
+		}
+		
+		User user = userService.getUser(sessionId);
 		search.setSearchKeyword(sessionId);
+		
 		Map<String, Object> map = planService.getListTravel(search);
 		
 		System.out.println("map ¸Ê " + map);
 		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
+		System.out.println("userrrrrrrrrrrrr :: " + user);
 		
 /*		if( targetUserId != null ) {
 			Follow follow = userService.getFollow(sessionId, targetUserId);
@@ -387,63 +395,61 @@ public class UserController {
 	
 	
 	@RequestMapping( value="listFollow")
-	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
+	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model,
+												@RequestParam(value="travUserId", required=false) String travUserId ) throws Exception {
 		
 		System.out.println("/user/listFollow ");
 		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
-		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-		System.out.println("sessionIddddddddddd :: " + sessionId);
 		
-		// Business logic ¼öÇà
+		if( travUserId != null ) {
+			travUserId = travUserId.replace(",", ".");
+			if(  ! (sessionId.equals(travUserId)) ) {
+				sessionId = travUserId;
+			}
+		}
+		User user = userService.getUser(sessionId);
+		
+		System.out.println("userrrrrrrrrrrrrrrrrrrrrrrrrrrrr :: " + user);
+		
 		Map<String , Object> map=userService.listFollow(search, sessionId);
 		System.out.println("mappp :: " + map);
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
 		
-		// Model °ú View ¿¬°á
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("follow", map);
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
+		/*model.addAttribute("follow", map);*/
+/*		model.addAttribute("search", search);*/
+		model.addAttribute("user", user);
 		
 		return "forward:/view/user/listFollow.jsp";
 	}
 	
 	@RequestMapping( value="listFollowing")
-	public String listFollowing( @ModelAttribute("search") Search search, HttpSession session, Model model ) throws Exception {
+	public String listFollowing( @ModelAttribute("search") Search search, HttpSession session, Model model,
+			@RequestParam(value="travUserId", required=false) String travUserId ) throws Exception {
 		
 		System.out.println("/user/listFollowing ");
 		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
-		
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-		System.out.println("sessionIdddd:: " + sessionId);
 		
-		// Business logic ¼öÇà
+		if( travUserId != null ) {
+			if(  ! (sessionId.equals(travUserId)) ) {
+				sessionId = travUserId;
+			}
+		}
+		User user = userService.getUser(sessionId);
 		Map<String , Object> map=userService.listFollowing(search, sessionId);
 		System.out.println("map :::::::::::: " + map);
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
 		
-		System.out.println("mapppppppp :: " + map);
 		
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
+/*		model.addAttribute("search", search);*/
+		model.addAttribute("user", user);
 		
 		return "forward:/view/user/listFollowing.jsp";
 	}
 	
 	@RequestMapping( value="deleteFollow/{targetUserId}", method=RequestMethod.GET )
-	public String deleteFollow( HttpSession session, Model model, @PathVariable String targetUserId ) throws Exception {
+	public void deleteFollow( HttpSession session, Model model, @PathVariable String targetUserId ) throws Exception {
 
 		System.out.println("/user/deleteFollow : GET");
 		
@@ -452,7 +458,6 @@ public class UserController {
 		
 		userService.deleteFollow(sessionId, targetUserId);
 			
-		return "forward:/user/getContents";
 	}
 	
 	@RequestMapping( value="getTravel", method=RequestMethod.GET )
@@ -473,9 +478,7 @@ public class UserController {
 		List<City> city = planService.getCity(travNo);
 		
 	
-/*		List<LikeTravel> list = blogService.checkLikeTravel(travNo);
-		
-		
+	List<LikeTravel> list = blogService.checkLikeTravel(travNo);
 		int result = 0;
 		if( list.size() >0 ) {
 			for( int i=0; i< list.size(); i++) {
@@ -483,7 +486,7 @@ public class UserController {
 					result=1;
 				}
 			}
-		}*/
+		}
 		//////////////////////////////////////////////////////////////////////////////////
 		int islike=0;
 				
@@ -532,7 +535,7 @@ public class UserController {
 		model.addAttribute("assetList", assetList);
 		model.addAttribute("sum", sum);
 	
-		/*	model.addAttribute("isLike", result);*/
+		model.addAttribute("isLike", result);
 		model.addAttribute("travel", travel);
 	/*	model.addAttribute("city", city);*/
 		
@@ -546,18 +549,26 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="listLikeTravel")
-	public String listLikeTravel( HttpSession session, Model model ) throws Exception {
+	public String listLikeTravel( @ModelAttribute("search") Search search, HttpSession session, Model model,
+			@RequestParam(value="travUserId", required=false) String travUserId ) throws Exception {
 		
 		System.out.println("/user/listLikeTravel ");
-		Travel	travel;
+
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-		System.out.println("sessionIdddd:: " + sessionId);
 		
-		// Business logic ¼öÇà
-		 List<LikeTravel> listLikeTravel=blogService.listLikeTravel(sessionId);
-		System.out.println("map :::::::::::: " + listLikeTravel);
+		if( travUserId != null ) {
+			if(  ! (sessionId.equals(travUserId)) ) {
+				sessionId = travUserId;
+			}
+		}
+		User user = userService.getUser(sessionId);
+		search.setSearchKeyword(sessionId);
+		
+		List<LikeTravel> listLikeTravel=blogService.getListLikeTravel(search);
+		System.out.println("listLikeTravel :::::::::::: " + listLikeTravel);
 		
 		model.addAttribute("likeTravel", listLikeTravel);
+		model.addAttribute("user", user);
 		
 		return "forward:/view/user/listLikeTravel.jsp";
 	}
