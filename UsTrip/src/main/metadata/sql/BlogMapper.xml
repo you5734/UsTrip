@@ -94,7 +94,7 @@
 	 
 	<select id="listBlog" parameterType="blog" resultMap="blogSelectMap">
 	 	SELECT
-	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place
+	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place,delete_flag
 	 	FROM blog
 	 	WHERE trav_no=#{travNo}
 	 	ORDER BY visit_date ASC

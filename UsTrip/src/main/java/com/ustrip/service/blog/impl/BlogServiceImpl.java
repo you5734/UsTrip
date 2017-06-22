@@ -15,6 +15,7 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 
 
 @Service("blogServiceImpl")

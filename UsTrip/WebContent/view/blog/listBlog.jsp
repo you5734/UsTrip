@@ -143,7 +143,7 @@
 		   		  cancelButtonColor: '#d33',
 		   		  confirmButtonText: '삭제'
 		   		}).then(function () {		   			
-		   			self.location="/blog/deleteBlog?blogNo="+temp
+		   			self.location="/blog/deleteBlog?blogNo="+temp+"&travNo="+$("#travNo").val();
 		   		})
 			
 		});
@@ -247,7 +247,9 @@
 						<input class="kv-fa rating-loading " data-size="sm" id="score" value="${blog.score}">
 					</div>
 					<div class="col-md-6 text-right" style="font-size:20px;">
-					<i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px" temp="${blog.blogNo}"></i> /<i class="fa fa-times" aria-hidden="true" temp="${blog.blogNo}"></i>				                    
+					<c:if test="${ !empty user }">
+					<i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px" temp="${blog.blogNo}"></i> /<i class="fa fa-times" aria-hidden="true" temp="${blog.blogNo}"></i>	
+					</c:if>			                    
 					</div>
 				</div>
 		<hr/>

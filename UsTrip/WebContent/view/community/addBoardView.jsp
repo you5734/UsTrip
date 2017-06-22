@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,8 +25,13 @@
     <script src="/js/jquery.contextMenu.js" type="text/javascript"></script>
     <script src="/js/jquery.ui.position.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-    
-    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	
 	<script>
 	
@@ -35,11 +40,35 @@
 		$("#searchForm").attr("method" , "POST").attr("action" , "/community/listCommunity").submit();
 	}
 	
-	$(function () {	
-		$('#agree').on('click',function(){
-			$("form").attr("method" , "POST").attr("action" , "/community/addCommunity").submit();
+	$(function () {			
+		
+		$('#write').on('click',function(){
+			//self.location="/community/addBoardForm?userId="+${user.userId}
 		});
+			
+		$('#men').on('click',function(){
+			$('#searchKeyword').val(null);
+        	$('#searchCondition').val(null);
+			fncGetList(1);
+        });
+        
+        $('#part').on('click',function(){
+        	$('#searchKeyword').val(null);
+        	$('#searchCondition').val(null);
+        	$('#boardCategory').val(1);
+        	fncGetList(1);
+        }); 
+        
+        $('#okay').on('click',function(){
+        	$("#boardForm").attr("method" , "POST").attr("action" , "/community/addBoard").submit();
+        })
+        
+        $('#nope').on('click',function(){
+        	$("#boardForm")[0].reset();
+        })
+        
 });
+	
 	
   </script>
   <style type="text/css">
@@ -47,22 +76,80 @@
   </style>
   </head>
 <body>
-<form>
-보드카테고리<input type="text" name="boardCategory"><hr/>
-게시글제목<input type="text" name="boardTitle"><hr/>
-게시글내용<input type="text" name="boardContent"><hr/>
-여행번호(나중에는 선택박스로 지도와함께나오게)<input type="text" readonly value="4" name="travNo"><hr/>
-닉네임 유저가 완성되면 히든으로<input type="text" readonly value="user001" name="nickName"><hr/>
-</form>
-<button class="btn btn-primary" id="agree">확인</button>
+<jsp:include page="/common/toolbar.jsp"/>
 
-<article>
-  <h1>GROSS DESIGN co. <br /> <span>(Made by <a href="http://mattgross.io" target="_blank">Matt Gross</a>, for <a href="https://evenvision.com">EvenVision</a>)</span></h1>
-</article>
-  <iframe src="https://player.vimeo.com/video/168548042?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<!--  Video is muted & autoplays, placed after major DOM elements for performance & has an image fallback  -->
-<video autoplay loop id="video-background" muted plays-inline>
-  <source src="https://player.vimeo.com/external/158148793.hd.mp4?s=8e8741dbee251d5c35a759718d4b0976fbf38b6f&profile_id=119&oauth2_token_id=57447761" type="video/mp4">
-</video>
+<form class="form-inline" name="detailForm" id="searchForm">
+	    <input type="hidden" class="form-control" name="searchCondition"  id="searchCondition" style="width:130px;">	
+		<input type="hidden" style="width:250px;" type="text" class="form-control" id="searchKeyword" name="searchKeyword" 
+		 placeholder="검색조건을 선택하고 검색하세요." value="${! empty search.searchKeyword ? search.searchKeyword : '' }" >
+	    <input type="hidden" id="currentPage" name="currentPage" value=""/>  
+	    <input type="hidden" id="boardCategory" name="boardCategory" value="1"/>
+	    <input type="hidden" id="order" name="order" value=""/>
+		</form>
+	<div class="container" >
+	
+		<div class="jumbotron" 
+			style="margin-top:50px;
+			 background-image:url('http://cfile5.uf.tistory.com/image/2642ED4753AAD6872B11B9' );
+			 background-size: cover;
+			 background-position: center center ;
+			 height:400px;
+			 opacity: 0.8;">
+						 
+	  <h1 style="color:white;">게시글 작성</h1>
+	  <p style="color:white; margin-top:130px;">게시글을 작성하여 동행을 구하거나 여행계획을 물어보세요!</p>
+		</div> 
+	</div>
+
+	<div class="row" >
+		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
+			<div class="list-group">
+				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
+				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+				<c:if test="${ !empty user }">
+				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
+				</c:if>
+			</div>        
+		</div>
+		<!-- <div class="col-md-1" style="margin-left:10px; margin-top:34px;"></div> -->
+    <div class="col-md-8" style="margin-left:10px; margin-top:34px;">
+    
+   
+    <form class="panel panel-warning" id="boardForm">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 게시글작성</div>
+  <div class="panel-body" class="form-group">
+  <div class="row">
+  <div class="col-md-6" >
+    게시판 선택<br/><select name="boardCategory" class="form-control" style="margin-top:5px;">
+    <option>선택하세요.</option>
+    <option value="0">멘토링 게시판</option>
+    <option value="1">동행구하기 게시판</option>
+    </select>
+    </div>
+    <div class="col-md-6" >
+    
+여행 선택<select name="travNo" class="form-control" style="margin-top:5px;">
+<option>선택하세요.</option>
+<c:forEach items="${travels}" var="travel" varStatus="status">
+<option value="${travel.travelNo}">${travel.travTitle} :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/></option>
+</c:forEach>
+</select>
+</div>
+    </div>
+<hr/>
+게시글제목<input type="text" name="boardTitle"><hr/>
+게시글내용<textarea name="boardContent" style="height:200px;"></textarea><hr/>
+<input type="hidden" value="${user.nickName}" name="nickName">
+<button id="nope" type="button" style="float: right; margin-left:10px;">리 셋</button>
+   <button id="okay" type="button" style="float: right;">확 인</button>
+  </div>   
+  
+</form>  
+    
+	</div>
+	<div class="col-md-1" style="margin-left:10px; margin-top:34px;"></div>
+	</div>
+	
 </body>
 </html>

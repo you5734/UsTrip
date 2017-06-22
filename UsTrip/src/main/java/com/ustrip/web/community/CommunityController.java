@@ -3,6 +3,7 @@ package com.ustrip.web.community;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,11 @@ import com.ustrip.common.Search;
 import com.ustrip.service.board.BoardService;
 import com.ustrip.service.comment.CommentService;
 import com.ustrip.service.domain.Board;
+import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Comment;
+import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
+import com.ustrip.service.plan.PlanService;
 
 @Controller
 @RequestMapping("/community/*")
@@ -40,6 +45,10 @@ public class CommunityController {
 	@Qualifier("commentServiceImpl")
 	private CommentService commentService;
 	
+	@Autowired
+	@Qualifier("planServiceImpl")
+	private PlanService planService;
+	
 	public CommunityController() {
 		// TODO Auto-generated constructor stub
 		System.out.println(this.getClass());
@@ -52,6 +61,31 @@ public class CommunityController {
 	@Value("#{commonProperties['pageSize']}")
 	//@Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
+	
+	@RequestMapping(value="addBoardForm", method=RequestMethod.GET)
+	public String addBoardForm( @RequestParam("userId") String userId, Model model) throws Exception {
+		
+		System.out.println("/addBoardForm : GET");
+		
+		List<Travel> travels = boardService.addBoardForm(userId);
+		for(Travel T : travels){
+			String[] titleSplit = T.getTravTitle().split("_");
+			T.setTravTitle(titleSplit[0]);
+		}
+		model.addAttribute("travels", travels);
+		
+		return "forward:/view/community/addBoardView.jsp";
+	}
+	
+	@RequestMapping(value="addBoard")
+	   public String addBoard(@ModelAttribute("search") Board board ,HttpSession session ) throws Exception{
+		
+		System.out.println("/addBoard : POST");
+		
+		boardService.addBoard(board);
+		
+		return "forward:/community/listCommunity";
+	}
 	
 	@RequestMapping(value="listCommunity")
 	   public String listBoard(@ModelAttribute("search") Search search 
@@ -147,6 +181,18 @@ public class CommunityController {
 		getBoard.setCountComment(boardComment.size()); 
 		getBoard.setHits(getBoard.getHits()+1);
 		boardService.updateBoard(getBoard);
+		
+		List<City> listCity = planService.blogCity(getBoard.getTravNo());
+		Travel travel = planService.getTravel(getBoard.getTravNo());
+		String[] splitTitle = travel.getTravTitle().split("_");
+		travel.setTravTitle(splitTitle[0]);
+		Calendar endTrav = Calendar.getInstance();
+		endTrav.setTime(travel.getStartDate());
+		endTrav.add(Calendar.DATE, travel.getTotalDate());
+		model.addAttribute("travel",travel);
+		model.addAttribute("endTrav",endTrav.getTime());
+		model.addAttribute("listCity",listCity);
+		model.addAttribute("travNo",getBoard.getTravNo());
 		
 		model.addAttribute("list", board);
 		model.addAttribute("resultPage", resultPage);

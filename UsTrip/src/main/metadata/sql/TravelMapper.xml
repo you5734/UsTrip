@@ -45,6 +45,12 @@
 			
 	</select>
 	
+	<select id="getTravelList" parameterType="travel"	resultMap="travelSelectMap">
+			SELECT *
+			FROM travel
+			WHERE user_id = #{userId}
+	</select>
+	
 	<select id="totalCount" parameterType="search" resultType="int">
 	 	SELECT COUNT(*)
 	 	FROM ( SELECT *FROM travel WHERE user_id=#{searchKeyword} ) countTable

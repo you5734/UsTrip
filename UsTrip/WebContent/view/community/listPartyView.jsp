@@ -88,7 +88,7 @@
 		});	
 		
 		$('#write').on('click',function(){
-			alert();
+			self.location="/community/addBoardForm?userId="+"${user.userId}"
 		});
 		
 		$('#orderby').hover(function(){
@@ -199,7 +199,7 @@
 	<div class="container" >
 	
 		<div class="jumbotron" 
-			style="margin-top:150px;
+			style="margin-top:50px;
 			 background-image:url('http://cfile1.uf.tistory.com/image/1462BE384FFD98AE042149' );
 			 background-size: cover;
 			 background-position: center bottom ;
@@ -216,7 +216,9 @@
 			<div class="list-group">
 				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
 				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+				<c:if test="${ !empty user }">
 				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
+				</c:if>
 			</div>        
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
