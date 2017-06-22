@@ -46,11 +46,11 @@
 			
 		</script>
 		
-		<style>
+<!-- 		<style>
 			.vidbg-container {
 				bottom:30px !important;
 			}
-		</style>
+		</style> -->
 		
 	</head>
 	<body >
@@ -80,8 +80,9 @@
 			</nav> -->
 			<jsp:include page="/common/toolbar.jsp"/>
 	<!-- //////////툴바 및 메뉴바/////////// -->
+	
 			 <div class="block-container">
-				<div class="block">
+				<div class="block">				
 					<h3>당신의 아름다운 대한민국을 여행하세요</h3><br>
 						<ul class="actions">
 					  		<li><a href="#one" class="button scrolly">Get Started</a></li>

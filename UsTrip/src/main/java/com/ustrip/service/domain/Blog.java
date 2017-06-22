@@ -17,6 +17,8 @@ public class Blog {
 	private String review;
 	private float score;
 	private String place;
+	private int deleteFlag;
+	private int sumCharge;
 	private List<Image> images=new ArrayList<Image>();
 	private List<MultipartFile> files;
 	private List<HashTag> hashTags=new ArrayList<HashTag>();
@@ -131,12 +133,28 @@ public class Blog {
 		this.files = files;
 	}
 
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
+	public int getSumCharge() {
+		return sumCharge;
+	}
+
+	public void setSumCharge(int sumCharge) {
+		this.sumCharge = sumCharge;
+	}
+
 	@Override
 	public String toString() {
 		return "Blog [blogNo=" + blogNo + ", memo=" + memo + ", travNo=" + travNo + ", visitDate=" + visitDate
 				+ ", placeNo=" + placeNo + ", cityNo=" + cityNo + ", review=" + review + ", score=" + score + ", place="
 				+ place + ", images=" + images + ", files=" + files + ", hashTags=" + hashTags + ", assets=" + assets
-				+ "]";
+				+ ", deleteFlag = "+deleteFlag+"]";
 	}
 
 }

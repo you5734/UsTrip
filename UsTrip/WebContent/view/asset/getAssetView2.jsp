@@ -2,7 +2,7 @@
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
+<!-- 
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -11,7 +11,7 @@
 	<meta charset="EUC-KR">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>여행가계부</title>	
+	<title>여행가계부</title>	 -->
 		
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
@@ -70,11 +70,10 @@
 		    	var asset2 =populateTestObject1();
 								});
 	</script>
-	
-</head>
+<!-- </head>
 
 <body>
 <form></form>
 </body>
 
-</html>
+</html> -->

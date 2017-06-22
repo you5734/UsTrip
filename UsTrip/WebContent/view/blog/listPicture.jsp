@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<link rel="stylesheet" type="text/css" href="/css/timeline.css">
 	<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" text='text/css'>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   	<link href="/css/lightbox.css" rel="stylesheet">
@@ -51,19 +51,20 @@
 		                    <i class="fa fa-map-marker" aria-hidden="true"></i>
 		                </div>
 		                <div class="timeline-label">
-		                    <div class='timeline-head'>${blog.place}(${blog.visitDate})
+		                    <div class='timeline-head'>${blog.place}( <fmt:formatDate value="${blog.visitDate}" pattern="yyyy/MM/dd"/> )
 			                    <input type="hidden" id="blogNo" name="blogNo" value="${blog.blogNo}"/>
 		                    </div>
 		                    
 		                    <c:forEach items="${blog.images}" var="images" varStatus="status3">
-		                    	<span class=images><a href="/images/upload/blog/${images.serverImgName}" rel="lightbox">
-		                    	<img src="/images/upload/blog/${images.serverImgName}" class="img-responsive"></a></span>
+		                    	<span class=images><a href="/images/upload/blog/${images.travNo}/${images.serverImgName}" rel="lightbox">
+		                    	<img src="/images/upload/blog/${images.travNo}/${images.serverImgName}" class="img-responsive"></a></span>
 		                    </c:forEach><hr/>
 		                </div>
 		            </div>
 		        </article>
 			</c:forEach>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

@@ -12,7 +12,6 @@ import com.ustrip.common.Search;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Message;
 import com.ustrip.service.domain.Place;
-import com.ustrip.service.domain.TempBlog;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanDAO;
 import com.ustrip.service.plan.PlanService;
@@ -28,12 +27,12 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
-	public List<TempBlog> listPlace(int travelNo) throws Exception {
+	public List<Place> listPlace(int travelNo) throws Exception {
 		return planDAO.listPlace(travelNo);
 	}
 
 	@Override
-	public List<Travel> checkBlogStart(int travelNo) throws Exception {
+	public int checkBlogStart(int travelNo) throws Exception {
 		return planDAO.checkBlogStart(travelNo);
 	}
 
@@ -69,12 +68,16 @@ public class PlanServiceImpl implements PlanService{
 		planDAO.addPlace(place);
 	}
 	
+	public Travel getTravel(int travNo) throws Exception {
+		return planDAO.getTravel(travNo);
+	}
+	
 	public Travel getTravel(Travel travel) throws Exception {
 		return planDAO.getTravel(travel);
 	}
 	
-	public City getCity(City city) throws Exception{
-		return planDAO.getCity(city);
+	public List<City> getCity(int travNo) throws Exception{
+		return planDAO.getCity(travNo);
 	}
 	
 	public Object getCityNo(String tNo ,String cId) throws Exception{
@@ -94,7 +97,8 @@ public class PlanServiceImpl implements PlanService{
 	
 	public Map<String, Object> getListTravel(Search search) throws Exception {
 		List<Travel> list = planDAO.getListTravel(search);
-		System.out.println("listtttttttttttttt ::" + list);
+//		System.out.println("listtttttttttttttt ::" + list);
+	
 		int totalCount = planDAO.totalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -102,6 +106,18 @@ public class PlanServiceImpl implements PlanService{
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;
+	}
+
+	@Override
+	public List<City> blogCity(int travNo) throws Exception {
+		// TODO Auto-generated method stub
+		return planDAO.blogCity(travNo);
+	}
+
+	@Override
+	public List<Place> blogPlace(int cityNo) throws Exception {
+		// TODO Auto-generated method stub
+		return planDAO.blogPlace(cityNo);
 	}
 
 	

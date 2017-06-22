@@ -1,6 +1,7 @@
 package com.ustrip.web.plan;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +69,8 @@ public class PlanController {
 		session.setAttribute("travel", planService.getTravel(travel));
 		System.out.println("뭐냐아아아아아아\n"+
 				session.getAttribute("travel"));
+		session.setAttribute("travel", planService.getTravel(travel.getTravelNo()));
+
 		return "redirect:/view/plan/addCity.jsp";
 	}
 
@@ -228,5 +232,16 @@ public class PlanController {
 	}
 	*/
 	
+	@RequestMapping( value="getCity", method=RequestMethod.POST )
+	public String getCity(@ModelAttribute("travNo") int travNo, Model model) throws Exception{
+		
+		System.out.println("/plan/getCity : POST");
+		
+		List<City> city = planService.getCity(travNo);
+		
+		model.addAttribute("city", city);
+		
+		return "redirect:/view/plan/getCity.jsp";
+	}
 	
 }// end of class PlanController

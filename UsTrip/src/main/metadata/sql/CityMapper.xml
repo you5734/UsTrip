@@ -30,11 +30,19 @@
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
-	<select id="getCity" parameterType="city"	resultMap="CitySelectMap">
+	<select id="getCity" parameterType="int"	resultMap="CitySelectMap">
 		SELECT
-		*		
+		*	
 		FROM city 
 		WHERE trav_no = #{value}
+	</select>
+	
+	<select id="listCity" parameterType="city"	resultMap="CitySelectMap">
+		SELECT
+		city_no,city,city_x,city_y,stay_start		
+		FROM city 
+		WHERE trav_no = #{travNo}
+		ORDER BY pre_city_no ASC
 	</select>
 	
 	<select id="getCityNo" parameterType="city"	resultMap="CitySelectMap">

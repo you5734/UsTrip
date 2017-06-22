@@ -71,7 +71,7 @@
 									 var $div = $('<div></div>').addClass('profile-pic').css({'width' : '180px', 'float' : 'left'}),
 									 	$img = $('<img></img>').addClass('img-responsive'),
 									 	$span = $('<span></span>'),
-									 	$button = $('<button></button>').addClass('btn btn-info btn-sm').text('Following');		
+									 	$button = $('<input type="button">').addClass('btn btn-sm').val('Following');		
 									 $button.attr('data-followTarget', result.targetUserId);
 									 
 									 $img.attr('src', '/images/upload/profile/' + result.profileImage);
@@ -120,10 +120,10 @@
 			margin-top:20px;
 			margin-left:20px;
 		}
-		.profile-sidebar {
-		  /* padding: 20px 0 10px 0; */
+/*    		.profile-sidebar {
+		padding: 20px 0 10px 0; 
 		  background: #fff;
-		}
+		} */
 		.profile-pic img {
 		  float: none;
 		  margin: 0 auto;
@@ -155,7 +155,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
-</div>
 </body>
 </html>

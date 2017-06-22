@@ -199,9 +199,9 @@
 		span.buttonText {
 			display: inline-block;
 			vertical-align: middle;
-			padding-left: 42px;
+			padding-left: 25px;
 			padding-right: 42px;
-			font-size: 14px;
+			font-size: 13px;
 			font-weight: bold;
 			/* Use the Roboto font that is loaded in the <head> */
 			font-family: 'Roboto', sans-serif;
@@ -230,8 +230,8 @@
 	                        	<div class="form-top">
 	                        		<div class="form-top-left">
 	                        			<i class="fa fa-lock"></i>
-	                        			<h4>Login to our site</h4>
-	                            		<p>Enter userid and password to log on:</p>
+	                        			<h4>로그인 후 이용해주세요</h4>
+	                            		<!-- <p>Enter userid and password to log on:</p> -->
 	                        		</div>
 	                            
 	                            <div class="form-bottom">
@@ -247,8 +247,8 @@
 				                        </div>
 				                        
 				                        <div class="form-group">
-					                        <button type="submit" class="button" id="signin">Sign in!</button>
-					                        <button type="button" class="button" id="joinus">Join us!</button>
+					                        <button type="submit" class="button" id="signin">로그인</button>
+					                        <button type="button" class="button" id="joinus">회원가입</button>
 				                        </div>
 				                        
 				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
@@ -264,7 +264,7 @@
 										<div id="gSignInWrapper">
 											<div id="customBtn" class="customGPlusSignIn" style="width:180px;" >
 												<span class="icon"></span>
-													<span class="buttonText" >Google</span>
+													<span class="buttonText" >구글로 로그인</span>
 											</div>
 										</div>
 										<div id="name"></div>
@@ -301,6 +301,7 @@
 									    			<div class="form-group">
 										    			<label class="col-md-5 control-label" for="gender" >성별</label>
 										    			<div class="col-sm-7">
+										    			<input id="tab1" type="radio" name="tabs" checked>
 										    				남<input type="radio" name="gender" id="gender" value="m" >
 												      		여<input type="radio" name="gender" id="gender" value="f" >
 										    			</div>

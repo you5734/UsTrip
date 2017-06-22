@@ -8,7 +8,7 @@
 	 $(function() {
 			$( "#profileFollow" ).on("click" , function() {
 				var targetUserId = $("#userId").val();
-				alert("targetUserid :: " + targetUserId);
+				/* alert("targetUserid :: " + targetUserId); */
 				targetUserId=targetUserId.split(".");
 				/* self.location="/user/addFollow?targetUserId="+targetUserId; */
 				
@@ -34,29 +34,30 @@
 		});	
 	 
 	 $(function() {
+		 
+			$( "#listLikeTravel" ).on("click" , function() {
+				self.location="/user/listLikeTravel";
+			});
+		 
 			$( "#listTravel" ).on("click" , function() {
 				self.location="/user/getListTravel";
 			});
 		 
 			$( "#listFollow" ).on("click" , function() {
-				alert("ddddddd");
 				self.location="/user/listFollow";
 			});
 			
 			$( "#listFollowing" ).on("click" , function() {
-				alert("dd");
 				self.location="/user/listFollowing";
 			});
 			
 			$( "#update" ).on("click" , function() {
 				var userId = $("#userId").val();
-				alert("userIddddddd " + userId)
 				self.location="/user/updateUser?userId="+userId;
 			});
 			
 			$( "#getUser" ).on("click" , function() {
 				var userId = $("#userId").val();
-				alert("userId :: " + userId)
 				self.location="/user/getUser?userId="+userId;
 			});
 			
@@ -66,16 +67,18 @@
 				}
 				$(this).addClass('active');
 				
-			})
+			}); 
 			
-	 });
+		});
 	 
 	</script>
 	
 	<style>
-		body {
-		  background: #F1F3FA;
+			html, body {
+			width: 100%;
+			height:100%;
 		}
+	
 		/* Profile container */
 		.profile {
 		  margin: 20px 0;
@@ -83,13 +86,15 @@
 		/* Profile sidebar */
 		.profile-sidebar {
 		  padding: 20px 0 10px 0;
-		  background: #fff;
+		  background: #F1F3FA;
+		  border-radius : 4px;
+		  /* background: #fff; */
 		}
 		.profile-userpic img {
 		  float: none;
 		  margin: 0 auto;
 		  width: 50%;
-		  height: 110px;
+		  height: 120px;
 		  -webkit-border-radius: 50% !important;
 		  -moz-border-radius: 50% !important;
 		  border-radius: 50% !important;
@@ -156,18 +161,8 @@
 		  border-left: 2px solid #5b9bd1;
 		  margin-left: -2px;
 		}
-		/* Profile Content */
-		.profile-content {
-		  padding: 20px;
-		  background: #fff;
-		  min-height: 460px;
-		}	
-		.container{
-			margin-top:100px;
-		}
 	
 	</style>
-
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
@@ -209,12 +204,12 @@
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="test" id="listTravel">
+						<li class="test active" id="listTravel">
 							<a href="#">
 							<i class="fa fa-plane" aria-hidden="true"></i>
 							등록한 여행 </a>
 						</li>
-						<li  class="test">
+						<li  class="test" id="listLikeTravel">
 							<a href="#">
 							<i class="fa fa-heart" aria-hidden="true"></i>
 							좋아요한 여행</a>
