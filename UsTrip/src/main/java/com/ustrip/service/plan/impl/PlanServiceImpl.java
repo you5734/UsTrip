@@ -77,6 +77,10 @@ public class PlanServiceImpl implements PlanService{
 		return planDAO.getCity(city);
 	}
 	
+	public Object getCityNo(String tNo ,String cId) throws Exception{
+		return planDAO.getCityNo(tNo, cId);
+	}
+	
 	public Place getPlace(Place place) throws Exception{
 		return planDAO.getPlace(place);
 	}
