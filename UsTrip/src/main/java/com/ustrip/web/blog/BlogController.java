@@ -29,9 +29,9 @@ import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
-import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanService;
 
 
@@ -56,6 +56,7 @@ public class BlogController {
 		System.out.println(this.getClass());
 	}
 	
+		
 	@RequestMapping(value="addBlog", method=RequestMethod.GET)
 	public String addBlog( @RequestParam("travelNo") int travelNo, Model model ) throws Exception {
 
@@ -66,7 +67,7 @@ public class BlogController {
 		blogService.addBlog(list);
 		planService.startBlog(travelNo);
 		
-		return "forward:/blog/listBlog?travNo="+travelNo;
+		return "forward:/user/getTravel?travNo="+travelNo;
 	}
 	
 	@RequestMapping(value="addJsonTag", method=RequestMethod.POST)
@@ -144,13 +145,13 @@ public class BlogController {
 					}
 				}
 				
-				List<Blog> checkBlog = new ArrayList();
+				List<Blog> checkBlog = new ArrayList<Blog>();
 				for(Blog deleteBlog : blog){
 					if(deleteBlog.getDeleteFlag() == 0){
 						checkBlog.add(deleteBlog);
 					}
 				}
-				
+				System.out.println("*************************"+checkBlog);
 				model.addAttribute("list", checkBlog);
 				model.addAttribute("isLiked",islike);
 			}else{
@@ -258,11 +259,12 @@ public class BlogController {
 		blogService.deleteJsonImage(imgNo);
 	}
 	
-	@RequestMapping(value={"deleteBlog/{blogNo}"}, method=RequestMethod.GET)
-	public void deleteBlog( @PathVariable int blogNo ) throws Exception {
+	@RequestMapping(value="deleteBlog", method=RequestMethod.GET)
+	public String deleteBlog( @RequestParam("blogNo") int blogNo,@RequestParam("travNo") int travNo, Model model ) throws Exception {
 		
 		System.out.println("/deleteBlog : GET");
 		blogService.deleteBlog(blogNo);
+		return "forward:/user/getTravel?travNo="+travNo;
 	}
 	
 	public void checkLikeTravel( int travelNo) throws Exception {

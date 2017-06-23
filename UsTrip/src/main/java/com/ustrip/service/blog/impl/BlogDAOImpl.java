@@ -17,6 +17,7 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 
 
 
@@ -57,7 +58,7 @@ public class BlogDAOImpl implements BlogDAO{
 	
 	@Override
 	public void deleteBlog(int blogNo) throws Exception {
-		sqlSession.delete("BlogMapper.deleteBlog", blogNo);
+		sqlSession.update("BlogMapper.deleteBlog", blogNo);
 	}
 
 	@Override
@@ -133,7 +134,9 @@ public class BlogDAOImpl implements BlogDAO{
 		search.setSearchCondition(Integer.toString(travNo));
 		sqlSession.delete("BlogMapper.addLike", search);
 	}
-
-
-
+	//좋아요한 여행
+	@Override
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception {
+		return sqlSession.selectList("BlogMapper.getListLikeTravel", search);
+	}
 }

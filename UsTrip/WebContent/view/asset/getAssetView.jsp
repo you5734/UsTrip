@@ -41,8 +41,8 @@
 	<style>
  	 	body {padding-top : 50px;}    
  	.listasset{
- 		width: inherit;
-        max-width: 100%;
+ 		/* width: inherit; */
+        width: 100% !important;
         height: auto;
         }
  	

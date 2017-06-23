@@ -90,14 +90,14 @@
 			<a href="#menu"><span>Menu</span></a>
 		</nav>
 		<a class="logo">UsTrip</a>
-		<c:if test="${empty user}">
+		<c:if test="${empty sessionScope.user.userId}">
 			<nav class="right">
 				<a class="button alt" id="login">Log in</a>
 				<a href="#" class="button alt" id="join">join</a>
 			</nav>
 		</c:if>
 		
-		 <c:if test="${ ! empty user }">
+		 <c:if test="${ ! empty sessionScope.user.userId }">
 		 	<nav class="right">
 				<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
 				<a id="my">${sessionScope.user.nickName}</a>
@@ -117,10 +117,10 @@
 			<li><a>이용방법</a></li>
 		</ul>
 		<ul class="actions vertical"> 
-			<c:if test="${ empty user}">
+			<c:if test="${ empty sessionScope.user.userId }">
 				<li><a href="#" class="button fit" >로그인</a></li>
 			</c:if>
-			 <c:if test="${ ! empty user }">
+			 <c:if test="${ ! empty sessionScope.user.userId }">
 			 	<li><a href="#" class="button fit">로그아웃</a></li>
 			 </c:if>
 		</ul>

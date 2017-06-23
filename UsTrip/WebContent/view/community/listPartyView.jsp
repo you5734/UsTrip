@@ -26,7 +26,6 @@
     <script src="/js/jquery.ui.position.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>    <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
@@ -40,6 +39,12 @@
 	}
 	
 	$(function () {	
+		
+		$('h2').hover(function(){
+			$(this).attr('class','text-success');
+		},function(){
+			$(this).attr('class','text-default');
+		});
 		
 		var current ='${resultPage.currentPage}';
 		
@@ -88,7 +93,7 @@
 		});	
 		
 		$('#write').on('click',function(){
-			alert();
+			self.location="/community/addBoardForm?userId="+"${user.userId}"
 		});
 		
 		$('#orderby').hover(function(){
@@ -146,11 +151,18 @@
 	            		  cancelButtonColor: '#d33',
 	            		  confirmButtonText: '간다'
 	            		}).then(function () {
-	            		  swal(
-	            		    '성공!',
-	            		    '페이지가 완성되면 연결합니다.',
-	            		    'success'
-	            		  )
+	            			$.ajax({
+        						url : "/community/getTravList/"+userId,
+        						method : "GET" ,
+        						dataType : "json" ,
+        						headers : {
+        							"Accept" : "application/json",
+        							"Content-Type" : "application/json"
+        						},
+        						success : function(serverData , status) {
+        							self.location="/user/getListTravel?travUserId="+serverData.userId
+        						}
+        					});
 	            		})
 	            }else{
 	            	swal({
@@ -163,21 +175,18 @@
 	            		  confirmButtonText: 'Follw'
 	            		}).then(function () {
 	            			//ajax으로 follow추가
-	            			swal({
-	            				  title: userId+'님을 Follow를 했습니다',
-	            				  text: "Follow화면으로 가시겠습니까?",
-	            				  type: 'success',
-	            				  showCancelButton: true,
-	            				  confirmButtonColor: '#3085d6',
-	            				  cancelButtonColor: '#d33',
-	            				  confirmButtonText: '간다'
-	            				}).then(function () {
-	            				  swal(
-	            				    '성공!',
-	            				    '마이페이지 완성되면 그쪽으로 보냅니다..',
-	            				    'success'
-	            				  )
-	            				})
+	            			$.ajax({
+	    						url : "/community/addFollow/"+userId,
+	    						method : "GET" ,
+	    						dataType : "json" ,
+	    						headers : {
+	    							"Accept" : "application/json",
+	    							"Content-Type" : "application/json"
+	    						},
+	    						success : function(serverData , status) {
+	    							self.location="/user/listFollow?travUserId="+"${user.userId}"
+	    						}
+	    					});
 	            		})
 	            }
 	        },
@@ -199,7 +208,7 @@
 	<div class="container" >
 	
 		<div class="jumbotron" 
-			style="margin-top:150px;
+			style="margin-top:50px;
 			 background-image:url('http://cfile1.uf.tistory.com/image/1462BE384FFD98AE042149' );
 			 background-size: cover;
 			 background-position: center bottom ;
@@ -212,12 +221,12 @@
 	</div>
 
 	<div class="row" >
-		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-			</div>        
+		<div class="col-md-2" style="margin-left:60px; margin-top:80px;">        
+			<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
+				<c:if test="${ !empty user }">
+				<h2 id="write">게시글작성</h2> 
+				</c:if>       
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
     

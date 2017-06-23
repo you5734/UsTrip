@@ -7,10 +7,11 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 
 
 public interface BlogService {
-	
+		
 	public void addBlog(List<Place> tempBlog) throws Exception;
 	
 	public void deleteBlog(int blogNo) throws Exception;
@@ -44,5 +45,7 @@ public interface BlogService {
 	public void addJsonLike(int travNo, String userId) throws Exception;
 
 	public void deleteJsonImage(int imgNo) throws Exception;
+	
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception;
 	
 }

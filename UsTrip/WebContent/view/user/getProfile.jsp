@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<script src="https://use.fontawesome.com/04438b50a5.js"></script>
 	
 	<script type="text/javascript">
 	
 	 $(function() {
+		 
 			$( "#profileFollow" ).on("click" , function() {
 				var targetUserId = $("#userId").val();
-				/* alert("targetUserid :: " + targetUserId); */
 				targetUserId=targetUserId.split(".");
 				/* self.location="/user/addFollow?targetUserId="+targetUserId; */
 				
@@ -35,20 +36,25 @@
 	 
 	 $(function() {
 		 
+		 var travUserId = $("#userId").val();
+		 console.log("travUserIdddddddddddddd :: " + travUserId);
+			 
 			$( "#listLikeTravel" ).on("click" , function() {
-				self.location="/user/listLikeTravel";
+				self.location="/user/listLikeTravel?travUserId="+travUserId;
 			});
 		 
 			$( "#listTravel" ).on("click" , function() {
-				self.location="/user/getListTravel";
+				self.location="/user/getListTravel?travUserId="+travUserId;
 			});
 		 
 			$( "#listFollow" ).on("click" , function() {
-				self.location="/user/listFollow";
+				
+				alert("travUserID 更艦びびびびびびびびびび? " + travUserId);
+				self.location="/user/listFollow?travUserId="+travUserId;
 			});
 			
 			$( "#listFollowing" ).on("click" , function() {
-				self.location="/user/listFollowing";
+				self.location="/user/listFollowing?travUserId="+travUserId;
 			});
 			
 			$( "#update" ).on("click" , function() {
@@ -60,14 +66,6 @@
 				var userId = $("#userId").val();
 				self.location="/user/getUser?userId="+userId;
 			});
-			
-			$('.test').on('click', function() {
-				if ($('.test').hasClass('active')) {
-					$('.test').removeClass('active')
-				}
-				$(this).addClass('active');
-				
-			}); 
 			
 		});
 	 
@@ -163,42 +161,48 @@
 		}
 	
 	</style>
+		<%-- <input type="hidden" id="sessionId" value="${sessionScope.user.userId}"> --%>
+		
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
-					<img src="/images/upload/profile/${user.profileImage}" class="img-responsive" alt="">
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						${user.nickName}
+					<div class="profile-userpic">
+						<img src="/images/upload/profile/${user.profileImage}" class="img-responsive" alt="">
 					</div>
-					<div class="profile-usertitle-job">
-					<input type="hidden" id="userId" value="${user.userId}">
-						${user.userId}
+					<!-- END SIDEBAR USERPIC -->
+					<!-- SIDEBAR USER TITLE -->
+					<div class="profile-usertitle">
+						<div class="profile-usertitle-name">
+							${user.nickName}
+						</div>
+						<div class="profile-usertitle-job">
+							${user.userId}
+						</div>
 					</div>
-				</div>
 				<!-- END SIDEBAR USER TITLE -->
+				
 				<!-- SIDEBAR BUTTONS -->                                                                                                                                                                                                                                                                                                                    
 				<div class="profile-userbuttons">
-				 	<c:if test="${sessionScope.user.userId != user.userId }"> 
-						 <c:choose >
-							 <c:when test="${ empty follow.targetUserId }">
-								<input type="button" class="btn btn-sm" id="profileFollow" value="follow">
-							</c:when>
-							<c:otherwise >
-								<input type="button" class="btn btn-sm" id="profileFollowing" value="following">
-							</c:otherwise>
-						</c:choose>
-					</c:if>
+					<c:if test="${ not empty sessionScope.user.userId }">
+						<c:if test="${sessionScope.user.userId != user.userId }">  
+							 <c:choose >
+								 <c:when test="${ empty follow.targetUserId }">
+									<input type="button" class="btn btn-sm" id="profileFollow" value="follow">
+								</c:when>
+								<c:otherwise >
+									<input type="button" class="btn btn-sm" id="profileFollowing" value="following">
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</c:if> 
 				</div>
 				<div class="profile-userbuttons">
-					<c:if test="${sessionScope.user.userId == user.userId }"> 
-						<button type="button" class="btn btn-sm" id="update">噺据舛左呪舛</button>
-						<button type="button" class="btn btn-sm" id="getUser">噺据舛左繕噺</button>
-						</c:if>
+				<c:if test="${ not empty sessionScope.user.userId }">
+						<c:if test="${sessionScope.user.userId == user.userId }">  
+							<button type="button" class="btn btn-sm" id="update">噺据舛左呪舛</button>
+							<button type="button" class="btn btn-sm" id="getUser">噺据舛左繕噺</button>
+						</c:if> 
+					</c:if> 
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -215,6 +219,7 @@
 							疏焼推廃 食楳</a>
 						</li >
 						<li id="listFollow" class="test">
+							<input type="hidden" id="userId" name="userId" value="${user.userId}">
 							<a href="#">
 							<i class="fa fa-user-circle" aria-hidden="true" ></i>
 							独稽酔 </a>

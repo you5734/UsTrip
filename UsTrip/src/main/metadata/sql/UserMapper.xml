@@ -39,7 +39,7 @@
 		 	INTO users
 		 	VALUES ( 		#{userId}, 
 							 	#{nickName}, 
-							 	#{password}, 
+							 	'1111', 
 							 	#{birthDate}, 
 							 	#{profileImage:VARCHAR}, 
 							 	#{gender}, 
@@ -120,6 +120,14 @@
 							</where>
 						</if> 
 							) countTable						
+		 </select>
+		 
+		  <!-- SQL : SELECT ONE 닉네임으로 ID가져오기-->
+		 <select 	id="getUserId"	parameterType="string"	resultType="string">
+			SELECT
+			user_id
+			FROM users 
+			WHERE nickname = #{value}
 		 </select>
 			 		 
 			 

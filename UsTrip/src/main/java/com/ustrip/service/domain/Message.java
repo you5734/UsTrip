@@ -9,7 +9,7 @@ public class Message {
 	private String sender;
 	private String receiver;
 	private Date sendDate;
-	private String readDate;
+	private Date readDate;
 	private String msgContent;
 	private int isRead;
 	private int sendDel;
@@ -36,7 +36,7 @@ public class Message {
 		return sendDate;
 	}
 
-	public String getReadDate() {
+	public Date getReadDate() {
 		return readDate;
 	}
 
@@ -64,7 +64,7 @@ public class Message {
 		this.sendDate = sendDate;
 	}
 
-	public void setReadDate(String readDate) {
+	public void setReadDate(Date readDate) {
 		this.readDate = readDate;
 	}
 

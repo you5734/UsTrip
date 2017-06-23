@@ -68,7 +68,7 @@
 	    	})
 	    	 */
 			$('#travLike').on('click' , function() {
-				alert("travvvvvvvvv :: "+ $("#travNo").val());
+				/* alert("travvvvvvvvv :: "+ $("#travNo").val()); */
 				
 				if($(this).val()=='좋아요취소'){
 					$.ajax( 
@@ -97,7 +97,7 @@
 								},
 								context : this,
 								success : function(serverData , status) {
-									/* $(this).val('좋아요취소'); */
+									 $(this).val('좋아요취소');
 /* 									
 								 	$("input").remove(".fa.fa-thumbs-up.btn.btn-info.btn-sm");
 									$input = $("<input type='button'/>").addClass('"fa fa-thumbs-up btn btn-info btn-sm').val('delLike');	
@@ -192,6 +192,7 @@ label {
   padding: 20px;
   background: #fff;
   color: #999;
+  height: 700px;
 /*   border-bottom: 2px solid #f0f0f0; */
 }
 
@@ -298,10 +299,10 @@ border-bottom: 1px solid #f7f7f7;
 							<div class="well">
 						        <p>
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
-									<c:if test='${checkBlogStart == 1}'>
+									<c:if test='${isLike == 1}'>
 										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
 									</c:if>
-									<c:if test='${checkBlogStart == 0}'>
+									<c:if test='${isLike == 0}'>
 										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
 									</c:if> 
 						        </p>
@@ -310,8 +311,7 @@ border-bottom: 1px solid #f7f7f7;
 						           </p>
 								<p>
 							        <strong>출발일</strong>
-							        <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
-							        <fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+							        <fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
 						        </p> 
 							
@@ -329,7 +329,7 @@ border-bottom: 1px solid #f7f7f7;
 								<input id="tab3" type="radio" name="tabs">
 								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
 	
-								<section id="content1" class="tab-content">
+								<section id="content1" class="tab-content" style="heigh:700px;">
 									<!-- <h3>Headline 1</h3>
 							      	<p>Tab 1 Content.</p> -->
 							     <%--  	<jsp:include page="/view/plan/getCity.jsp"/>  --%>

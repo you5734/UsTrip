@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr&callback=initMap"  defer></script>
 <script src="/js/dateFormat.js"></script>
 	<style type="text/css">
@@ -61,22 +61,23 @@
      function initMap(){
        map = new google.maps.Map(document.getElementById('map'), {
          center: {lat: 36.4488, lng: 127.7792} ,
-         zoom: 7,
-         mapTypeControl: false
-       });
+         zoom: 8,
+         mapTypeControl: false                
+       });       
+       var travNo = ${travNo};  
+       cityMap(travNo)
                 } 
-   
-     $(function() {	
+     
+     function cityMap(travNo){
+    	 
     	
-    	 $('button[name="city"]').on('click',function(){
-    		var travNo = $(this).val();
-    		var zoomLevel = 7;
-    		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
-    		var target = [];
-    		var titles =[];
-    		var days = [];
-    		
-    		$.ajax( 
+ 		var zoomLevel = 7;
+ 		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
+ 		var target = [];
+ 		var titles =[];
+ 		var days = [];
+ 		
+ 		$.ajax( 
 					{
 						url : "/blog/getMapCity/"+travNo,
 						method : "GET" ,
@@ -106,6 +107,14 @@
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}
 					});    	
+    	 
+     }
+   
+     $(function() {	
+    	
+    	 $('button[name="city"]').on('click',function(){
+    		 var travNo = $(this).val();
+    		 cityMap(travNo);
     	 });
     	 
     	 $('button[name="place"]').on('click',function(){
@@ -164,9 +173,9 @@
 <div class="col-md-10">
 </div>
 <div class="col-md-2">
-<button value="${travNo}" name="city" class="btn btn-info">전체경로보기</button><br/>
+<button value="${travNo}" name="city" class="btn btn-success" style="height:35px; width:120px;">total Route</button><br/>
 <c:forEach items="${listCity}" var="city" varStatus="status">
-<button name="place" class="btn btn-info" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}">${city.city}</button><br/>
+<button name="place" class="btn btn-success" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}" style="height:40px; width:120px;">${city.city}</button><br/>
 </c:forEach>
 </div>
 </div>

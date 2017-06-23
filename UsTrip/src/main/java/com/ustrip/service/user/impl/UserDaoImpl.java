@@ -107,4 +107,10 @@ public class UserDaoImpl implements UserDao {
 		sqlSession.selectOne("FollowMapper.deleteFollow",map);
 	}
 
+	@Override
+	public String getUserId(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("UserMapper.getUserId", nickName);
+	}
+
 }

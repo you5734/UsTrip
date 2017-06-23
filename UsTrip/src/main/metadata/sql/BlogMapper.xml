@@ -19,6 +19,7 @@
 		<result property="deleteFlag" 			column="delete_flag" 			jdbcType="NUMERIC" />
 		<collection property="images" 		column="blog_no"		javaType="java.util.ArrayList" ofType="image" select="listImage"/>
 		<collection property="hashTags" 	column="blog_no"		javaType="java.util.ArrayList" ofType="hashTag" select="listHashTag"/>
+
 	</resultMap>
 	
 	<resultMap id="imageSelectMap" type="image">
@@ -36,18 +37,31 @@
 	</resultMap>
 	
 	<resultMap id="likeSelectMap" type="likeTravel">
-		<result property="likeNo" 			column="LIKE_NO" 			jdbcType="NUMERIC" />
-		<result property="travNo" 			column="TRAV_NO" 			jdbcType="NUMERIC" />
+		<result property="likeTravNo" 			column="LIKE_NO" 			jdbcType="NUMERIC" />
+		<!-- <result property="travNo" 			column="TRAV_NO" 			jdbcType="NUMERIC" /> -->
 		<result property="userId" 			column="USER_ID" 			jdbcType="VARCHAR" />
+		
+		<association property="travNo" javaType="travel">
+			<result property="travelNo" 				column="trav_no" 				jdbcType="NUMERIC"/>
+			<result property="userId"					column="user_id" 				jdbcType="VARCHAR" />
+			<result property="travTitle" 				column="trav_title" 				jdbcType="VARCHAR" />
+			<result property="travTheme" 			column="trav_theme" 			jdbcType="VARCHAR" />
+			<result property="memberCount" 		column="member_count" 	jdbcType="NUMERIC" />
+			<result property="startDate" 			column="start_date" 			jdbcType="VARCHAR" />
+			<result property="totalDate" 			column="total_date" 			jdbcType="NUMERIC" />
+			<result property="isBlogStart" 			column="is_blog_start" 		jdbcType="NUMERIC"  />
+			<result property="thumbNail" 			column="thumb_nail" 			jdbcType="VARCHAR" />
+			<result property="nickName" 			column="nickname" 			jdbcType="VARCHAR" />
+		</association>
+
 	</resultMap>
-	
 	
 	<insert 	id="addBlog"	parameterType="list">
 		INSERT 
 		INTO blog (blog_no, memo, trav_no, visit_date, place_no, city_no, place)(
 		SELECT seq_blog_no.nextval, A.* from(
 		<foreach item="item" collection="list" separator="UNION ALL">
-			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, TO_DATE(#{item.visitDate},'YY/MM/DD'), #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
+			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, #{item.visitDate}, #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
 		</foreach>
 		)A)
 		
@@ -94,7 +108,7 @@
 	 
 	<select id="listBlog" parameterType="blog" resultMap="blogSelectMap">
 	 	SELECT
-	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place
+	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place,delete_flag
 	 	FROM blog
 	 	WHERE trav_no=#{travNo}
 	 	ORDER BY visit_date ASC
@@ -192,5 +206,17 @@
 	   	</set>
 	   	WHERE blog_no=#{blogNo}
 	 </update>
+	 
+	 
+	<select id="getListLikeTravel" parameterType="search" resultMap="likeSelectMap">
+		SELECT lt.like_no, lt.trav_no, innerB.user_id, innerB.*
+		FROM like_travel lt, ( 
+					SELECT 
+					u.nickname, u.user_id, t.trav_no, t.trav_title, t.trav_theme, t.member_count, t.start_date, t.total_date, t.is_blog_start, t.thumb_nail
+					FROM travel t, users u 
+					WHERE u.user_id = t.user_id) innerB
+		WHERE lt.trav_no = innerB.trav_no
+		AND lt.user_id = #{searchKeyword}
+	 </select>
 	 
 </mapper>

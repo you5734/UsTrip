@@ -31,7 +31,7 @@
 				var travNo = $(this).next().val();
 				var userId = $(this).next().next().val();
 					console.log("travNo :: " + travNo);
-					alert("userId " + userId	);
+					/* alert("userId " + userId	); */
 				/* self.location="/user/getTravel?travelNo="+travelNo; */
 				self.location="/user/getTravel?travNo="+travNo+"&userId="+userId;
 			});
@@ -181,11 +181,8 @@
 									                    <span class="project-details">${travel.travTitle }</span>
 									                    <span class="project-price"><strong>${travel.nickName }</strong></span>
 									                    <span class="project-creator">
-									                    <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
-							        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+							        					<fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							         					免惯老 ${newFormattedDateString} | 咯青老荐 ${travel.totalDate }老</span>
-									                    
-									                   
 									                    
 									                </figcaption>
 									                <span class="actions">

@@ -5,8 +5,11 @@ import java.util.Map;
 
 import com.ustrip.common.Search;
 import com.ustrip.service.domain.Board;
+import com.ustrip.service.domain.Travel;
 
 public interface BoardService {
+	
+	public List<Travel> addBoardForm(String userId) throws Exception;
 	
 	public int addBoard(Board board)throws Exception;
 	

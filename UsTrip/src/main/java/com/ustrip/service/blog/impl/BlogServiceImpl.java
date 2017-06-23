@@ -15,6 +15,7 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 
 
 @Service("blogServiceImpl")
@@ -110,6 +111,10 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public void addJsonLike(int travNo, String userId) throws Exception {
 		blogDAO.addJsonLike(travNo, userId);
+	}
+	
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception {
+		return blogDAO.getListLikeTravel(search);
 	}
 
 }

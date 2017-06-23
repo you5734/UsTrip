@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +28,11 @@
 	 $(function() {
 			$( ".btn.btn-warning.bnt-action" ).on("click" , function() {
 				var travNo = $(this).next().val();
-					alert("travNo :: " + travNo);
-				self.location="/user/getTravel?travNo="+travNo;
+				var userId = $(this).next().next().val();
+					console.log("travNo :: " + travNo);
+				/* 	alert("userId " + userId	); */
+				/* self.location="/user/getTravel?travelNo="+travelNo; */
+				self.location="/user/getTravel?travNo="+travNo+"&userId="+userId;
 			});
 	 });
 	</script>
@@ -177,17 +181,21 @@
 										<div class="col-ms-10 col-md-4">
 									        <div class="project">
 									            <figure class="img-responsive">
-									                 <img src="http://lorempixel.com/400/300/sports/6/"> 
-									            <%--     <img src="/images/upload/blog/${travel.thumbNail }"> --%>
+									               <!--   <img src="http://lorempixel.com/400/300/sports/6/">  -->
+									           		<img src="/images/upload/blog/${likeTravel.travNo.thumbNail }">
 									                <figcaption>
 									                	<%-- <input type="hidden" class="travelNo" id="travelNo" value="${travel.travelNo}"> --%>
-									                    <span class="project-details"><%-- ${travel.travTitle } --%> </span>
-									                    <span class="project-price"><strong> ${likeTravel.userId } </strong></span>
-									                    <span class="project-creator">2017/03/05~2017/03/09</span>
+									                    <span class="project-details">${likeTravel.travNo.travTitle }</span>
+									                    <span class="project-price"><strong> ${likeTravel.travNo.nickName } </strong></span>
+														  <span class="project-creator">
+															<fmt:parseDate var="parsedDate" value="${likeTravel.travNo.startDate}" pattern="yyyy-MM-dd"/>
+								        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+								         					출발일 ${newFormattedDateString} | 여행일수 ${likeTravel.travNo.totalDate }일</span>
 									                </figcaption>
 									                <span class="actions">
 									                	<button class="btn btn-warning bnt-action" type="button" >상세보기</button>
-									                 <%--    <input type="hidden" class="travelNo" id="travelNo" value="${likeTravel.travNo}"> --%>
+									                 	<input type="hidden" class="travelNo" id="travelNo" value="${likeTravel.travNo.travelNo}"> 
+									                 	 <input type="hidden" class="travUserId" id="travUserId" value="${likeTravel.travNo.userId}">
 									                </span>
 									            </figure>
 									       </div>
