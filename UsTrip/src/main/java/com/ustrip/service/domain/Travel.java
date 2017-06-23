@@ -1,6 +1,6 @@
 package com.ustrip.service.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 
@@ -11,7 +11,7 @@ public class Travel {
 	private String travTitle;
 	private String travTheme;
 	private int memberCount;
-	private String startDate;
+	private Date startDate;
 	private int totalDate;
 	private int isBlogStart;
 	private String thumbNail;
@@ -54,10 +54,10 @@ public class Travel {
 	public void setMemberCount(int memberCount) {
 		this.memberCount = memberCount;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	public int getTotalDate() {
@@ -89,7 +89,7 @@ public class Travel {
 
 	@Override
 	public String toString() {
-		return "Travel [travelNo=" + travelNo + ", userId=" + userId + ", travTitle=" + travTitle + ", travTheme="
+		return "Travel [travNo=" + travelNo + ", userId=" + userId + ", travTitle=" + travTitle + ", travTheme="
 				+ travTheme + ", memberCount=" + memberCount + ", startDate=" + startDate + ", totalDate=" + totalDate
 				+ ", isBlogStart=" + isBlogStart + ", thumbNail=" + thumbNail + ", cities=" + cities + ", nickName="
 				+ nickName + "]";

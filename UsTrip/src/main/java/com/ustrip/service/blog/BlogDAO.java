@@ -9,10 +9,11 @@ import com.ustrip.service.domain.HashTag;
 import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Place;
+import com.ustrip.service.domain.Travel;
 
 
 public interface BlogDAO {
-
+	
 	public void addBlog(List<Place> tempBlog) throws Exception;
 	
 	public void deleteBlog(int blogNo) throws Exception;

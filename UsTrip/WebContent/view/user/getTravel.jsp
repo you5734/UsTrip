@@ -311,8 +311,7 @@ border-bottom: 1px solid #f7f7f7;
 						           </p>
 								<p>
 							        <strong>출발일</strong>
-							        <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
-							        <fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+							        <fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
 						        </p> 
 							

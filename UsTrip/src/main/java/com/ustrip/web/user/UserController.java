@@ -544,7 +544,7 @@ public class UserController {
 					checkBlog.add(deleteBlog);
 				}
 			}
-			
+			System.out.println("*************************"+checkBlog);
 			model.addAttribute("list", checkBlog);
 			model.addAttribute("isLiked",islike);
 		}else{

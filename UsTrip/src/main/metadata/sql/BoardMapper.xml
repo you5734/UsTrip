@@ -15,6 +15,7 @@
   		<result property="boardContent" 		column="BOARD_CONTENT" 	jdbcType="VARCHAR"/>
   		<result property="boardTitle" 			column="BOARD_TITLE" 		jdbcType="VARCHAR"/>
   		<result property="boardCategory" 		column="BOARD_CATEGORY" jdbcType="INTEGER"/>
+  		<result property="deleteFlag" 			column="DELETE_FLAG" 			jdbcType="INTEGER"/>
   	</resultMap>
   	
   	<insert 	id="addBoard"	 parameterType="board" >
@@ -26,25 +27,24 @@
   	 <update	id="updateBoard"	parameterType="board" >
 	   	UPDATE board
 	   	<set>
-	   		TRAV_NO 	= #{travNo} ,
-			HITS	= #{hits} ,
-			NICKNAME	=	#{nickName},
 			BOARD_CONTENT = #{boardContent},
-			BOARD_TITLE = #{boardTitle},
-			BOARD_CATEGORY = #{boardCategory}
+			BOARD_TITLE = #{boardTitle}
 	   	</set>
 	   	WHERE BOARD_NO = #{boardNo}
 	 </update>
 	 
 	 <delete id="deleteBoard" parameterType="board" >
-	 DELETE FROM board
+	 UPDATE board
+	 <set>
+	 delete_flag = 1
+	 </set>
 	 WHERE BOARD_NO = #{boardNo}
 	 </delete>
 	 
 	  <select  id="getBoardDESC"  parameterType="search"	resultMap="boardSelectMap">
 	  SELECT *
 	 FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq
-	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY, DELETE_FLAG
 	  FROM board
 	  WHERE BOARD_CATEGORY = #{boardCategory}
 			<if test="searchCondition != null">
@@ -68,7 +68,7 @@
 	  <select  id="getBoardASC"  parameterType="search"	resultMap="boardSelectMap">
 	  SELECT *
 	 FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq
-	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	 FROM (	 SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY, DELETE_FLAG
 	  FROM board
 	  WHERE BOARD_CATEGORY = #{boardCategory}
 			<if test="searchCondition != null">
@@ -91,7 +91,7 @@
 	  
 	  <select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
-	  	FROM (SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY
+	  	FROM (SELECT BOARD_NO, NICKNAME, TRAV_NO, HITS, BOARD_CONTENT, BOARD_TITLE, REG_DATE, BOARD_CATEGORY, DELETE_FLAG
 	 	FROM board
 	 	WHERE BOARD_CATEGORY = #{boardCategory}
 		<if test="searchCondition != null">

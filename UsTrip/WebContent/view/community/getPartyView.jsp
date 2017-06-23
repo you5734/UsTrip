@@ -28,7 +28,6 @@
     
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
@@ -42,6 +41,12 @@
 	}
 	
 	$(function () {	
+		
+		$('h2').hover(function(){
+			$(this).attr('class','text-success');
+		},function(){
+			$(this).attr('class','text-default');
+		});
 		
 		var select = '#'+'${board.boardNo}';
 		
@@ -94,11 +99,11 @@
 		});	
 		
 		$('#write').on('click',function(){
-			alert();
+			self.location="/community/addBoardForm?userId="+"${user.userId}"
 		});
 		
 		$('#orderby').hover(function(){
-			$(this).attr('class','col-md-1 text-primary');
+			$(this).attr('class','col-md-1 text-danger');
 		},function(){
 			$(this).attr('class','col-md-1');
 		});
@@ -131,9 +136,9 @@
         }); 
         
         $('#tossComment').hover(function(){
-			$(this).attr('class','col-md-6 text-right text-danger');
+			$(this).attr('class','col-md-1 text-right text-warning');
 		},function(){
-			$(this).attr('class','col-md-6 text-right text-warning');
+			$(this).attr('class','col-md-1 text-right text-danger');
 		});
         
         $('#tossComment').on('click',function(){
@@ -180,6 +185,25 @@
         	var temp = $(this).attr('temp');
         	alertRemove(temp)
         });
+        
+        $('#upBoard').on('click',function(){
+        	self.location="/community/updateBoardForm?boardNo="+"${board.boardNo}"
+        })
+        
+        $('#delBoard').on('click',function(){
+        	
+        	
+        	
+        	$.ajax("/community/deleteBoardJSON/"+"${board.boardNo}",{
+				method : "GET" ,
+				dataType : "json" ,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				}
+   			});
+        	fncGetList(1);
+        })
                
    });
    	
@@ -200,7 +224,7 @@
    		  cancelButtonColor: '#d33',
    		  confirmButtonText: '수정합니다',
    		  cancelButtonText: '취소합니다',
-   		  confirmButtonClass: 'btn btn-primary',
+   		  confirmButtonClass: 'btn btn-danger',
    		  cancelButtonClass: 'btn btn-danger',
    		  buttonsStyling: false
    		}).then(function () {
@@ -246,7 +270,7 @@
    		  cancelButtonColor: '#d33',
    		  confirmButtonText: '삭제합니다',
    		  cancelButtonText: '취소합니다',
-   		  confirmButtonClass: 'btn btn-primary',
+   		  confirmButtonClass: 'btn btn-danger',
    		  cancelButtonClass: 'btn btn-danger',
    		  buttonsStyling: false
    		}).then(function () {   			
@@ -281,7 +305,7 @@
 			var updateHuck = '<div class="alert alert-success" >'+
 		'<div class="row">'+
 			'<div class="col-md-6 text-left">'+
-				'<h3 class="text-primary" >수정</h3>'+  
+				'<h3 class="text-danger" >수정</h3>'+  
 			'</div>'+    
 			'<div class="col-md-6 text-right">'+
 				'<label class="btn btn-success">'+
@@ -368,11 +392,18 @@
 	            		  cancelButtonColor: '#d33',
 	            		  confirmButtonText: '간다'
 	            		}).then(function () {
-	            		  swal(
-	            		    '성공!',
-	            		    '페이지가 완성되면 연결합니다.',
-	            		    'success'
-	            		  )
+	            			$.ajax({
+        						url : "/community/getTravList/"+userId,
+        						method : "GET" ,
+        						dataType : "json" ,
+        						headers : {
+        							"Accept" : "application/json",
+        							"Content-Type" : "application/json"
+        						},
+        						success : function(serverData , status) {
+        							self.location="/user/getListTravel?travUserId="+serverData.userId
+        						}
+        					});
 	            		})
 	            }else{
 	            	swal({
@@ -385,21 +416,18 @@
 	            		  confirmButtonText: 'Follw'
 	            		}).then(function () {
 	            			//ajax으로 follow추가
-	            			swal({
-	            				  title: userId+'님을 Follow를 했습니다',
-	            				  text: "Follow화면으로 가시겠습니까?",
-	            				  type: 'success',
-	            				  showCancelButton: true,
-	            				  confirmButtonColor: '#3085d6',
-	            				  cancelButtonColor: '#d33',
-	            				  confirmButtonText: '간다'
-	            				}).then(function () {
-	            				  swal(
-	            				    '성공!',
-	            				    '마이페이지 완성되면 그쪽으로 보냅니다..',
-	            				    'success'
-	            				  )
-	            				})
+	            			$.ajax({
+	    						url : "/community/addFollow/"+userId,
+	    						method : "GET" ,
+	    						dataType : "json" ,
+	    						headers : {
+	    							"Accept" : "application/json",
+	    							"Content-Type" : "application/json"
+	    						},
+	    						success : function(serverData , status) {
+	    							self.location="/user/listFollow?travUserId="+"${user.userId}"
+	    						}
+	    					});
 	            		})
 	            }
 	        },
@@ -414,6 +442,9 @@
   </script>
   <style type="text/css">
   body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;}
+  input:checked {
+    opacity: 0.8;
+}
   </style>
   </head>
 <body>
@@ -421,7 +452,7 @@
 	<div class="container" >
 	
 		<div class="jumbotron" 
-			style="margin-top:150px;
+			style="margin-top:50px;
 			 background-image:url('http://cfile1.uf.tistory.com/image/1462BE384FFD98AE042149' );
 			 background-size: cover;
 			 background-position: center bottom ;
@@ -434,12 +465,12 @@
 	</div>
 
 	<div class="row" >
-		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-			</div>        
+		<div class="col-md-2" style="margin-left:60px; margin-top:38px;">        
+			<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
+				<c:if test="${ !empty user }">
+				<h2 id="write">게시글작성</h2> 
+				</c:if>       
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
     
@@ -461,25 +492,30 @@
 		</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-6 text-left text-danger">${board.boardTitle}</div>
-			<div class="col-md-6 text-right text-danger" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
+			<div class="col-md-5 text-left text-danger"><strong style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="text-danger">${travel.travTitle}</strong> :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/> ~ <fmt:formatDate value="${endTrav}" pattern="yyyy/MM/dd"/></div>
+			<div class="col-md-4 text-left text-danger" >게시물 제목 : <strong class="text-danger" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
+	        <div class="col-md-2"><c:if test="${user.nickName == board.nickName}">
+	        <div class="btn-group" >
+	        	<button type="button" class="btn btn-danger"  id="upBoard" style="height:30px; margin-top:-6px;">수정</button>
+	        	<button type="button" class="btn btn-danger" id="delBoard" style="height:30px; margin-top:-6px;">삭제</button>
+	        </div></c:if></div>	       
+			<div class="col-md-1 text-right text-danger" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
 		</div>
 	<hr/>
 		<div class="row">
-			<div class="col-md-4">
-	             <img src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="height:400px; width:350px;">
+			<div class="col-md-5" style="height:550px; ">
+	            <jsp:include page="/view/blog/mapFrame.jsp"/>
 	        </div>
-	        <div class="col-md-8">${board.boardContent}</div>
+	       <div class="col-md-1"></div>
+	        <div class="col-md-6 text-default">${board.boardContent}</div>
 	     </div>
 	     <div id="topComment"></div>
 	<hr/>
          <h6 align="right" >${board.countComment} 개의 댓글이 달려있습니다.</h6>		
 				
-				<c:set var="i" value="0" />
 		<c:forEach var="comment" items="${comments}">
-		
-			<c:if test='${comment.privateComment==0}'>	
-			<hr class="thick-line">
+		<c:if test="${user.nickName == board.nickName || user.nickName == comment.nickName}">
+		<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
@@ -495,6 +531,25 @@
 			</div>
 			</div>
 			</div>
+		</c:if>
+		
+		<c:if test="${user.nickName != board.nickName || empty user}">
+			<c:if test='${comment.privateComment==0}'>	
+			<hr class="thick-line">
+			<div id="${comment.commentNo}">
+			<div class="row">
+				<div class="col-md-1">
+					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+				</div>
+			<div class="col-sm-10">
+				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>
+				<div style="margin-top:8px;">${comment.commentContent}</div>
+			</div>
+			<div class="col-md-1" align="right">				
+				<h6 align="right"><fmt:formatDate value="${comment.regDate}" pattern="yyyy/MM/dd"/></h6>
+			</div>
+			</div>
+			</div>
            </c:if>
            
            <c:if test='${comment.privateComment==1}'>	
@@ -504,8 +559,9 @@
            </div>
            </c:if>
            
+           </c:if>
 		</c:forEach>	
-								
+			<c:if test="${ !empty user }">					
 			<form id="addComment" >				
 			<div class="alert alert-warning" >
 			<div class="row">
@@ -523,8 +579,9 @@
 			<br/><br/>
 			</div>
 			<input type="hidden" name="boardNo" value="${board.boardNo}"> 
-			<input type="hidden" name="nickName" value="user001">            
-            </form>              
+			<input type="hidden" name="nickName" value="${user.nickName}">            
+            </form>           
+            </c:if>   
                 
 	</div>
      </div>    

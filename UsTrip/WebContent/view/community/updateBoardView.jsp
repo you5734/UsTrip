@@ -60,7 +60,7 @@
         }); 
         
         $('#okay').on('click',function(){
-        	$("#boardForm").attr("method" , "POST").attr("action" , "/community/addBoard").submit();
+        	$("#boardForm").attr("method" , "POST").attr("action" , "/community/updateBoard").submit();
         })
         
         $('#nope').on('click',function(){
@@ -96,7 +96,7 @@
 			 height:400px;
 			 opacity: 0.8;">
 						 
-	  <h1 style="color:white;">게시글 작성</h1>
+	  <h1 style="color:white;">게시글 수정</h1>
 	  <p style="color:white; margin-top:130px;">게시글을 작성하여 동행을 구하거나 여행계획을 물어보세요!</p>
 		</div> 
 	</div>
@@ -117,32 +117,26 @@
    
     <form class="panel panel-warning" id="boardForm">
   <!-- Default panel contents -->
-  <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 게시글작성</div>
+  <div class="panel-heading"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 게시글수정</div>
   <div class="panel-body" class="form-group">
   <div class="row">
   <div class="col-md-6" >
-    게시판 선택<br/><select name="boardCategory" class="form-control" style="margin-top:5px;">
-    <option>선택하세요.</option>
-    <option value="0">멘토링 게시판</option>
-    <option value="1">동행구하기 게시판</option>
-    </select>
+    게시판 선택<br/><input type="text" readonly onfocus="this.blur();" value="${board.boardCategory == 0? '멘토링 게시판':'동행구하기 게시판'}">
     </div>
     <div class="col-md-6" >
     
-여행 선택<select name="travNo" class="form-control" style="margin-top:5px;">
-<option>선택하세요.</option>
-<c:forEach items="${travels}" var="travel" varStatus="status">
-<option value="${travel.travelNo}">${travel.travTitle} :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/></option>
-</c:forEach>
-</select>
+여행 선택<input type="text" readonly onfocus="this.blur();" value="${travel.travTitle} :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/>">
 </div>
     </div>
 <hr/>
-게시글제목<input type="text" name="boardTitle"><hr/>
-게시글내용<textarea name="boardContent" style="height:200px;"></textarea><hr/>
+게시글제목<input name="boardTitle" type="text" readonly onfocus="this.blur();" value="${board.boardTitle}"><hr/>
+게시글내용<textarea name="boardContent" style="height:200px;">${board.boardContent}</textarea><hr/>
+<input type="hidden" value="${board.boardCategory}" name="boardCategory">
 <input type="hidden" value="${user.nickName}" name="nickName">
+<input type="hidden" value="${board.travNo}" name="travNo">
+<input type="hidden" value="${board.boardNo}" name="boardNo">
 <button id="nope" type="button" style="float: right; margin-left:10px;">리 셋</button>
-   <button id="okay" type="button" style="float: right;">확 인</button>
+   <button id="okay" type="button" style="float: right;">수 정</button>
   </div>   
   
 </form>  

@@ -46,4 +46,7 @@ public interface UserService {
 	public Map<String, Object> listFollowing(Search search, String targetUserId) throws Exception;
 
 	public void deleteFollow(String folUserId, String targetUserId ) throws Exception;
+	
+	public String getUserId(String nickName) throws Exception;
+	
 }

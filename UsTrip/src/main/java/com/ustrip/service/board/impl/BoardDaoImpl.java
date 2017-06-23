@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ustrip.common.Search;
 import com.ustrip.service.board.BoardDao;
 import com.ustrip.service.domain.Board;
+import com.ustrip.service.domain.Travel;
 
 @Repository("boardDaoImpl")
 public class BoardDaoImpl implements BoardDao {
@@ -40,7 +41,7 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int deleteBoard(int boardNo) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("BoardMapper.deleteBoard",boardNo);
+		return sqlSession.update("BoardMapper.deleteBoard",boardNo);
 	}
 
 	@Override
@@ -65,6 +66,12 @@ public class BoardDaoImpl implements BoardDao {
 	public int getTotalCount(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("BoardMapper.getTotalCount",search);
+	}
+
+	@Override
+	public List<Travel> addBoardForm(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("TravelMapper.getTravelList", userId);
 	}
 
 }

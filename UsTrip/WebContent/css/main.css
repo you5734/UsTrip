@@ -17,6 +17,7 @@
 		font-size: 100%;
 		font: inherit;
 		vertical-align: baseline;
+		
 	}
 	
 	.container {
@@ -25,6 +26,8 @@
 	
 	body {
 		padding-top:60px;
+		
+		background-color: #ece5da;
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav/* , section  */{
@@ -1626,7 +1629,6 @@
 		font-family: "Open Sans", Montserrat, Arial, Helvetica, sans-serif;
 		font-size: 13pt;
 		font-weight: 300;
-		line-height: 1.65;
 	}
 
 		@media screen and (max-width: 1680px) {

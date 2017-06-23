@@ -13,6 +13,7 @@ import com.ustrip.common.Search;
 import com.ustrip.service.board.BoardDao;
 import com.ustrip.service.board.BoardService;
 import com.ustrip.service.domain.Board;
+import com.ustrip.service.domain.Travel;
 
 @Service("boardServiceImpl")
 public class BoardServiceImpl implements BoardService {
@@ -39,14 +40,25 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> listBoard(Search search) throws Exception {
 		// TODO Auto-generated method stub		
 		List<Board> list = new ArrayList<Board>();
+		List<Board> listNoncheck = new ArrayList<Board>();
 		if(search.getOrder().equals("DESC")){
-			list= boardtDao.listBoardDESC(search);
+			listNoncheck= boardtDao.listBoardDESC(search);
+			for(Board b : listNoncheck){
+				if(b.getDeleteFlag() == 0){
+					list.add(b);
+				}
+			}
 			int size = list.size();
 			for(int i = 0; i < list.size() ; i++){
 				list.get(i).setNumbering(size-i);
 			}			
 		}else{
-			list= boardtDao.listBoardASC(search);
+			listNoncheck= boardtDao.listBoardASC(search);
+			for(Board b : listNoncheck){
+				if(b.getDeleteFlag() == 0){
+					list.add(b);
+				}
+			}
 			for(int i = 0; i < list.size() ; i++){
 				list.get(i).setNumbering(i+1);
 			}
@@ -76,6 +88,12 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotalCount(Search search) throws Exception {
 		// TODO Auto-generated method stub
 		return boardtDao.getTotalCount(search);
+	}
+
+	@Override
+	public List<Travel> addBoardForm(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return boardtDao.addBoardForm(userId);
 	}
 
 }

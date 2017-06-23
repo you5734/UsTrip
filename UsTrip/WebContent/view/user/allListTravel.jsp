@@ -181,8 +181,7 @@
 									                    <span class="project-details">${travel.travTitle }</span>
 									                    <span class="project-price"><strong>${travel.nickName }</strong></span>
 									                    <span class="project-creator">
-									                    <fmt:parseDate var="parsedDate" value="${travel.startDate}" pattern="yyyy-MM-dd"/>
-							        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+							        					<fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							         					免惯老 ${newFormattedDateString} | 咯青老荐 ${travel.totalDate }老</span>
 									                    
 									                </figcaption>

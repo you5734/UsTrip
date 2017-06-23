@@ -61,7 +61,7 @@
 		INTO blog (blog_no, memo, trav_no, visit_date, place_no, city_no, place)(
 		SELECT seq_blog_no.nextval, A.* from(
 		<foreach item="item" collection="list" separator="UNION ALL">
-			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, TO_DATE(#{item.visitDate},'YY/MM/DD'), #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
+			SELECT #{item.memo, jdbcType=VARCHAR}, #{item.travelNo}, #{item.visitDate}, #{item.placeNo}, #{item.cityNo}, #{item.place} FROM DUAL 
 		</foreach>
 		)A)
 		
@@ -108,7 +108,7 @@
 	 
 	<select id="listBlog" parameterType="blog" resultMap="blogSelectMap">
 	 	SELECT
-	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place
+	 	blog_no, memo, trav_no, TO_DATE(visit_date,'YY/MM/DD') visit_date, place_no, city_no, review, score, place,delete_flag
 	 	FROM blog
 	 	WHERE trav_no=#{travNo}
 	 	ORDER BY visit_date ASC

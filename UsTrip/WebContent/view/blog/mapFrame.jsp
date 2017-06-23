@@ -61,22 +61,23 @@
      function initMap(){
        map = new google.maps.Map(document.getElementById('map'), {
          center: {lat: 36.4488, lng: 127.7792} ,
-         zoom: 7,
-         mapTypeControl: false
-       });
+         zoom: 8,
+         mapTypeControl: false                
+       });       
+       var travNo = ${travNo};  
+       cityMap(travNo)
                 } 
-   
-     $(function() {	
+     
+     function cityMap(travNo){
+    	 
     	
-    	 $('button[name="city"]').on('click',function(){
-    		var travNo = $(this).val();
-    		var zoomLevel = 7;
-    		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
-    		var target = [];
-    		var titles =[];
-    		var days = [];
-    		
-    		$.ajax( 
+ 		var zoomLevel = 7;
+ 		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
+ 		var target = [];
+ 		var titles =[];
+ 		var days = [];
+ 		
+ 		$.ajax( 
 					{
 						url : "/blog/getMapCity/"+travNo,
 						method : "GET" ,
@@ -106,6 +107,14 @@
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}
 					});    	
+    	 
+     }
+   
+     $(function() {	
+    	
+    	 $('button[name="city"]').on('click',function(){
+    		 var travNo = $(this).val();
+    		 cityMap(travNo);
     	 });
     	 
     	 $('button[name="place"]').on('click',function(){
@@ -164,9 +173,9 @@
 <div class="col-md-10">
 </div>
 <div class="col-md-2">
-<button value="${travNo}" name="city" class="btn btn-info">totalRoute</button><br/>
+<button value="${travNo}" name="city" class="btn btn-success" style="height:35px; width:120px;">total Route</button><br/>
 <c:forEach items="${listCity}" var="city" varStatus="status">
-<button name="place" class="btn btn-info" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}">${city.city}</button><br/>
+<button name="place" class="btn btn-success" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}" style="height:40px; width:120px;">${city.city}</button><br/>
 </c:forEach>
 </div>
 </div>
