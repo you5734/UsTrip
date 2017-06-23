@@ -319,8 +319,8 @@
     		$("#end").val(start);    		
     	    Javascript:calcRoute();			
 			
-    		$("#f"+(tempNum-2)+" input[name='startCity']").val(document.querySelector('#start').value);  
-    		$("#f"+(tempNum-2)+" input[name='city']").val(document.querySelector('#start').value);  
+    		$("#f"+(tempNum)+" input[name='startCity']").val(document.querySelector('#start').value);  
+    		$("#f"+(tempNum)+" input[name='city']").val(document.querySelector('#start').value);  
 			
 			
 			tempNum++;
@@ -425,11 +425,7 @@
         var cityX = response.routes[0].legs[0].end_location.lat();
         var cityY = response.routes[0].legs[0].end_location.lng();
         
-        if(tempNum==0){
-        	$("#f"+(tempNum-2)+" input[name='cityX']").val(cityX);
-            $("#f"+(tempNum-2)+" input[name='cityY']").val(cityY);
-            $("#f"+(tempNum-2)+" input[name='cityId']").val(response.geocoded_waypoints[1].place_id);
-        }
+      
 /////////////////////////////////////////////////////////////////////////////////////////////////////////        
         $("#f"+(tempNum-1)+" input[name='cityX']").val(cityX);
         $("#f"+(tempNum-1)+" input[name='cityY']").val(cityY);

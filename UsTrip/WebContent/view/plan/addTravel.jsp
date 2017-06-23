@@ -58,9 +58,8 @@
 		
 		$("#memberCount").val(8);
 		$("#totalDate").val(10); */
-		$("#startDate").val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
-		$("form").attr("method", "POST").attr("action", "/plan/addTravel")
-				.submit();
+		//$("#startDate").val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
+		$("form").attr("method", "POST").attr("action", "/plan/addTravel").submit();
 	}
 
 	$(function() {
@@ -112,7 +111,7 @@
 		  <div class="form-group">
 		    <label for="startDate" class="col-xs-4 col-md-2">출발일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭" value='2017-06-15'>
+		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭" value=''>
 		    </div>
 		  </div>
 		  

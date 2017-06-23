@@ -96,6 +96,7 @@
     var start;
     var end;
 	var tempNum = 0;
+	var tempNumNum = 0;
 	var travelNo = document.location.href.split("?")[1]*1;
 	var cityNo = document.location.href.split("?")[2]; 
 	var startCityX =  document.location.href.split("?")[3]*1;  
@@ -126,17 +127,70 @@
 		 for (var i = 0; i < markers.length; i++) {
              markers[i].setMap(null);
 		 } markers.length = 0;
-	
 		 
 		 for (i=0; i<line.length; i++){                           
 		   line[i].setMap(null); 
 		 }line.length = 0;
 		 routes.length = 0;
-		
-         //alert($(appendDiv).child().val());
-     	 //find(".cityXY").
-     	 //alert("599:"+appendDiv)
 		 
+		var formLength = $("form[name='ddform']").length;
+		
+		placeX = $("#"+cityName).find($(".placeX")).val()*1;
+		placeY = 	$("#"+cityName).find($(".placeY")).val()*1;
+		
+		var placeXY = new Object();
+        
+        placeXY.lat = placeX;
+        placeXY.lng = placeY;
+      
+      	 var marrk = placeXY;
+       	 routes.push(placeXY);
+       	
+       	var marker = new google.maps.Marker({
+    		position: marrk,
+    		map: map
+  			}); 
+       	markers.push(marker);
+                           var CBroute = new google.maps.Polyline({
+                             path: routes,
+                             geodesic: true,
+                             strokeColor: '#b31543',
+                             strokeOpacity: 1.0,
+                             strokeWeight: 2
+                           });
+                           CBroute.setMap(map);
+                           line.push(CBroute);
+  
+		for ( var xx = 0; xx < formLength; xx++ ) {
+			placeX = $("#"+cityName).find($(".f"+(xx))).find($(".placeX")).val()*1;
+			placeY = $("#"+cityName).find($(".f"+(xx))).find($(".placeY")).val()*1;
+			
+			var placeXY = new Object();
+	        
+	        placeXY.lat = placeX;
+	        placeXY.lng = placeY;
+	      
+	      	 var marrk = placeXY;
+	       	 routes.push(placeXY);
+	       	
+	       	var marker = new google.maps.Marker({
+	    		position: marrk,
+	    		map: map
+	  			}); 
+	       	markers.push(marker);
+	       	//alert(markers.length)
+	       	//alert(routes.length)
+	                           var CBroute = new google.maps.Polyline({
+	                             path: routes,
+	                             geodesic: true,
+	                             strokeColor: '#b31543',
+	                             strokeOpacity: 1.0,
+	                             strokeWeight: 2
+	                           });
+	                           CBroute.setMap(map);
+	                           line.push(CBroute); 
+		}
+
         var i;
         var x = document.getElementsByClassName("dd");
         for (i = 0; i < x.length; i++) {
@@ -214,22 +268,25 @@
 	}
 		
 	function movePlace(){ 
+		
 		 for(var i = 0; i < tempNum; i++){
 	        	
+			 alert(appendDiv)
+			 
 				$("#f"+(i)+" input[name='visitDate']").val(visitDate);
-	        	
+				
 	        	eval("var placeObj"+i+"= new Object()");
 		        
-		        eval("placeObj"+i).visitDate = $("#f"+(i)+" input[name='visitDate']").val();
-		        eval("placeObj"+i).place = $("#f"+(i)+" input[name='place']").val();
-		        eval("placeObj"+i).memo = $("#f"+(i)+" textarea[name='memo']").val();
+		        eval("placeObj"+i).visitDate = $(appendDiv).find($("#f"+(i)+" input[name='visitDate']")).val();
+		        eval("placeObj"+i).place =$(appendDiv).find( $("#f"+(i)+" input[name='place']")).val();
+		        eval("placeObj"+i).memo = $(appendDiv).find($("#f"+(i)+" textarea[name='memo']")).val();
 		        eval("placeObj"+i).cityNo = cityNo;
 		        eval("placeObj"+i).travelNo = travelNo;
-		        eval("placeObj"+i).placeId = $("#f"+(i)+" input[name='placeId']").val();
-		        eval("placeObj"+i).placeX = $("#f"+(i)+" input[name='placeX']").val();
-		        eval("placeObj"+i).placeY = $("#f"+(i)+" input[name='placeY']").val();
-		        eval("placeObj"+i).prePlaceNo = $("#f"+(i)+" input[name='prePlaceNo']").val();
-		        eval("placeObj"+i).nextPlaceNo = $("#f"+(i)+" input[name='nextPlaceNo']").val();
+		        eval("placeObj"+i).placeId = $(appendDiv).find($("#f"+(i)+" input[name='placeId']")).val();
+		        eval("placeObj"+i).placeX = $(appendDiv).find($("#f"+(i)+" input[name='placeX']")).val();
+		        eval("placeObj"+i).placeY = $(appendDiv).find($("#f"+(i)+" input[name='placeY']")).val();
+		        eval("placeObj"+i).prePlaceNo = $(appendDiv).find($("#f"+(i)+" input[name='prePlaceNo']")).val();
+		        eval("placeObj"+i).nextPlaceNo = $(appendDiv).find($("#f"+(i)+" input[name='nextPlaceNo']")).val();
 
 	        	var jsonPlace = JSON.stringify(eval("placeObj"+i));
 			        	
@@ -314,7 +371,7 @@
           content: document.getElementById('info-content')
           });
       places = new google.maps.places.PlacesService(map);
-      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
+    //  google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
           // Create the search box and link it to the UI element.
           var input = document.getElementById('temp');
           var options = {
@@ -477,7 +534,7 @@
     		var newUpButton = "<button>"+start+"</button>"
     		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
     		
-    		var newLeftDiv = "<form id = 'f0' style='display:none'>"
+    		var newLeftDiv = "<form id = 'f0' class = 'fo' name='ddform' value='yyyyyyyy' style='display:none'>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
@@ -518,6 +575,9 @@
     		$("#end").val(start);    		
     	    Javascript:calcRoute();
     		
+    		$(appendDiv).find( $("#f"+(tempNum)+" input[name='startPlace']")).val(document.querySelector('#start').value);
+    		$(appendDiv).find( $("#f"+(tempNum)+" input[name='place']")).val(document.querySelector('#start').value); 
+    		
 			tempNum++;
 			return;
     	}
@@ -528,7 +588,7 @@
     		$("#temp").val(null);
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"'>"		    //여긴 하나 있어서 1부터			
+    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' value='xxxxx'>"		    //여긴 하나 있어서 1부터			
     			//+"<input type='text' id='startPlace' name='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
@@ -554,13 +614,13 @@
 
     		$("#start").val(start);
     		$("#end").val(end);    		
+
     		
-    		$("#f"+(tempNum-2)+" input[name='place']").val(document.querySelector('#start').value); 
-    		$("#f"+(tempNum-1)+" input[name='startPlace']").val(document.querySelector('#start').value);
-    		$("#f"+(tempNum-1)+" input[name='place']").val(document.querySelector('#end').value);
-    		$("#f"+(tempNum-1)+" input[name='prePlaceNo']").val(tempNum-1);
-    		$("#f"+(tempNum-1)+" input[name='nextPlaceNo']").val(tempNum+1);
-    		
+    		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='startPlace']")).val(document.querySelector('#start').value);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
+
    			Javascript:calcRoute();
 
     		start = end;
@@ -590,16 +650,12 @@
           var placeX = response.routes[0].legs[0].end_location.lat();
           var placeY = response.routes[0].legs[0].end_location.lng();
           
-          if(tempNum==0){
-          	$("#f"+(tempNum-2)+" input[name='placeX']").val(placeX);
-              $("#f"+(tempNum-2)+" input[name='placeY']").val(placeY);
-              $("#f"+(tempNum-2)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
-          }
-          $("#f"+(tempNum-1)+" input[name='placeX']").val(placeX);
-          $("#f"+(tempNum-1)+" input[name='placeY']").val(placeY);
-          $("#f"+(tempNum-1)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
-          $("#f"+(tempNum-1)+" input[name='duration']").val(JSON.stringify(response.routes[0].legs[0].duration.text));
-          $("#f"+(tempNum-1)+" input[name='distance']").val(JSON.stringify(response.routes[0].legs[0].distance.text));  
+
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='placeX']")).val(placeX);
+          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeY']")).val(placeY);
+          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeId']")).val(response.geocoded_waypoints[1].place_id);
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='duration']")).val(JSON.stringify(response.routes[0].legs[0].duration.text));
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='distance']")).val(JSON.stringify(response.routes[0].legs[0].distance.text));  
                    
           var placeXY = new Object();
           
@@ -609,7 +665,7 @@
         	 var marrk = placeXY;
          	 routes.push(placeXY);
          	
-           $("#f"+(tempNum-2)+" input[name='placeXY']").val(placeXY);
+           //$("#f"+(tempNum-2)+" input[name='placeXY']").val(placeXY);
 
          	var marker = new google.maps.Marker({
       		position: marrk,
@@ -628,7 +684,7 @@
         });
       }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
-function setAutocompleteUsername() {
+/* function setAutocompleteUsername() {
 
 	var interest = document.getElementById('interest').value;
    
@@ -836,7 +892,7 @@ function buildIWContent(place) {
     document.getElementById('iw-website-row').style.display = 'none';
   }
 }
-
+ */
 	
 	google.maps.event.addDomListener(window, 'load', getLocation);
 	
@@ -875,7 +931,7 @@ function buildIWContent(place) {
 		</div> 		 
 
 		</div>
-		<div id="near"></div>
+		<!-- <div id="near"></div>
 	  <select id="interest" style="width:140px">
 		<option value="bank">Bank</option>
         <option value="school">School</option>
@@ -886,10 +942,10 @@ function buildIWContent(place) {
    		<div id="listing">
       <table id="resultsTable">
         <tbody id="results"></tbody>
-      </table>
-    </div>
+      </table> 
+    </div>-->
    	
-	    <div id="info-content">
+	    <!-- <div id="info-content">
       <table>
         <tr id="iw-url-row" class="iw_table_row">
           <td id="iw-icon" class="iw_table_icon"></td>
@@ -908,7 +964,7 @@ function buildIWContent(place) {
           <td id="iw-website"></td>
         </tr>
       </table>
-    </div>
+    </div> -->
 		 	
 		<div id="map"></div>
 		
