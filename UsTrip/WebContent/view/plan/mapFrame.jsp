@@ -8,22 +8,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr&callback=initMap"  defer></script>
 <script src="/js/dateFormat.js"></script>
 	<style type="text/css">
         #map{
         height: 100%;
-        width: 84%;
       }
-       html, body {
+      html, body, div{
         height: 100%;
-        margin: 0;
-        padding: 0;
       }
       
         </style>
@@ -55,29 +52,52 @@
 	                    strokeOpacity: 1.0,
 	                    strokeWeight: 2
 	                  });
+
 						polylinePath.setMap(map);
 	                } 
 			 
      function initMap(){
        map = new google.maps.Map(document.getElementById('map'), {
          center: {lat: 36.4488, lng: 127.7792} ,
-         zoom: 8,
-         mapTypeControl: false                
-       });       
-       var travNo = ${travNo};  
-       cityMap(travNo)
+         zoom: 7
+       });
+       /* 
+       var target = [
+                          {lat: 36.8488, lng: 127.7792},
+                          {lat:37.4923, lng:127.0292},
+                          {lat: 36.4488, lng: 127.7792}
+                        ];	
+       for (var i = 0; i < target.length; i++) { 
+         marker = new google.maps.Marker({
+           position: new google.maps.LatLng(target[i]),
+           map: map
+         });
+         marker.setMap(map);
+       }
+         
+                   var polylinePath = new google.maps.Polyline({
+                    path: target,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                  });
+
+					polylinePath.setMap(map); */
                 } 
-     
-     function cityMap(travNo){
-    	 
+   
+     $(function() {	
     	
- 		var zoomLevel = 7;
- 		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
- 		var target = [];
- 		var titles =[];
- 		var days = [];
- 		
- 		$.ajax( 
+    	 //initMap();
+    	 $('button[name="city"]').on('click',function(){
+    		var travNo = $(this).val();
+    		var zoomLevel = 7;
+    		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
+    		var target = [];
+    		var titles =[];
+    		var days = [];
+    		
+    		$.ajax( 
 					{
 						url : "/blog/getMapCity/"+travNo,
 						method : "GET" ,
@@ -107,19 +127,11 @@
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}
 					});    	
-    	 
-     }
-   
-     $(function() {	
-    	
-    	 $('button[name="city"]').on('click',function(){
-    		 var travNo = $(this).val();
-    		 cityMap(travNo);
     	 });
     	 
     	 $('button[name="place"]').on('click',function(){
-    		var placeNo = $(this).val();
-     		var zoomLevel = 12;     		
+    		 var placeNo = $(this).val();
+     		var zoomLevel = 15;     		
      		var x = $(this).attr('tempX');
      		var y = $(this).attr('tempY');
      		x *= 1;
@@ -168,14 +180,15 @@
 	</script>
 </head>
 <body>
-<div id="map" style="position: absolute;"></div>
+
 <div class="row" >
 <div class="col-md-10">
+<div id="map" ></div>
 </div>
 <div class="col-md-2">
-<button value="${travNo}" name="city" class="btn btn-info" style="height:35px; width:120px;">totalRoute</button><br/>
+<button value="${travNo}" name="city" class="btn btn-info">전체경로 보기</button><br/>
 <c:forEach items="${listCity}" var="city" varStatus="status">
-<button name="place" class="btn btn-success" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}" style="height:40px; width:120px;">${city.city}</button><br/>
+<button name="place" class="btn btn-info" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}">${city.city}</button><br/>
 </c:forEach>
 </div>
 </div>

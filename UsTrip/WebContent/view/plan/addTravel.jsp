@@ -53,12 +53,12 @@
 		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
 		
 		$("#userId").val("b@naver.com");
-		$("#travTitle").val("여행Test");
-		$("#startDate").
-		val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
-		$("#memberCount").val(8);
-		$("#totalDate").val(10);
+		/* $("#travTitle").val("여행Test");
 		
+		
+		$("#memberCount").val(8);
+		$("#totalDate").val(10); */
+		$("#startDate").val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
 		$("form").attr("method", "POST").attr("action", "/plan/addTravel")
 				.submit();
 	}

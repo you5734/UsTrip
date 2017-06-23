@@ -62,7 +62,8 @@ public class BlogController {
 
 		System.out.println("/addBlog : GET");
 		
-		List<Place> list=planService.listPlace(travelNo);		
+		List<Place> list=planService.listPlace(travelNo);	
+		System.out.println("¾å" +list);
 		blogService.addBlog(list);
 		planService.startBlog(travelNo);
 		

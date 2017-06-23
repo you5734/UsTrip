@@ -62,9 +62,9 @@
 				 self.location="/message/listReceivMsg";
 			 });
 			 
-/* 			 $("#ustory").on("click" , function() {
+		 	$("#ustory").on("click" , function() {
 				 self.location="/user/allListTravel";
-			 }); */
+			 }); 
 		 });
 	</script>
 	

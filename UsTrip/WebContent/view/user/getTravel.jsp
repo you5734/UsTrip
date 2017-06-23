@@ -97,7 +97,7 @@
 								},
 								context : this,
 								success : function(serverData , status) {
-									/* $(this).val('좋아요취소'); */
+									 $(this).val('좋아요취소');
 /* 									
 								 	$("input").remove(".fa.fa-thumbs-up.btn.btn-info.btn-sm");
 									$input = $("<input type='button'/>").addClass('"fa fa-thumbs-up btn btn-info btn-sm').val('delLike');	
@@ -192,15 +192,16 @@ label {
   padding: 20px;
   background: #fff;
   color: #999;
-  border-bottom: 2px solid #f0f0f0;
+  height: 700px;
+/*   border-bottom: 2px solid #f0f0f0; */
 }
 
-.tab_container .tab-content p,
+/* .tab_container .tab-content p,
 .tab_container .tab-content h3 {
   -webkit-animation: fadeInScale 0.7s ease-in-out;
   -moz-animation: fadeInScale 0.7s ease-in-out;
   animation: fadeInScale 0.7s ease-in-out;
-}
+} */
 .tab_container .tab-content h3  {
   text-align: center;
 }
@@ -328,10 +329,13 @@ border-bottom: 1px solid #f7f7f7;
 								<input id="tab3" type="radio" name="tabs">
 								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
 	
-								<section id="content1" class="tab-content">
-									<h3>Headline 1</h3>
-							      	<p>Tab 1 Content.</p>
+								<section id="content1" class="tab-content" style="heigh:700px;">
+									<!-- <h3>Headline 1</h3>
+							      	<p>Tab 1 Content.</p> -->
+							     <%--  	<jsp:include page="/view/plan/getCity.jsp"/>  --%>
+							     <jsp:include page="/view/blog/mapFrame.jsp"/> 
 								</section>
+								
 					
 								<section id="content2" class="tab-content">
 								 <c:if test="${travel.isBlogStart==1 }">

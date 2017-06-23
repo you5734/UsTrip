@@ -157,12 +157,12 @@
 		<c:set var="i" value="${i+1}"/>
 		<tr class="ct_list_pop">
 			<td align="center"><input type="checkbox" name="chbox" value="${message.msgNo}" /></td>
-			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}"/>
+			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}">
 			<td align="left">${message.sender}</td>
 			<td></td>
 			<td align="left">
 				<span class="content" >${message.msgContent}</span>
-				<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}"/>
+				<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}">
 			</td>
 			<td></td>
 			<td></td>

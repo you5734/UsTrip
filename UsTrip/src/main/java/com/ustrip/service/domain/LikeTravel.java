@@ -4,7 +4,7 @@ public class LikeTravel {
 	
 	private int likeTravNo;
 	private String userId;
-	private int travNo;
+	private Travel travNo;
 
 	public LikeTravel() {
 		// TODO Auto-generated constructor stub
@@ -22,10 +22,10 @@ public class LikeTravel {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public int getTravNo() {
+	public Travel getTravNo() {
 		return travNo;
 	}
-	public void setTravNo(int travNo) {
+	public void setTravNo(Travel travNo) {
 		this.travNo = travNo;
 	}
 

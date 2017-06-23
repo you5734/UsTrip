@@ -134,5 +134,9 @@ public class BlogDAOImpl implements BlogDAO{
 		search.setSearchCondition(Integer.toString(travNo));
 		sqlSession.delete("BlogMapper.addLike", search);
 	}
-
+	//좋아요한 여행
+	@Override
+	public List<LikeTravel> getListLikeTravel(Search search) throws Exception {
+		return sqlSession.selectList("BlogMapper.getListLikeTravel", search);
+	}
 }

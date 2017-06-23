@@ -16,6 +16,8 @@
 		<result property="totalDate" 			column="total_date" 		jdbcType="NUMERIC" />
 		<result property="isBlogStart" 			column="is_blog_start" 		jdbcType="NUMERIC"  />
 		<result property="thumbNail" 			column="thumb_nail" 		jdbcType="VARCHAR" />
+		<result property="nickName" 			column="nickname" 		jdbcType="VARCHAR" />
+		
 	</resultMap>
 	
 	<insert id="addTravel" parameterType="travel">
@@ -26,22 +28,30 @@
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->
-	<select id="getTravel" parameterType="int"	resultMap="travelSelectMap">
+	<select id="getTravel" parameterType="int" resultMap="travelSelectMap">
 		SELECT
 		*		
 		FROM travel 
 		WHERE trav_no=#{value}
 	</select>
 	
+	<select id="getTravelTravel" parameterType="travel" resultMap="travelSelectMap">
+		SELECT
+		*		
+		FROM travel 
+		WHERE trav_title=#{value}
+	</select>
 	<select id="getListTravel" parameterType="search"	resultMap="travelSelectMap">
-		  	SELECT *
-			FROM travel
+		  	select t.trav_no, t.trav_title, t.trav_theme, t.member_count, 
+				t.start_date, t.total_date, t.is_blog_start, t.thumb_nail, u.user_id, u.nickname
+ 			from travel t, users u
 			 <where>
+			 	t.user_id = u.user_id
 				 	<if test="searchKeyword != null">
-						 user_id = #{searchKeyword}
+						 AND u.user_id = #{searchKeyword}
 					</if>
 				</where>
-			ORDER BY trav_no
+			ORDER BY trav_no desc
 			
 	</select>
 	
@@ -53,7 +63,13 @@
 	
 	<select id="totalCount" parameterType="search" resultType="int">
 	 	SELECT COUNT(*)
-	 	FROM ( SELECT *FROM travel WHERE user_id=#{searchKeyword} ) countTable
+	 	FROM ( SELECT *FROM travel 
+	 				<where>
+					 	<if test="searchKeyword != null">
+							 user_id = #{searchKeyword}
+						</if>
+				</where>
+		 ) countTable
 	 </select>
 	
 	 <select id="checkBlogStart" parameterType="int" resultType="int">
@@ -69,4 +85,5 @@
 	 	SET is_blog_start=1
 	 	WHERE trav_no=#{travelNo}
 	 </update>
+	 
 </mapper>

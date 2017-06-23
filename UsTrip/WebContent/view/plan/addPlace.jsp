@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -64,12 +63,22 @@
         text-overflow: ellipsis;
         width: 300px;
       }
+
       #temp:focus {
         border-color: #4d90fe;
       }
+
       .temp-container {
         font-family: Roboto;
       }
+       #panel{
+			position: fixed;
+			margin-left: 25%;
+          	margin-top: 9%;
+			z-index: 5;
+			background-color: #fff;
+			padding: 3px;
+        }
       
       	#duration, #distance{
 			border:none;
@@ -78,6 +87,7 @@
     </style>
 
     <script>
+    
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
     var map;
@@ -86,21 +96,114 @@
     var start;
     var end;
 	var tempNum = 0;
+	var travelNo = document.location.href.split("?")[1]*1;
+	var cityNo = document.location.href.split("?")[2]; 
+	var startCityX =  document.location.href.split("?")[3]*1;  
+	var startCityY =  document.location.href.split("?")[4]*1;  
+	var stayStart = decodeURIComponent(document.location.href.split("?")[5]); 
+	var stayDate = decodeURIComponent(document.location.href.split("?")[6]); 
+	var stayEnd = decodeURIComponent(document.location.href.split("?")[7]); 
+	var defaultVisitDate = stayStart;
+	var visitDate = stayStart;
+	var visitDay;
+	var appendDiv = "#dd1";
+	var XValue;
+	var YValue;
+	var placeValue;
+	var routes = [];
+	var infowindow;
+	var places, infoWindow;
+	var markers = [];
+	var autocomplete;
+	var iconColor="";
+	var markerPath="http://maps.google.com/mapfiles/ms/icons/";
+	var hostnameRegexp = new RegExp('^https?://.+?/');
+	var CBroute;
+	var line = [];
+
+	function openCity(cityName) {
+		 
+		 for (var i = 0; i < markers.length; i++) {
+             markers[i].setMap(null);
+		 } markers.length = 0;
 	
-	var startCityX =  document.location.href.split("?")[1]*1;  
-	var startCityY =  document.location.href.split("?")[2]*1;  
-	var cityValue = decodeURIComponent(document.location.href.split("?")[3]); 
+		 
+		 for (i=0; i<line.length; i++){                           
+		   line[i].setMap(null); 
+		 }line.length = 0;
+		 routes.length = 0;
+		
+         //alert($(appendDiv).child().val());
+     	 //find(".cityXY").
+     	 //alert("599:"+appendDiv)
+		 
+        var i;
+        var x = document.getElementsByClassName("dd");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none"; 
+        }
+        document.getElementById(cityName).style.display = "block"; 
+    }
 	
+	function len_chk(){  
+		  var frm = document.insertFrm.test; 
+		  
+		  if(frm.value.length > 4000){  
+		       alert("글자수는 영문100, 한글50자로 제한됩니다.!");  
+		       frm.value = frm.value.substring(0,100);  
+		       frm.focus();  
+		  } 
+
+		} 
 	
+	$(function(){// 
+		$(document).on("click","#cch",function(){
+			
+			start = null;
+			end = null;
+			
+			appendDiv = '#d'+$(this).attr('class')+'';
+			
+			tempNum = 0;
+			
+			visitDay = $(this).attr('class').split("d")[1];
+			
+			visitDate = defaultVisitDate;
+			
+			if(visitDay==null){
+				visitDay = 1;
+    		}
+			
+			visitDate = new Date(visitDate);
+			visitDate.setDate((visitDate.getDate()*1 + (visitDay-1)*1));
+			visitDate = visitDate.getFullYear()+"-"+(visitDate.getMonth()*1+1)+"-"+visitDate.getDate();
+			
+		});
+	
+		$(document).on("click","#insert",function(){
+			
+			movePlace()
+			
+		});
+		
+    });
+
+	var btnDay;// day 찾아가는 버튼
+	var divDay;// day 폼 입력하는 div
 	
 	$(document).ready(function() {
 		
+
+		for (var i=0; i<stayDate; i++){
 		
-	setTemp();
-		var startPlace = "${sessionScope.city.city}";	
-		var strArray = startPlace.split('_');
-		startPlace = strArray[0];
-		$("#f0 input[name='startPlace']").val(startPlace); 
+			btnDay = "<button id='cch' class='"+"d"+(i+1)+"' onclick=\"openCity('"+"dd"+(i+1)+"')\">"+"d"+(i+1)+"</button>";
+			$("#btnClass").append(btnDay);
+			
+			divDay = "<div id="+"dd"+(i+1)+" class='dd'></div>";
+			
+			$("#cityOOO").append(divDay);
+			
+		}// end of for
 		
 	});		
 	
@@ -111,51 +214,45 @@
 	}
 		
 	function movePlace(){ 
-		/* 
-		for(var i = 0; i < tempNum-1; i++){
-			
-			$("#f"+(i)+" input[name='stayStart']").val(stayStart);
-			var stayDate = $("#f"+(i)+" input[name='stayDate']").val();
-			var stayEnd = new Date(stayStart);
-	   		stayEnd.setDate((stayEnd.getDate()*1 + stayDate*1));
-	   		stayEnd = stayEnd.getFullYear()+"-"+(stayEnd.getMonth()*1+1)+"-"+stayEnd.getDate();
-			$("#f"+(i)+" input[name='stayEnd']").val(stayEnd)
-			stayStart = stayEnd;
-		}
-		 */
-		//json으로 담기
-      /* 
-        for(var i = 0; i < tempNum-1; i++){
-        	
-	        var placeObj = new Object();
+		 for(var i = 0; i < tempNum; i++){
+	        	
+				$("#f"+(i)+" input[name='visitDate']").val(visitDate);
+	        	
+	        	eval("var placeObj"+i+"= new Object()");
+		        
+		        eval("placeObj"+i).visitDate = $("#f"+(i)+" input[name='visitDate']").val();
+		        eval("placeObj"+i).place = $("#f"+(i)+" input[name='place']").val();
+		        eval("placeObj"+i).memo = $("#f"+(i)+" textarea[name='memo']").val();
+		        eval("placeObj"+i).cityNo = cityNo;
+		        eval("placeObj"+i).travelNo = travelNo;
+		        eval("placeObj"+i).placeId = $("#f"+(i)+" input[name='placeId']").val();
+		        eval("placeObj"+i).placeX = $("#f"+(i)+" input[name='placeX']").val();
+		        eval("placeObj"+i).placeY = $("#f"+(i)+" input[name='placeY']").val();
+		        eval("placeObj"+i).prePlaceNo = $("#f"+(i)+" input[name='prePlaceNo']").val();
+		        eval("placeObj"+i).nextPlaceNo = $("#f"+(i)+" input[name='nextPlaceNo']").val();
+
+	        	var jsonPlace = JSON.stringify(eval("placeObj"+i));
+			        	
+		        $.ajax({
+		        	type : "POST",
+		        	url : "/plan/addPlace",
+		        	data :{ a:jsonPlace},
+		        	datatype : "json",
+		        	context: this,
+		        	success: function(result)
+		        	{
+		        		alert(result);
+		        	}
+		        }); 
+	        	
+	        }
 	        
-	        placeObj.startCity = $("#f"+(i)+" input[name='startCity']").val();
-	        placeObj.city = $("#f"+(i)+" input[name='city']").val();
-	        placeObj.city = $("#f"+(i)+" input[name='city']").val();
-	        placeObj.travelNo = travelNo;
-	        placeObj.cityId = $("#f"+(i)+" input[name='cityId']").val();
-	        placeObj.cityX = $("#f"+(i)+" input[name='cityX']").val();
-	        placeObj.cityY = $("#f"+(i)+" input[name='cityY']").val();
-	        placeObj.preCityNo = $("#f"+(i)+" input[name='preCityNo']").val();
-	        placeObj.nextCityNo = $("#f"+(i)+" input[name='nextCityNo']").val();
-	        placeObj.stayStart = $("#f"+(i)+" input[name='stayStart']").val();
-	        placeObj.stayDate = $("#f"+(i)+" input[name='stayDate']").val();
-	        placeObj.stayEnd = $("#f"+(i)+" input[name='stayEnd']").val();
-	        placeArray.push(placeObj);
-        }
-        
-		placeObj = placeArray;
-        var jsonPlace = JSON.stringify(placeObj);
-        $("#jsonC").val(jsonPlace);
-		
-		  */
-		fncAddPlace();
-	}
-	function fncAddPlace() {
-		
-		$("form").attr("method", "POST").attr("action", "/plan/addPlace").submit();
-				
-	}
+			fncAddPlace();
+		}
+
+		function fncAddPlace() {
+			
+		}
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,51 +268,83 @@
       directionsDisplay = new google.maps.DirectionsRenderer();
       geocoder = new google.maps.Geocoder();
 			
-		/* cityX = cityX*1; 
-		cityY = cityY*1; */
 		
 		var currentLocation = [];
 		
       var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      
+      var mapStyles = [{
+          "featureType": "poi.attraction",
+              "elementType": "labels",
+              "stylers": [{
+              "visibility": "on",
+               "color": "#99FF33" 
+          }]
+      }];
     
       var mapOptions = {
-        zoom:13,
+        zoom:14,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
       /*   center: currentLocation */
-        center : { lat: startCityX ,  lng: startCityY} 
+        center :{ lat: startCityX ,  lng: startCityY} ,
+      styles: mapStyles
       }
+    //  { lat: 35.7090 ,  lng: 139.7319} ,
+     // { lat: startCityX ,  lng: startCityY} ,
       map = new google.maps.Map(document.getElementById('map'), mapOptions);
-      directionsDisplay.setMap(map);
-      var markers = [];
       
-      google.maps.event.addListener(map, 'click', function(e) {
+      infowindow = new google.maps.InfoWindow();
+      ////////////////////공원에 마커 생성//////////////////////
+   /*    var service = new google.maps.places.PlacesService(map);
+      service.nearbySearch({
+        location: { lat: startCityX ,  lng: startCityY},
+        radius: 20000,
+        types: ["park"]
+        
+      }, callback);
+       */
+      directionsDisplay.setMap(map);
+      
+      
+     /*  google.maps.event.addListener(map, 'click', function(e) {
           getAddress(e.latLng);
           
-          
-          
-      });
-      
+      }); */
+      infoWindow = new google.maps.InfoWindow({
+          content: document.getElementById('info-content')
+          });
+      places = new google.maps.places.PlacesService(map);
+      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
           // Create the search box and link it to the UI element.
           var input = document.getElementById('temp');
-          var searchBox = new google.maps.places.SearchBox(input);
+          var options = {
+        		  /////////////////////////////type[] 지정/////////////////////////////////////////////////////////////////
+        	        componentRestrictions: {country: 'kr'}
+        	      };
+         var autocomplete = new google.maps.places.Autocomplete(input, options);
           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
           // Bias the SearchBox results towards current map's viewport.
           map.addListener('bounds_changed', function() {
-            searchBox.setBounds(map.getBounds());
+        	  autocomplete.setBounds(map.getBounds());
           });
-          var markers = [];
+
+          
           // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
-          searchBox.addListener('places_changed', function() {
-            var places = searchBox.getPlaces();
+          autocomplete.addListener('places_changed', function() {
+            var places = autocomplete.getPlaces();
+
             if (places.length == 0) {
               return;
             }
+
             // Clear out the old markers.
             markers.forEach(function(marker) {
               marker.setMap(null);
             });
-            markers = [];
+            
+
             // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function(place) {
@@ -223,6 +352,8 @@
                 console.log("Returned place contains no geometry");
                 return;
               }
+              alert(JSON.stringify(place));
+              alert(JSON.stringify(places));
               var icon = {
                 url: place.icon,
                 size: new google.maps.Size(71, 71),
@@ -230,6 +361,7 @@
                 anchor: new google.maps.Point(17, 34),
                 scaledSize: new google.maps.Size(25, 25)
               };
+
               // Create a marker for each place.
               markers.push(new google.maps.Marker({
                 map: map,
@@ -237,27 +369,17 @@
                 title: place.name,
                 position: place.geometry.location
               }));
+
               if (place.geometry.viewport) {
                 // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
+                
               } else {
                 bounds.extend(place.geometry.location);
               }
             });
             map.fitBounds(bounds);
           });
-      
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////      
-      poly = new google.maps.Polyline({
-  	    strokeColor: '#000000',
-  	    strokeOpacity: 1.0,
-  	    strokeWeight: 3
-  	  });
-  	  poly.setMap(map);
-  	  // Add a listener for the click event
-  	  map.addListener('click', addLatLng);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  	
-      
       
       function getAddress(latlng) {
     		var geocoder = new google.maps.Geocoder();
@@ -271,17 +393,23 @@
     				if (results[0].geometry) {
     					
     					var address = results[0].formatted_address.replace(/^日本, /, '');
+							/* address = address.split(' ');
+	    					
+	    					address = address[1]+" " +address[2] */
     					new google.maps.InfoWindow({
     						content: address + "<br>(Lat, Lng) = " + latlng
-    					}).open(map, new google.maps.Marker({
+    					})/* .open(map, new google.maps.Marker({
     						position: latlng,
     						map: map
-    					}));
+    					})); *///인포박스
+    				 	alert(JSON.stringify(results[0]));
+    					$("#temp").val(address);
+    					setTemp()
     					
     				//	 alert(JSON.stringify(results[0]));
-    					
+    					/* 
     					markers.push(JSON.stringify(results[0].address_components[3].long_name)); 
-    					/* alert(markers.length); */
+    				
     					if($('#startPlace').val() == ""){
   	  					$('#startPlace').val(results[0].address_components[3].long_name);
     					}else{
@@ -308,30 +436,88 @@
     			    			
     						$("#btn").append(newUpButton);				
     			    		$("#formTag").append(newLeftButton);
-    			    	}
+    			    	} */
     			    }
     				}		
     			 
     		});    
       }
   }// end of initialize() 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////      
-    
 /////////////////////////////////////////////////////////////////////////////////////////////////////////    
-    function setTemp() {
+
+///// 유형별로 마커 생성//////////////////
+    /*  function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      }
+
+      function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+      } */
+/////////////////////////////////////////////////////////////////////////////////////////////////////////    
+      function setTemp() {
     	
     	if(tempNum==0){
     		
-    		start = cityValue;
-    		//start = document.getElementById('temp').value;
+    		
+    		start = document.getElementById('temp').value;
     		
     		var newUpButton = "<button>"+start+"</button>"
-    		var newLeftButton = "<button>"+start+"</button>"
+    		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
+    		
+    		var newLeftDiv = "<form id = 'f0' style='display:none'>"
+    			+"<input type='hidden' id='visitDate' name='visitDate'/>"
+    			+"<input type='hidden' id='place' name='place' class='place'/>"
+    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
+    			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo'/>"
+    			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo'/>"
+    			+"<input type='hidden' id='placeId' name='placeId' class='placeId'/>"
+    			+"<input type='hidden' id='placeX' name='placeX' class='placeX'/>"
+    			+"<input type='hidden' id='placeY' name='placeY' class='placeY'/>"
+    			+"<input type='hidden' id='placeXY' name='placeXY' class='placeXY'/>"
+    			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo' class='prePlaceNo' value='0'/>"
+    			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo' class='nextPlaceNo' value='2'/>"
+    			+"</form>";
+    			
+    		var address1 = document.getElementById('temp').value;
+		    geocoder.geocode( { 'address': address1}, function(results, status) {
+		      if (status == 'OK') {
+		        map.setCenter(results[0].geometry.location);
+		        var marker = new google.maps.Marker({
+		            map: map,
+		            position: results[0].geometry.location
+		        });
+		        markers.push(marker);
+		      } else {
+		        alert('Geocode was not successful for the following reason: ' + status);
+		      }
+		      routes.push(results[0].geometry.location);
+ 		     
+		    });
     		
     		$("#btn").append(newUpButton);
-    		$("#mainPlace").append(newLeftButton);
+    		
+    		//
+        		$(appendDiv).append(newLeftButton);
+        		$(appendDiv).append(newLeftDiv);
+    		
 			$("#temp").val(null);
-			
+			$("#start").val(start);
+    		$("#end").val(start);    		
+    	    Javascript:calcRoute();
+    		
 			tempNum++;
 			return;
     	}
@@ -342,95 +528,315 @@
     		$("#temp").val(null);
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    		var newLeftButton = "<form id = 'f"+(tempNum-2)+"'>"    //여긴 하나 있어서 1부터			
-    			+"<input type='text' id='visitDate' name='visitDate'/>"
-    			+"<input type='text' id='startPlace' name='startPlace'/>"
-    			+"<input type='text' id='place' name='place'/>"
-    			+"<input type='text' id='memo' name='memo'/>"
+    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"'>"		    //여긴 하나 있어서 1부터			
+    			//+"<input type='text' id='startPlace' name='startPlace'/>"
+    			+"<input type='hidden' id='visitDate' name='visitDate'/>"
+    			+"<input type='hidden' id='place' name='place' class='place'/>"
+    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
     			+"<input type='text' id='distance' name='distance'/>"
     			+"<input type='text' id='duration' name='duration'/>"
-    			+"<input type='hidden' id='cityNo' name='cityNo' value='${sessionScope.city.cityNo}'/>"
-    			+"<input type='hidden' id='travelNo' name='travelNo' value='${sessionScope.city.travelNo}'/>"
-    			+"<input type='hidden' id='placeId' name='placeId'/>"
-    			+"<input type='hidden' id='placeX' name='placeX'/>"
-    			+"<input type='hidden' id='placeY' name='placeY'/>"
-    			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo'/>"
-    			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo'/>"
-    			+"<button  style='WIDTH: 170pt; HEIGHT: 20pt' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
+    			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo' value='${sessionScope.city.cityNo}'/>"
+    			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='${sessionScope.city.travelNo}'/>"
+    			+"<input type='hidden' id='placeId' name='placeId' class='placeId'/>"
+    			+"<input type='hidden' id='placeX' name='placeX' class='placeX'/>"
+    			+"<input type='hidden' id='placeY' name='placeY' class='placeY'/>"
+    			+"<input type='hidden' id='placeXY' name='placeXY' class='placeXY'/>"
+    			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo' class='prePlaceNo'/>"
+    			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo' class='nextPlaceNo'/>"
+    			+"<button  style='WIDTH: 170pt;' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
     			+"</form>"
     			+"<br></br>";
 			$("#btn").append(newUpButton);
 			if(tempNum>1){
-				
-    		$("#formTag").append(newLeftButton);
+	        		$(appendDiv).append(newLeftButton);
 			}
-    		
+			
+
     		$("#start").val(start);
     		$("#end").val(end);    		
     		
-    		$("#f"+(tempNum-2)+" input[name='startPlace']").val(document.querySelector('#start').value);
-    		$("#f"+(tempNum-2)+" input[name='place']").val(document.querySelector('#end').value);
-    		$("#f"+(tempNum-2)+" input[name='prePlaceNo']").val(tempNum-2);
-    		$("#f"+(tempNum-2)+" input[name='nextPlaceNo']").val(tempNum);
+    		$("#f"+(tempNum-2)+" input[name='place']").val(document.querySelector('#start').value); 
+    		$("#f"+(tempNum-1)+" input[name='startPlace']").val(document.querySelector('#start').value);
+    		$("#f"+(tempNum-1)+" input[name='place']").val(document.querySelector('#end').value);
+    		$("#f"+(tempNum-1)+" input[name='prePlaceNo']").val(tempNum-1);
+    		$("#f"+(tempNum-1)+" input[name='nextPlaceNo']").val(tempNum+1);
     		
    			Javascript:calcRoute();
+
     		start = end;
     		
     }// setTemp() 끝
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-  function addLatLng(event) {
-	//	alert(event); // 뭔진 모르겠고 [object Object] 이렇게 나옴
-	//	alert(JSON.stringify(event));
-	  var path = poly.getPath();
-	  // Because path is an MVCArray, we can simply append a new coordinate
-	  // and it will automatically appear.
-	  path.push(event.latLng);
-	  // Add a new marker at the new plotted point on the polyline.
-	  var marker = new google.maps.Marker({
-	    position: event.latLng,
-	    title: '#' + path.getLength(),
-	    map: map
-	  });
-	}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     function calcRoute() {
+    	   
+        var start = document.querySelector('#start').value;
+        var end = document.querySelector('#end').value;
+        
+        var mode = "TRANSIT";
    
-      var start = document.querySelector('#start').value;
-      var end = document.querySelector('#end').value;
-      
-      var mode = "TRANSIT";
- 
-      var request = {
-          origin:start,
-          destination:end,
-          travelMode: eval("google.maps.DirectionsTravelMode."+mode)
-      }; 
-      
-     
-      directionsService.route(request, function(response, status) {
-    	
-    	  
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-        }
-     	
+        var request = {
+            origin:start,
+            destination:end,
+            travelMode: eval("google.maps.DirectionsTravelMode."+mode)
+        }; 
+        
        
-        var place_x = JSON.stringify(response.routes[0].legs[0].end_location);
-        place_x = place_x.replace(/[^0-9]/g,'');
+        directionsService.route(request, function(response, status) {
+      	
+      	  
+          if (status == google.maps.DirectionsStatus.OK) {
+          //    directionsDisplay.setDirections(response);//네비게이션
+          }
+          var placeX = response.routes[0].legs[0].end_location.lat();
+          var placeY = response.routes[0].legs[0].end_location.lng();
+          
+          if(tempNum==0){
+          	$("#f"+(tempNum-2)+" input[name='placeX']").val(placeX);
+              $("#f"+(tempNum-2)+" input[name='placeY']").val(placeY);
+              $("#f"+(tempNum-2)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
+          }
+          $("#f"+(tempNum-1)+" input[name='placeX']").val(placeX);
+          $("#f"+(tempNum-1)+" input[name='placeY']").val(placeY);
+          $("#f"+(tempNum-1)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
+          $("#f"+(tempNum-1)+" input[name='duration']").val(JSON.stringify(response.routes[0].legs[0].duration.text));
+          $("#f"+(tempNum-1)+" input[name='distance']").val(JSON.stringify(response.routes[0].legs[0].distance.text));  
+                   
+          var placeXY = new Object();
+          
+          placeXY.lat = placeX;
+          placeXY.lng = placeY;
         
-        $("#f"+(tempNum-2)+" input[name='placeX']").val(place_x);
-        var place_y = JSON.stringify(response.routes[0].legs[0].start_location);
-        place_y = place_y.replace(/[^0-9]/g,'');
-         
-        $("#f"+(tempNum-2)+" input[name='placeY']").val(place_y);
-        
-        $("#f"+(tempNum-2)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
-         $("#formTag input[name='duration']").eq(tempNum-2).val(JSON.stringify(response.routes[0].legs[0].duration.text));
-        $("#formTag input[name='distance']").eq(tempNum-2).val(JSON.stringify(response.routes[0].legs[0].distance.text)); 
-		
-      });
-    }//end of calcRoute()
+        	 var marrk = placeXY;
+         	 routes.push(placeXY);
+         	
+           $("#f"+(tempNum-2)+" input[name='placeXY']").val(placeXY);
+
+         	var marker = new google.maps.Marker({
+      		position: marrk,
+      		map: map
+    			}); 
+         	markers.push(marker);
+                             var CBroute = new google.maps.Polyline({
+                               path: routes,
+                               geodesic: true,
+                               strokeColor: '#b31543',
+                               strokeOpacity: 1.0,
+                               strokeWeight: 2
+                             });
+                             CBroute.setMap(map);
+                             line.push(CBroute);
+        });
+      }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
+function setAutocompleteUsername() {
+
+	var interest = document.getElementById('interest').value;
+   
+   if (interest == 'bank'){
+       searchBank();
+	}
+	if (interest == 'school'){
+       searchSchool();
+	}
+    if (interest == 'hospital'){
+       searchHospital();
+	}
+	if (interest == 'restaurant'){
+       searchRestaurant();
+	}
+	if (interest == 'all'){
+       searchAll();
+	}
+  
+   clearResults();
+   clearMarkers();
+}
+// [END seting username and interest]
+// Search for bank in the selected username
+function searchBank() {
+  var search = {
+    bounds: map.getBounds(),
+    types: ['bank']
+  };
+    places.nearbySearch(search, function(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+        clearResults();
+        clearMarkers();
+        for (var i = 0; i < results.length; i++) {
+		    iconColor="blue";
+		    icon = markerPath + iconColor + ".png";
+            markers[i] = new google.maps.Marker({
+                position: results[i].geometry.location,
+                animation: google.maps.Animation.DROP,
+                icon: new google.maps.MarkerImage(icon)
+            });
+            markers[i].placeResult = results[i];
+            google.maps.event.addListener(markers[i], 'click', showInfoWindow);
+            setTimeout(dropMarker(i), i * 100);
+        }
+    }
+  });
+}
+
+// Search for school in the selected username
+function searchSchool() {
+  var search = {
+    radius: 30000,
+    location: { lat: startCityX ,  lng: startCityY},
+    type: ['point_of_interest'],
+  rankBy: google.maps.places.RankBy.PROMINENCE
+  };
+    places.nearbySearch(search, function(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+        clearResults();
+        clearMarkers();
+        for (var i = 0; i < results.length; i++) {
+		    iconColor="green";
+		    icon = markerPath + iconColor + ".png";
+            markers[i] = new google.maps.Marker({
+                position: results[i].geometry.location,
+                animation: google.maps.Animation.DROP,
+                icon: new google.maps.MarkerImage(icon)
+            });
+            markers[i].placeResult = results[i];
+            google.maps.event.addListener(markers[i], 'click', showInfoWindow);
+            setTimeout(dropMarker(i), i * 100);
+          }
+    }
+  });
+}
+
+// Search for Hospitals in the selected username
+function searchHospital() {
+  var search = {
+    bounds: map.getBounds(),
+    types: ['hospital']
+  };
+    places.nearbySearch(search, function(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+           clearResults();
+           clearMarkers();
+           for (var i = 0; i < results.length; i++) {
+                iconColor="red";
+		        icon = markerPath + iconColor + ".png";
+                markers[i] = new google.maps.Marker({
+                    position: results[i].geometry.location,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+           markers[i].placeResult = results[i];
+           google.maps.event.addListener(markers[i], 'click', showInfoWindow);
+           setTimeout(dropMarker(i), i * 100);
+ 
+           }
+        }
+  });
+}
+
+// Search for Restaurant in the selected username
+
+function searchRestaurant() {
+var search = {
+    bounds: map.getBounds(),
+    types: ['restaurant']
+  };
+    places.nearbySearch(search, function(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            clearResults();
+            clearMarkers();
+            for (var i = 0; i < results.length; i++) {
+                iconColor="yellow";
+		        icon = markerPath + iconColor + ".png";
+                markers[i] = new google.maps.Marker({
+                    position: results[i].geometry.location,
+                    animation: google.maps.Animation.DROP,
+                    icon: new google.maps.MarkerImage(icon)
+                });
+                markers[i].placeResult = results[i];
+                google.maps.event.addListener(markers[i], 'click', showInfoWindow);
+                setTimeout(dropMarker(i), i * 100);
+            }
+        }
+  });
+}
+
+
+function clearMarkers() {
+  for (var i = 0; i < markers.length; i++) {
+    if (markers[i]) {
+      markers[i].setMap(null);
+    }
+  }
+  markers = [];
+}
+
+function dropMarker(i) {
+  return function() {
+    markers[i].setMap(map);
+  };
+}
+
+function addResult(result, i) {
+  var results = document.getElementById('results');
+  var markerLetter = String.fromCharCode('A'.charCodeAt(0) + i);
+  var markerIcon = MARKER_PATH + markerLetter + '.png';
+  markerIcon.onclick = function() {
+    google.maps.event.trigger(markers[i], 'click');
+  };
+ 
+}
+function clearResults() {
+  var results = document.getElementById('results');
+  while (results.childNodes[0]) {
+    results.removeChild(results.childNodes[0]);
+  }
+}
+
+// Get the place details. Show the information in an info window,
+function showInfoWindow() {
+  var marker = this;
+  places.getDetails({placeId: marker.placeResult.place_id},
+      function(place, status) {
+        if (status != google.maps.places.PlacesServiceStatus.OK) {
+          return;
+        }
+        infoWindow.open(map, marker);
+        buildIWContent(place);
+      });
+}
+
+// Load the place information into the HTML elements used by the info window.
+function buildIWContent(place) {
+  document.getElementById('iw-icon').innerHTML = '<img class="hotelIcon" ' +
+      'src="' + place.icon + '"/>';
+  document.getElementById('iw-url').innerHTML = '<b><a href="' + place.url +
+      '">' + place.name + '</a></b>';
+  document.getElementById('iw-address').textContent = place.vicinity;
+
+  if (place.formatted_phone_number) {
+    document.getElementById('iw-phone-row').style.display = '';
+    document.getElementById('iw-phone').textContent =
+        place.formatted_phone_number;
+  } else {
+    document.getElementById('iw-phone-row').style.display = 'none';
+  }
+
+  // The regexp isolates the first part of the URL (domain plus subdomain)
+  // to give a short URL for displaying in the info window.
+  if (place.website) {
+    var fullUrl = place.website;
+    var website = hostnameRegexp.exec(place.website);
+    if (website == null) {
+      website = 'http://' + place.website + '/';
+      fullUrl = website;
+    }
+    document.getElementById('iw-website-row').style.display = '';
+    document.getElementById('iw-website').textContent = website;
+  } else {
+    document.getElementById('iw-website-row').style.display = 'none';
+  }
+}
+
 	
 	google.maps.event.addDomListener(window, 'load', getLocation);
 	
@@ -441,13 +847,11 @@
 <body>
 
 		<div id="panel" >
-            <input type="hidden" id="jsonC" value=""/>
             <input type="hidden" id="start" value=""/>
             <input type="hidden" id="end" value=""/>
-            <input type="hidden" id="startX" value=""/>
-            <input type="hidden" id="startY" value=""/>
-            <input id="temp" class="controls" type="text" onkeypress=
+            <input id="temp" class="controls" type="text"  placeholder="장소명 혹은 주소를 입력하세요" onkeypress=
         "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+       
            
         </div>
         
@@ -458,26 +862,53 @@
 		
 		<div id="btn">
 			<button onclick="moveStart()">전체루트</button>
+			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right;'>등록하기</button>
 		</div>		
 		<div id="formTag" class="formC">
-		
-	<%-- 	<form id = "f0">
-		<input type="text" id="visitDate"  name="visitDate" value="${sessionScope.city.stayEnd}"/>
-        <input type="text" id="startPlace" name="startPlace"/>
-        <input type="text" id="place"  name="place"/>
-        <input type="text" id="memo"  name="memo"/>
-		<input type="hidden" id="cityNo" name="cityNo" value="${sessionScope.city.cityNo}"/>
-		<input type="hidden" id="travelNo" name="travelNo" value="${sessionScope.city.travelNo}"/>
-		<input type="hidden" id="placeId" name="placeId"/>
-		<input type="hidden" id="placeX" name="placeX"/>
-		<input type="hidden" id="placeY" name="placeY"/>
-		<input type="hidden" id="prePlaceNo" name="prePlaceNo"/>
-		<input type="hidden" id="nextPlaceNo" name="nextPlaceNo"/>
-		</form>		
-		<br></br> --%>
+ 
+		<div id="btnClass" class="btnClass">
+		  
+		</div> 
 		 
-		 
+		<div id="cityOOO" class="cityOOO">
+
+		</div> 		 
+
 		</div>
+		<div id="near"></div>
+	  <select id="interest" style="width:140px">
+		<option value="bank">Bank</option>
+        <option value="school">School</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="hospital">Hospitals</option>
+       <option value="default" selected> Select Interest </option>
+      </select>
+   		<div id="listing">
+      <table id="resultsTable">
+        <tbody id="results"></tbody>
+      </table>
+    </div>
+   	
+	    <div id="info-content">
+      <table>
+        <tr id="iw-url-row" class="iw_table_row">
+          <td id="iw-icon" class="iw_table_icon"></td>
+          <td id="iw-url"></td>
+        </tr>
+        <tr id="iw-address-row" class="iw_table_row">
+          <td class="iw_attribute_name">Address:</td>
+          <td id="iw-address"></td>
+        </tr>
+        <tr id="iw-phone-row" class="iw_table_row">
+          <td class="iw_attribute_name">Contact No:</td>
+          <td id="iw-phone"></td>
+        </tr>
+         <tr id="iw-website-row" class="iw_table_row">
+          <td class="iw_attribute_name">Website:</td>
+          <td id="iw-website"></td>
+        </tr>
+      </table>
+    </div>
 		 	
 		<div id="map"></div>
 		

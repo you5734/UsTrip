@@ -16,6 +16,7 @@ public class Travel {
 	private int isBlogStart;
 	private String thumbNail;
 	private List<City> cities;
+	private String nickName;
 	
 	
 	public Travel(){
@@ -78,11 +79,20 @@ public class Travel {
 		this.thumbNail = thumbNail;
 	}
 
+	public String getNickName() {
+		return nickName;
+	}
+	
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
 	@Override
 	public String toString() {
 		return "Travel [travNo=" + travelNo + ", userId=" + userId + ", travTitle=" + travTitle + ", travTheme="
 				+ travTheme + ", memberCount=" + memberCount + ", startDate=" + startDate + ", totalDate=" + totalDate
-				+ ", isBlogStart=" + isBlogStart + ", thumbNail=" + thumbNail + ", list=" + cities + "]";
+				+ ", isBlogStart=" + isBlogStart + ", thumbNail=" + thumbNail + ", cities=" + cities + ", nickName="
+				+ nickName + "]";
 	}
 
 }
