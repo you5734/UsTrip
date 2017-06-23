@@ -159,16 +159,27 @@
 			$("#joinus").on("click" , function() {
 				self.location = "/user/addUser"
 			});
+			
+			$("a[href='#' ]").on("click" , function() {
+				self.location="/view/user/findPwd.jsp";
+			});
+
 		});
 		
 	</script>		
 	
 	<style>
- 		.form-group{
-			margin-bottom:15px;
-		} 
+	#extraUserInfo> .form-group{
+			margin-bottom:-5px;
+		}  
 
-		#dialog-form { display:none; }
+		#dialog-form { 
+			display:none;
+
+			overflow-x:hidden;
+                            overflow-y:auto;
+                            position:relative;
+		 }  
     	input.text { width:60%; padding: .4em; }
 		.validateTips { border: solid transparent; padding: 0.3em; color:red; }
 		
@@ -206,6 +217,7 @@
 			/* Use the Roboto font that is loaded in the <head> */
 			font-family: 'Roboto', sans-serif;
 		}
+
 	</style>
 </head>
 <body>
@@ -246,6 +258,10 @@
 				                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="password">
 				                        </div>
 				                        
+				                         <div class="form-group">
+				                        	<a href="#" id="findPwd">비밀번호찾기</a>
+				                        </div>
+				                        
 				                        <div class="form-group">
 					                        <button type="submit" class="button" id="signin">로그인</button>
 					                        <button type="button" class="button" id="joinus">회원가입</button>
@@ -271,61 +287,59 @@
 					 				</form>
 			                    </div>
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
-					 					 <div id="dialog-form" title="추가정보 입력">
+						 					<div id="dialog-form" title="추가정보 입력">
 											  <p class="validateTips">모든정보를 입력해주세요</p>											 
-											  <form id="extraUserInfo" action="/user/extraUserInfo" method="POST">
-									    													    		
+											  <form id="extraUserInfo" action="/user/extraUserInfo" method="POST" class="form-horizontal">
 										    		<div class="form-group">
-										    			<label class="col-md-5 control-label" for="nickName" >닉네임</label>
-										    			<div class="col-sm-7">
+										    			<label class="col-md-4 control-label" for="nickName" >닉네임</label>
+										    			<div class="col-md-4">
 										    				<input type="text" name="nickName" id="nickName" >
-										    				<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
+										    				 <div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
 										    			</div>
 										    		</div><br>
-										    		
+										    	<!-- 	
 										    		<div class="form-group">
-										    			<label class="col-md-5 control-label" for="password" >비밀번호</label>
-										    			<div class="col-sm-7">
-										    				<input type="password" name="password" id="pw" >
+										    			<label class="col-md-4 control-label" for="password" >비밀번호</label>
+										    			<div class="col-md-4">
+										    				<input type="password" name="password" id="pw">
+										    				<div></div>
 										    			</div>
-										    		</div>
-<!-- 										    		
+										    		</div><br>
+							    		
 										    		<div class="form-group">
-										    			<label class="col-md-5 control-label" for="password2" >비밀번호확인</label>
-										    			<div class="col-sm-5">
+										    			<label class="col-md-4 control-label" for="password2" >비밀번호확인</label>
+										    			<div class="col-md-4">
 										    				<input type="password" name="password2" id="pw2" >
 										    				<div id="checkpw" style="color:red; font-size:12px;"></div>
 										    			</div>
-										    		</div><br>		
+										    		</div><br>		 -->
 										    		
 									    			<div class="form-group">
-										    			<label class="col-md-5 control-label" for="gender" >성별</label>
-										    			<div class="col-sm-7">
-										    			<input id="tab1" type="radio" name="tabs" checked>
-										    				남<input type="radio" name="gender" id="gender" value="m" >
-												      		여<input type="radio" name="gender" id="gender" value="f" >
+										    			<label class="col-md-4 control-label" for="gender" >성별</label>
+										    			<div class="col-md-3">
+										    				남 <input type="radio" name="gender" id="gender" value="m" checked>
+												      		여 <input type="radio" name="gender" id="gender" value="f" >
 										    			</div>
 										    		</div>	<br>										    											    		
 										    		
 										    		<div class="form-group">
 										    			<label class="col-md-4 control-label" for="birthDate" >생년월일</label>
-										    			<div class="col-sm-8">
+										    			<div class="col-md-3">
 										    				<input type="text" name="birthDate" id="birthDate"  >
 										    			</div>
 										    		</div><hr>												  
 
-													      <div class="form-group">
-													      <div class="">
-														      <button type="submit" class="btn btn-info btn" id="add">등록</button>
-														 	  <button type="button" class="btn btn-info" href="#">취소</button>
+														<div class="form-group">
+														<label class="col-md-4 control-label" ></label>
+													      <div class="col-md-4">
+														      <input type="button" class="btn btn-info btn-sm" id="add" value="등록">
+														 	  <input type="button" class="btn btn-info btn-sm" id="cancle" value="취소">
 													 	  </div>
-												 	  </div>  -->
+													 	 </div>
 													 	  
 												 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
 							     					 <input type="hidden" value="${param.kakao}" id="kakao">
 							     					 <input type="hidden" value="${param.google}" id="google">
-												      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-												      <!-- <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">  -->
 												  </form>
 											</div>
 			                        <!--  ////////////////////// Modal Popup /////////////////////// -->
@@ -335,7 +349,8 @@
                 </div>
             </div>
         </div>
-        </div>
+       </div>
+       
         
     </body>
 </html>
@@ -348,23 +363,23 @@
 		var userId = $("#tempId").val();
 		/* console.log("userId :: 가져오닝" + userId); */
 		dialog = $('#dialog-form').dialog({			
-			height: 550,
-			width: 550,
-			modal: true
+			height: 400,
+			width: 720, 
+			modal: true,
+			resizable:false
 		});		
 	}
 	
 	//가입 연결
 	 $(function() {
 		$( "#add" ).on("click" , function() {
-			alert("되니?>>");
 			 document.forms["extraUserInfo"].submit(); 
 		});
 	});	
 	
 	//취소 연결
 	$(function() {
-		$("button[href='#' ]").on("click" , function() {
+		$("#cancle").on("click" , function() {
 			$("form")[1].reset();
 		});
 	});	

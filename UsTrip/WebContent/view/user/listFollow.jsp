@@ -29,12 +29,12 @@
 			
 			var sessionId = $("#sessionId").val();
 			var userId = $("#userId").val();
-			alert("sessionId :: " + sessionId);
-			alert("userId ::" + userId);
+			/* alert("sessionId :: " + sessionId);
+			alert("userId ::" + userId); */
 			 if( sessionId == userId ) {
 				 $( ".btn.btn-info" ).on("click" , function() {
 					var targetUserId = $(this).next().val();
-					alert("targetUserid :: " + targetUserId);
+				/* 	alert("targetUserid :: " + targetUserId); */
 					
 					targetUserId=targetUserId.split(".");
 					

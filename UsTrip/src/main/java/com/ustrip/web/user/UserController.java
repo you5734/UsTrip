@@ -343,7 +343,10 @@ public class UserController {
 
 		System.out.println("/user/getListTravel : POST");
 		
-		String sessionId=((User)session.getAttribute("user")).getUserId();
+		String sessionId = "";
+		if( session.getAttribute("user") != null ) {
+			sessionId = ((User)session.getAttribute("user")).getUserId();
+		}
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
@@ -400,7 +403,10 @@ public class UserController {
 		
 		System.out.println("/user/listFollow ");
 		
-		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		String sessionId = "";
+		if( session.getAttribute("user") != null ) {
+			sessionId = ((User)session.getAttribute("user")).getUserId();
+		}
 		
 		if( travUserId != null ) {
 			travUserId = travUserId.replace(",", ".");
@@ -429,7 +435,10 @@ public class UserController {
 		
 		System.out.println("/user/listFollowing ");
 		
-		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		String sessionId = "";
+		if( session.getAttribute("user") != null ) {
+			sessionId = ((User)session.getAttribute("user")).getUserId();
+		}
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
@@ -460,29 +469,46 @@ public class UserController {
 			
 	}
 	
-	@RequestMapping( value="getTravel", method=RequestMethod.GET )
+	@RequestMapping( value="getTravel",  method=RequestMethod.GET )
 	public String getTravel( HttpSession session, Model model, @RequestParam("travNo") int travNo, 
 							@RequestParam( value="userId", required=false ) String travUserId) throws Exception {
 
-		System.out.println("/user/getTravel : GET");
+		System.out.println("/user/getTravel :");
 		
+		String sessionId = "";
+		if( session.getAttribute("user") != null ) {
+			sessionId = ((User)session.getAttribute("user")).getUserId();
+		}
+		
+		if( travUserId != null ) {
+			if(  ! (sessionId.equals(travUserId)) ) {
+				sessionId = travUserId;
+			}
+		}
+		User user = userService.getUser(sessionId);
+		
+/*		
 		if( travUserId != null ) {
 			User user = userService.getUser(travUserId);
 			model.addAttribute("user", user);
 		}
 		
-		String userId=((User)session.getAttribute("user")).getUserId();
-		System.out.println("userId????????????????" + userId);
+		String userId=((User)session.getAttribute("user")).getUserId();*/
+		System.out.println("userId????????????????" + sessionId);
+		System.out.println("dddddddd " + travNo);
 		
 		Travel travel = planService.getTravel(travNo);
 		List<City> city = planService.getCity(travNo);
+		
+		System.out.println("traaaaaaaaaaaaaaaaaa " + travel);
+		System.out.println("traaaaaaaaaaaaaaaaaa " + city);
 		
 	
 	List<LikeTravel> list = blogService.checkLikeTravel(travNo);
 		int result = 0;
 		if( list.size() >0 ) {
 			for( int i=0; i< list.size(); i++) {
-				if( userId.equals(list.get(i).getUserId()) ) {
+				if( sessionId.equals(list.get(i).getUserId()) ) {
 					result=1;
 				}
 			}
@@ -503,10 +529,10 @@ public class UserController {
 				blog.get(i).setAssets(asset);
 			}
 			
-			if(userId != null){
+			if(sessionId != null){
 				List<LikeTravel> travNoLike = blogService.checkLikeTravel(travNo);
 				for(LikeTravel T : travNoLike){
-					if(T.getUserId().equals(userId)){
+					if(T.getUserId().equals(sessionId)){
 						islike=1;
 					}
 				}
@@ -545,6 +571,7 @@ public class UserController {
 /*		List<City> listCity2 = planService.blogCity(travNo);
 		model.addAttribute("listCity",listCity2);
 	*/
+		model.addAttribute("user", user);
 		return "forward:/view/user/getTravel.jsp";
 	}
 	
@@ -554,7 +581,10 @@ public class UserController {
 		
 		System.out.println("/user/listLikeTravel ");
 
-		String sessionId = ((User)session.getAttribute("user")).getUserId();
+		String sessionId = "";
+		if( session.getAttribute("user") != null ) {
+			sessionId = ((User)session.getAttribute("user")).getUserId();
+		}
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {

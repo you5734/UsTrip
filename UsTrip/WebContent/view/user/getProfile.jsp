@@ -161,7 +161,7 @@
 		}
 	
 	</style>
-		<input type="hidden" id="sessionId" value="${sessionScope.user.userId}">
+		<%-- <input type="hidden" id="sessionId" value="${sessionScope.user.userId}"> --%>
 		
 		<div class="col-md-3">
 			<div class="profile-sidebar">
@@ -183,23 +183,26 @@
 				
 				<!-- SIDEBAR BUTTONS -->                                                                                                                                                                                                                                                                                                                    
 				<div class="profile-userbuttons">
-			
-					<c:if test="${sessionScope.user.userId != user.userId }"> 
-						 <c:choose >
-							 <c:when test="${ empty follow.targetUserId }">
-								<input type="button" class="btn btn-sm" id="profileFollow" value="follow">
-							</c:when>
-							<c:otherwise >
-								<input type="button" class="btn btn-sm" id="profileFollowing" value="following">
-							</c:otherwise>
-						</c:choose>
-					</c:if>
+					<c:if test="${ not empty sessionScope.user.userId }">
+						<c:if test="${sessionScope.user.userId != user.userId }">  
+							 <c:choose >
+								 <c:when test="${ empty follow.targetUserId }">
+									<input type="button" class="btn btn-sm" id="profileFollow" value="follow">
+								</c:when>
+								<c:otherwise >
+									<input type="button" class="btn btn-sm" id="profileFollowing" value="following">
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+					</c:if> 
 				</div>
 				<div class="profile-userbuttons">
-					<c:if test="${sessionScope.user.userId == user.userId }"> 
-						<button type="button" class="btn btn-sm" id="update">회원정보수정</button>
-						<button type="button" class="btn btn-sm" id="getUser">회원정보조회</button>
-						</c:if>
+				<c:if test="${ not empty sessionScope.user.userId }">
+						<c:if test="${sessionScope.user.userId == user.userId }">  
+							<button type="button" class="btn btn-sm" id="update">회원정보수정</button>
+							<button type="button" class="btn btn-sm" id="getUser">회원정보조회</button>
+						</c:if> 
+					</c:if> 
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->

@@ -68,7 +68,7 @@
 	    	})
 	    	 */
 			$('#travLike').on('click' , function() {
-				alert("travvvvvvvvv :: "+ $("#travNo").val());
+				/* alert("travvvvvvvvv :: "+ $("#travNo").val()); */
 				
 				if($(this).val()=='좋아요취소'){
 					$.ajax( 
