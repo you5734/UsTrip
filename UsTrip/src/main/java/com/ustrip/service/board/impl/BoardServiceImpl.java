@@ -40,14 +40,25 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> listBoard(Search search) throws Exception {
 		// TODO Auto-generated method stub		
 		List<Board> list = new ArrayList<Board>();
+		List<Board> listNoncheck = new ArrayList<Board>();
 		if(search.getOrder().equals("DESC")){
-			list= boardtDao.listBoardDESC(search);
+			listNoncheck= boardtDao.listBoardDESC(search);
+			for(Board b : listNoncheck){
+				if(b.getDeleteFlag() == 0){
+					list.add(b);
+				}
+			}
 			int size = list.size();
 			for(int i = 0; i < list.size() ; i++){
 				list.get(i).setNumbering(size-i);
 			}			
 		}else{
-			list= boardtDao.listBoardASC(search);
+			listNoncheck= boardtDao.listBoardASC(search);
+			for(Board b : listNoncheck){
+				if(b.getDeleteFlag() == 0){
+					list.add(b);
+				}
+			}
 			for(int i = 0; i < list.size() ; i++){
 				list.get(i).setNumbering(i+1);
 			}

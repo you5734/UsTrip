@@ -77,6 +77,29 @@ public class CommunityController {
 		return "forward:/view/community/addBoardView.jsp";
 	}
 	
+	@RequestMapping(value="updateBoardForm", method=RequestMethod.GET)
+	public String updateBoardForm( @RequestParam("boardNo") int boardNo, Model model) throws Exception {
+		
+		System.out.println("/updateBoardForm : GET");
+		
+		Board board = boardService.getBoard(boardNo);
+		Travel travel = planService.getTravel(board.getTravNo());
+		model.addAttribute("travel",travel);
+		model.addAttribute("board", board);
+		
+		return "forward:/view/community/updateBoardView.jsp";
+	}
+	
+	@RequestMapping(value="updateBoard")
+	   public String updateBoard(@ModelAttribute("search") Board board ,HttpSession session ) throws Exception{
+		
+		System.out.println("/updateBoard : POST");
+		
+		boardService.updateBoard(board);
+		System.out.println("-------------------------"+board);
+		return "forward:/community/listCommunity";
+	}
+	
 	@RequestMapping(value="addBoard")
 	   public String addBoard(@ModelAttribute("search") Board board ,HttpSession session ) throws Exception{
 		
@@ -86,6 +109,11 @@ public class CommunityController {
 		
 		return "forward:/community/listCommunity";
 	}
+	
+	@RequestMapping( value="deleteBoardJSON/{boardNo}", method=RequestMethod.GET )
+	public void deleteBoardJSON(@PathVariable int boardNo, Model model) throws Exception{
+		boardService.deleteBoard(boardNo);
+	}	
 	
 	@RequestMapping(value="listCommunity")
 	   public String listBoard(@ModelAttribute("search") Search search 
@@ -106,10 +134,9 @@ public class CommunityController {
 		List<Comment> selComment = new ArrayList<Comment>();
 		HashMap boards = new HashMap();
 		
-		for(Board b : board){
-			noList.add(b.getBoardNo());
-			System.out.println(b.getBoardNo());
-		}		
+		for(Board b : board){			
+				noList.add(b.getBoardNo());				
+		}			
 		boards.put("boards", noList);			
 		
 		List<Comment> comment = commentService.listComment(boards);
@@ -157,9 +184,8 @@ public class CommunityController {
 		List<Comment> selComment = new ArrayList<Comment>();
 		HashMap boards = new HashMap();
 		
-		for(Board b : board){
-			noList.add(b.getBoardNo());
-			System.out.println(b.getBoardNo());
+		for(Board b : board){			
+				noList.add(b.getBoardNo());				
 		}		
 		boards.put("boards", noList);			
 		

@@ -173,7 +173,7 @@
 <div class="col-md-10">
 </div>
 <div class="col-md-2">
-<button value="${travNo}" name="city" class="btn btn-info" style="height:35px; width:120px;">totalRoute</button><br/>
+<button value="${travNo}" name="city" class="btn btn-success" style="height:35px; width:120px;">total Route</button><br/>
 <c:forEach items="${listCity}" var="city" varStatus="status">
 <button name="place" class="btn btn-success" value="${city.cityNo}" tempX="${city.cityX}" tempY="${city.cityY}" style="height:40px; width:120px;">${city.city}</button><br/>
 </c:forEach>

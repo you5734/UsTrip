@@ -67,7 +67,7 @@ public class BlogController {
 		blogService.addBlog(list);
 		planService.startBlog(travelNo);
 		
-		return "forward:/blog/listBlog?travNo="+travelNo;
+		return "forward:/user/getTravel?travNo="+travelNo;
 	}
 	
 	@RequestMapping(value="addJsonTag", method=RequestMethod.POST)

@@ -12,6 +12,7 @@ public class Board {
 	private String boardContent;
 	private String boardTitle;
 	private Date regDate;
+	private int deleteFlag;
 	private int boardCategory;
 	private int countComment;
 	private int numbering;
@@ -96,6 +97,14 @@ public class Board {
 
 	public void setNumbering(int numbering) {
 		this.numbering = numbering;
+	}
+
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
 	}
 
 	@Override

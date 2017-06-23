@@ -41,7 +41,7 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int deleteBoard(int boardNo) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.delete("BoardMapper.deleteBoard",boardNo);
+		return sqlSession.update("BoardMapper.deleteBoard",boardNo);
 	}
 
 	@Override

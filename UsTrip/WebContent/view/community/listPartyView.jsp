@@ -26,7 +26,6 @@
     <script src="/js/jquery.ui.position.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>    <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
@@ -40,6 +39,12 @@
 	}
 	
 	$(function () {	
+		
+		$('h2').hover(function(){
+			$(this).attr('class','text-success');
+		},function(){
+			$(this).attr('class','text-default');
+		});
 		
 		var current ='${resultPage.currentPage}';
 		
@@ -212,14 +217,12 @@
 	</div>
 
 	<div class="row" >
-		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+		<div class="col-md-2" style="margin-left:60px; margin-top:80px;">        
+			<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
 				<c:if test="${ !empty user }">
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-				</c:if>
-			</div>        
+				<h2 id="write">게시글작성</h2> 
+				</c:if>       
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
     

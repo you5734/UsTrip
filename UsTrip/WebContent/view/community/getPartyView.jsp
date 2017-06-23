@@ -42,6 +42,12 @@
 	
 	$(function () {	
 		
+		$('h2').hover(function(){
+			$(this).attr('class','text-success');
+		},function(){
+			$(this).attr('class','text-default');
+		});
+		
 		var select = '#'+'${board.boardNo}';
 		
 		$(select).css('color','red')
@@ -130,9 +136,9 @@
         }); 
         
         $('#tossComment').hover(function(){
-			$(this).attr('class','col-md-6 text-right text-danger');
+			$(this).attr('class','col-md-1 text-right text-warning');
 		},function(){
-			$(this).attr('class','col-md-6 text-right text-warning');
+			$(this).attr('class','col-md-1 text-right text-danger');
 		});
         
         $('#tossComment').on('click',function(){
@@ -179,6 +185,25 @@
         	var temp = $(this).attr('temp');
         	alertRemove(temp)
         });
+        
+        $('#upBoard').on('click',function(){
+        	self.location="/community/updateBoardForm?boardNo="+"${board.boardNo}"
+        })
+        
+        $('#delBoard').on('click',function(){
+        	
+        	
+        	
+        	$.ajax("/community/deleteBoardJSON/"+"${board.boardNo}",{
+				method : "GET" ,
+				dataType : "json" ,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				}
+   			});
+        	fncGetList(1);
+        })
                
    });
    	
@@ -436,14 +461,12 @@
 	</div>
 
 	<div class="row" >
-		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+		<div class="col-md-2" style="margin-left:60px; margin-top:38px;">        
+			<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
 				<c:if test="${ !empty user }">
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-				</c:if>
-			</div>        
+				<h2 id="write">게시글작성</h2> 
+				</c:if>       
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
     
@@ -466,8 +489,12 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-5 text-left text-danger"><strong style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="text-danger">${travel.travTitle}</strong> :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/> ~ <fmt:formatDate value="${endTrav}" pattern="yyyy/MM/dd"/></div>
-			<div class="col-md-5 text-left text-danger" >게시물 제목 : <strong class="text-danger" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
-	        <div class="col-md-1"></div>  	       
+			<div class="col-md-4 text-left text-danger" >게시물 제목 : <strong class="text-danger" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
+	        <div class="col-md-2"><c:if test="${user.nickName == board.nickName}">
+	        <div class="btn-group" >
+	        	<button type="button" class="btn btn-danger"  id="upBoard" style="height:30px; margin-top:-6px;">수정</button>
+	        	<button type="button" class="btn btn-danger" id="delBoard" style="height:30px; margin-top:-6px;">삭제</button>
+	        </div></c:if></div>	       
 			<div class="col-md-1 text-right text-danger" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
 		</div>
 	<hr/>
@@ -483,7 +510,7 @@
          <h6 align="right" >${board.countComment} 개의 댓글이 달려있습니다.</h6>		
 				
 		<c:forEach var="comment" items="${comments}">
-		<c:if test="${user.nickName == board.nickName}">
+		<c:if test="${user.nickName == board.nickName || user.nickName == comment.nickName}">
 		<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
@@ -548,7 +575,7 @@
 			<br/><br/>
 			</div>
 			<input type="hidden" name="boardNo" value="${board.boardNo}"> 
-			<input type="hidden" name="nickName" value="user001">            
+			<input type="hidden" name="nickName" value="${user.nickName}">            
             </form>           
             </c:if>   
                 

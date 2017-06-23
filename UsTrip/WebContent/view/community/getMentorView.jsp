@@ -28,12 +28,11 @@
     
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
 	<script src="/js/main.js"></script>
-  
+	  
 	<script>
 	
 	function fncGetList(currentPage) {
@@ -42,6 +41,12 @@
 	}
 	
 	$(function () {	
+		
+		$('h2').hover(function(){
+			$(this).attr('class','text-success');
+		},function(){
+			$(this).attr('class','text-default');
+		});
 		
 		var select = '#'+'${board.boardNo}';
 		
@@ -130,9 +135,9 @@
         }); 
         
         $('#tossComment').hover(function(){
-			$(this).attr('class','col-md-6 text-right text-warning');
+			$(this).attr('class','col-md-1 text-right text-warning');
 		},function(){
-			$(this).attr('class','col-md-6 text-right text-primary');
+			$(this).attr('class','col-md-1 text-right text-primary');
 		});
         
         $('#tossComment').on('click',function(){
@@ -180,6 +185,22 @@
         	var temp = $(this).attr('temp');
         	alertRemove(temp)
         });
+        
+        $('#upBoard').on('click',function(){
+        	self.location="/community/updateBoardForm?boardNo="+"${board.boardNo}"
+        })
+        
+        $('#delBoard').on('click',function(){
+        	$.ajax("/community/deleteBoardJSON/"+"${board.boardNo}",{
+				method : "GET" ,
+				dataType : "json" ,
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				}
+   			});
+        	fncGetList(1);
+        })
                
    });
    	
@@ -437,14 +458,12 @@
 	</div>
 
 	<div class="row" >
-		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+		<div class="col-md-2" style="margin-left:60px; margin-top:38px;">        
+		<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
 				<c:if test="${ !empty user }">
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-				</c:if>
-			</div>        
+				<h2 id="write">게시글작성</h2> 
+				</c:if>      
 		</div>
     <div class="col-md-9" style="margin-left:10px;">
     
@@ -467,8 +486,12 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-5 text-left text-primary"><strong style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="text-primary">${travel.travTitle}</strong> :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/> ~ <fmt:formatDate value="${endTrav}" pattern="yyyy/MM/dd"/></div>
-			<div class="col-md-5 text-left text-primary" >게시물 제목 : <strong class="text-primary" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
-	        <div class="col-md-1"></div>  	       
+			<div class="col-md-4 text-left text-primary" >게시물 제목 : <strong class="text-primary" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
+	        <div class="col-md-2"><c:if test="${user.nickName == board.nickName}">
+	        <div class="btn-group" >
+	        	<button type="button" class="btn btn-primary"  id="upBoard" style="height:30px; margin-top:-6px;">수정</button>
+	        	<button type="button" class="btn btn-primary" id="delBoard" style="height:30px; margin-top:-6px;">삭제</button>
+	        </div></c:if></div>    
 			<div class="col-md-1 text-right text-primary" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
 		</div>
 	<hr/>
@@ -483,18 +506,16 @@
 	<hr/>
          <h6 align="right" class="text-primary">${board.countComment} 개의 댓글이 달려있습니다.</h6>		
 				
-				<c:set var="i" value="0" />
-		<c:forEach var="comment" items="${comments}">
-				
-			<c:if test='${comment.privateComment==0}'>	
-			<hr class="thick-line">
+				<c:forEach var="comment" items="${comments}">
+		<c:if test="${user.nickName == board.nickName || user.nickName == comment.nickName}">
+		<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
 					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
 				</div>
 			<div class="col-sm-10">
-				<strong style="font-size: 20px;" class="text-primary">${comment.nickName}</strong>
+				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>
 				<div style="margin-top:8px;">${comment.commentContent}</div>
 			</div>
 			<div class="col-md-1" align="right">
@@ -503,16 +524,36 @@
 			</div>
 			</div>
 			</div>
+		</c:if>
+		
+		<c:if test="${user.nickName != board.nickName || empty user}">
+			<c:if test='${comment.privateComment==0}'>	
+			<hr class="thick-line">
+			<div id="${comment.commentNo}">
+			<div class="row">
+				<div class="col-md-1">
+					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+				</div>
+			<div class="col-sm-10">
+				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>
+				<div style="margin-top:8px;">${comment.commentContent}</div>
+			</div>
+			<div class="col-md-1" align="right">				
+				<h6 align="right"><fmt:formatDate value="${comment.regDate}" pattern="yyyy/MM/dd"/></h6>
+			</div>
+			</div>
+			</div>
            </c:if>
            
-           <c:if test='${comment.privateComment==1}'>
-           <hr class="thick-line">	
-           <div class="jumbotron alert alert-info">
+           <c:if test='${comment.privateComment==1}'>	
+           <hr class="thick-line">
+           <div class="jumbotron alert alert-warning">
            <h3 align="center">비밀댓글입니다.</h3>
            </div>
            </c:if>
            
-		</c:forEach>
+           </c:if>
+		</c:forEach>	
 			<c:if test="${ !empty user }">	
 			<form id="addComment" >				
 			<div class="alert alert-info" >
@@ -531,7 +572,7 @@
 			<br/><br/>
 			</div>
 			<input type="hidden" name="boardNo" value="${board.boardNo}"> 
-			<input type="hidden" name="nickName" value="user001">            
+			<input type="hidden" name="nickName" value="${user.nickName}">            
             </form>	
             </c:if>
 	</div>
