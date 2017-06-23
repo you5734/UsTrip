@@ -29,7 +29,7 @@
 	 $(function() {
 			$( ".btn.btn-warning.bnt-action" ).on("click" , function() {
 				var travNo = $(this).next().val();
-					alert("travNo :: " + travNo);
+				/* 	alert("travNo :: " + travNo); */
 				/* self.location="/user/getTravel?travelNo="+travelNo; */
 				self.location="/user/getTravel?travNo="+travNo;
 			});

@@ -39,7 +39,7 @@
 		 	INTO users
 		 	VALUES ( 		#{userId}, 
 							 	#{nickName}, 
-							 	#{password}, 
+							 	'1111', 
 							 	#{birthDate}, 
 							 	#{profileImage:VARCHAR}, 
 							 	#{gender}, 

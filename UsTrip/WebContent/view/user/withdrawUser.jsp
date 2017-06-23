@@ -6,7 +6,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+<!--     <link href="../../css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -32,7 +41,7 @@
 	
 </head>
 <body>
-
+	<jsp:include page="/common/toolbar.jsp"/>
 <div class="container">
 	<h2 align="center">회원탈퇴</h2><br>
 		<!-- <form class="form-horizontal" enctype="multipart/form-data"> -->
