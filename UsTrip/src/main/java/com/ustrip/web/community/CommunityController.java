@@ -31,7 +31,9 @@ import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Comment;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.Travel;
+import com.ustrip.service.domain.User;
 import com.ustrip.service.plan.PlanService;
+import com.ustrip.service.user.UserService;
 
 @Controller
 @RequestMapping("/community/*")
@@ -48,6 +50,10 @@ public class CommunityController {
 	@Autowired
 	@Qualifier("planServiceImpl")
 	private PlanService planService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
 	
 	public CommunityController() {
 		// TODO Auto-generated constructor stub
@@ -290,6 +296,29 @@ public class CommunityController {
 	public void oneCommentJSON(@PathVariable int commentNo, Model model) throws Exception{
 		Comment comment = commentService.oneComment(commentNo);
 		model.addAttribute("result",comment);
-	}	
+	}
+	
+	@RequestMapping( value="addFollow/{nickName}", method=RequestMethod.GET )
+	public void addFollow( @PathVariable String nickName, HttpSession session, Model model ) throws Exception {
+		
+		System.out.println("/community/addFollow : GET");
+		String targetUserId = userService.getUserId(nickName);
+		
+		targetUserId=targetUserId.replace(",", ".");		
+		String sessionId=((User)session.getAttribute("user")).getUserId();
+		
+		if(sessionId != targetUserId) {
+			userService.addFollow(targetUserId, sessionId);
+		}
+	}
+	
+	@RequestMapping( value="getTravList/{nickName}", method=RequestMethod.GET )
+	public void getTravList( @PathVariable String nickName,Model model ) throws Exception {
+		
+		System.out.println("/community/getTravList : GET");		
+		String userId = userService.getUserId(nickName);
+		System.out.println("****************************"+userId);
+		model.addAttribute("userId",userId);
+	}
 
 }

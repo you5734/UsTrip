@@ -151,11 +151,18 @@
 	            		  cancelButtonColor: '#d33',
 	            		  confirmButtonText: '간다'
 	            		}).then(function () {
-	            		  swal(
-	            		    '성공!',
-	            		    '페이지가 완성되면 연결합니다.',
-	            		    'success'
-	            		  )
+	            			$.ajax({
+        						url : "/community/getTravList/"+userId,
+        						method : "GET" ,
+        						dataType : "json" ,
+        						headers : {
+        							"Accept" : "application/json",
+        							"Content-Type" : "application/json"
+        						},
+        						success : function(serverData , status) {
+        							self.location="/user/getListTravel?travUserId="+serverData.userId
+        						}
+        					});
 	            		})
 	            }else{
 	            	swal({
@@ -168,21 +175,18 @@
 	            		  confirmButtonText: 'Follw'
 	            		}).then(function () {
 	            			//ajax으로 follow추가
-	            			swal({
-	            				  title: userId+'님을 Follow를 했습니다',
-	            				  text: "Follow화면으로 가시겠습니까?",
-	            				  type: 'success',
-	            				  showCancelButton: true,
-	            				  confirmButtonColor: '#3085d6',
-	            				  cancelButtonColor: '#d33',
-	            				  confirmButtonText: '간다'
-	            				}).then(function () {
-	            				  swal(
-	            				    '성공!',
-	            				    '마이페이지 완성되면 그쪽으로 보냅니다..',
-	            				    'success'
-	            				  )
-	            				})
+	            			$.ajax({
+	    						url : "/community/addFollow/"+userId,
+	    						method : "GET" ,
+	    						dataType : "json" ,
+	    						headers : {
+	    							"Accept" : "application/json",
+	    							"Content-Type" : "application/json"
+	    						},
+	    						success : function(serverData , status) {
+	    							self.location="/user/listFollow?travUserId="+"${user.userId}"
+	    						}
+	    					});
 	            		})
 	            }
 	        },

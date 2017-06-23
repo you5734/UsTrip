@@ -200,4 +200,10 @@ public class UserServiceImpl implements UserService {
 	/*	userDao.deleteFollow(folUserId, targetUserId);*/
 	}
 
+	@Override
+	public String getUserId(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		return userDao.getUserId(nickName);
+	}
+
 }

@@ -51,5 +51,7 @@ public interface UserDao {
 	public int getFollowingTotalCount(Search search) throws Exception;
 	
 	public void deleteFollow(Map<String, Object> map) throws Exception;
+	
+	public String getUserId(String nickName) throws Exception;
 		
 }
