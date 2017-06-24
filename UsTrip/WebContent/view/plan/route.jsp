@@ -80,16 +80,6 @@
   </head>
   <body>
     <div id="floating-panel">
-      <!-- <strong>Start:</strong>
-      <select id="start">
-        <option value="서울">서울</option>
-      </select>
-      <br>
-      <strong>End:</strong>
-      <select id="end">
-        <option value="경주">경주</option>
-        <option value="부산">부산</option>
-      </select> -->
     </div>
      <form id="form">
      <input type='hidden' id="day" value="2017/07/05" />

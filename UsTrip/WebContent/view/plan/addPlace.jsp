@@ -121,7 +121,19 @@
 	var hostnameRegexp = new RegExp('^https?://.+?/');
 	var CBroute;
 	var line = [];
-
+	var marrk = [];
+	
+	 $(function(){
+	  	  $(document).on("click","#btn-route",function(){
+			
+				startRoute = encodeURIComponent($(this).parent().find(".startPlace").val());
+				endRoute = encodeURIComponent($(this).parent().find(".place").val());
+				
+				window.open('/view/plan/placeRoute.jsp?'+startRoute+"?"+endRoute);
+	 
+	    });
+	   });
+	
 	function openCity(cityName) {
 		 
 		 for (var i = 0; i < markers.length; i++) {
@@ -132,45 +144,22 @@
 		   line[i].setMap(null); 
 		 }line.length = 0;
 		 routes.length = 0;
+		
+		 var formLength = 0; 
 		 
-		var formLength = $("form[name='ddform']").length;
+		formLength = $("#"+cityName).find($("form[name='ddform']")).length;
 		
-		placeX = $("#"+cityName).find($(".placeX")).val()*1;
-		placeY = 	$("#"+cityName).find($(".placeY")).val()*1;
-		
-		var placeXY = new Object();
-        
-        placeXY.lat = placeX;
-        placeXY.lng = placeY;
-      
-      	 var marrk = placeXY;
-       	 routes.push(placeXY);
-       	
-       	var marker = new google.maps.Marker({
-    		position: marrk,
-    		map: map
-  			}); 
-       	markers.push(marker);
-                           var CBroute = new google.maps.Polyline({
-                             path: routes,
-                             geodesic: true,
-                             strokeColor: '#b31543',
-                             strokeOpacity: 1.0,
-                             strokeWeight: 2
-                           });
-                           CBroute.setMap(map);
-                           line.push(CBroute);
-  
 		for ( var xx = 0; xx < formLength; xx++ ) {
+			
 			placeX = $("#"+cityName).find($(".f"+(xx))).find($(".placeX")).val()*1;
 			placeY = $("#"+cityName).find($(".f"+(xx))).find($(".placeY")).val()*1;
-			
+		
 			var placeXY = new Object();
 	        
-	        placeXY.lat = placeX;
-	        placeXY.lng = placeY;
+	        placeXY.lat = placeX*1;
+	        placeXY.lng = placeY*1;
 	      
-	      	 var marrk = placeXY;
+	        var marrk = placeXY;
 	       	 routes.push(placeXY);
 	       	
 	       	var marker = new google.maps.Marker({
@@ -178,19 +167,18 @@
 	    		map: map
 	  			}); 
 	       	markers.push(marker);
-	       	//alert(markers.length)
-	       	//alert(routes.length)
-	                           var CBroute = new google.maps.Polyline({
-	                             path: routes,
-	                             geodesic: true,
-	                             strokeColor: '#b31543',
-	                             strokeOpacity: 1.0,
-	                             strokeWeight: 2
-	                           });
-	                           CBroute.setMap(map);
-	                           line.push(CBroute); 
+	       	      	
 		}
-
+                        	
+                	                           var CBroute = new google.maps.Polyline({
+                	                             path: routes,
+                	                             geodesic: true,
+                	                             strokeColor: '#b31543',
+                	                             strokeOpacity: 1.0,
+                	                             strokeWeight: 2
+                	                           });
+                	                           CBroute.setMap(map);
+                	                           line.push(CBroute); 
         var i;
         var x = document.getElementsByClassName("dd");
         for (i = 0; i < x.length; i++) {
@@ -371,7 +359,7 @@
           content: document.getElementById('info-content')
           });
       places = new google.maps.places.PlacesService(map);
-    //  google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
+      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
           // Create the search box and link it to the UI element.
           var input = document.getElementById('temp');
           var options = {
@@ -534,7 +522,7 @@
     		var newUpButton = "<button>"+start+"</button>"
     		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
     		
-    		var newLeftDiv = "<form id = 'f0' class = 'fo' name='ddform' value='yyyyyyyy' style='display:none'>"
+    		var newLeftDiv = "<form id = 'f0' class = 'f0' name='ddform' value='yyyyyyyy' style='display:none'>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
@@ -573,10 +561,9 @@
 			$("#temp").val(null);
 			$("#start").val(start);
     		$("#end").val(start);    		
-    	    Javascript:calcRoute();
-    		
     		$(appendDiv).find( $("#f"+(tempNum)+" input[name='startPlace']")).val(document.querySelector('#start').value);
     		$(appendDiv).find( $("#f"+(tempNum)+" input[name='place']")).val(document.querySelector('#start').value); 
+    	    Javascript:calcRoute();
     		
 			tempNum++;
 			return;
@@ -589,12 +576,13 @@
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
     		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' value='xxxxx'>"		    //여긴 하나 있어서 1부터			
-    			//+"<input type='text' id='startPlace' name='startPlace'/>"
+    			+"<input type='text' id='startPlace' name='startPlace' class='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
-    			+"<input type='hidden' id='place' name='place' class='place'/>"
+    			+"<input type='text' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
     			+"<input type='text' id='distance' name='distance'/>"
     			+"<input type='text' id='duration' name='duration'/>"
+    			+"<button type='button' id = 'btn-route'>교통정보 보기</button>"
     			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo' value='${sessionScope.city.cityNo}'/>"
     			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='${sessionScope.city.travelNo}'/>"
     			+"<input type='hidden' id='placeId' name='placeId' class='placeId'/>"
@@ -684,7 +672,7 @@
         });
       }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
-/* function setAutocompleteUsername() {
+ function setAutocompleteUsername() {
 
 	var interest = document.getElementById('interest').value;
    
@@ -892,7 +880,7 @@ function buildIWContent(place) {
     document.getElementById('iw-website-row').style.display = 'none';
   }
 }
- */
+ 
 	
 	google.maps.event.addDomListener(window, 'load', getLocation);
 	
@@ -931,7 +919,7 @@ function buildIWContent(place) {
 		</div> 		 
 
 		</div>
-		<!-- <div id="near"></div>
+		 <div id="near"></div>
 	  <select id="interest" style="width:140px">
 		<option value="bank">Bank</option>
         <option value="school">School</option>
@@ -943,9 +931,9 @@ function buildIWContent(place) {
       <table id="resultsTable">
         <tbody id="results"></tbody>
       </table> 
-    </div>-->
+    </div>
    	
-	    <!-- <div id="info-content">
+	    <div id="info-content">
       <table>
         <tr id="iw-url-row" class="iw_table_row">
           <td id="iw-icon" class="iw_table_icon"></td>
@@ -964,7 +952,7 @@ function buildIWContent(place) {
           <td id="iw-website"></td>
         </tr>
       </table>
-    </div> -->
+    </div>
 		 	
 		<div id="map"></div>
 		
