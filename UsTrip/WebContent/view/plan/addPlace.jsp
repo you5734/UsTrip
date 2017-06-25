@@ -257,30 +257,33 @@
 		
 	function movePlace(){ 
 		
-		 for(var i = 0; i < tempNum; i++){
-	        	
-			 alert(appendDiv)
-			 
-				$("#f"+(i)+" input[name='visitDate']").val(visitDate);
-				
+for(var h = 0; h < stayDate; h++){
+			
+			var addId = '#dd' ;
+			
+			addId = eval('addId+(h+1)');
+			
+		for(var i = 0; i < $(addId).find( $("#f1 input[name='tempCount']")).val(); i++){
+			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
-		        eval("placeObj"+i).visitDate = $(appendDiv).find($("#f"+(i)+" input[name='visitDate']")).val();
-		        eval("placeObj"+i).place =$(appendDiv).find( $("#f"+(i)+" input[name='place']")).val();
-		        eval("placeObj"+i).memo = $(appendDiv).find($("#f"+(i)+" textarea[name='memo']")).val();
+		        eval("placeObj"+i).visitDate = $(addId).find($("#f"+(i)+" input[name='visitDate']")).val();
+		        eval("placeObj"+i).place =$(addId).find( $("#f"+(i)+" input[name='place']")).val();
+		        eval("placeObj"+i).memo = $(addId).find($("#f"+(i)+" textarea[name='memo']")).val();
 		        eval("placeObj"+i).cityNo = cityNo;
 		        eval("placeObj"+i).travelNo = travelNo;
-		        eval("placeObj"+i).placeId = $(appendDiv).find($("#f"+(i)+" input[name='placeId']")).val();
-		        eval("placeObj"+i).placeX = $(appendDiv).find($("#f"+(i)+" input[name='placeX']")).val();
-		        eval("placeObj"+i).placeY = $(appendDiv).find($("#f"+(i)+" input[name='placeY']")).val();
-		        eval("placeObj"+i).prePlaceNo = $(appendDiv).find($("#f"+(i)+" input[name='prePlaceNo']")).val();
-		        eval("placeObj"+i).nextPlaceNo = $(appendDiv).find($("#f"+(i)+" input[name='nextPlaceNo']")).val();
+		        eval("placeObj"+i).placeId = $(addId).find($("#f"+(i)+" input[name='placeId']")).val();
+		        eval("placeObj"+i).placeX = $(addId).find($("#f"+(i)+" input[name='placeX']")).val();
+		        eval("placeObj"+i).placeY = $(addId).find($("#f"+(i)+" input[name='placeY']")).val();
+		        eval("placeObj"+i).prePlaceNo = $(addId).find($("#f"+(i)+" input[name='prePlaceNo']")).val();
+		        eval("placeObj"+i).nextPlaceNo = $(addId).find($("#f"+(i)+" input[name='nextPlaceNo']")).val();
 
 	        	var jsonPlace = JSON.stringify(eval("placeObj"+i));
 			        	
 		        $.ajax({
 		        	type : "POST",
 		        	url : "/plan/addPlace",
+		        	async: false,
 		        	data :{ a:jsonPlace},
 		        	datatype : "json",
 		        	context: this,
@@ -290,7 +293,9 @@
 		        	}
 		        }); 
 	        	
-	        }
+	        }//end of for()
+	        
+		}//end of for()
 	        
 			fncAddPlace();
 		}
@@ -561,6 +566,8 @@
 			$("#temp").val(null);
 			$("#start").val(start);
     		$("#end").val(start);    		
+    		
+    		$(appendDiv).find($("#f"+(tempNum)+" input[name='visitDate']")).val(visitDate);
     		$(appendDiv).find( $("#f"+(tempNum)+" input[name='startPlace']")).val(document.querySelector('#start').value);
     		$(appendDiv).find( $("#f"+(tempNum)+" input[name='place']")).val(document.querySelector('#start').value); 
     	    Javascript:calcRoute();
@@ -576,10 +583,10 @@
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
     		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' value='xxxxx'>"		    //여긴 하나 있어서 1부터			
-    			+"<input type='text' id='startPlace' name='startPlace' class='startPlace'/>"
+    			+"<input type='hidden' id='startPlace' name='startPlace' class='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
-    			+"<input type='text' id='place' name='place' class='place'/>"
-    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
+    			+"<input type='hidden' id='place' name='place' class='place'/>"
+    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo' placeholder='방문지에서의 계획등 간단한 메모를 입력하세요.'/>"
     			+"<input type='text' id='distance' name='distance'/>"
     			+"<input type='text' id='duration' name='duration'/>"
     			+"<button type='button' id = 'btn-route'>교통정보 보기</button>"
@@ -591,6 +598,7 @@
     			+"<input type='hidden' id='placeXY' name='placeXY' class='placeXY'/>"
     			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo' class='prePlaceNo'/>"
     			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo' class='nextPlaceNo'/>"
+    			+"<input type='hidden' id='tempCount' name='tempCount' class='tempCount'/>"
     			+"<button  style='WIDTH: 170pt;' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
     			+"</form>"
     			+"<br></br>";
@@ -603,12 +611,13 @@
     		$("#start").val(start);
     		$("#end").val(end);    		
 
-    		
+    		$(appendDiv).find($("#f"+(tempNum-1)+" input[name='visitDate']")).val(visitDate);
     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='startPlace']")).val(document.querySelector('#start').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
-
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempNum);
+     		
    			Javascript:calcRoute();
 
     		start = end;
