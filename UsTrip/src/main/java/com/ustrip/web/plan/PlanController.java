@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ustrip.service.domain.City;
+import com.ustrip.service.domain.Comment;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanService;
@@ -244,4 +246,26 @@ public class PlanController {
 		return "redirect:/view/plan/getCity.jsp";
 	}
 	
+	@RequestMapping( value="getCalendar", method=RequestMethod.GET )
+	public String getCalendar(@RequestParam("travNo") int travNo,
+								Model model) throws Exception{
+		
+		System.out.println("/plan/getCalendar : POST");
+		
+		model.addAttribute("calendarTravNo",travNo);
+
+		return "forward:/view/plan/calendar.jsp";
+	}
+	
+	@RequestMapping( value="getCalendarJSON/{travNo}", method=RequestMethod.GET )
+	public void getCalendarJSON(@PathVariable int travNo, Model model) throws Exception{
+		System.out.println("/plan/getCalendarData : GET");
+		List<City> listCity = planService.blogCity(travNo);
+		for(City city : listCity){
+			List<Place> listPlace = planService.blogPlace(city.getCityNo());
+			city.setListPlace(listPlace);
+		}
+		model.addAttribute("listCity",listCity);
+	}
+		
 }// end of class PlanController

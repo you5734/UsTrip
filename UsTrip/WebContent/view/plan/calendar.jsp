@@ -9,85 +9,63 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <link href='/css/fullcalendar.min.css' rel='stylesheet' />
 <link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <script src='/js/moment.min.js'></script>
 <script src='/js/fullcalendar.min.js'></script>
+     <script src="/js/dateFormat.js"></script>
 <script>
 
-	$(document).ready(function() {
-		
+	function setCalendar(date,data){
+		//alert(JSON.stringify(data));
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,basicWeek,basicDay'
 			},
-			defaultDate: '2017-05-12',
+			defaultDate: date,
 			navLinks: true, // can click day/week names to navigate views
-			editable: true,
+			editable: false,
 			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2017-05-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2017-05-07',
-					end: '2017-05-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-05-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-05-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2017-05-11',
-					end: '2017-05-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2017-05-12T10:30:00',
-					end: '2017-05-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2017-05-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2017-05-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2017-05-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2017-05-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2017-05-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2017-05-28'
-				}
-			]
+			events: data
 		});
-		
+	}
+
+	$(document).ready(function() {
+		var calendarNo = $('#calendarTravNo').val();
+		var calendarEvent = []
+		var dDate;
+
+		$.ajax( 
+				{
+					url : "/plan/getCalendarJSON/"+calendarNo,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(J , status) {	
+						for(var i in J.listCity){
+							 calendarEvent.push({
+								title: J.listCity[i].city,
+								start: new Date(J.listCity[i].stayStart).format("yyyy-MM-dd"),
+								end: new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd")
+							}); 
+							 for(var j in J.listCity[i].listPlace){
+								 calendarEvent.push({
+										title: J.listCity[i].listPlace[j].place,
+										start: new Date(J.listCity[i].listPlace[j].visitDate).format("yyyy-MM-dd")
+							 });
+							}
+						}
+						defaultDate = new Date(J.listCity[0].stayStart).format("yyyy-MM-dd");
+						setCalendar(dDate,calendarEvent);
+					}
+				});			
 	});
 
 </script>
@@ -110,6 +88,6 @@
 <body>
 
 	<div id='calendar'></div>
-
+<input type="hidden" value="${calendarTravNo}" id="calendarTravNo"/>
 </body>
 </html>
