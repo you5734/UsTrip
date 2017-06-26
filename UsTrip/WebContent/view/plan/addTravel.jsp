@@ -6,9 +6,19 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
+	
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>UsTrip</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
@@ -52,7 +62,7 @@
 		if($("#memberCount").text()==""){$("#memberCount").val(8);}
 		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
 		
-		$("#userId").val("b@naver.com");
+		//$("#userId").val("b@naver.com");
 		$( "#startDate" ).val(new Date($( "#startDate" ).val()))
 		/* $("#travTitle").val("여행Test");
 		
@@ -84,6 +94,7 @@
 </head>
 
 <body>
+<jsp:include page="/common/toolbar.jsp"/>
 <!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 
@@ -105,7 +116,7 @@
 		  <div class="form-group">
 		    <label for="travTitle" class="col-xs-4 col-md-2">여행제목</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목" value='오빠어디가'>
+		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목" value=''>
 		    </div>
 		  </div>
 
@@ -141,7 +152,7 @@
 		  <div class="form-group">
 		    <label for="totalDate" class="col-xs-4 col-md-2">총 숙박일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value='2'>
+		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value='7'>
 		    </div>
 		  </div>
 			<!-- 

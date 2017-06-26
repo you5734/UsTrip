@@ -64,11 +64,18 @@
 			 
 		 	$("#ustory").on("click" , function() {
 				 self.location="/user/allListTravel";
+<<<<<<< HEAD
 			 });
 		 	
 		 	$("#plan").on("click" , function() {
 				 self.location="/plan/addTravel";
 			 });
+=======
+			 }); 
+		 	$("#plan").on("click" , function() {
+				 self.location="/plan/addTravel";
+			 }); 
+>>>>>>> refs/remotes/origin/master
 		 });
 	</script>
 	
