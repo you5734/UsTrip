@@ -290,8 +290,7 @@
 
 </script>
 <style type="text/css">
-  body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;
-  width:50%;}
+  body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;}
   </style>
 </head>
 	<body>
