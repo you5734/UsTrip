@@ -617,7 +617,6 @@ for(var h = 0; h < stayDate; h++){
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempNum);
-     		
    			Javascript:calcRoute();
 
     		start = end;
