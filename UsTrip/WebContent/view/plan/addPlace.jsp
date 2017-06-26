@@ -5,6 +5,14 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	
 	<title>UsTrip</title>
@@ -23,13 +31,13 @@
  
  		#mainPlace {
 			width: 17%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
  		}
  		
  		#btn {
 			width: 83%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
         }
  
@@ -42,15 +50,16 @@
 		
 		#map {
 			width:  83%;
-			height: 85%;
+			height: 90%;
         }
         #panel{
 			position: fixed;
 			margin-left: 25%;
-          	margin-top: 9%;
+          	margin-top: 5.9%;
 			z-index: 5;
 			background-color: #fff;
 			padding: 3px;
+			border:none;
         }
         
          #temp {
@@ -58,10 +67,10 @@
         font-family: Roboto;
         font-size: 15px;
         font-weight: 300;
-        margin-left: 12px;
+        /* margin-left: 12px; */
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
-        width: 300px;
+        width: 250px;
       }
 
       #temp:focus {
@@ -71,13 +80,23 @@
       .temp-container {
         font-family: Roboto;
       }
-       #panel{
+       /* #panel{
 			position: fixed;
 			margin-left: 25%;
           	margin-top: 9%;
 			z-index: 5;
 			background-color: #fff;
 			padding: 3px;
+        } */
+        
+         #insert{
+			position: fixed;
+			margin-top: -35px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
         }
       
       	#duration, #distance{
@@ -897,24 +916,22 @@ function buildIWContent(place) {
     </head>
 
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 		<div id="panel" >
             <input type="hidden" id="start" value=""/>
             <input type="hidden" id="end" value=""/>
             <input id="temp" class="controls" type="text"  placeholder="장소명 혹은 주소를 입력하세요" onkeypress=
-        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
-       
+	        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+	        <button type='button' id = 'insert' >등록하기</button>
            
         </div>
         
 		<div id="mainPlace">
-       		<h3>Place테이블입력</h3>
        		<br>
     	</div>
 		
 		<div id="btn">
-			<button onclick="moveStart()">전체루트</button>
-			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right;'>등록하기</button>
+			
 		</div>		
 		<div id="formTag" class="formC">
  
@@ -927,7 +944,7 @@ function buildIWContent(place) {
 		</div> 		 
 
 		</div>
-		 <div id="near"></div>
+		<!--  <div id="near"></div>
 	  <select id="interest" style="width:140px">
 		<option value="bank">Bank</option>
         <option value="school">School</option>
@@ -961,7 +978,7 @@ function buildIWContent(place) {
         </tr>
       </table>
     </div>
-		 	
+		 	 -->
 		<div id="map"></div>
 		
 </body>
