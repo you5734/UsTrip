@@ -1,6 +1,7 @@
 package com.ustrip.service.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class City {
 	
@@ -15,6 +16,7 @@ public class City {
 	private int stayDate;
 	private Date stayStart;
 	private Date stayEnd;
+	List<Place> listPlace;
 	
 	public City(){
 	}
@@ -105,6 +107,14 @@ public class City {
 
 	public void setStayEnd(Date stayEnd) {
 		this.stayEnd = stayEnd;
+	}
+
+	public List<Place> getListPlace() {
+		return listPlace;
+	}
+
+	public void setListPlace(List<Place> listPlace) {
+		this.listPlace = listPlace;
 	}
 
 	@Override
