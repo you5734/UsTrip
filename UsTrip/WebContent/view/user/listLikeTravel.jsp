@@ -188,9 +188,8 @@
 									                    <span class="project-details">${likeTravel.travNo.travTitle }</span>
 									                    <span class="project-price"><strong> ${likeTravel.travNo.nickName } </strong></span>
 														  <span class="project-creator">
-															<fmt:parseDate var="parsedDate" value="${likeTravel.travNo.startDate}" pattern="yyyy-MM-dd"/>
-								        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
-								         					출발일 ${newFormattedDateString} | 여행일수 ${likeTravel.travNo.totalDate }일</span>
+								        					<fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
+								         					출발일 ${likeTravel.travNo.startDate} | 여행일수 ${likeTravel.travNo.totalDate }일</span>
 									                </figcaption>
 									                <span class="actions">
 									                	<button class="btn btn-warning bnt-action" type="button" >상세보기</button>

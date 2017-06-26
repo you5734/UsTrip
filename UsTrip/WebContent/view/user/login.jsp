@@ -26,10 +26,11 @@
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+ 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
 	<script src="https://apis.google.com/js/api:client.js"></script>
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	
+	<!-- <script src="https://www.googleapis.com/plus/v1/activities/z12gtjhq3qn2xxl2o224exwiqruvtda0i?key=874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com"></script>
+	 -->
 	<!-- ///////////////////////// Modal popup  및 달력UI /////////////////////////////// -->
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -83,12 +84,15 @@
 	      });
 	    };
 //	client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
-	    //google
+//240419245572-40o3ev6lrtro935gb6aqvske3rv8toah.apps.googleusercontent.com
+
+//google
 		$( function() {
 		    $(".buttonText").on("click" , function() {
 				gapi.load('auth2', function() {
 					auth2 = gapi.auth2.init({
-					client_id: '874013762845-1vbc3sib3cn2fapfgg734rjjj4suktt1.apps.googleusercontent.com',
+						url: '/plus.login'
+					client_id: '240419245572-40o3ev6lrtro935gb6aqvske3rv8toah.apps.googleusercontent.com',
 					cookiepolicy: 'single_host_origin',
 					fetch_basic_profile: false,
 					scope: 'profile'
@@ -96,8 +100,8 @@
 		
 				// Sign the user in, and then retrieve their ID.
 				auth2.signIn().then(function() {
-				    console.log(auth2.currentUser.get().getId());
-				    console.log(auth2.googleUser.get().getBasicProfile());
+				    console.log("dd :: " + auth2.currentUser.get().getId());
+				    console.log("ss :: " + auth2.currentUser.get().getBasicProfile());
 				    
 				    var profile = auth2.currentUser.get().getBasicProfile();
 				    console.log('Email: ' + profile.getEmail());
@@ -127,7 +131,7 @@
 				  });
 				});
 			});
-		});
+		}); 
 	    
 		//로그인 Event처리
 		$( function() {
@@ -160,7 +164,7 @@
 				self.location = "/user/addUser"
 			});
 			
-			$("a[href='#' ]").on("click" , function() {
+			$("#findPwd").on("click" , function() {
 				self.location="/view/user/findPwd.jsp";
 			});
 
@@ -217,6 +221,73 @@
 			/* Use the Roboto font that is loaded in the <head> */
 			font-family: 'Roboto', sans-serif;
 		}
+/* 
+///// */
+
+@media (min-width: 768px) {
+    .omb_row-sm-offset-3 div:first-child[class*="col-"] {
+        margin-left: 25%;
+    }
+}
+
+.omb_login .omb_authTitle {
+    text-align: center;
+	line-height: 300%;
+}
+	
+.omb_login .omb_socialButtons a {
+	color: white; // In yourUse @body-bg 
+	opacity:0.9;
+}
+.omb_login .omb_socialButtons a:hover {
+    color: white;
+	opacity:1;    	
+}
+.omb_login .omb_socialButtons .omb_btn-facebook {background: #3b5998;}
+.omb_login .omb_socialButtons .omb_btn-twitter {background: #00aced;}
+.omb_login .omb_socialButtons .omb_btn-google {background: #c32f10;}
+
+
+.omb_login .omb_loginOr {
+	position: relative;
+	font-size: 1.5em;
+	color: #aaa;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+.omb_login .omb_loginOr .omb_hrOr {
+	background-color: #cdcdcd;
+	height: 1px;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+.omb_login .omb_loginOr .omb_spanOr {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -0.6em;
+	margin-left: -1.5em;
+	background-color: white;
+	width: 3em;
+	text-align: center;
+}			
+
+.omb_login .omb_loginForm .input-group.i {
+	width: 2em;
+}
+.omb_login .omb_loginForm  .help-block {
+    color: red;
+}
+
+	
+@media (min-width: 768px) {
+    .omb_login .omb_forgotPwd {
+        text-align: right;
+		margin-top:10px;
+ 	}		
+}
 
 	</style>
 </head>
@@ -225,6 +296,78 @@
         <div class="top-content" align="center">
             <div class="inner-bg">
                 <div class="container">
+                
+                <div class="omb_login">
+    	<!-- <h3 class="omb_authTitle">Login or <a href="#">Sign up</a></h3> -->
+		<div class="row omb_row-sm-offset-3 omb_socialButtons">
+    	    
+    	    <div class="col-xs-4 col-sm-2">
+				<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+	    	    	<img src="/images/layout/kakao_account_login_btn_medium_narrow_ov.png" >
+				        <span class="hidden-xs"></span>
+				</a>
+	        </div>
+	        
+     	<div class="col-xs-4 col-xs-2" style="width:180px;">
+		 </div> 
+		    
+		    	 <div class="col-xs-4 col-sm-2">
+				   	<div id="gSignInWrapper">
+						<div id="customBtn" class="customGPlusSignIn" >
+							<span class="icon"></span>
+								<span class="buttonText" >구글로 로그인</span>
+						</div>
+					</div>
+				<div id="name"></div>
+	        </div>	
+		</div>
+
+		<div class="row omb_row-sm-offset-3 omb_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<hr class="omb_hrOr">
+				<span class="omb_spanOr">or</span>
+			</div>
+		</div>
+
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">	
+			    <form class="omb_loginForm" action="" autocomplete="off" method="POST">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<label class="sr-only" for="form-username">UserId</label>
+                 	<input type="text" name="userId" placeholder="UserId..." class="form-username form-control" id="userId">
+					</div>
+					<span class="help-block"></span>
+										
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<label class="sr-only" for="form-password">Password</label>
+                 	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="password">
+					</div>
+                    <span class="help-block"></span>
+              
+					<button type="submit" class="button" id="signin">로그인</button>
+					<button type="button" class="button" id="joinus">회원가입</button>
+				</form>
+			</div>
+    	</div>
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-3">
+			</div>
+			<div class="col-xs-12 col-sm-3">
+				<p class="omb_forgotPwd">
+					<a href="#"  id="findPwd">비밀번호찾기</a>
+				</p>
+			</div>
+		</div>	    	
+	</div>
+
+                
+                
+                
+                
+                
+          <!--       
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
                             <div class="description">
@@ -243,7 +386,7 @@
 	                        		<div class="form-top-left">
 	                        			<i class="fa fa-lock"></i>
 	                        			<h4>로그인 후 이용해주세요</h4>
-	                            		<!-- <p>Enter userid and password to log on:</p> -->
+	                            		<p>Enter userid and password to log on:</p>
 	                        		</div>
 	                            
 	                            <div class="form-bottom">
@@ -267,7 +410,8 @@
 					                        <button type="button" class="button" id="joinus">회원가입</button>
 				                        </div>
 				                        
-				                        <!-- ////////////////  카카오 로그인 버튼 ////////////////// -->
+
+				                        ////////////////  카카오 로그인 버튼 //////////////////
 				                        <div class="form-group">
 					  		 				<div class="col-sm-offset text-center">					      
 					      						<a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -276,7 +420,7 @@
 					   						 </div>
 					 					 </div>
 					 					 
-					 					 <!-- ////////////////  google 로그인 버튼 ////////////////// -->
+					 					 ////////////////  google 로그인 버튼 //////////////////
 										<div id="gSignInWrapper">
 											<div id="customBtn" class="customGPlusSignIn" style="width:180px;" >
 												<span class="icon"></span>
@@ -285,7 +429,7 @@
 										</div>
 										<div id="name"></div>
 					 				</form>
-			                    </div>
+			                    </div> -->
 					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
 						 					<div id="dialog-form" title="추가정보 입력">
 											  <p class="validateTips">모든정보를 입력해주세요</p>											 

@@ -25,7 +25,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 	
 	<!-- ////////////////////////////////////// 가계부 ////////////////////////////////////////////////// -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -186,7 +186,8 @@ label {
 
 #tab1:checked ~ #content1,
 #tab2:checked ~ #content2,
-#tab3:checked ~ #content3
+#tab3:checked ~ #content3,
+#tab4:checked ~ #content4
 {
   display: block !important;
   padding: 20px;
@@ -299,12 +300,14 @@ border-bottom: 1px solid #f7f7f7;
 							<div class="well">
 						        <p>
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
-									<c:if test='${isLike == 1}'>
-										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
-									</c:if>
-									<c:if test='${isLike == 0}'>
-										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
-									</c:if> 
+						        		<c:if test="${ not empty sessionScope.user.userId }">
+											<c:if test='${isLike == 1}'>
+												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
+											</c:if>
+											<c:if test='${isLike == 0}'>
+												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
+											</c:if> 
+										</c:if>
 						        </p>
 						          <p>
 						           <strong>여행테마</strong> ${travel.travTheme } | <strong>인원수</strong> ${travel.memberCount }
@@ -321,13 +324,17 @@ border-bottom: 1px solid #f7f7f7;
 								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
 								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
 								<input id="tab1" type="radio" name="tabs" checked>
-								<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
-					
+								<label for="tab1"><i class="fa fa-map-marker"></i><span>플랜</span></label>
+								
 								<input id="tab2" type="radio" name="tabs">
-								<label for="tab2" id="tabs"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
+								<label for="tab2" id="tabs"><i class="fa fa-pencil-square-ofa fa-calendar"></i><span>달력</span></label>
+					
 					
 								<input id="tab3" type="radio" name="tabs">
-								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
+								<label for="tab3" id="tabs"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
+					
+								<input id="tab4" type="radio" name="tabs">
+								<label for="tab4"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
 	
 								<section id="content1" class="tab-content" style="heigh:700px;">
 									<!-- <h3>Headline 1</h3>
@@ -336,17 +343,21 @@ border-bottom: 1px solid #f7f7f7;
 							     <jsp:include page="/view/blog/mapFrame.jsp"/> 
 								</section>
 								
-					
 								<section id="content2" class="tab-content">
-								 <c:if test="${travel.isBlogStart==1 }">
-									<jsp:include page="/view/blog/listBlog.jsp"/> 
-								</c:if>
-								<c:if test="${travel.isBlogStart==0 }">
-									<jsp:include page="/view/blog/addBlog.jsp"/> 
-								</c:if>						
-								</section>
+											달력 보여주자			
+								</section>					
+					
 					
 								<section id="content3" class="tab-content">
+									 <c:if test="${travel.isBlogStart==1 }">
+										<jsp:include page="/view/blog/listBlog.jsp"/> 
+									</c:if>
+									<c:if test="${travel.isBlogStart==0 }">
+										<jsp:include page="/view/blog/addBlog.jsp"/> 
+									</c:if>						
+								</section>
+					
+								<section id="content4" class="tab-content">
 									 <h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
 										<ul class="nav nav-tabs">
 											<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>

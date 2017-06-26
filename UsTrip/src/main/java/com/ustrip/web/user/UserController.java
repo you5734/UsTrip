@@ -105,7 +105,7 @@ public class UserController {
 	}
 	/// 타계정 로그인하고 추가정보 입력 후 addUser 처리, 비밀번호는 임시비밀번호 넣기
 	@RequestMapping( value="extraUserInfo", method=RequestMethod.POST )
-	public String extraUserInfo( @ModelAttribute("user") User user) throws Exception{
+	public String extraUserInfo( @ModelAttribute("user") User user, HttpSession session) throws Exception{
 	
 		System.out.println("/user/extraUserInfo : POST");
 		user.setUserId(user.getUserId().replace(",", "."));
@@ -113,7 +113,12 @@ public class UserController {
 		userService.extraUserInfo(user);
 		System.out.println("userId 가져오닝:: " +user.getUserId());
 		
-		return "forward:/view/user/addUser.jsp";
+		User dbUser=userService.getUser(user.getUserId());
+		System.out.println("user 뭐닝" + dbUser);
+		session.setAttribute("user", dbUser);
+		
+		
+		return "forward:/view/user/getUser.jsp";
 	}
 	
 	@RequestMapping( value="checkUserId/{userId}", method=RequestMethod.GET)
@@ -226,12 +231,13 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="getUser", method=RequestMethod.GET )
-	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
+	public String getUser( @RequestParam("userId") String userId , Model model,  HttpSession session ) throws Exception {
 		
 		System.out.println("/user/getUser : GET");
 		//Business Logic
 		User user = userService.getUser(userId);
 		// Model 과 View 연결
+		session.setAttribute("user", user);
 		model.addAttribute("user", user);
 		
 		return "forward:/view/user/getUser.jsp";

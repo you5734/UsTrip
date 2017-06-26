@@ -173,15 +173,15 @@
 											 <br><br><br>
 												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
 												<span>${follow.nickName }	<%-- //	${follow.folUserId } --%></span><br>
-													<input type="hidden" class="followTarget" value="${follow.folUserId }">
+													<input type="hidden" class="followTarget" value="${follow.targetUserId }">
 													<c:choose >
 														<c:when test="${ empty follow.nickName } ">
 															<input type="button" class="btn btn-sm" id="follow" value="Follow">
-															<input type="hidden" class="followTarget" value="${follow.folUserId }">
+															<input type="hidden" class="followTarget" value="${follow.targetUserId }">
 														</c:when>
 														<c:otherwise >
 															<input type="button" class="btn btn-info btn-sm" id="following" value="Following">
-															<input type="hidden" class="followTarget" value="${follow.folUserId }">
+															<input type="hidden" class="followTarget" value="${follow.targetUserId }">
 														</c:otherwise>
 													</c:choose>
 											</div>

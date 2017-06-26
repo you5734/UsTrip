@@ -42,7 +42,7 @@
 					targetUserId=targetUserId.split(".");					
 					destination = $(this).val();
 					
-					alert("destinateeeeeeeeeeeee ::" + destination);
+					console.log("destinateeeeeeeeeeeee ::" + destination);
 					
 					if( destination == "Follow" ) {
 						
