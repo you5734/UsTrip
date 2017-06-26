@@ -61,11 +61,9 @@
     </style>
 	
 
-
-
     <script>
 	var travelNo = "${sessionScope.travel.travelNo}";
-	var stayStart = "${sessionScope.travel.startDate}";
+	var stayStart = String("${sessionScope.travel.startDate}").replace("KST", "GMT");
 	stayStart = new Date(stayStart);
 	stayStart = stayStart.getFullYear()+"-"+(stayStart.getMonth()*1+1)+"-"+stayStart.getDate();
     var directionsDisplay;

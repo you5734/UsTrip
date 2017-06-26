@@ -53,7 +53,9 @@
 		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
 		
 		$("#userId").val("b@naver.com");
+		$( "#startDate" ).val(new Date($( "#startDate" ).val()))
 		/* $("#travTitle").val("ø©«‡Test");
+		
 		
 		
 		$("#memberCount").val(8);

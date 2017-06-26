@@ -11,7 +11,7 @@ public class Travel {
 	private String travTitle;
 	private String travTheme;
 	private int memberCount;
-	private String startDate;
+	private Date startDate;
 	private int totalDate;
 	private int isBlogStart;
 	private String thumbNail;
@@ -54,10 +54,10 @@ public class Travel {
 	public void setMemberCount(int memberCount) {
 		this.memberCount = memberCount;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	public int getTotalDate() {
