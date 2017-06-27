@@ -63,6 +63,7 @@ public class UserController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	
 	@Autowired
 	 private JavaMailSender mailSender;
 	
@@ -187,7 +188,6 @@ public class UserController {
 		return "redirect:/index.jsp";
 	}
 	
-	
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
 	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
 
@@ -254,15 +254,25 @@ public class UserController {
 		
 		return "forward:/view/user/getUser.jsp";
 	}
-	
+
 	@RequestMapping( value="withdrawUser", method=RequestMethod.GET )
-	public String withdrawUser( @RequestParam("userId") String userId ) throws Exception {
+	public String withdrawUser( @RequestParam("userId") String userId, Model model ) throws Exception {
 		
 		System.out.println("/user/withdrawUser : GET");
 
+		 model.addAttribute("userId", userId);
+
+		return "forward:/view/user/withdrawUser.jsp";
+	}
+	
+	@RequestMapping( value="withdrawUser", method=RequestMethod.POST )
+	public String withdrawUser( @RequestParam("userId") String userId) throws Exception {
+		
+		System.out.println("/user/withdrawUser : POST");
+
 		 userService.withdrawUser(userId);
 
-		return "forward:/user/login";
+		return "forward:/index.jsp";
 	}
 	
 	@RequestMapping( value="listUser" )
@@ -276,7 +286,7 @@ public class UserController {
 		search.setPageSize(pageSize);
 		
 		// Business logic ผ๖วเ
-		Map<String , Object> map=userService.getUserList(search);
+		Map<String , Object> map=userService.listUser(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -290,7 +300,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "findPwd", method=RequestMethod.POST)
-	  public String findPwd( @RequestParam("userId") String userId) throws Exception {
+	public String findPwd( @RequestParam("userId") String userId) throws Exception {
 
 		System.out.println("/user/mailSending :: GET");
 	  
@@ -401,7 +411,6 @@ public class UserController {
 		
 		return "forward:/view/user/allListTravel.jsp";
 	}
-	
 	
 	@RequestMapping( value="listFollow")
 	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model,

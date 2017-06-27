@@ -116,7 +116,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="getMsg", method=RequestMethod.GET )
-	public String sendMsg( @RequestParam("msgNo") int msgNo, 
+	public String getMsg( @RequestParam("msgNo") int msgNo, 
 			@RequestParam(value="receiver", required=false) String receiver, HttpSession session, Model model ) throws Exception{
 	
 		System.out.println("/message/getMsg : GET");
@@ -159,14 +159,14 @@ public class MessageController {
 		return destinate;
 	}
 	
-	@RequestMapping( value="unReadMsg", method=RequestMethod.POST )
-	public void unReadMsg( HttpSession session, Model model ) throws Exception{
+	@RequestMapping( value="isReadMsg", method=RequestMethod.POST )
+	public void isReadMsg( HttpSession session, Model model ) throws Exception{
 	
-		System.out.println("/message/unReadMsg : GET");
+		System.out.println("/message/isReadMsg : GET");
 		
 		String receiver = ((User)session.getAttribute("user")).getUserId();
 		
-		boolean unRead = messageService.unReadMsg(receiver);
+		boolean unRead = messageService.isReadMsg(receiver);
 		
 		System.out.println(" 쪽지 읽음여부 ????????? " + unRead);
 		

@@ -20,5 +20,5 @@ public interface MessageService {
 	
 	public Map<String, Object> listReceivMsg(Search search, String receiver) throws Exception;
 	
-	public boolean unReadMsg(String receiver) throws Exception;
+	public boolean isReadMsg(String receiver) throws Exception;
 }

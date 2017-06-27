@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean result = true;
 		
-		User user = userDao.getUser2(nickName);
+		User user = userDao.checkNickName(nickName);
 		
 		if(user != null ) {
 			result = false;
@@ -70,15 +70,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public User getUserNickName(String nickName) throws Exception{
-		return userDao.getUser2(nickName);
+		return userDao.checkNickName(nickName);
 	}
 	
 	public void updateUser(User user) throws Exception {
 		userDao.updateUser(user);
 	}
 	
-	public Map<String, Object> getUserList(Search search) throws Exception{
-		List<User> list = userDao.getUserList(search);
+	public Map<String, Object> listUser(Search search) throws Exception{
+		List<User> list = userDao.listUser(search);
 		int totalCount  = userDao.getUserTotalCount(search);
 		
 		Map<String, Object> map = new HashMap<String, Object>();

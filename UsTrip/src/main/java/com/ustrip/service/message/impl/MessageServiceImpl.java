@@ -78,9 +78,9 @@ public class MessageServiceImpl implements MessageService {
 		return map;
 	}
 	
-	public boolean unReadMsg(String receiver) throws Exception {
+	public boolean isReadMsg(String receiver) throws Exception {
 		
-		List<Message> list = messageDao.unReadMsg(receiver);
+		List<Message> list = messageDao.isReadMsg(receiver);
 		System.out.println("list?????????????????????????????? ::  " + list);
 		
 		boolean unRead = false;

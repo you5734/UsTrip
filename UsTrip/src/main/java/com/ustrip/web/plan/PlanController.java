@@ -260,6 +260,7 @@ public class PlanController {
 	@RequestMapping( value="getCalendarJSON/{travNo}", method=RequestMethod.GET )
 	public void getCalendarJSON(@PathVariable int travNo, Model model) throws Exception{
 		System.out.println("/plan/getCalendarData : GET");
+		
 		List<City> listCity = planService.blogCity(travNo);
 		for(City city : listCity){
 			List<Place> listPlace = planService.blogPlace(city.getCityNo());

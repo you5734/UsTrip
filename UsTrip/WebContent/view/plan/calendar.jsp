@@ -1,24 +1,20 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='utf-8' />
-<link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<!-- <meta charset='utf-8' /> -->
+<!-- <link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css"> -->
+	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> -->
 	
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<link href='/css/fullcalendar.min.css' rel='stylesheet' />
-<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-<script src='/js/moment.min.js'></script>
-<script src='/js/fullcalendar.min.js'></script>
-     <script src="/js/dateFormat.js"></script>
+	<link href='/css/fullcalendar.min.css' rel='stylesheet' />
+	<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='/js/moment.min.js'></script>
+	<script src='/js/fullcalendar.min.js'></script>
+     <script src="/js/dateFormat.js"></script> -->
 <script>
-
-	function setCalendar(date,data){
+ 	function setCalendar(date,data){
 		//alert(JSON.stringify(data));
 		$('#calendar').fullCalendar({
 			header: {
@@ -32,13 +28,11 @@
 			eventLimit: true, // allow "more" link when too many events
 			events: data
 		});
-	}
-
+	} 
 	$(document).ready(function() {
-		var calendarNo = $('#calendarTravNo').val();
-		var calendarEvent = []
+		var calendarNo = $('#travNo').val();
+		var calendarEvent = [];
 		var dDate;
-
 		$.ajax( 
 				{
 					url : "/plan/getCalendarJSON/"+calendarNo,
@@ -67,27 +61,19 @@
 					}
 				});			
 	});
-
 </script>
 <style>
-
 	body {
 		margin: 40px 10px;
 		padding: 0;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		font-size: 14px;
 	}
-
 	#calendar {
 		max-width: 900px;
 		margin: 0 auto;
 	}
-
 </style>
-</head>
-<body>
-
-	<div id='calendar'></div>
+	<div id="calendar"></div>
+	<!-- <div id="calendar"></div> -->
 <input type="hidden" value="${calendarTravNo}" id="calendarTravNo"/>
-</body>
-</html>

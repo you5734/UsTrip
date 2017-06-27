@@ -8,14 +8,19 @@
 <script type="text/javascript">
 	$(function() {
 		$('body').on('click' , '#addBlog', function() {
-			alert("dddddd"+$('#travNo').val());
+			alert("dddddd"+$('#travelNo').val());
 			self.location="/blog/addBlog?travelNo="+$('#travNo').val();
 		});
 		
 	});
 </script>
 
-	${travel.travTitle}<br/>
-	<input type="button" id="addBlog" value="start BLOG">
-	<%-- <input type="hidden" id="travelNo" name="travelNo" value="${travel.travelNo}"> --%>
-	<input type="text" id="travelNo" name="travelNo" value="${travel.travelNo}"> -
+	<%-- ${travel.travTitle} --%>
+	<div class="col-md-8 col-xs-4">
+		블로그를 시작하시겠습니까?
+	</div>
+	<div class="col-md-8 col-xs-4">
+		<input type="button" id="addBlog" value="start BLOG" style="margin-left:50px;">
+		<%-- <input type="hidden" id="travelNo" name="travelNo" value="${travel.travelNo}"> --%>
+		<input type="hidden" id="travelNo" name="travelNo" value="${travel.travelNo}">
+	</div>

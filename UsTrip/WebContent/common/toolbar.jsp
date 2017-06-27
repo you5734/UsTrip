@@ -120,7 +120,6 @@
 			<li><a id="ustory">어스토리</a></li>
 			<li><a>플랜</a></li>
 			<li><a id="community">커뮤니티</a></li>
-			<li><a>이용방법</a></li>
 		</ul>
 		<ul class="actions vertical"> 
 			<c:if test="${ empty sessionScope.user.userId }">

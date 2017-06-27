@@ -42,16 +42,16 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	//닉네임조회
-	public User getUser2(String nickName) throws Exception{
-		return sqlSession.selectOne("UserMapper.getUser2", nickName);
+	public User checkNickName(String nickName) throws Exception{
+		return sqlSession.selectOne("UserMapper.checkNickName", nickName);
 	}
 	
 	public void updateUser(User user) throws Exception {
 		sqlSession.update("UserMapper.updateUser", user);
 	}
 	
-	public List<User> getUserList(Search search) throws Exception{
-		return sqlSession.selectList("UserMapper.getUserList", search);
+	public List<User> listUser(Search search) throws Exception{
+		return sqlSession.selectList("UserMapper.listUser", search);
 	}
 	
 	public int getUserTotalCount(Search search) throws Exception{

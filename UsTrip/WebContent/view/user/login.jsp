@@ -91,7 +91,7 @@
 		    $(".buttonText").on("click" , function() {
 				gapi.load('auth2', function() {
 					auth2 = gapi.auth2.init({
-						url: '/plus.login'
+					/* 	url: '/plus.login' */
 					client_id: '240419245572-40o3ev6lrtro935gb6aqvske3rv8toah.apps.googleusercontent.com',
 					cookiepolicy: 'single_host_origin',
 					fetch_basic_profile: false,

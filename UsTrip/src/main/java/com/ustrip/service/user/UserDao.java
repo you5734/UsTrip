@@ -19,13 +19,13 @@ public interface UserDao {
 	public User getUser(String userId) throws Exception;
 	
 	// SELECT ONE 닉네임조회
-	public User getUser2(String nickName) throws Exception;
+	public User checkNickName(String nickName) throws Exception;
 		
 	// UPDATE
 	public void updateUser(User user) throws Exception;
 	
 	//SELECT LIST
-	public List<User> getUserList(Search search) throws Exception;
+	public List<User> listUser(Search search) throws Exception;
 	
 	//page처리를 위한 전체 row return
 	public int getUserTotalCount(Search search) throws Exception;

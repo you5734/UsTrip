@@ -30,7 +30,7 @@ public interface UserService {
 	public void updateUser(User user) throws Exception;
 		
 	// 모든회원리스트
-	public Map<String, Object> getUserList(Search search) throws Exception;
+	public Map<String, Object> listUser(Search search) throws Exception;
 	
 	//회원탈퇴
 	public void withdrawUser(String userId) throws Exception;
