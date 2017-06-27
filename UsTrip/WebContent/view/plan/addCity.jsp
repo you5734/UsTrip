@@ -20,7 +20,7 @@
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
+    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
     
 	<style type="text/css">
         html, body {
@@ -182,19 +182,19 @@
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function getLocation(){
+  /*   function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
         }else{
             alert("Not Support Browser");
         }
-    }        
+    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
       geocoder = new google.maps.Geocoder();
     
-      var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      //var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
   
       var mapOptions = {
         zoom:8,
@@ -497,7 +497,7 @@
        //$('#a2').val(response.duration.text);
         //$('#fortDetail').val(JSON.stringify(response.routes));
 	
-	google.maps.event.addDomListener(window, 'load', getLocation);
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
     

@@ -121,8 +121,8 @@
 							}
 							
 							for(var i in J.listCity){
-								var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/');
-								days.push(tranDate);					
+								//var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/');
+								days.push(J.listCity[i].stayStart);					
 							}
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}

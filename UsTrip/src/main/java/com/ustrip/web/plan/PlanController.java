@@ -1,6 +1,5 @@
 package com.ustrip.web.plan;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ustrip.service.domain.City;
-import com.ustrip.service.domain.Comment;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanService;

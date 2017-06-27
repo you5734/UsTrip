@@ -108,7 +108,7 @@
 			
 			<!-- 히든유저있던곳	 -->		
 		  <div class="form-group">
-		    <input type="hidden" id="userId" name="userId" value='${sessionScope.user.userId}'/>
+		    <input type="hidden" id="userId" name="userId" value="${sessionScope.user.userId}"/>
 		  </div>			
 		
 			

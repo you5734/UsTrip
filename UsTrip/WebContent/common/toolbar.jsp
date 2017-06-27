@@ -64,18 +64,10 @@
 			 
 		 	$("#ustory").on("click" , function() {
 				 self.location="/user/allListTravel";
-<<<<<<< HEAD
-			 });
-		 	
-		 	$("#plan").on("click" , function() {
-				 self.location="/plan/addTravel";
-			 });
-=======
 			 }); 
 		 	$("#plan").on("click" , function() {
 				 self.location="/plan/addTravel";
 			 }); 
->>>>>>> refs/remotes/origin/master
 		 });
 	</script>
 	
@@ -123,7 +115,7 @@
 		<ul class="links">
 			<li><a>홈</a></li>
 			<li><a id="ustory">어스토리</a></li>
-			<li><a id="plan">>플랜</a></li>
+			<li><a id="plan">플랜</a></li>
 			<li><a id="community">커뮤니티</a></li>
 			<li><a>이용방법</a></li>
 		</ul>

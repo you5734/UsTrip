@@ -18,7 +18,7 @@
 	<title>UsTrip</title>
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
 	<style type="text/css">
@@ -115,6 +115,7 @@
     var start;
     var end;
 	var tempNum = 0;
+	var tempCount = 0;
 	var tempNumNum = 0;
 	var travelNo = document.location.href.split("?")[1]*1;
 	var cityNo = document.location.href.split("?")[2]; 
@@ -282,7 +283,7 @@ for(var h = 0; h < stayDate; h++){
 			
 			addId = eval('addId+(h+1)');
 			
-		for(var i = 0; i < $(addId).find( $("#f1 input[name='tempCount']")).val(); i++){
+		for(var i = 0; i < tempCount; i++){
 			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
@@ -325,13 +326,13 @@ for(var h = 0; h < stayDate; h++){
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function getLocation(){
+  /*   function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
         }else{
             alert("Not Support Browser");
         }
-    }        
+    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
@@ -339,8 +340,6 @@ for(var h = 0; h < stayDate; h++){
 			
 		
 		var currentLocation = [];
-		
-      var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
       
       var mapStyles = [{
           "featureType": "poi.attraction",
@@ -383,7 +382,7 @@ for(var h = 0; h < stayDate; h++){
           content: document.getElementById('info-content')
           });
       places = new google.maps.places.PlacesService(map);
-      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
+ /*      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername); */
           // Create the search box and link it to the UI element.
           var input = document.getElementById('temp');
           var options = {
@@ -394,14 +393,14 @@ for(var h = 0; h < stayDate; h++){
           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
           // Bias the SearchBox results towards current map's viewport.
-          map.addListener('bounds_changed', function() {
+   /*        map.addListener('bounds_changed', function() {
         	  autocomplete.setBounds(map.getBounds());
           });
-
+ */
           
           // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
-          autocomplete.addListener('places_changed', function() {
+          /* autocomplete.addListener('places_changed', function() {
             var places = autocomplete.getPlaces();
 
             if (places.length == 0) {
@@ -448,7 +447,7 @@ for(var h = 0; h < stayDate; h++){
               }
             });
             map.fitBounds(bounds);
-          });
+          }); */
       
       function getAddress(latlng) {
     		var geocoder = new google.maps.Geocoder();
@@ -596,6 +595,7 @@ for(var h = 0; h < stayDate; h++){
     	}
     		tempNum++;	
     	
+    		tempCount = tempNum;
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);
@@ -635,7 +635,7 @@ for(var h = 0; h < stayDate; h++){
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
-     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempNum);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
    			Javascript:calcRoute();
 
     		start = end;
@@ -699,7 +699,7 @@ for(var h = 0; h < stayDate; h++){
         });
       }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
- function setAutocompleteUsername() {
+ /* function setAutocompleteUsername() {
 
 	var interest = document.getElementById('interest').value;
    
@@ -861,10 +861,10 @@ function clearResults() {
   while (results.childNodes[0]) {
     results.removeChild(results.childNodes[0]);
   }
-}
+} */
 
 // Get the place details. Show the information in an info window,
-function showInfoWindow() {
+/* function showInfoWindow() {
   var marker = this;
   places.getDetails({placeId: marker.placeResult.place_id},
       function(place, status) {
@@ -874,10 +874,10 @@ function showInfoWindow() {
         infoWindow.open(map, marker);
         buildIWContent(place);
       });
-}
+} */
 
 // Load the place information into the HTML elements used by the info window.
-function buildIWContent(place) {
+/* function buildIWContent(place) {
   document.getElementById('iw-icon').innerHTML = '<img class="hotelIcon" ' +
       'src="' + place.icon + '"/>';
   document.getElementById('iw-url').innerHTML = '<b><a href="' + place.url +
@@ -907,9 +907,9 @@ function buildIWContent(place) {
     document.getElementById('iw-website-row').style.display = 'none';
   }
 }
- 
+  */
 	
-	google.maps.event.addDomListener(window, 'load', getLocation);
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
     
