@@ -63,7 +63,7 @@ public class boardServiceTest {
 				
 	}
 	
-	//@Test
+	@Test
 	public void testupdate() throws Exception {
 		
 		Board board = new Board();
@@ -91,7 +91,7 @@ public class boardServiceTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testget() throws Exception {
 		
 		Board check = boardService.getBoard(70002);

@@ -5,12 +5,20 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	
 	<title>UsTrip</title>
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
 	<style type="text/css">
@@ -23,13 +31,13 @@
  
  		#mainPlace {
 			width: 17%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
  		}
  		
  		#btn {
 			width: 83%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
         }
  
@@ -42,15 +50,16 @@
 		
 		#map {
 			width:  83%;
-			height: 85%;
+			height: 90%;
         }
         #panel{
 			position: fixed;
 			margin-left: 25%;
-          	margin-top: 9%;
+          	margin-top: 5.9%;
 			z-index: 5;
 			background-color: #fff;
 			padding: 3px;
+			border:none;
         }
         
          #temp {
@@ -58,10 +67,10 @@
         font-family: Roboto;
         font-size: 15px;
         font-weight: 300;
-        margin-left: 12px;
+        /* margin-left: 12px; */
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
-        width: 300px;
+        width: 250px;
       }
 
       #temp:focus {
@@ -71,13 +80,23 @@
       .temp-container {
         font-family: Roboto;
       }
-       #panel{
+       /* #panel{
 			position: fixed;
 			margin-left: 25%;
           	margin-top: 9%;
 			z-index: 5;
 			background-color: #fff;
 			padding: 3px;
+        } */
+        
+         #insert{
+			position: fixed;
+			margin-top: -35px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
         }
       
       	#duration, #distance{
@@ -96,6 +115,8 @@
     var start;
     var end;
 	var tempNum = 0;
+	var tempCount = 0;
+	var tempNumNum = 0;
 	var travelNo = document.location.href.split("?")[1]*1;
 	var cityNo = document.location.href.split("?")[2]; 
 	var startCityX =  document.location.href.split("?")[3]*1;  
@@ -120,23 +141,64 @@
 	var hostnameRegexp = new RegExp('^https?://.+?/');
 	var CBroute;
 	var line = [];
-
+	var marrk = [];
+	
+	 $(function(){
+	  	  $(document).on("click","#btn-route",function(){
+			
+				startRoute = encodeURIComponent($(this).parent().find(".startPlace").val());
+				endRoute = encodeURIComponent($(this).parent().find(".place").val());
+				
+				window.open('/view/plan/placeRoute.jsp?'+startRoute+"?"+endRoute);
+	 
+	    });
+	   });
+	
 	function openCity(cityName) {
 		 
 		 for (var i = 0; i < markers.length; i++) {
              markers[i].setMap(null);
 		 } markers.length = 0;
-	
 		 
 		 for (i=0; i<line.length; i++){                           
 		   line[i].setMap(null); 
 		 }line.length = 0;
 		 routes.length = 0;
 		
-         //alert($(appendDiv).child().val());
-     	 //find(".cityXY").
-     	 //alert("599:"+appendDiv)
+		 var formLength = 0; 
 		 
+		formLength = $("#"+cityName).find($("form[name='ddform']")).length;
+		
+		for ( var xx = 0; xx < formLength; xx++ ) {
+			
+			placeX = $("#"+cityName).find($(".f"+(xx))).find($(".placeX")).val()*1;
+			placeY = $("#"+cityName).find($(".f"+(xx))).find($(".placeY")).val()*1;
+		
+			var placeXY = new Object();
+	        
+	        placeXY.lat = placeX*1;
+	        placeXY.lng = placeY*1;
+	      
+	        var marrk = placeXY;
+	       	 routes.push(placeXY);
+	       	
+	       	var marker = new google.maps.Marker({
+	    		position: marrk,
+	    		map: map
+	  			}); 
+	       	markers.push(marker);
+	       	      	
+		}
+                        	
+                	                           var CBroute = new google.maps.Polyline({
+                	                             path: routes,
+                	                             geodesic: true,
+                	                             strokeColor: '#b31543',
+                	                             strokeOpacity: 1.0,
+                	                             strokeWeight: 2
+                	                           });
+                	                           CBroute.setMap(map);
+                	                           line.push(CBroute); 
         var i;
         var x = document.getElementsByClassName("dd");
         for (i = 0; i < x.length; i++) {
@@ -214,28 +276,34 @@
 	}
 		
 	function movePlace(){ 
-		 for(var i = 0; i < tempNum; i++){
-	        	
-				$("#f"+(i)+" input[name='visitDate']").val(visitDate);
-	        	
+		
+for(var h = 0; h < stayDate; h++){
+			
+			var addId = '#dd' ;
+			
+			addId = eval('addId+(h+1)');
+			
+		for(var i = 0; i < tempCount; i++){
+			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
-		        eval("placeObj"+i).visitDate = $("#f"+(i)+" input[name='visitDate']").val();
-		        eval("placeObj"+i).place = $("#f"+(i)+" input[name='place']").val();
-		        eval("placeObj"+i).memo = $("#f"+(i)+" textarea[name='memo']").val();
+		        eval("placeObj"+i).visitDate = $(addId).find($("#f"+(i)+" input[name='visitDate']")).val();
+		        eval("placeObj"+i).place =$(addId).find( $("#f"+(i)+" input[name='place']")).val();
+		        eval("placeObj"+i).memo = $(addId).find($("#f"+(i)+" textarea[name='memo']")).val();
 		        eval("placeObj"+i).cityNo = cityNo;
 		        eval("placeObj"+i).travelNo = travelNo;
-		        eval("placeObj"+i).placeId = $("#f"+(i)+" input[name='placeId']").val();
-		        eval("placeObj"+i).placeX = $("#f"+(i)+" input[name='placeX']").val();
-		        eval("placeObj"+i).placeY = $("#f"+(i)+" input[name='placeY']").val();
-		        eval("placeObj"+i).prePlaceNo = $("#f"+(i)+" input[name='prePlaceNo']").val();
-		        eval("placeObj"+i).nextPlaceNo = $("#f"+(i)+" input[name='nextPlaceNo']").val();
+		        eval("placeObj"+i).placeId = $(addId).find($("#f"+(i)+" input[name='placeId']")).val();
+		        eval("placeObj"+i).placeX = $(addId).find($("#f"+(i)+" input[name='placeX']")).val();
+		        eval("placeObj"+i).placeY = $(addId).find($("#f"+(i)+" input[name='placeY']")).val();
+		        eval("placeObj"+i).prePlaceNo = $(addId).find($("#f"+(i)+" input[name='prePlaceNo']")).val();
+		        eval("placeObj"+i).nextPlaceNo = $(addId).find($("#f"+(i)+" input[name='nextPlaceNo']")).val();
 
 	        	var jsonPlace = JSON.stringify(eval("placeObj"+i));
 			        	
 		        $.ajax({
 		        	type : "POST",
 		        	url : "/plan/addPlace",
+		        	async: false,
 		        	data :{ a:jsonPlace},
 		        	datatype : "json",
 		        	context: this,
@@ -245,7 +313,9 @@
 		        	}
 		        }); 
 	        	
-	        }
+	        }//end of for()
+	        
+		}//end of for()
 	        
 			fncAddPlace();
 		}
@@ -256,13 +326,13 @@
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function getLocation(){
+  /*   function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
         }else{
             alert("Not Support Browser");
         }
-    }        
+    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
@@ -270,8 +340,6 @@
 			
 		
 		var currentLocation = [];
-		
-      var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
       
       var mapStyles = [{
           "featureType": "poi.attraction",
@@ -314,7 +382,7 @@
           content: document.getElementById('info-content')
           });
       places = new google.maps.places.PlacesService(map);
-      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername);
+ /*      google.maps.event.addDomListener(document.getElementById('interest'),'change',setAutocompleteUsername); */
           // Create the search box and link it to the UI element.
           var input = document.getElementById('temp');
           var options = {
@@ -325,14 +393,14 @@
           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
           // Bias the SearchBox results towards current map's viewport.
-          map.addListener('bounds_changed', function() {
+   /*        map.addListener('bounds_changed', function() {
         	  autocomplete.setBounds(map.getBounds());
           });
-
+ */
           
           // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
-          autocomplete.addListener('places_changed', function() {
+          /* autocomplete.addListener('places_changed', function() {
             var places = autocomplete.getPlaces();
 
             if (places.length == 0) {
@@ -379,7 +447,7 @@
               }
             });
             map.fitBounds(bounds);
-          });
+          }); */
       
       function getAddress(latlng) {
     		var geocoder = new google.maps.Geocoder();
@@ -477,7 +545,7 @@
     		var newUpButton = "<button>"+start+"</button>"
     		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
     		
-    		var newLeftDiv = "<form id = 'f0' style='display:none'>"
+    		var newLeftDiv = "<form id = 'f0' class = 'f0' name='ddform' value='yyyyyyyy' style='display:none'>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
@@ -516,6 +584,10 @@
 			$("#temp").val(null);
 			$("#start").val(start);
     		$("#end").val(start);    		
+    		
+    		$(appendDiv).find($("#f"+(tempNum)+" input[name='visitDate']")).val(visitDate);
+    		$(appendDiv).find( $("#f"+(tempNum)+" input[name='startPlace']")).val(document.querySelector('#start').value);
+    		$(appendDiv).find( $("#f"+(tempNum)+" input[name='place']")).val(document.querySelector('#start').value); 
     	    Javascript:calcRoute();
     		
 			tempNum++;
@@ -523,18 +595,20 @@
     	}
     		tempNum++;	
     	
+    		tempCount = tempNum;
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"'>"		    //여긴 하나 있어서 1부터			
-    			//+"<input type='text' id='startPlace' name='startPlace'/>"
+    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' value='xxxxx'>"		    //여긴 하나 있어서 1부터			
+    			+"<input type='hidden' id='startPlace' name='startPlace' class='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
-    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
+    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo' placeholder='방문지에서의 계획등 간단한 메모를 입력하세요.'/>"
     			+"<input type='text' id='distance' name='distance'/>"
     			+"<input type='text' id='duration' name='duration'/>"
+    			+"<button type='button' id = 'btn-route'>교통정보 보기</button>"
     			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo' value='${sessionScope.city.cityNo}'/>"
     			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='${sessionScope.city.travelNo}'/>"
     			+"<input type='hidden' id='placeId' name='placeId' class='placeId'/>"
@@ -543,6 +617,7 @@
     			+"<input type='hidden' id='placeXY' name='placeXY' class='placeXY'/>"
     			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo' class='prePlaceNo'/>"
     			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo' class='nextPlaceNo'/>"
+    			+"<input type='hidden' id='tempCount' name='tempCount' class='tempCount'/>"
     			+"<button  style='WIDTH: 170pt;' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
     			+"</form>"
     			+"<br></br>";
@@ -554,13 +629,13 @@
 
     		$("#start").val(start);
     		$("#end").val(end);    		
-    		
-    		$("#f"+(tempNum-2)+" input[name='place']").val(document.querySelector('#start').value); 
-    		$("#f"+(tempNum-1)+" input[name='startPlace']").val(document.querySelector('#start').value);
-    		$("#f"+(tempNum-1)+" input[name='place']").val(document.querySelector('#end').value);
-    		$("#f"+(tempNum-1)+" input[name='prePlaceNo']").val(tempNum-1);
-    		$("#f"+(tempNum-1)+" input[name='nextPlaceNo']").val(tempNum+1);
-    		
+
+    		$(appendDiv).find($("#f"+(tempNum-1)+" input[name='visitDate']")).val(visitDate);
+    		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='startPlace']")).val(document.querySelector('#start').value);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
    			Javascript:calcRoute();
 
     		start = end;
@@ -590,16 +665,12 @@
           var placeX = response.routes[0].legs[0].end_location.lat();
           var placeY = response.routes[0].legs[0].end_location.lng();
           
-          if(tempNum==0){
-          	$("#f"+(tempNum-2)+" input[name='placeX']").val(placeX);
-              $("#f"+(tempNum-2)+" input[name='placeY']").val(placeY);
-              $("#f"+(tempNum-2)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
-          }
-          $("#f"+(tempNum-1)+" input[name='placeX']").val(placeX);
-          $("#f"+(tempNum-1)+" input[name='placeY']").val(placeY);
-          $("#f"+(tempNum-1)+" input[name='placeId']").val(response.geocoded_waypoints[1].place_id);
-          $("#f"+(tempNum-1)+" input[name='duration']").val(JSON.stringify(response.routes[0].legs[0].duration.text));
-          $("#f"+(tempNum-1)+" input[name='distance']").val(JSON.stringify(response.routes[0].legs[0].distance.text));  
+
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='placeX']")).val(placeX);
+          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeY']")).val(placeY);
+          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeId']")).val(response.geocoded_waypoints[1].place_id);
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='duration']")).val(JSON.stringify(response.routes[0].legs[0].duration.text));
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='distance']")).val(JSON.stringify(response.routes[0].legs[0].distance.text));  
                    
           var placeXY = new Object();
           
@@ -609,7 +680,7 @@
         	 var marrk = placeXY;
          	 routes.push(placeXY);
          	
-           $("#f"+(tempNum-2)+" input[name='placeXY']").val(placeXY);
+           //$("#f"+(tempNum-2)+" input[name='placeXY']").val(placeXY);
 
          	var marker = new google.maps.Marker({
       		position: marrk,
@@ -628,7 +699,7 @@
         });
       }//end of calcRoute()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
-function setAutocompleteUsername() {
+ /* function setAutocompleteUsername() {
 
 	var interest = document.getElementById('interest').value;
    
@@ -790,10 +861,10 @@ function clearResults() {
   while (results.childNodes[0]) {
     results.removeChild(results.childNodes[0]);
   }
-}
+} */
 
 // Get the place details. Show the information in an info window,
-function showInfoWindow() {
+/* function showInfoWindow() {
   var marker = this;
   places.getDetails({placeId: marker.placeResult.place_id},
       function(place, status) {
@@ -803,10 +874,10 @@ function showInfoWindow() {
         infoWindow.open(map, marker);
         buildIWContent(place);
       });
-}
+} */
 
 // Load the place information into the HTML elements used by the info window.
-function buildIWContent(place) {
+/* function buildIWContent(place) {
   document.getElementById('iw-icon').innerHTML = '<img class="hotelIcon" ' +
       'src="' + place.icon + '"/>';
   document.getElementById('iw-url').innerHTML = '<b><a href="' + place.url +
@@ -836,33 +907,31 @@ function buildIWContent(place) {
     document.getElementById('iw-website-row').style.display = 'none';
   }
 }
-
+  */
 	
-	google.maps.event.addDomListener(window, 'load', getLocation);
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
     
     </head>
 
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 		<div id="panel" >
             <input type="hidden" id="start" value=""/>
             <input type="hidden" id="end" value=""/>
             <input id="temp" class="controls" type="text"  placeholder="장소명 혹은 주소를 입력하세요" onkeypress=
-        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
-       
+	        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+	        <button type='button' id = 'insert' >등록하기</button>
            
         </div>
         
 		<div id="mainPlace">
-       		<h3>Place테이블입력</h3>
        		<br>
     	</div>
 		
 		<div id="btn">
-			<button onclick="moveStart()">전체루트</button>
-			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right;'>등록하기</button>
+			
 		</div>		
 		<div id="formTag" class="formC">
  
@@ -875,7 +944,7 @@ function buildIWContent(place) {
 		</div> 		 
 
 		</div>
-		<div id="near"></div>
+		<!--  <div id="near"></div>
 	  <select id="interest" style="width:140px">
 		<option value="bank">Bank</option>
         <option value="school">School</option>
@@ -886,7 +955,7 @@ function buildIWContent(place) {
    		<div id="listing">
       <table id="resultsTable">
         <tbody id="results"></tbody>
-      </table>
+      </table> 
     </div>
    	
 	    <div id="info-content">
@@ -909,7 +978,7 @@ function buildIWContent(place) {
         </tr>
       </table>
     </div>
-		 	
+		 	 -->
 		<div id="map"></div>
 		
 </body>

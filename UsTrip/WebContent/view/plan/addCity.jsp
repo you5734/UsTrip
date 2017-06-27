@@ -6,13 +6,22 @@
 <html>
 <head>
 	<meta charset="EUC-KR">
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	
 	<title>UsTrip</title>
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
+    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
+    
 	<style type="text/css">
         html, body {
 			height: 100%;
@@ -23,13 +32,13 @@
  
  		#mainCity {
 			width: 17%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
  		}
  		
  		#btn {
 			width: 83%;
-			height: 15%;
+			height: 10.5%;
 			float:left;
         }
  
@@ -42,17 +51,28 @@
 		
 		#map {
 			width:  83%;
-			height: 85%;
+			height: 90%;
         }
         
         #panel{
 			position: fixed;
 			margin-left: 25%;
-          	margin-top: 9%;
+          	margin-top: 5.9%;
 			z-index: 5;
 			background-color: #fff;
 			padding: 3px;
         }
+        
+         #insert{
+			position: fixed;
+			margin-top: -35px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
+        }
+        
         
         #duration, #distance{
        		border:none;
@@ -61,11 +81,9 @@
     </style>
 	
 
-
-
     <script>
 	var travelNo = "${sessionScope.travel.travelNo}";
-	var stayStart = "${sessionScope.travel.startDate}";
+	var stayStart = String("${sessionScope.travel.startDate}").replace("KST", "GMT");
 	stayStart = new Date(stayStart);
 	stayStart = stayStart.getFullYear()+"-"+(stayStart.getMonth()*1+1)+"-"+stayStart.getDate();
     var directionsDisplay;
@@ -147,6 +165,7 @@
 	        $.ajax({
 	        	type : "POST",
 	        	url : "/plan/addCity",
+	        	async: false,
 	        	data :{ a:jsonCity},
 	        	datatype : "json",
 	        	context: this,
@@ -163,19 +182,19 @@
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function getLocation(){
+  /*   function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
         }else{
             alert("Not Support Browser");
         }
-    }        
+    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
       geocoder = new google.maps.Geocoder();
     
-      var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      //var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
   
       var mapOptions = {
         zoom:8,
@@ -311,16 +330,16 @@
     		     
     		    });
     		  
+    		//$("#mainCity").append(newUpButton);
+    		$("#formTag").append(newLeftButton);
     		$("#formTag").append(newLeftDiv);
-    		$("#btn").append(newUpButton);
-    		$("#mainCity").append(newLeftButton);
 			$("#temp").val(null);
     		$("#start").val(start);
     		$("#end").val(start);    		
     	    Javascript:calcRoute();			
 			
-    		$("#f"+(tempNum-2)+" input[name='startCity']").val(document.querySelector('#start').value);  
-    		$("#f"+(tempNum-2)+" input[name='city']").val(document.querySelector('#start').value);  
+    		$("#f"+(tempNum)+" input[name='startCity']").val(document.querySelector('#start').value);  
+    		$("#f"+(tempNum)+" input[name='city']").val(document.querySelector('#start').value);  
 			
 			
 			tempNum++;
@@ -425,11 +444,7 @@
         var cityX = response.routes[0].legs[0].end_location.lat();
         var cityY = response.routes[0].legs[0].end_location.lng();
         
-        if(tempNum==0){
-        	$("#f"+(tempNum-2)+" input[name='cityX']").val(cityX);
-            $("#f"+(tempNum-2)+" input[name='cityY']").val(cityY);
-            $("#f"+(tempNum-2)+" input[name='cityId']").val(response.geocoded_waypoints[1].place_id);
-        }
+      
 /////////////////////////////////////////////////////////////////////////////////////////////////////////        
         $("#f"+(tempNum-1)+" input[name='cityX']").val(cityX);
         $("#f"+(tempNum-1)+" input[name='cityY']").val(cityY);
@@ -482,30 +497,31 @@
        //$('#a2').val(response.duration.text);
         //$('#fortDetail').val(JSON.stringify(response.routes));
 	
-	google.maps.event.addDomListener(window, 'load', getLocation);
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
     
     </head>
 
 <body>
+<jsp:include page="/common/toolbar.jsp"/>
 		<div id="panel" >
             <input type="hidden" id="start" value=""/>
             <input type="hidden" id="end" value=""/>
             <input type="text" id="temp" value="" onkeypress=
-        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+	        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
+	        <button type='button' id = 'insert'  onclick= "{Javascript:movePlace();}">등록하기</button>
            
         </div>
         
 		<div id="mainCity">
-       		<h3>City테이블입력</h3>
        		
 		</div>
 		
 		<div id="btn">
-			<button onclick="moveStart()">전체루트</button>
 			
-			<button type='button' id = 'insert' style='WIDTH: 170pt; float:right; ' onclick= "{Javascript:movePlace();}">등록하기</button>
+			
+			
 		</div>		
 		<form id="formTag">
 		</form>

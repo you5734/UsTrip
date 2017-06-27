@@ -17,13 +17,12 @@ public class Travel {
 	private String thumbNail;
 	private List<City> cities;
 	private String nickName;
+	private int deleteFlag;
 	
-	
+
 	public Travel(){
 	}
 	
-	
-
 	public int getTravelNo() {
 		return travelNo;
 	}
@@ -86,13 +85,20 @@ public class Travel {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Travel [travNo=" + travelNo + ", userId=" + userId + ", travTitle=" + travTitle + ", travTheme="
 				+ travTheme + ", memberCount=" + memberCount + ", startDate=" + startDate + ", totalDate=" + totalDate
 				+ ", isBlogStart=" + isBlogStart + ", thumbNail=" + thumbNail + ", cities=" + cities + ", nickName="
-				+ nickName + "]";
+				+ nickName + ", deleteFlag="+ deleteFlag + "]";
 	}
 
 }

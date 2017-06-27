@@ -12,19 +12,19 @@
 		<result property="travTitle" 			column="trav_title" 		jdbcType="VARCHAR" />
 		<result property="travTheme" 			column="trav_theme" 		jdbcType="VARCHAR" />
 		<result property="memberCount" 			column="member_count" 		jdbcType="NUMERIC" />
-		<result property="startDate" 			column="start_date" 		jdbcType="VARCHAR" />
+		<result property="startDate" 			column="start_date" 		jdbcType="DATE" />
 		<result property="totalDate" 			column="total_date" 		jdbcType="NUMERIC" />
 		<result property="isBlogStart" 			column="is_blog_start" 		jdbcType="NUMERIC"  />
 		<result property="thumbNail" 			column="thumb_nail" 		jdbcType="VARCHAR" />
 		<result property="nickName" 			column="nickname" 		jdbcType="VARCHAR" />
-		
+		<result property="deleteFlag" 			column="delete_flag" 		jdbcType="NUMERIC" />
 	</resultMap>
 	
 	<insert id="addTravel" parameterType="travel">
 		INSERT INTO travel(trav_no, user_id, trav_title, trav_theme, member_count, 
-		start_date, total_date, is_blog_start, thumb_nail)
+		start_date, total_date, is_blog_start, thumb_nail,delete_flag)
 		VALUES (seq_trav_no.nextval, #{userId}, #{travTitle}, #{travTheme}, #{memberCount},
-				#{startDate}, #{totalDate}, #{isBlogStart}, #{thumbNail:VARCHAR})
+				#{startDate}, #{totalDate}, #{isBlogStart}, #{thumbNail:VARCHAR} , #{deleteFlag})
 	</insert>
 	
 	<!-- SQL : SELECT ONE -->

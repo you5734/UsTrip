@@ -219,7 +219,7 @@ public class CommunityController {
 		String[] splitTitle = travel.getTravTitle().split("_");
 		travel.setTravTitle(splitTitle[0]);
 		Calendar endTrav = Calendar.getInstance();
-		endTrav.setTime(travel.getStartDate());
+	/*	endTrav.setTime(travel.getStartDate());*/
 		endTrav.add(Calendar.DATE, travel.getTotalDate());
 		model.addAttribute("travel",travel);
 		model.addAttribute("endTrav",endTrav.getTime());
