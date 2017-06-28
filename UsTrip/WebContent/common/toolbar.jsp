@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
 	<script type="text/javascript">
 
 		$(function() {
@@ -19,7 +20,9 @@
 		    			 success : function(JSONData, status) {		    				 
 		    				 console.log("result +++ " + JSONData.isReadMsg);
 		    				 var isReadMsg = JSONData.isReadMsg;
-		    				 $(".label.label-danger").val(isReadMsg);
+		    				 if( isReadMsg > 0) {
+		    				 	 $(".label").addClass("label-danger").text(isReadMsg); 
+		    				 }
 	    			 	}
 	    		 });	
 		});
@@ -76,17 +79,18 @@
 			  display: inline-block !important; 
 		}
  		.fa.fa-envelope{
-			width: 40px;
-			height: 40px;
+			font-size: 19px;
+			margin: 5px;
 		}
-		span > label-danger {
-			osition: absolute;
-		    top: 10px;
-		    right: 15px;
-		    display: block;
-		    min-width: 14px;
-		    height: 14px;
-		    padding: 2px
+		.label.label-danger {
+	position: inherit;
+    top: 26px;
+    right: 55px;
+	display:block;
+    min-width: 13px; 
+    height: 14px;
+    width:5px;
+    padding: 2px
 		}
 	</style>
 	<!-- Header -->
@@ -111,7 +115,8 @@
 					<img class="img-responsive user-photo" src="/images/upload/profile/${sessionScope.user.profileImage}">
 				</c:if>
 					<a id="my">${sessionScope.user.nickName}</a>
-						<i class="fa fa-envelope" aria-hidden="true"></i><span class="label label-danger" value=""></span>
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+							<span class="label"></span>
 					<a class="" id="logout">Log Out</a>
 			</nav>
 		 </c:if>

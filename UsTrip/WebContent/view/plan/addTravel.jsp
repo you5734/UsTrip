@@ -52,24 +52,28 @@
 	
 	
 	
-
+			
 
 	function fncAddTravel() {
-		/* null이면 자동 입력 하려 했으나 그냥 무조건 입력되네
-		if($("#userId").text()==""){$("#userId").val("user03");}
-		if($("#travTitle").text()==""){$("#travTitle").val("여행Test");}
-		if($("#startDate").text()==""){$("#startDate").val("17-07-05");}
-		if($("#memberCount").text()==""){$("#memberCount").val(8);}
-		if($("#totalDate").text()==""){$("#totalDate").val(100);} */
 		
-		//$("#userId").val("b@naver.com");
-		$( "#startDate" ).val(new Date($( "#startDate" ).val()))
-		/* $("#travTitle").val("여행Test");
+		if($( "#userId" ).val()=='' ){
+			alert("로그인 후 이용 가능합니다.")
+			self.location = "/index.jsp";
+			return;
+		}
 		
-		
-		
-		$("#memberCount").val(8);
-		$("#totalDate").val(10); */
+		if($( "#startDate" ).val()=='' ){
+			$( "#startDate" ).val(new Date());
+		}else{
+			$( "#startDate" ).val(new Date($( "#startDate" ).val()));
+		}
+		if($( "#memberCount" ).val()=='' ){
+			$( "#memberCount" ).val(1)
+		}
+		if($( "#totalDate" ).val()=='' ){
+			$( "#totalDate" ).val(1)
+		}
+					
 		//$("#startDate").val((new Date().getYear()-100)+"-"+(new Date().getMonth() + 1)+"-"+new Date().getDate());
 		$("form").attr("method", "POST").attr("action", "/plan/addTravel").submit();
 	}
@@ -116,7 +120,7 @@
 		  <div class="form-group">
 		    <label for="travTitle" class="col-xs-4 col-md-2">여행제목</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목" value=''>
+		      <input type="text" class="form-control" id="travTitle" name=travTitle placeholder="여행제목">
 		    </div>
 		  </div>
 
@@ -124,14 +128,14 @@
 		  <div class="form-group">
 		    <label for="startDate" class="col-xs-4 col-md-2">출발일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭" value=''>
+		      <input type="text" class="form-control" id="startDate"  name="startDate" placeholder="달력 이미지 클릭">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label for="memberCount" class="col-xs-4 col-md-2">인원수</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수" value='2'>
+		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수">
 		    </div>
 		  </div>
 		  		  
@@ -152,7 +156,7 @@
 		  <div class="form-group">
 		    <label for="totalDate" class="col-xs-4 col-md-2">총 숙박일</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value='7'>
+		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일">
 		    </div>
 		  </div>
 			<!-- 

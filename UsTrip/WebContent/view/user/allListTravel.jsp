@@ -127,6 +127,9 @@
 		    width: 85%;
 		    margin-bottom: 5px;
 		    overflow: hidden;
+			width:145px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 		
 		figcaption .project-price {
@@ -157,8 +160,8 @@
 		    margin-left: -45%;
 		    line-height: 18px;
 		    letter-spacing: 1px;
-		}                    
-		
+		}     
+
 	</style>
 </head>
 <body>
