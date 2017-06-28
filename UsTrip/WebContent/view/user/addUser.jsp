@@ -9,22 +9,23 @@
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> -->
       
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
 	<script src="/js/main.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="/js/bootstrap-imageupload.js"></script>
-		
-     <link href="/css/bootstrap-imageupload.css" rel="stylesheet">
-	<!-- 달력UI -->
+	<link href="/css/bootstrap-imageupload.css" rel="stylesheet">
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
-	<!-- 달력UI -->
 	
 	<script type="text/javascript">
 	
@@ -39,6 +40,24 @@
 		$("a[href='#' ]").on("click" , function() {
 			$("form")[0].reset();
 		});
+		
+	    var $imageupload = $('.imageupload');
+	    $imageupload.imageupload();
+	
+	    $('#imageupload-disable').on('click', function() {
+	        $imageupload.imageupload('disable');
+	        $(this).blur();
+	    })
+	
+	    $('#imageupload-enable').on('click', function() {
+	        $imageupload.imageupload('enable');
+	        $(this).blur();
+	    })
+	
+	    $('#imageupload-reset').on('click', function() {
+	        $imageupload.imageupload('reset');
+	        $(this).blur();
+	    }); 
 	});	
 	
 	//달력 UI ///생년월일 입력에 맞게 년도 및 월 설정
@@ -47,7 +66,13 @@
 			changeMonth: true,
 			changeYear: true,
 			yearRange: 'c-100:c+10',
-			dateFormat: "yy-mm-dd"
+			dateFormat: "yy-mm-dd",
+			 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+		        dayNames: ['일','월','화','수','목','금','토'],
+		        dayNamesShort: ['일','월','화','수','목','금','토'],
+		        dayNamesMin: ['일','월','화','수','목','금','토'],
+		        showMonthAfterYear: true
 		});
 	});
 	
@@ -139,9 +164,9 @@
 		    			 success : function(JSONData, status) {		    				 
 		    				   				 
 		    				 if(! JSONData.result) {
-		    					 $("#checkNick").html("존재하는 닉네임입니다.");
+		    					 $("#checkNick").html("존재하는 닉네임입니다.").css('color', 'red');;
 		    				 } else {
-		    					 $("#checkNick").html("사용가능한 닉네임입니다.");
+		    					 $("#checkNick").html("사용가능한 닉네임입니다.").css('color', 'blue');;
 		    				 }	
 	    			 	}
 	    		 });			
@@ -158,34 +183,13 @@
 		$("#password2").keyup( function() {
 			if( $("#password").val() != $("#password2").val() ) {
 				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치하지 않습니다.");
+				$("#checkpw").html("비밀번호가 일치하지 않습니다.").css('color', 'red');;
 			} else {
 				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치합니다.");
+				$("#checkpw").html("비밀번호가 일치합니다.").css('color', 'blue');;
 			}
 		});
 	});
-	
-	// 이미지 업로드 처리
-/* 	$(function(){		
-	    var $imageupload = $('.imageupload');
-	    $imageupload.imageupload();
-	
-	    $('#imageupload-disable').on('click', function() {
-	        $imageupload.imageupload('disable');
-	        $(this).blur();
-	    })
-	
-	    $('#imageupload-enable').on('click', function() {
-	        $imageupload.imageupload('enable');
-	        $(this).blur();
-	    })
-	
-	    $('#imageupload-reset').on('click', function() {
-	        $imageupload.imageupload('reset');
-	        $(this).blur();
-	    }); 
-	});  */
 	
 	</script>
 
@@ -193,6 +197,13 @@
 		.container{
 			margin-top:75px;
 		}
+		.btn-primary.pull-right {
+			padding: 3px 8px;
+			height: 30px;
+		}
+		.ui-datepicker{ font-size: 12px; width: 300px; }
+		.ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 12px; }
+		.ui-datepicker select.ui-datepicker-year { width: 49%;}
 	</style>
 
 </head>
@@ -244,32 +255,30 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="birthDate">생년월일</label>	
 						<div class="col-md-4">					
-							<input class="form-control input-md" type="text" id="birthDate" name="birthDate">
+							<input class="form-control input-md" type="text" id="birthDate" name="birthDate" readonly>
 						</div>		
 					</div>	
 					
 					<!-- /////////////  프로필이미지등록  ////////////////////// -->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="profileImage" >프로필이미지</label>	
-						<div class="col-md-4">	  			
-							<div class="imageupload panel panel-default">    
-								<img height="200" width="280"  align="middle"/>              
+						<div class="col-md-4">	  	
+							<div class="imageupload panel panel-default">   		
 								<div class="file-tab panel-body" align="center">                
-   									<label class="btn btn-primary btn-file pull-right"  >                    
+   									<label class="btn btn-primary btn-file pull-right">                    
 										<span>Browse</span>
 										<input type="file" name="file">                                   
                     				</label>
                    					<button type="button" class="btn btn-primary pull-right">Remove</button><br/>                   
                 				</div>
 		            		</div>
-					   		
 					   	</div>
 					</div>		
 				
 					<div class="form-group">
-						<div class="col-sm-offset-4 col-sm-4 text-center">
-							<button type="button" class="btn"  >등록</button>
-							<button type="button" class="btn" href="#">취소</button>
+						<div class="col-sm-offset-4 col-sm-3 text-center">
+							<input type="button" class="btn"  value="등록">
+							<input type="button" class="btn" href="#" value="취소">
 					</div>	
 				</div>
 										

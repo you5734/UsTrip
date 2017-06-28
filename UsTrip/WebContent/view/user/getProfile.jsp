@@ -67,6 +67,11 @@
 				self.location="/user/getUser?userId="+userId;
 			});
 			
+			$( "#sendMsg" ).on("click" , function() {
+				var receiver = $("#userId").val();
+				self.location="/message/sendMsg?receiver="+receiver;
+			});
+			
 		});
 	 
 	</script>

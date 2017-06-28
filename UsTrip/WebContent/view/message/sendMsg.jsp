@@ -266,15 +266,20 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="ccol-md-3 col-lg-3 " align="center"  for="sender">받는사람 </label>    
+					<label class="ccol-md-3 col-lg-3 " align="center"  for="sender" >받는사람 </label>    
 		 				 <div class="col-md-5">
-							  <input id="receiver" name="receiver" type="text" value="${! empty message.sender ? message.sender : ""}" class="form-control input-md" required="" style="width:300px;">
+		 				 		<c:if test="${ not empty receiver }">
+		 				 			<input id="receiver" name="receiver" type="text" value="${ receiver }" class="form-control input-md" required="" style="width:300px;">
+							 	</c:if>
+							 	<c:if test="${ empty receiver }">
+									<input id="receiver" name="receiver" type="text" value="${ not empty message.sender ? message.sender : ""}" class="form-control input-md" required="" style="width:300px;">
+							  </c:if>
 							  <div id="checkId" style="color:red; font-size:12px;">아이디를 입력해주세요</div>
 						 </div>
 				</div>
 				
 				<div class="form-group">
-					<label class="ccol-md-3 col-lg-3 " align="center"  for="message">MESSAGE</label>
+					<label class="ccol-md-3 col-lg-3 " align="center"  for="message">내용</label>
 						<div class="col-md-4">                     
 							<textarea maxlength="1000" class="form-control" id="msgContent" name="msgContent" style="height:200px; width:500px;resize: none;wrap:hard;">${!empty message.msgContent? message.msgContent:""}</textarea>
 							<span id="chars" style="text-align:right;"></span>/1000

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
-
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -247,7 +246,6 @@
 .omb_login .omb_socialButtons .omb_btn-twitter {background: #00aced;}
 .omb_login .omb_socialButtons .omb_btn-google {background: #c32f10;}
 
-
 .omb_login .omb_loginOr {
 	position: relative;
 	font-size: 1.5em;
@@ -280,12 +278,10 @@
 .omb_login .omb_loginForm  .help-block {
     color: red;
 }
-
 	
 @media (min-width: 768px) {
     .omb_login .omb_forgotPwd {
         text-align: right;
-		margin-top:10px;
  	}		
 }
 
@@ -297,20 +293,18 @@
             <div class="inner-bg">
                 <div class="container">
                 
-                <div class="omb_login">
-    	<!-- <h3 class="omb_authTitle">Login or <a href="#">Sign up</a></h3> -->
-		<div class="row omb_row-sm-offset-3 omb_socialButtons">
-    	    
-    	    <div class="col-xs-4 col-sm-2">
-				<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-	    	    	<img src="/images/layout/kakao_account_login_btn_medium_narrow_ov.png" >
-				        <span class="hidden-xs"></span>
-				</a>
-	        </div>
-	        
+					<div class="omb_login">
+						<div class="row omb_row-sm-offset-3 omb_socialButtons">
+							<div class="col-xs-6 col-sm-6">
+								<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+									<img src="/images/layout/kakao_account_login_btn_medium_narrow_ov.png" >
+										<span class="hidden-xs"></span>
+								</a>
+							</div>
+<!-- 	        
      	<div class="col-xs-4 col-xs-2" style="width:180px;">
-		 </div> 
-		    
+		 </div>  -->
+<!-- 		    
 		    	 <div class="col-xs-4 col-sm-2">
 				   	<div id="gSignInWrapper">
 						<div id="customBtn" class="customGPlusSignIn" >
@@ -319,184 +313,102 @@
 						</div>
 					</div>
 				<div id="name"></div>
-	        </div>	
-		</div>
-
-		<div class="row omb_row-sm-offset-3 omb_loginOr">
-			<div class="col-xs-12 col-sm-6">
-				<hr class="omb_hrOr">
-				<span class="omb_spanOr">or</span>
-			</div>
-		</div>
-
-		<div class="row omb_row-sm-offset-3">
-			<div class="col-xs-12 col-sm-6">	
-			    <form class="omb_loginForm" action="" autocomplete="off" method="POST">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
-						<label class="sr-only" for="form-username">UserId</label>
-                 	<input type="text" name="userId" placeholder="UserId..." class="form-username form-control" id="userId">
+	        </div> -->	
 					</div>
-					<span class="help-block"></span>
-										
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-						<label class="sr-only" for="form-password">Password</label>
-                 	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="password">
+
+					<div class="row omb_row-sm-offset-3 omb_loginOr">
+						<div class="col-xs-12 col-sm-6">
+							<hr class="omb_hrOr">
+							<span class="omb_spanOr">or</span>
+						</div>
 					</div>
-                    <span class="help-block"></span>
-              
-					<button type="submit" class="button" id="signin">로그인</button>
-					<button type="button" class="button" id="joinus">회원가입</button>
-				</form>
+
+					<div class="row omb_row-sm-offset-3">
+						<div class="col-xs-12 col-sm-6">	
+						    <form class="omb_loginForm" action="" autocomplete="off" method="POST">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user"></i></span>
+									<label class="sr-only" for="form-username">UserId</label>
+			                 	<input type="text" name="userId" placeholder="UserId..." class="form-username form-control" id="userId">
+								</div>
+								<span class="help-block"></span>
+													
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+									<label class="sr-only" for="form-password">Password</label>
+			                 	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="password">
+								</div>
+			                    <span class="help-block"></span>
+								
+								<button type="submit" class="button" id="signin">로그인</button>
+								<button type="button" class="button" id="joinus">회원가입</button>
+							</form>
+						</div>
+					</div>
+					<div class="row omb_row-sm-offset-3">
+					<div class="col-xs-12 col-sm-3">
+					</div>
+					<div class="col-xs-12 col-sm-3">
+						<p class="omb_forgotPwd">
+							<a href="#"  id="findPwd">비밀번호찾기</a>
+						</p>
+					</div>
+			</div>	  
+		</div>
+					<!-- <div class="row omb_row-sm-offset-3">
+						<div class="col-xs-12 col-sm-3">
+							<p class="omb_forgotPwd">
+								<a href="#"  id="findPwd">비밀번호찾기</a>
+							</p>
+						</div>
+					</div>	     -->	
+				</div>
+				<!--  ////////////////////// Modal Popup /////////////////////// -->
+				<div id="dialog-form" title="추가정보 입력">
+					<p class="validateTips">모든정보를 입력해주세요</p>											 
+					<form id="extraUserInfo" action="/user/extraUserInfo" method="POST" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="nickName" >닉네임</label>
+							<div class="col-md-4">
+								<input type="text" name="nickName" id="nickName" >
+								<div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
+							</div>
+			    		</div><br>
+			    		
+		    			<div class="form-group">
+			    			<label class="col-md-4 control-label" for="gender" >성별</label>
+			    			<div class="col-md-3">
+			    				남 <input type="radio" name="gender" id="gender" value="m" checked>
+					      		여 <input type="radio" name="gender" id="gender" value="f" >
+			    			</div>
+			    		</div><br>										    											    		
+			    		
+			    		<div class="form-group">
+			    			<label class="col-md-4 control-label" for="birthDate" >생년월일</label>
+			    			<div class="col-md-3">
+			    				<input type="text" name="birthDate" id="birthDate"  >
+			    			</div>
+			    		</div><hr>												  
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" ></label>
+							<div class="col-md-4">
+								<input type="button" class="btn btn-info btn-sm" id="add" value="등록">
+								<input type="button" class="btn btn-info btn-sm" id="cancle" value="취소">
+							</div>
+						</div>
+						 	  
+					 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
+     					 <input type="hidden" value="${param.kakao}" id="kakao">
+     					 <input type="hidden" value="${param.google}" id="google">
+					  </form>
+				</div>
+                    <!--  ////////////////////// Modal Popup /////////////////////// -->
 			</div>
-    	</div>
-		<div class="row omb_row-sm-offset-3">
-			<div class="col-xs-12 col-sm-3">
-			</div>
-			<div class="col-xs-12 col-sm-3">
-				<p class="omb_forgotPwd">
-					<a href="#"  id="findPwd">비밀번호찾기</a>
-				</p>
-			</div>
-		</div>	    	
+		</div>
 	</div>
-
-                
-                
-                
-                
-                
-          <!--       
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-2 text">
-                            <div class="description">
-                            	<p>
-                            	</p>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="row" >
-                   	 	<div class="col-sm-4"></div>
-                        <div class="col-sm-4">
-                        	
-                        	<div class="form-box">
-	                        	<div class="form-top">
-	                        		<div class="form-top-left">
-	                        			<i class="fa fa-lock"></i>
-	                        			<h4>로그인 후 이용해주세요</h4>
-	                            		<p>Enter userid and password to log on:</p>
-	                        		</div>
-	                            
-	                            <div class="form-bottom">
-				                    <form role="form" action="" method="post" class="login-form">
-				                    	<div class="form-group">
-				                    		<label class="sr-only" for="form-username">UserId</label>
-				                        	<input type="text" name="userId" placeholder="UserId..." class="form-username form-control" id="userId">
-				                        </div>
-				                        
-				                        <div class="form-group">
-				                        	<label class="sr-only" for="form-password">Password</label>
-				                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="password">
-				                        </div>
-				                        
-				                         <div class="form-group">
-				                        	<a href="#" id="findPwd">비밀번호찾기</a>
-				                        </div>
-				                        
-				                        <div class="form-group">
-					                        <button type="submit" class="button" id="signin">로그인</button>
-					                        <button type="button" class="button" id="joinus">회원가입</button>
-				                        </div>
-				                        
-
-				                        ////////////////  카카오 로그인 버튼 //////////////////
-				                        <div class="form-group">
-					  		 				<div class="col-sm-offset text-center">					      
-					      						<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-					      						<img src="/images/layout/kakao_account_login_btn_medium_narrow_ov.png" width="180"/>
-												</a>
-					   						 </div>
-					 					 </div>
-					 					 
-					 					 ////////////////  google 로그인 버튼 //////////////////
-										<div id="gSignInWrapper">
-											<div id="customBtn" class="customGPlusSignIn" style="width:180px;" >
-												<span class="icon"></span>
-													<span class="buttonText" >구글로 로그인</span>
-											</div>
-										</div>
-										<div id="name"></div>
-					 				</form>
-			                    </div> -->
-					 					<!--  ////////////////////// Modal Popup /////////////////////// -->
-						 					<div id="dialog-form" title="추가정보 입력">
-											  <p class="validateTips">모든정보를 입력해주세요</p>											 
-											  <form id="extraUserInfo" action="/user/extraUserInfo" method="POST" class="form-horizontal">
-										    		<div class="form-group">
-										    			<label class="col-md-4 control-label" for="nickName" >닉네임</label>
-										    			<div class="col-md-4">
-										    				<input type="text" name="nickName" id="nickName" >
-										    				 <div id="checkNick" style="color:red; font-size:12px;">닉네임을 입력해주세요.</div>
-										    			</div>
-										    		</div><br>
-										    	<!-- 	
-										    		<div class="form-group">
-										    			<label class="col-md-4 control-label" for="password" >비밀번호</label>
-										    			<div class="col-md-4">
-										    				<input type="password" name="password" id="pw">
-										    				<div></div>
-										    			</div>
-										    		</div><br>
-							    		
-										    		<div class="form-group">
-										    			<label class="col-md-4 control-label" for="password2" >비밀번호확인</label>
-										    			<div class="col-md-4">
-										    				<input type="password" name="password2" id="pw2" >
-										    				<div id="checkpw" style="color:red; font-size:12px;"></div>
-										    			</div>
-										    		</div><br>		 -->
-										    		
-									    			<div class="form-group">
-										    			<label class="col-md-4 control-label" for="gender" >성별</label>
-										    			<div class="col-md-3">
-										    				남 <input type="radio" name="gender" id="gender" value="m" checked>
-												      		여 <input type="radio" name="gender" id="gender" value="f" >
-										    			</div>
-										    		</div>	<br>										    											    		
-										    		
-										    		<div class="form-group">
-										    			<label class="col-md-4 control-label" for="birthDate" >생년월일</label>
-										    			<div class="col-md-3">
-										    				<input type="text" name="birthDate" id="birthDate"  >
-										    			</div>
-										    		</div><hr>												  
-
-														<div class="form-group">
-														<label class="col-md-4 control-label" ></label>
-													      <div class="col-md-4">
-														      <input type="button" class="btn btn-info btn-sm" id="add" value="등록">
-														 	  <input type="button" class="btn btn-info btn-sm" id="cancle" value="취소">
-													 	  </div>
-													 	 </div>
-													 	  
-												 	 <input type="hidden" value="${param.tempId }" id="tempId" name="userId">
-							     					 <input type="hidden" value="${param.kakao}" id="kakao">
-							     					 <input type="hidden" value="${param.google}" id="google">
-												  </form>
-											</div>
-			                        <!--  ////////////////////// Modal Popup /////////////////////// -->
-		                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-       </div>
-       
         
-    </body>
+</body>
 </html>
 
 <script type="text/javascript">
@@ -556,24 +468,6 @@
 	    		 });			
 			});		
 		});
-	
-	//비밀번호/ 비밀번호확인 입력 동일한지 체크
-	$(function(){		
-		
-		$("#pw").keyup( function(){
-			$("#checkpw").text('');
-		});
-		
-		$("#pw2").keyup( function() {
-			if( $("#pw").val() != $("#pw2").val() ) {
-				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치하지 않습니다.").css('color','red');
-			} else {
-				$("#checkpw").text('');
-				$("#checkpw").html("비밀번호가 일치합니다.").css('color','blue');
-			} 
-		});
-	});
 	
 	//달력 UI ///생년월일 입력에 맞게 년도 및 월 설정
 	$(function() {

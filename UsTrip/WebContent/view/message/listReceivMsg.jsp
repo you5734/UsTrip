@@ -57,14 +57,6 @@
 			});
 		});
 		
-/* 		//한개삭제?
-		$(function() {		
-			$(".fa.fa-trash-o").on("click", function() {
-				var msgNo = $("#msgNo").val();
-				self.location="/message/deleteMsg?msgNo="+msgNo;	
-			});
-		});
-		 */
 		$(function() {
 			$( "#delete" ).on("click" , function() {
 				fncDeleteMessage();
@@ -240,45 +232,6 @@
 			</div>
 		</div>
 		
-
-    <!--
-
-<form name="detailForm">
-  <div class="row">
-    <div class="col-sm-3 col-md-3">
-      <div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a id="sendMsg" >
-              <span class="glyphicon glyphicon-folder-close">
-                </span>쪽지보내기</a>
-            </h4>
-          </div>
-        </div>
-        
-     <br>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a id="listSend" ><span class="glyphicon glyphicon-file">
-                </span >보낸쪽지함</a>
-            </h4>
-          </div>
-        </div>
-        
-        <br>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a id="listReceive"><span class="glyphicon glyphicon-heart">
-                </span >받은쪽지함</a>
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
 <div class="col-sm-9 col-md-9">
 <table class="table">
 	<tr>
@@ -299,7 +252,9 @@
 	<c:set var="i" value="0"/>
 	<c:forEach var="message" items="${list}">
 		<c:set var="i" value="${i+1}"/>
-		<tr class="ct_list_pop">
+		
+		<c:if test="${ empty message.readDate }">
+		<tr class="ct_list_pop" style="font-weight:bold">
 			<td align="center"><input type="checkbox" name="chbox" value="${message.msgNo}" /></td>
 			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}">
 			<td align="left">${message.sender}</td>
@@ -319,12 +274,37 @@
 			 <c:if test="${!empty message.readDate}">
 				<td align="left">${message.readDate}</td>
 			 </c:if>
-			<td align="center"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+			<td align="center"></td>
 		</tr>
+		</c:if>
+			<c:if test="${ not empty message.readDate}">
+			<tr class="ct_list_pop" >
+			<td align="center"><input type="checkbox" name="chbox" value="${message.msgNo}" /></td>
+			<input type="hidden" id="receiver" name="receiver" value="${message.receiver}">
+			<td align="left">${message.sender}</td>
+			<td></td>
+			<td align="left">
+				<span class="content" >${message.msgContent}</span>
+				<input type="hidden" id="msgNo" name="msgNo" value="${message.msgNo}">
+			</td>
+			<td></td>
+			<td></td>
+			<td align="left">${message.sendDate}</td>
+			<td></td>
+			<c:set var="readDate" value="${message.readDate}"/>
+					<c:if test="${ empty message.readDate}">
+						<td align="left">읽지않음</td>
+					</c:if>
+			 <c:if test="${!empty message.readDate}">
+				<td align="left">${message.readDate}</td>
+			 </c:if>
+			<td align="center"></td>
+		</tr>
+		</c:if>
 	</c:forEach>
 </table>
 	<div align="right">
-    		<button type="button" class="btn" id="delete">삭제하기</button>
+    	<button type="button" class="btn fa fa-trash-o" id="delete">삭제하기</button>
    	</div>
 </div>
 		<tr>
@@ -334,8 +314,6 @@
 	    	</td>
 		</tr>
 	</div>
-	</form>
-</div>
 
 </body>
 </html>

@@ -128,7 +128,7 @@
 		   			//self.location="/blog/updateBlog?blogNo="+temp 
 		   					alert("temp" + temp);
 		   					var destination="/blog/updateBlog?blogNo="+temp ;
-		   					$("#content2").load(destination);
+		   					$("#content3").load(destination);
 		   		})
 		});
 		
@@ -212,10 +212,6 @@
 		}); 
 		 		 
 	}); 
-	
-	
-	
-		
 	</script>
 </head>
 <body id="listB">

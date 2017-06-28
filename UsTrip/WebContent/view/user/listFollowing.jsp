@@ -117,14 +117,6 @@
 	</script>
 	
 	<style>
-/* 		.row {
-			margin-top:20px;
-			margin-left:20px;
-		}
-		.profile-sidebar {
-		  /* padding: 20px 0 10px 0;
-		  background: #fff;
-		} */
 		.profile-pic img {
 		  float: none;
 		  margin: 0 auto;
@@ -141,42 +133,45 @@
  </head>
 <body>
 <jsp:include page="/common/toolbar.jsp"/>
-<div class="container">
-    <div class="row profile">
-		<jsp:include page="/view/user/getProfile.jsp"/>
-<!-- 		///////////////////////////////////////////// -->
-			<div class="col-md-9">
-	          	<div class="profile-content">
+	<div class="container">
+		<div class="row profile">
+			<jsp:include page="/view/user/getProfile.jsp" />
+				<div class="col-md-9">
+				<div class="profile-content">
 					<div class="row">
 						<div>
-							<!-- <div class="profile-sidebar"> -->
-								<c:set var="i" value="0" />
-			 					 	<c:forEach var="follow" items="${list}">
-										<c:set var="i" value="${ i+1 }" />
-											<div class="profile-pic" style="width:180px; float: left; height:250px;">
-											 <br><br><br>
-												<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt="">
-												<span>${follow.nickName }	<%-- //	${follow.folUserId } --%></span><br>
-													<input type="hidden" class="followTarget" value="${follow.folUserId }">
-													<c:choose >
-														<c:when test="${follow.isFollowing == 1}">
-															<input type="button" class="btn btn-info btn-sm" id="following" value="Following">
-															<input type="hidden" class="followTarget" value="${follow.folUserId }">
-														</c:when>
-														<c:otherwise >
-															<input type="button" class="btn btn-sm" id="follow" value="Follow">
-															<input type="hidden" class="followTarget" value="${follow.folUserId }">
-														</c:otherwise>
-													</c:choose>
-											</div>
-									</c:forEach>
-							<!-- 	</div> -->
-							</div>         	
+							<c:set var="i" value="0" />
+							<c:forEach var="follow" items="${list}">
+								<c:set var="i" value="${ i+1 }" />
+								<div class="profile-pic"
+									style="width: 180px; float: left; height: 250px;">
+									<br> <br> <br> <img
+										src="/images/upload/profile/${follow.profileImage}"
+										class="img-responsive" alt=""> <span>${follow.nickName }
+										<%-- //	${follow.folUserId } --%>
+									</span><br> <input type="hidden" class="followTarget"
+										value="${follow.folUserId }">
+									<c:choose>
+										<c:when test="${follow.isFollowing == 1}">
+											<input type="button" class="btn btn-info btn-sm"
+												id="following" value="Following">
+											<input type="hidden" class="followTarget"
+												value="${follow.folUserId }">
+										</c:when>
+										<c:otherwise>
+											<input type="button" class="btn btn-sm" id="follow"
+												value="Follow">
+											<input type="hidden" class="followTarget"
+												value="${follow.folUserId }">
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
-				<!-- ///////////////// -->
+			</div>
+		</div>
 	</div>
-</div>
 </body>
 </html>

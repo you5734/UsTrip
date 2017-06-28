@@ -37,10 +37,6 @@
 			 document.forms["updateBlog"].submit(); 
 		});
 	}); */	
-	
-	
-		
-		
 		
 		$('body').on('click' , '.fa-pencil', function() {
 			
@@ -290,7 +286,9 @@
 
 </script>
 <style type="text/css">
-  body{font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;}
+  body{
+  	font-family: "arial", dotum, "굴림", gulim, arial, helvetica, sans-serif;
+  }
   </style>
 </head>
 	<body>

@@ -78,18 +78,12 @@ public class MessageServiceImpl implements MessageService {
 		return map;
 	}
 	
-	public boolean isReadMsg(String receiver) throws Exception {
+	public int isReadMsg(String receiver) throws Exception {
 		
-		List<Message> list = messageDao.isReadMsg(receiver);
-		System.out.println("list?????????????????????????????? ::  " + list);
+		int isReadMsg = messageDao.isReadMsg(receiver);
+		System.out.println("list?????????????????????????????? ::  " + isReadMsg);
 		
-		boolean unRead = false;
-		
-		if( list.size() > 0) {
-			unRead = true;
-		}
-		
-		return unRead;
+		return isReadMsg;
 	}
 	
 }
