@@ -90,10 +90,13 @@
 	 	FROM ( SELECT msg_no, sender, receiver FROM message WHERE receiver=#{searchKeyword} AND receive_del = 0) countTable
 	 </select>
 	 
-	 <select id="isReadMsg" parameterType="string" resultMap="messageSelectMap">
-	 	SELECT msg_no, sender, receiver, send_date, read_date, msg_content, is_read, send_del, receive_del
-		FROM message
-		WHERE receiver = #{receiver} AND read_date is null
+	 <select id="isReadMsg" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+	 	FROM 
+		( 	SELECT msg_no, sender, receiver, send_date, read_date, msg_content, is_read, send_del, receive_del
+			FROM message
+			WHERE receiver = #{receiver} AND read_date is null
+		) countTable
 	 </select>
 	 
 </mapper>

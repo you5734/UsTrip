@@ -59,17 +59,17 @@
 	                } 
 			 
      function initMap(){
-       map = new google.maps.Map(document.getElementById('map'), {
-         center: {lat: 36.4488, lng: 127.7792} ,
-         zoom: 8,
-         mapTypeControl: false                
-       });       
-       var travNo = ${travNo};  
-       cityMap(travNo)
-                } 
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: 36.4488, lng: 127.7792} ,
+			zoom: 8,
+			mapTypeControl: false                
+		});       
+       /* var travNo = ${travNo};   */
+		var travNo = 84;
+		cityMap(travNo)
+	} 
      
      function cityMap(travNo){
-    	 
     	
  		var zoomLevel = 7;
  		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
@@ -88,6 +88,7 @@
 						},
 						context : this,
 						success : function(J , status) {	
+							console.log("status ::" + status);
 							
 							for(var i in J.listCity){
 								eval('var cityXY'+[i]+' = new Object()');					
@@ -101,8 +102,10 @@
 							}
 							
 							for(var i in J.listCity){
-								//var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/');
-								days.push(J.listCity[i].stayStart);					
+
+								/* var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/'); */
+								var tranDate =  new Date(J.listCity[i].stayStart).format("yyyy/MM/dd");
+								days.push(tranDate);				
 							}
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}

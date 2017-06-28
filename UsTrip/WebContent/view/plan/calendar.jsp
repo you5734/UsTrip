@@ -31,6 +31,7 @@
 	} 
 	$(document).ready(function() {
 		var calendarNo = $('#travNo').val();
+		console.log("cccccccccc " +calendarNo );
 		var calendarEvent = [];
 		var dDate;
 		$.ajax( 
@@ -44,12 +45,15 @@
 					},
 					success : function(J , status) {	
 						for(var i in J.listCity){
+							console.log(" ??????!!!!!!!? :: " + new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd"));
 							 calendarEvent.push({
 								title: J.listCity[i].city,
 								start: new Date(J.listCity[i].stayStart).format("yyyy-MM-dd"),
-								end: new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd")
+								end: new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd")								
 							}); 
 							 for(var j in J.listCity[i].listPlace){
+								 console.log(" ??? :: " + new Date(J.listCity[i].stayStart).format("yyyy-MM-dd"));
+								 console.log(" ??????? :: " + new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd"));
 								 calendarEvent.push({
 										title: J.listCity[i].listPlace[j].place,
 										start: new Date(J.listCity[i].listPlace[j].visitDate).format("yyyy-MM-dd")

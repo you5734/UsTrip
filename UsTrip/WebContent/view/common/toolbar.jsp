@@ -1,118 +1,118 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=EUC-KR"%>
 <%@ page pageEncoding="EUC-KR"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
-<div class="navbar  navbar-inverse navbar-fixed-top" >
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-      <div class="container">
-      
-      <a class="navbar-brand navbar-left" ><i class="glyphicon glyphicon-gift"></i> Model2 MVC Shop</a>
-     
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>          
-        </div>
-        
-        <!-- 로그인을 하지 않았을경우  -->
-         <c:if test="${ empty user }">
-        <div id="navbar" class="navbar-collapse collapse">
-      
-          <ul class="nav navbar-form navbar-nav navbar-right" >
-       <li>
-            <form class="navbar-form">
-              <input type="text" placeholder="ID" class="form-control"/>
-            </form></li>
-            <li><form class="navbar-form">
-              <input type="password" placeholder="Password" class="form-control"/></form>
-           </li>
-            
-      <li id="login"><a>Log in</a></li>
-      <li id=""><a>Sign up</a></li>      
-    
-          </ul>
-          
-        </div><!--/.navbar-collapse -->
-        </c:if>
-      <!-- ******************************************************************************************************** -->  
-        
-        <!--로그인을 했을경우  -->
-          <c:if test="${ !empty user }">
-         
-          		
-          		 <div 	class="collapse navbar-collapse" id="navbar" >      
-      
-	  <ul class="nav navbar-nav navbar-left navbar-form" data-toggle="dropdown" data-hover="dropdown" >
-	
-	  <li class="dropdown">
-          <a class="dropdown-toggle"  data-toggle="dropdown" >개인정보 관리<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a >개인정보 조회</a></li>  
-           <%--  <c:if test="${user.role == 'admin' }">        
+<div class="navbar  navbar-inverse navbar-fixed-top">
+
+	<div class="container">
+
+		<a class="navbar-brand navbar-left"><i
+			class="glyphicon glyphicon-gift"></i> Model2 MVC Shop</a>
+
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+		</div>
+
+		<!-- 로그인을 하지 않았을경우  -->
+		<c:if test="${ empty user }">
+			<div id="navbar" class="navbar-collapse collapse">
+
+				<ul class="nav navbar-form navbar-nav navbar-right">
+					<li>
+						<form class="navbar-form">
+							<input type="text" placeholder="ID" class="form-control" />
+						</form>
+					</li>
+					<li><form class="navbar-form">
+							<input type="password" placeholder="Password"
+								class="form-control" />
+						</form></li>
+
+					<li id="login"><a>Log in</a></li>
+					<li id=""><a>Sign up</a></li>
+
+				</ul>
+
+			</div>
+			<!--/.navbar-collapse -->
+		</c:if>
+		<!-- ******************************************************************************************************** -->
+
+		<!--로그인을 했을경우  -->
+		<c:if test="${ !empty user }">
+
+			<div class="collapse navbar-collapse" id="navbar">
+
+				<ul class="nav navbar-nav navbar-left navbar-form"
+					data-toggle="dropdown" data-hover="dropdown">
+
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown">개인정보 관리<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a>개인정보 조회</a></li>
+							<%--  <c:if test="${user.role == 'admin' }">        
             <li class="divider"></li>           
             <li><a>회원정보 조회</a></li>
             </c:if>  --%>
-          </ul>
-        </li> 
-        
-         <c:if test="${sessionScope.user.role == 'admin'}">
-		              <li class="dropdown">
-		                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-		                         <span >판매상품관리</span>
-		                         <span class="caret"></span>
-		                     </a>
-		                     <ul class="dropdown-menu">
-		                         <li><a href="#">판매상품등록</a></li>
-		                         <li class="divider"></li>  
-		                         <li><a href="#">판매상품관리</a></li>
-		                         <li class="divider"></li>  
-		                         <li><a href="#">구매목록조회</a></li>
-		                      
-		                     </ul>
-		                </li>
-	                 </c:if>
-	                 
-	              <!-- 구매관리 DrowDown -->
-	              <li class="dropdown">
-	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	                         <span >상 품 메 뉴</span>
-	                         <span class="caret"></span>
-	                     </a>
-	                     <ul class="dropdown-menu">
-	                         <li><a href="#">상 품 검 색</a></li> 
-	                         <c:if test="${user.role == 'user' }">  
-	                         <li class="divider"></li>  
-		                         <li><a href="#">구매상품조회</a></li>   
-		                         </c:if>       	                     
-	                     </ul>
-	                 </li>
-        
-        </ul>
-        
-           <ul class="nav navbar-nav navbar-right navbar-form" >
-           
-           <c:if test="${user.role == 'admin' }">   
-         <li> <a id="ment">관리자:: ${user.userName}님 환영합니다</a> </li>
-          </c:if>
-          
-          <c:if test="${user.role == 'user' }">   
-            <li> <a id="ment">${user.userName}님 환영합니다</a> </li>
-          </c:if>
+						</ul></li>
 
-<li><a>Log out</a></li>
-</ul>    
+					<c:if test="${sessionScope.user.role == 'admin'}">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"> <span>판매상품관리</span>
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">판매상품등록</a></li>
+								<li class="divider"></li>
+								<li><a href="#">판매상품관리</a></li>
+								<li class="divider"></li>
+								<li><a href="#">구매목록조회</a></li>
 
-         </div>
-      		    </c:if>
-        </div><!--/.navbar-collapse -->
-       
-      </div>
+							</ul></li>
+					</c:if>
+
+					<!-- 구매관리 DrowDown -->
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-expanded="false"> <span>상
+								품 메 뉴</span> <span class="caret"></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">상 품 검 색</a></li>
+							<c:if test="${user.role == 'user' }">
+								<li class="divider"></li>
+								<li><a href="#">구매상품조회</a></li>
+							</c:if>
+						</ul></li>
+
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right navbar-form">
+
+					<c:if test="${user.role == 'admin' }">
+						<li><a id="ment">관리자:: ${user.userName}님 환영합니다</a></li>
+					</c:if>
+
+					<c:if test="${user.role == 'user' }">
+						<li><a id="ment">${user.userName}님 환영합니다</a></li>
+					</c:if>
+
+					<li><a>Log out</a></li>
+				</ul>
+
+			</div>
+		</c:if>
+	</div>
+	<!--/.navbar-collapse -->
+
+</div>
 <style>
-
 </style>
 <script type="text/javascript">
 $(function() {
