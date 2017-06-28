@@ -17,10 +17,14 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 	
 	<title>UsTrip</title>
-	
+	<script src="/js/html2canvas.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr"></script>
+    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
     
 	<style type="text/css">
         html, body {
@@ -54,6 +58,14 @@
 			height: 90%;
         }
         
+        #btn-route{
+        	color: #fff;
+			height: 30px;
+			width: 100px !important; 
+			margin-left:5px;
+			padding-left: 5px;
+			
+        }
         #panel{
 			position: fixed;
 			margin-left: 25%;
@@ -73,6 +85,16 @@
 			border:none;
         }
         
+         #moveList{
+			position: fixed;
+			margin-top: 15px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
+        }
+        
         
         #duration, #distance{
        		border:none;
@@ -84,7 +106,7 @@
     <script>
 	var travelNo = "${sessionScope.travel.travelNo}";
 	var stayStart = String("${sessionScope.travel.startDate}").replace("KST", "GMT");
-	stayStart = new Date(stayStart);
+	stayStart = new Date(stayStart.replace(/-/g, '/'));
 	stayStart = stayStart.getFullYear()+"-"+(stayStart.getMonth()*1+1)+"-"+stayStart.getDate();
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
@@ -130,14 +152,66 @@
   	  });
     });
     
-    function movePlace(){ 
-		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	function capture() {
+ 
+            html2canvas($(".container"), {
+                  onrendered: function(canvas) {
+                    //document.body.appendChild(canvas);
+                    //alert(canvas.toDataURL("image/png"));
+                    
+                    $("#imgSrc").val(canvas.toDataURL("image/png"));
+                    
+                    $.ajax({
+                        type:     "post",
+                        data : $("form").serialize(),
+                        url:     "/imageCreate.ajax",
+                        error: function(a, b, c){        
+                            alert("fail!!");
+                        },
+                        success: function (data) {
+                            try{
+                                
+                            }catch(e){                
+                                alert('server Error!!');
+                            }
+                        }
+                    });
+                  }
+            });
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    function moveList(){
+    	//self.location = "/index.jsp";
+    	self.location = "/user/allListTravel";
+	}
+    
+    function movePlace(){
+    	
+    	swal({
+			title:"정말 등록하시겠습니까?",
+	   		  type: 'question',
+	   		  showCancelButton: true,
+	   		  confirmButtonColor: '#3085d6',
+	   		  cancelButtonColor: '#d33',
+	   		  confirmButtonText: '등록',
+	   		  cancelButtonText:'취소'
+	   		}).then(function () {		   			
+	   			swal("등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요.");
+				button_event();
+	   		})
+    	
+	}
+    
+    function button_event(){ 
+    	
 		 for(var i = 0; i < tempNum; i++){
 			
 			
 			$("#f"+(i)+" input[name='stayStart']").val(stayStart);
 			var stayDate = $("#f"+(i)+" select[name='stayDate']").val();
-			var stayEnd = new Date(stayStart);
+			var stayEnd = new Date(stayStart.replace(/-/g, '/'));
 	   		stayEnd.setDate((stayEnd.getDate()*1 + stayDate*1));
 	   		stayEnd = stayEnd.getFullYear()+"-"+(stayEnd.getMonth()*1+1)+"-"+stayEnd.getDate();
 			$("#f"+(i)+" input[name='stayEnd']").val(stayEnd)
@@ -182,19 +256,19 @@
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function getLocation(){
+  /*   function getLocation(){
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(initialize);
         }else{
             alert("Not Support Browser");
         }
-    }        
+    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
       geocoder = new google.maps.Geocoder();
     
-      var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      //var currentLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
   
       var mapOptions = {
         zoom:8,
@@ -291,9 +365,8 @@
     	if(tempNum==0){
     		start = document.getElementById('temp').value;
     		
-    		var newUpButton = "<button>"+start+"</button>"
-    		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
-    		var newLeftDiv = "<div id = 'f0' style='display:none'>"    
+    		var newLeftDiv = "<button type='button' id = 'btn-test' style='color: #fff; WIDTH: 170pt; height: 25pt; margin-top: 8pt;margin-left:5px;'>"+start+"</button>"
+    			+"<div id = 'f0' style='display:none'>"    
     			+"<input type='hidden' id='startCity' name='startCity' class='startCity'/>"
     			+"<input type='hidden' id='city' name='city' class='city'/>"
     			+"</br>"
@@ -331,7 +404,6 @@
     		    });
     		  
     		//$("#mainCity").append(newUpButton);
-    		$("#formTag").append(newLeftButton);
     		$("#formTag").append(newLeftDiv);
 			$("#temp").val(null);
     		$("#start").val(start);
@@ -352,7 +424,6 @@
     		$("#temp").val(null);
     		
     		
-    		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
     		
     		var newLeftButton = "<div id = 'f"+(tempNum-1)+"'>"    
     			+"<input type='text' id='duration' name='duration'/>"
@@ -383,12 +454,11 @@
     			+"<input type='hidden' id='stayStart' name='stayStart' class='stayStart'/>"
     			+"<input type='hidden' id='stayEnd' name='stayEnd' class='stayEnd'/>"
     			+"</br>"
-    			+"<button type='button' id = 'btn-test' style='WIDTH: 170pt;'>"+end+"</button>"
+    			+"<button type='button' id = 'btn-test' style='color: #fff; WIDTH: 170pt; height: 25pt; margin-top: 3pt;margin-left:5px;'>"+end+"</button>"
     			+"</div>";
     			
     			
     			
-			$("#btn").append(newUpButton);
 			
     		$("#formTag").append(newLeftButton);
 			
@@ -497,7 +567,7 @@
        //$('#a2').val(response.duration.text);
         //$('#fortDetail').val(JSON.stringify(response.routes));
 	
-	google.maps.event.addDomListener(window, 'load', getLocation);
+	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
     
@@ -511,7 +581,9 @@
             <input type="text" id="temp" value="" onkeypress=
 	        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
 	        <button type='button' id = 'insert'  onclick= "{Javascript:movePlace();}">등록하기</button>
+            <button type='button' id = 'moveList'  onclick= "{Javascript:moveList();}">플랜리스트 이동</button>
            
+            <input type="hidden" id="imgSrc" name="imgSrc" /> 
         </div>
         
 		<div id="mainCity">
