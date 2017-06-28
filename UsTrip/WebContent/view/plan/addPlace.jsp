@@ -595,7 +595,9 @@ for(var h = 0; h < stayDate; h++){
     	}
     		tempNum++;	
     	
+    		if( tempCount < tempNum ){
     		tempCount = tempNum;
+    		}
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);

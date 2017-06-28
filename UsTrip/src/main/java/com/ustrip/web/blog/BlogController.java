@@ -318,6 +318,10 @@ public class BlogController {
 	@RequestMapping(value="getMap", method=RequestMethod.GET)
 	public String getMap( @RequestParam("travNo") int travNo, Model model ) throws Exception {
 		List<City> listCity = planService.blogCity(travNo);
+		for(City c : listCity){
+			String[] replaceCity = c.getCity().split("_");
+			c.setCity(replaceCity[0]);
+		}
 		model.addAttribute("listCity",listCity);
 		model.addAttribute("travNo",travNo);
 		return "forward:/view/blog/mapFrame.jsp";
@@ -326,12 +330,20 @@ public class BlogController {
 	@RequestMapping(value={"getMapCity/{travNo}"}, method=RequestMethod.GET)
 	public void getMapCity( @PathVariable int travNo, Model model ) throws Exception {
 		List<City> listCity = planService.blogCity(travNo);
+		for(City c : listCity){
+			String[] replaceCity = c.getCity().split("_");
+			c.setCity(replaceCity[0]);
+		}
 		model.addAttribute("listCity",listCity);
 	}
 	
 	@RequestMapping(value={"getMapPlace/{cityNo}"}, method=RequestMethod.GET)
 	public void getMapPlace( @PathVariable int cityNo, Model model ) throws Exception {
 		List<Place> listPlace = planService.blogPlace(cityNo);
+		for(Place p : listPlace){
+			String[] replacePlace = p.getPlace().split("_");
+			p.setPlace(replacePlace[0]);
+		}
 		model.addAttribute("listPlace",listPlace);
 	}
 		

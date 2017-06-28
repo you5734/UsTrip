@@ -144,7 +144,7 @@ public class CommunityController {
 				noList.add(b.getBoardNo());				
 		}			
 		boards.put("boards", noList);			
-		
+		if(noList.size() > 0){
 		List<Comment> comment = commentService.listComment(boards);
 		for(Board b : board){
 			for(Comment c : comment){
@@ -155,6 +155,7 @@ public class CommunityController {
 			b.setCountComment(selComment.size());
 			selComment = new ArrayList<Comment>();			
 		}//for b end	
+		}
 		int totalCount = boardService.getTotalCount(search);
 		Page resultPage = new Page( search.getCurrentPage(), totalCount, pageUnit, pageSize);
 		
