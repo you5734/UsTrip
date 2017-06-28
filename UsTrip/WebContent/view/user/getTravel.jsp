@@ -2,21 +2,18 @@
     pageEncoding="EUC-KR"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 	<!-- Bootstrap Core CSS -->
-	<link rel="stylesheet" href="/css/main.css" /> 
+	<link rel="stylesheet" href="/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
- 	
- 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  	 -->
      
-	<script src="/js/jquery.min.js"></script>
+  	<script src="/js/jquery.min.js"></script> 
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
@@ -24,8 +21,8 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
 	
 	<!-- ////////////////////////////////////// 가계부 ////////////////////////////////////////////////// -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -36,13 +33,16 @@
     <script src="/js/graph.js"></script>
     
     <link rel="stylesheet" href="/css/default.css">
-	<link rel="stylesheet" href="/css/default.date.css">
+<!-- 	<link rel="stylesheet" href="/css/default.date.css"> -->
 	<script src="/js/picker.js"></script>
 	<script src="/js/picker.date.js"></script>
 	<script src="/js/legacy.js"></script>
 	<script src="/js/dateFormat.js"></script>
-     
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+	
+									<link href='/css/fullcalendar.min.css' rel='stylesheet' />
+								<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
 
 	<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
@@ -53,10 +53,10 @@
 			var condi =  $("#travNo").val(); /* travNo를 넣어준다. */
 	    	newGraph(condi);
     	 });
-	  
+	/*   
 	    $(function() {	
 	    	
-/* 	    	$("#tabs").on("click", function({
+  	$("#tabs").on("click", function({
 	    		var isBlogStart = $("#isBlogStart").val();
 	    		var travNo = $("#travNo").val()
 	    		if( isBlogStart == 1) {
@@ -65,10 +65,9 @@
 	    			$("#content2").load("/blog/addBlog");
 	    		}
 	    	}
-	    	})
-	    	 */
+	    */
+	    $(function() {	
 			$('#travLike').on('click' , function() {
-				/* alert("travvvvvvvvv :: "+ $("#travNo").val()); */
 				
 				if($(this).val()=='좋아요취소'){
 					$.ajax( 
@@ -107,12 +106,63 @@
 							});
 					}
 				});
-	   	 });
-		    		
+	    });
+
+$(function() {	
+	    function setCalendar(date,data){
+			//alert(JSON.stringify(data));
+			$('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,basicWeek,basicDay'
+				},
+				defaultDate: date,
+				navLinks: false, // can click day/week names to navigate views
+				editable: false,
+				eventLimit: true, // allow "more" link when too many events
+				events: data
+			});
+		} 
+		
+		$("#calendarPlan").on("click" , function() {
+			var calendarNo = $('#travNo').val();
+			var calendarEvent = [];
+			var dDate;
+			$.ajax( 
+					{
+						url : "/plan/getCalendarJSON/"+calendarNo,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(J , status) {	
+							for(var i in J.listCity){
+								 calendarEvent.push({
+									title: J.listCity[i].city,
+									start: J.listCity[i].stayStart,
+									end: J.listCity[i].stayEnd
+								}); 
+								 for(var j in J.listCity[i].listPlace){
+									calendarEvent.push({
+											title: J.listCity[i].listPlace[j].place,
+											start: J.listCity[i].listPlace[j].visitDate
+								 });
+								}
+							}
+							defaultDate = new Date(J.listCity[0].stayStart).format("yyyy-MM-dd");
+							setCalendar(defaultDate,calendarEvent);
+						}
+					});			
+		});
+});
+
 	</script>
 
 	<style>
-			html, body {
+		html, body {
 			width: 100%;
 			height:100%;
 		}
@@ -186,7 +236,8 @@ label {
 
 #tab1:checked ~ #content1,
 #tab2:checked ~ #content2,
-#tab3:checked ~ #content3
+#tab3:checked ~ #content3,
+#tab4:checked ~ #content4
 {
   display: block !important;
   padding: 20px;
@@ -299,13 +350,15 @@ border-bottom: 1px solid #f7f7f7;
 							<div class="well">
 						        <p>
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
-									<c:if test='${isLike == 1}'>
-										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
-									</c:if>
-									<c:if test='${isLike == 0}'>
-										<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
-									</c:if> 
-						        </p>
+						        		<c:if test="${ not empty sessionScope.user.userId }">
+											<c:if test='${isLike == 1}'>
+												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
+											</c:if>
+											<c:if test='${isLike == 0}'>
+												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
+											</c:if> 
+										</c:if>
+						        	</p>
 						          <p>
 						           <strong>여행테마</strong> ${travel.travTheme } | <strong>인원수</strong> ${travel.memberCount }
 						           </p>
@@ -314,30 +367,43 @@ border-bottom: 1px solid #f7f7f7;
 							        <fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
 						        </p> 
-							
 							</div>
 						
+<%-- 							<div class="container">
+								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
+								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
+								
+								<ul class="nav nav-tabs">
+									 <li class="active"><a data-toggle="tab" href="#plan">플랜</a></li>
+								    <li><a data-toggle="tab" href="#calendarPlan">달력</a></li>
+								    <li><a data-toggle="tab" href="#blog">블로그</a></li>
+								    <li><a data-toggle="tab" href="#asset">가계부</a></li>
+								</ul> --%>
 							<div class="tab_container">
 								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
 								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
+								
 								<input id="tab1" type="radio" name="tabs" checked>
-								<label for="tab1"><i class="fa fa-code"></i><span>플랜</span></label>
+								<label for="tab1"  id="getPlan"><i class="fa fa-code"></i><span>플랜</span></label>
 					
 								<input id="tab2" type="radio" name="tabs">
-								<label for="tab2" id="tabs"><i class="fa fa-pencil-square-o"></i><span>블로그</span></label>
+								<label for="tab2" id="calendarPlan"><i class="fa fa-pencil-square-o"></i><span>달력</span></label>
 					
 								<input id="tab3" type="radio" name="tabs">
-								<label for="tab3"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>
-	
-								<section id="content1" class="tab-content" style="heigh:700px;">
-									<!-- <h3>Headline 1</h3>
-							      	<p>Tab 1 Content.</p> -->
-							     <%--  	<jsp:include page="/view/plan/getCity.jsp"/>  --%>
-							     <jsp:include page="/view/blog/mapFrame.jsp"/> 
+								<label for="tab3" id="blog"><i class="fa fa-bar-chart-o"></i><span>블로그</span></label>	
+								
+								<input id="tab4" type="radio" name="tabs">
+								<label for="tab4" id="asset"><i class="fa fa-bar-chart-o"></i><span>가계부</span></label>								
+								<!-- 	//////////////////////	  -->
+								<section id="content1" class="tab-content">
+									<jsp:include page="/view/blog/mapFrame.jsp"/> 
 								</section>
 								
-					
 								<section id="content2" class="tab-content">
+									<div id="calendar"></div> 
+								</section>
+					
+								<section id="content3" class="tab-content">
 								 <c:if test="${travel.isBlogStart==1 }">
 									<jsp:include page="/view/blog/listBlog.jsp"/> 
 								</c:if>
@@ -346,7 +412,7 @@ border-bottom: 1px solid #f7f7f7;
 								</c:if>						
 								</section>
 					
-								<section id="content3" class="tab-content">
+								<section id="content4" class="tab-content">
 									 <h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
 										<ul class="nav nav-tabs">
 											<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
@@ -355,7 +421,41 @@ border-bottom: 1px solid #f7f7f7;
 										<div id="listasset" ></div>
 									 <jsp:include page="/view/asset/updateAssetView.jsp" /> 
 								</section>
-							</div> 
+								
+								<!-- 	//////////////////////	  -->
+<%-- 							 <div class="tab-content">
+							    
+							    <div id="plan" class="tab-pane fade in active">
+							      <jsp:include page="/view/blog/mapFrame.jsp"/> 
+							    </div>
+							    
+							    <div id="calendarPlan" class="tab-pane fade">
+							      <div id="calendar"></div>
+
+							    </div>
+							    
+							    <div id="blog" class="tab-pane fade">
+							       <c:if test="${travel.isBlogStart==1 }">
+										<jsp:include page="/view/blog/listBlog.jsp"/> 
+									</c:if>
+									<c:if test="${travel.isBlogStart==0 }">
+										<jsp:include page="/view/blog/addBlog.jsp"/> 
+									</c:if>			
+							    </div>
+							    
+							    <div id="asset" class="tab-pane fade">
+							      	<h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
+										<ul class="nav nav-tabs">
+											<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
+											<li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
+										</ul>
+										<div id="listasset" ></div>
+									 <jsp:include page="/view/asset/updateAssetView.jsp" /> 	
+							    </div>
+							  </div> --%>
+							  <!-- 	//////////////////////	  -->
+							</div>	
+	
   					</div>
 				</div>
 			</div>
@@ -363,3 +463,7 @@ border-bottom: 1px solid #f7f7f7;
 	</div>
 </body>
 </html> 
+
+								<script src='/js/moment.min.js'></script> 
+								<script src='/js/fullcalendar.min.js'></script>
+								

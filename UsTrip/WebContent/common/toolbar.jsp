@@ -1,14 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html >
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<script type="text/javascript">
-	/* 
+
 		$(function() {
 			
 			$.ajax(
 					 {
-		    			 url : '/message/unReadMsg',
+		    			 url : '/message/isReadMsg',
 		    			 method : "POST",
 		    			 dataType : "json",
 		    			 headers : {
@@ -17,19 +17,12 @@
 	    				 },
 		    			 context : this,
 		    			 success : function(JSONData, status) {		    				 
-		    				   				 
-		    				 if( JSONData.result ) {
-		    				/*	 console.log("result +++ " + JSONData.result);
-		    					 $('.fa.fa-envelope').html('');
-								$i = $('<i></i>').addClass('fa fa-envelope').attr('aria-hidden', 'true').next().val('뉴');
-								$('.fa.fa-envelope').append($i); 
-								$(".fa fa-envelope").next().val("뉴");
-								$i = $('<i></i>').addClass('fa fa-envelope').attr('aria-hidden', 'true').next().val('뉴');
-								
-		    				 } 
+		    				 console.log("result +++ " + JSONData.isReadMsg);
+		    				 var isReadMsg = JSONData.isReadMsg;
+		    				 $(".label.label-danger").val(isReadMsg);
 	    			 	}
 	    		 });	
-		}) */
+		});
 		 $(function(){
 			 
 			 $("#login").on("click" , function() {
@@ -73,18 +66,27 @@
 	
 	<style>
 		.img-responsive.user-photo{
-			  float: none;
+ 			  float: none;
 			  margin: -14px 20px;
 			  width: 40px;
 			  height: 40px;
 			  -webkit-border-radius: 50% !important;
 			  -moz-border-radius: 50% !important;
 			  border-radius: 50% !important;
-			  display: inline-block !important;
+			  display: inline-block !important; 
 		}
  		.fa.fa-envelope{
 			width: 40px;
 			height: 40px;
+		}
+		span > label-danger {
+			osition: absolute;
+		    top: 10px;
+		    right: 15px;
+		    display: block;
+		    min-width: 14px;
+		    height: 14px;
+		    padding: 2px
 		}
 	</style>
 	<!-- Header -->
@@ -102,10 +104,15 @@
 		
 		 <c:if test="${ ! empty sessionScope.user.userId }">
 		 	<nav class="right">
-				<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-				<a id="my">${sessionScope.user.nickName}</a>
-					<i class="fa fa-envelope" aria-hidden="true"></i>
-				<a class="" id="logout">Log Out</a>
+		 		<c:if test="${ empty sessionScope.user.profileImage }">
+					<img class="img-responsive user-photo" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png">
+				</c:if>
+				<c:if test="${ not empty sessionScope.user.profileImage }">
+					<img class="img-responsive user-photo" src="/images/upload/profile/${sessionScope.user.profileImage}">
+				</c:if>
+					<a id="my">${sessionScope.user.nickName}</a>
+						<i class="fa fa-envelope" aria-hidden="true"></i><span class="label label-danger" value=""></span>
+					<a class="" id="logout">Log Out</a>
 			</nav>
 		 </c:if>
 	</header>
@@ -117,7 +124,6 @@
 			<li><a id="ustory">어스토리</a></li>
 			<li><a id="plan">플랜</a></li>
 			<li><a id="community">커뮤니티</a></li>
-			<li><a>이용방법</a></li>
 		</ul>
 		<ul class="actions vertical"> 
 			<c:if test="${ empty sessionScope.user.userId }">

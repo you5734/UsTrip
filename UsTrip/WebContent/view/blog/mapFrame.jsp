@@ -8,11 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlWKR_u9NsT-3h0mdZ_5gg-aB4Eh58Ajo&v=3.exp&libraries=places&region=kr&callback=initMap"  defer></script>
 <script src="/js/dateFormat.js"></script>
 	<style type="text/css">
@@ -59,17 +59,17 @@
 	                } 
 			 
      function initMap(){
-       map = new google.maps.Map(document.getElementById('map'), {
-         center: {lat: 36.4488, lng: 127.7792} ,
-         zoom: 8,
-         mapTypeControl: false                
-       });       
-       var travNo = ${travNo};  
-       cityMap(travNo)
-                } 
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: 36.4488, lng: 127.7792} ,
+			zoom: 8,
+			mapTypeControl: false                
+		});       
+       /* var travNo = ${travNo};   */
+		var travNo = 84;
+		cityMap(travNo)
+	} 
      
      function cityMap(travNo){
-    	 
     	
  		var zoomLevel = 7;
  		var mapCenter = {lat: 36.4488, lng: 127.7792} ;
@@ -88,6 +88,7 @@
 						},
 						context : this,
 						success : function(J , status) {	
+							console.log("status ::" + status);
 							
 							for(var i in J.listCity){
 								eval('var cityXY'+[i]+' = new Object()');					
@@ -101,7 +102,9 @@
 							}
 							
 							for(var i in J.listCity){
-								var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/');
+								console.log("aaa " + new Date(J.listCity[i].stayStart).format("yyyy/MM/dd"));
+								/* var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/'); */
+								var tranDate =  new Date(J.listCity[i].stayStart).format("yyyy/MM/dd");
 								days.push(tranDate);					
 							}
 				    		setMap(zoomLevel,mapCenter,target,titles,days);

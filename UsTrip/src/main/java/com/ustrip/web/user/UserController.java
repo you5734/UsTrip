@@ -63,6 +63,7 @@ public class UserController {
 	int pageUnit;
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
+	
 	@Autowired
 	 private JavaMailSender mailSender;
 	
@@ -105,7 +106,7 @@ public class UserController {
 	}
 	/// 타계정 로그인하고 추가정보 입력 후 addUser 처리, 비밀번호는 임시비밀번호 넣기
 	@RequestMapping( value="extraUserInfo", method=RequestMethod.POST )
-	public String extraUserInfo( @ModelAttribute("user") User user) throws Exception{
+	public String extraUserInfo( @ModelAttribute("user") User user, HttpSession session) throws Exception{
 	
 		System.out.println("/user/extraUserInfo : POST");
 		user.setUserId(user.getUserId().replace(",", "."));
@@ -113,7 +114,12 @@ public class UserController {
 		userService.extraUserInfo(user);
 		System.out.println("userId 가져오닝:: " +user.getUserId());
 		
-		return "forward:/view/user/addUser.jsp";
+		User dbUser=userService.getUser(user.getUserId());
+		System.out.println("user 뭐닝" + dbUser);
+		session.setAttribute("user", dbUser);
+		
+		
+		return "forward:/view/user/getUser.jsp";
 	}
 	
 	@RequestMapping( value="checkUserId/{userId}", method=RequestMethod.GET)
@@ -182,7 +188,6 @@ public class UserController {
 		return "redirect:/index.jsp";
 	}
 	
-	
 	@RequestMapping( value="updateUser", method=RequestMethod.GET )
 	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
 
@@ -226,12 +231,13 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="getUser", method=RequestMethod.GET )
-	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
+	public String getUser( @RequestParam("userId") String userId , Model model,  HttpSession session ) throws Exception {
 		
 		System.out.println("/user/getUser : GET");
 		//Business Logic
 		User user = userService.getUser(userId);
 		// Model 과 View 연결
+		session.setAttribute("user", user);
 		model.addAttribute("user", user);
 		
 		return "forward:/view/user/getUser.jsp";
@@ -248,15 +254,25 @@ public class UserController {
 		
 		return "forward:/view/user/getUser.jsp";
 	}
-	
+
 	@RequestMapping( value="withdrawUser", method=RequestMethod.GET )
-	public String withdrawUser( @RequestParam("userId") String userId ) throws Exception {
+	public String withdrawUser( @RequestParam("userId") String userId, Model model ) throws Exception {
 		
 		System.out.println("/user/withdrawUser : GET");
 
+		 model.addAttribute("userId", userId);
+
+		return "forward:/view/user/withdrawUser.jsp";
+	}
+	
+	@RequestMapping( value="withdrawUser", method=RequestMethod.POST )
+	public String withdrawUser( @RequestParam("userId") String userId) throws Exception {
+		
+		System.out.println("/user/withdrawUser : POST");
+
 		 userService.withdrawUser(userId);
 
-		return "forward:/user/login";
+		return "forward:/index.jsp";
 	}
 	
 	@RequestMapping( value="listUser" )
@@ -270,7 +286,7 @@ public class UserController {
 		search.setPageSize(pageSize);
 		
 		// Business logic 수행
-		Map<String , Object> map=userService.getUserList(search);
+		Map<String , Object> map=userService.listUser(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -284,7 +300,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "findPwd", method=RequestMethod.POST)
-	  public String findPwd( @RequestParam("userId") String userId) throws Exception {
+	public String findPwd( @RequestParam("userId") String userId) throws Exception {
 
 		System.out.println("/user/mailSending :: GET");
 	  
@@ -395,7 +411,6 @@ public class UserController {
 		
 		return "forward:/view/user/allListTravel.jsp";
 	}
-	
 	
 	@RequestMapping( value="listFollow")
 	public String listFollow( @ModelAttribute("search") Search search, HttpSession session, Model model,

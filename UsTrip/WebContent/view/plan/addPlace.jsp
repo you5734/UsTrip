@@ -337,12 +337,16 @@
 			
 			addId = eval('addId+(ii+1)');
 			
+<<<<<<< HEAD
 			/* if(false){
 				$(addId).children().find($("#f"+(i)+" input[name='placeX']")).val();== ' '
 				return;
 			}else{ */
 				
 			for(var i = 0; i < $(addId).children().length-1; i++){
+=======
+		for(var i = 0; i < tempCount; i++){
+>>>>>>> refs/remotes/origin/master
 			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
@@ -655,6 +659,7 @@
     	}
     		tempNum++;	
     	
+    		tempCount = tempNum;
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);
@@ -693,6 +698,10 @@
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
+<<<<<<< HEAD
+=======
+     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
+>>>>>>> refs/remotes/origin/master
    			Javascript:calcRoute();
 
     		start = end;

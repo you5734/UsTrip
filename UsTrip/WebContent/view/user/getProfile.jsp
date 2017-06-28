@@ -49,7 +49,7 @@
 		 
 			$( "#listFollow" ).on("click" , function() {
 				
-				alert("travUserID 更艦びびびびびびびびびび? " + travUserId);
+				/* alert("travUserID 更艦びびびびびびびびびび? " + travUserId); */
 				self.location="/user/listFollow?travUserId="+travUserId;
 			});
 			
@@ -65,6 +65,11 @@
 			$( "#getUser" ).on("click" , function() {
 				var userId = $("#userId").val();
 				self.location="/user/getUser?userId="+userId;
+			});
+			
+			$( "#sendMsg" ).on("click" , function() {
+				var receiver = $("#userId").val();
+				self.location="/message/sendMsg?receiver="+receiver;
 			});
 			
 		});
@@ -159,15 +164,25 @@
 		  border-left: 2px solid #5b9bd1;
 		  margin-left: -2px;
 		}
+		
+		button {
+			color : white;
+		}
 	
 	</style>
-		<%-- <input type="hidden" id="sessionId" value="${sessionScope.user.userId}"> --%>
+		 <input type="hidden" id="sessionId" value="${sessionScope.user.userId}">
 		
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 					<div class="profile-userpic">
-						<img src="/images/upload/profile/${user.profileImage}" class="img-responsive" alt="">
+
+						<c:if test="${ user.profileImage != null}">
+							<img src="/images/upload/profile/${user.profileImage}" class="img-responsive" alt="">
+						</c:if>
+						<c:if test="${ user.profileImage == null}">
+							<img class="img-responsive" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+						 </c:if> 
 					</div>
 					<!-- END SIDEBAR USERPIC -->
 					<!-- SIDEBAR USER TITLE -->
@@ -187,10 +202,12 @@
 						<c:if test="${sessionScope.user.userId != user.userId }">  
 							 <c:choose >
 								 <c:when test="${ empty follow.targetUserId }">
-									<input type="button" class="btn btn-sm" id="profileFollow" value="follow">
+									<button type="button" class="btn btn-sm" id="profileFollow" value="follow">Follow</button>
+									<button type="button" class="btn btn-sm" id="sendMsg" >楕走左鎧奄</button>
 								</c:when>
 								<c:otherwise >
-									<input type="button" class="btn btn-sm" id="profileFollowing" value="following">
+									<button type="button" class="btn btn-sm" id="profileFollowing" value="following">Following</button>
+									<button type="button" class="btn btn-sm" id="sendMsg" >楕走左鎧奄</button>
 								</c:otherwise>
 							</c:choose>
 						</c:if>

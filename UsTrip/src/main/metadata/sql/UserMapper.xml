@@ -56,7 +56,7 @@
 		 </select>
 		 
 		 <!-- SQL : SELECT ONE 닉네임조회-->
-		 <select 	id="getUser2"	parameterType="string"	resultMap="userSelectMap">
+		 <select 	id="checkNickName"	parameterType="string"	resultMap="userSelectMap">
 			SELECT
 			nickname
 			FROM users 
@@ -84,7 +84,7 @@
 		 </update>	 
 		 
 		 <!-- SQL : SELECT LIST -->
-		<select  id="getUserList"  parameterType="search"	resultMap="userSelectMap">
+		<select  id="listUser"  parameterType="search"	resultMap="userSelectMap">
 		  	SELECT *
 		  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
 		  					FROM		(	SELECT user_id , nickName , profile_img, gender, is_delete

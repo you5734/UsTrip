@@ -41,14 +41,18 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="sendMsg", method=RequestMethod.GET )
-	public String sendMsg(@RequestParam(value="msgNo", required=false) String msgNo, Model model) throws Exception{
+	public String sendMsg(@RequestParam(value="msgNo", required=false) String msgNo, 
+			@RequestParam(value="receiver", required=false) String receiver, Model model) throws Exception{
 	
 		System.out.println("/message/sendMsg : GET");
-		Message message=null;
+		
 		if(  msgNo != null ) {
-			message = messageService.getMsg(Integer.parseInt(msgNo));
+			Message message = messageService.getMsg(Integer.parseInt(msgNo));
 			(message.getMsgContent()).replaceAll("\n", "<BR>");
 			model.addAttribute("message", message	);
+		}
+		if( receiver != null ) {
+			model.addAttribute("receiver", receiver);
 		}
 		
 		return "forward:/view/message/sendMsg.jsp";
@@ -116,7 +120,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="getMsg", method=RequestMethod.GET )
-	public String sendMsg( @RequestParam("msgNo") int msgNo, 
+	public String getMsg( @RequestParam("msgNo") int msgNo, 
 			@RequestParam(value="receiver", required=false) String receiver, HttpSession session, Model model ) throws Exception{
 	
 		System.out.println("/message/getMsg : GET");
@@ -137,21 +141,20 @@ public class MessageController {
 	}
 	
 	@RequestMapping( value="deleteMsg", method=RequestMethod.POST )
-	public String deleteMsg( @RequestParam(value="chbox", required=false) List<String> values, HttpSession session, Search search) throws Exception{
+	public String deleteMsg( @RequestParam(value="chbox", required=false) List<String> values, 
+				HttpSession session, Search search) throws Exception{
 	
 		System.out.println("/message/deleteMsg : POST");
 		
 		Message message = null;
 		String destinate = "forward:/message/listSendMsg";
 		String sessionId = ((User)session.getAttribute("user")).getUserId();
-//		messageService.deleteMsg(msgNo, sessionId);
 
 		if(values != null && values.size()>0){
 			for(int i=0; i<values.size(); i++){
 				messageService.deleteMsg(Integer.parseInt(values.get(i)), sessionId);
 			}
 			message = messageService.getMsg(Integer.parseInt(values.get(0)));
-//			System.out.println("messageeeeeeeeeeeeeeee :::::::::  " + message );
 		}
 		if( sessionId.equals(message.getReceiver())) {
 			destinate = "forward:/message/listReceivMsg";
@@ -159,18 +162,18 @@ public class MessageController {
 		return destinate;
 	}
 	
-	@RequestMapping( value="unReadMsg", method=RequestMethod.POST )
-	public void unReadMsg( HttpSession session, Model model ) throws Exception{
+	@RequestMapping( value="isReadMsg", method=RequestMethod.POST )
+	public void isReadMsg( HttpSession session, Model model ) throws Exception{
 	
-		System.out.println("/message/unReadMsg : GET");
+		System.out.println("/message/isReadMsg : GET");
 		
 		String receiver = ((User)session.getAttribute("user")).getUserId();
 		
-		boolean unRead = messageService.unReadMsg(receiver);
+		int isReadMsg = messageService.isReadMsg(receiver);
 		
-		System.out.println(" 쪽지 읽음여부 ????????? " + unRead);
+		System.out.println(" 안읽은 쪽지 개수 ????????? " + isReadMsg);
 		
-		model.addAttribute("unRead", new Boolean(unRead));
+		model.addAttribute("isReadMsg", isReadMsg);
 		
 	}
 	

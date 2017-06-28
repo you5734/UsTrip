@@ -62,8 +62,8 @@ public class MessageDaoImpl implements MessageDao{
 		return sqlSession.selectOne("MessageMapper.receiveCount", search);
 	}
 	
-	public List<Message> unReadMsg(String receiver) throws Exception {
-		return sqlSession.selectList("MessageMapper.unReadMsg", receiver);
+	public int isReadMsg(String receiver) throws Exception {
+		return sqlSession.selectOne("MessageMapper.isReadMsg", receiver);
 	}
 	
 }

@@ -44,10 +44,6 @@
 			width: 100%;
 			height:100%;
 		}
-
-/* 		body{
-		    background:#eee;;
-		} */
 		
 		.title{
 		    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4) !important;    
@@ -174,7 +170,6 @@
 										<div class="col-ms-10 col-md-4">
 									        <div class="project">
 									            <figure class="img-responsive">
-									                <!-- <img src="http://lorempixel.com/400/300/sports/6/"> -->
 									                <img src="/images/upload/blog/${travel.thumbNail }">
 									                <figcaption>
 									                	<%-- <input type="hidden" class="travelNo" id="travelNo" value="${travel.travelNo}"> --%>

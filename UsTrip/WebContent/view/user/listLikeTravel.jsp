@@ -30,8 +30,6 @@
 				var travNo = $(this).next().val();
 				var userId = $(this).next().next().val();
 					console.log("travNo :: " + travNo);
-				/* 	alert("userId " + userId	); */
-				/* self.location="/user/getTravel?travelNo="+travelNo; */
 				self.location="/user/getTravel?travNo="+travNo+"&userId="+userId;
 			});
 	 });
@@ -44,11 +42,6 @@
 			width: 100%;
 			height:100%;
 		}
-
-/* 		body{
-		    background:#eee;;
-		} */
-		
 		.title{
 		    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4) !important;    
 		}
@@ -173,10 +166,7 @@
 			
 			<div class="col-md-9">
 	        	 <div class="profile-content"> 
-				<!-- 	 <div class="row"> -->
 						<div>
-					<!-- 		<div class="profile-sidebar"> -->
-													
 								 <c:forEach var="likeTravel" items="${likeTravel}">				
 										<div class="col-ms-10 col-md-4">
 									        <div class="project">
@@ -188,8 +178,7 @@
 									                    <span class="project-details">${likeTravel.travNo.travTitle }</span>
 									                    <span class="project-price"><strong> ${likeTravel.travNo.nickName } </strong></span>
 														  <span class="project-creator">
-															<fmt:parseDate var="parsedDate" value="${likeTravel.travNo.startDate}" pattern="yyyy-MM-dd"/>
-								        					<fmt:formatDate var="newFormattedDateString" value="${parsedDate}" pattern="yyyy-MM-dd"/>  
+								        					<fmt:formatDate var="newFormattedDateString" value="${likeTravel.travNo.startDate}" pattern="yyyy-MM-dd"/>  
 								         					免惯老 ${newFormattedDateString} | 咯青老荐 ${likeTravel.travNo.totalDate }老</span>
 									                </figcaption>
 									                <span class="actions">

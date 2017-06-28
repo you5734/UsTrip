@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.util.List;
 import java.util.UUID;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ustrip.service.domain.City;
-import com.ustrip.service.domain.Comment;
 import com.ustrip.service.domain.Place;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.plan.PlanService;
@@ -275,6 +275,7 @@ public class PlanController {
 	@RequestMapping(value = "getCalendarJSON/{travNo}", method = RequestMethod.GET)
 	public void getCalendarJSON(@PathVariable int travNo, Model model) throws Exception {
 		System.out.println("/plan/getCalendarData : GET");
+		
 		List<City> listCity = planService.blogCity(travNo);
 		for (City city : listCity) {
 			List<Place> listPlace = planService.blogPlace(city.getCityNo());
