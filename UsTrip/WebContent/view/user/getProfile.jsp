@@ -26,7 +26,7 @@
 						 success : function(JSONData, status) {
 							/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
 							/* location.reload(); */
-							 $(this).val('following');
+							$(this).val('following');
 							 
 						 }
 					}		

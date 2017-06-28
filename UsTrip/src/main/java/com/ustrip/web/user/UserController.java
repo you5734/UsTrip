@@ -32,6 +32,7 @@ import com.ustrip.service.blog.BlogService;
 import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.City;
+import com.ustrip.service.domain.Follow;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
@@ -349,7 +350,10 @@ public class UserController {
 		
 		if(sessionId != targetUserId) {
 			userService.addFollow(targetUserId, sessionId);
+			Follow follow = userService.getFollow(sessionId, targetUserId);
+			model.addAttribute("follow", follow);
 		}
+		
 
 	}
 	
@@ -396,13 +400,12 @@ public class UserController {
 		System.out.println("/user/allListTravel ");
 		System.out.println("search " + search);
 		Map<String, Object> map = planService.getListTravel(search);
-		
-		
-		for( int i =0; i < map.size(); i++)  {
-			
-			ArrayList<Travel> a =  (ArrayList<Travel>) map.get("list");
-			System.out.println("" + a.get(i).getUserId());
+		ArrayList<Travel> a =  (ArrayList<Travel>) map.get("list");
+		for( Travel b : a)  {
+			String[] c = b.getTravTitle().split("_");
+			b.setTravTitle(c[0]);
 		}
+		map.put("travel", a);
 		
 		System.out.println("map ¸Ê " + map);
 		System.out.println("list ¹¹ ´ã°ä´Ï ::" +  map.get("list"));
