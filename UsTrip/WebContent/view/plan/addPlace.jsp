@@ -19,14 +19,26 @@
 	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
-	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css">
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    
 	<style type="text/css">
         html, body {
 			height: 100%;
 			margin: 0;
 			padding: 0;
 			overflow:hidden;        
+        }
+        #btn-route{
+        
+        	color: #fff;
+			height: 30px;
+			width: 100px !important; 
+			margin-left:5px;
+			padding-left: 5px;
+			
         }
  
  		#mainPlace {
@@ -39,6 +51,16 @@
 			width: 83%;
 			height: 10.5%;
 			float:left;
+		
+        }
+        
+        #cch {
+			color: #fff;
+			height: 30px;			
+			width: 50px !important; 
+			padding-left: 5px;
+			margin-left:5px;
+			 		
         }
  
  		#formTag {			
@@ -55,9 +77,9 @@
         #panel{
 			position: fixed;
 			margin-left: 25%;
-          	margin-top: 5.9%;
+          	margin-top: 3px;
 			z-index: 5;
-			background-color: #fff;
+			background-color:none;
 			padding: 3px;
 			border:none;
         }
@@ -67,7 +89,7 @@
         font-family: Roboto;
         font-size: 15px;
         font-weight: 300;
-        /* margin-left: 12px; */
+        margin-top: 0.5%;
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
         width: 250px;
@@ -80,18 +102,10 @@
       .temp-container {
         font-family: Roboto;
       }
-       /* #panel{
-			position: fixed;
-			margin-left: 25%;
-          	margin-top: 9%;
-			z-index: 5;
-			background-color: #fff;
-			padding: 3px;
-        } */
         
          #insert{
 			position: fixed;
-			margin-top: -35px;
+			margin-top: 90px;
 			margin-left: 65%;
 			z-index: 5;
 			color: #fff;
@@ -99,14 +113,13 @@
 			border:none;
         }
       
-      	#duration, #distance{
+      	textarea,#duration, #distance{
 			border:none;
       	}  
 		
     </style>
 
     <script>
-    
     var directionsDisplay;
     var directionsService = new google.maps.DirectionsService();
     var map;
@@ -115,15 +128,13 @@
     var start;
     var end;
 	var tempNum = 0;
-	var tempCount = 0;
-	var tempNumNum = 0;
 	var travelNo = document.location.href.split("?")[1]*1;
 	var cityNo = document.location.href.split("?")[2]; 
 	var startCityX =  document.location.href.split("?")[3]*1;  
 	var startCityY =  document.location.href.split("?")[4]*1;  
 	var stayStart = decodeURIComponent(document.location.href.split("?")[5]); 
 	var stayDate = decodeURIComponent(document.location.href.split("?")[6]); 
-	var stayEnd = decodeURIComponent(document.location.href.split("?")[7]); 
+	//var stayEnd = decodeURIComponent(document.location.href.split("?")[7]);//안쓰는중 
 	var defaultVisitDate = stayStart;
 	var visitDate = stayStart;
 	var visitDay;
@@ -224,7 +235,7 @@
 			start = null;
 			end = null;
 			
-			appendDiv = '#d'+$(this).attr('class')+'';
+			appendDiv = '#d'+$(this).attr('class');
 			
 			tempNum = 0;
 			
@@ -236,7 +247,7 @@
 				visitDay = 1;
     		}
 			
-			visitDate = new Date(visitDate);
+			visitDate = new Date(visitDate.replace(/-/g, '/'));//수정
 			visitDate.setDate((visitDate.getDate()*1 + (visitDay-1)*1));
 			visitDate = visitDate.getFullYear()+"-"+(visitDate.getMonth()*1+1)+"-"+visitDate.getDate();
 			
@@ -255,18 +266,34 @@
 	
 	$(document).ready(function() {
 		
-
-		for (var i=0; i<stayDate; i++){
 		
-			btnDay = "<button id='cch' class='"+"d"+(i+1)+"' onclick=\"openCity('"+"dd"+(i+1)+"')\">"+"d"+(i+1)+"</button>";
+		if(stayDate==0){
+			
+			stayDate = 1;
+			for (var i=0; i<stayDate; i++){
+				
+			btnDay = "<button id='cch' class='"+"d"+(i+1)+"' onclick=\"openCity('"+"dd"+(i+1)+"')\">"+"출발일</button>";
 			$("#btnClass").append(btnDay);
 			
 			divDay = "<div id="+"dd"+(i+1)+" class='dd'></div>";
 			
 			$("#cityOOO").append(divDay);
+			}
 			
-		}// end of for
-		
+			
+		}else{
+
+			for (var i=0; i<stayDate; i++){
+			
+				btnDay = "<button id='cch' class='"+"d"+(i+1)+"' onclick=\"openCity('"+"dd"+(i+1)+"')\">"+"Day"+(i+1)+"</button>";
+				$("#btnClass").append(btnDay);
+				
+				divDay = "<div id="+"dd"+(i+1)+" class='dd'></div>";
+				
+				$("#cityOOO").append(divDay);
+				
+			}// end of for
+		}		
 	});		
 	
 	function moveStart(){
@@ -275,15 +302,51 @@
 		
 	}
 		
-	function movePlace(){ 
 		
-for(var h = 0; h < stayDate; h++){
+		function movePlace(){
+			
+			swal({
+				title:"정말 등록하시겠습니까?",
+		   		  type: 'question',
+		   		  showCancelButton: true,
+		   		  confirmButtonColor: '#3085d6',
+		   		  cancelButtonColor: '#d33',
+		   		  confirmButtonText: '등록',
+		   		  cancelButtonText:'취소'
+		   		}).then(function () {	
+		   			
+		   			swal({
+						  title:"등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요."
+				   		  	
+				   		}).then(function () {	
+				   		 
+				   			button_event();
+				   			
+				   		})
+		   					   			
+		   		})
+			
+		   		//window.setTimeout("fncAddPlace()", 10000);	
+			
+		}
+		
+	function button_event(){ 
+		for(var ii = 0; ii < stayDate; ii++){
 			
 			var addId = '#dd' ;
 			
-			addId = eval('addId+(h+1)');
+			addId = eval('addId+(ii+1)');
 			
+<<<<<<< HEAD
+			/* if(false){
+				$(addId).children().find($("#f"+(i)+" input[name='placeX']")).val();== ' '
+				return;
+			}else{ */
+				
+			for(var i = 0; i < $(addId).children().length-1; i++){
+=======
 		for(var i = 0; i < tempCount; i++){
+>>>>>>> refs/remotes/origin/master
 			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
@@ -313,15 +376,16 @@ for(var h = 0; h < stayDate; h++){
 		        	}
 		        }); 
 	        	
-	        }//end of for()
+	        }//end of 안for()
 	        
-		}//end of for()
-	        
+		//}//end of else()
+	}//end of 밖for()
 			fncAddPlace();
-		}
+		}// end of movePlace()
 
 		function fncAddPlace() {
 			
+			window.close();
 		}
 	
 	
@@ -543,9 +607,9 @@ for(var h = 0; h < stayDate; h++){
     		start = document.getElementById('temp').value;
     		
     		var newUpButton = "<button>"+start+"</button>"
-    		var newLeftButton = "<button style='WIDTH: 170pt;'>"+start+"</button>"
+    		var newLeftButton = "<button style='WIDTH: 170pt; color: #fff; height: 25pt; margin-top: 8pt;margin-left:5px;'>"+start+"</button>"
     		
-    		var newLeftDiv = "<form id = 'f0' class = 'f0' name='ddform' value='yyyyyyyy' style='display:none'>"
+    		var newLeftDiv = "<form id = 'f0' class = 'f0' name='ddform' style='display:none'>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo'/>"
@@ -601,14 +665,14 @@ for(var h = 0; h < stayDate; h++){
     		$("#temp").val(null);
     		
     		var newUpButton = "<button  onclick=\"movePlace('"+end+"')\">"+end+"</button>"    			    		
-    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' value='xxxxx'>"		    //여긴 하나 있어서 1부터			
+    		var newLeftButton = "<form id = 'f"+(tempNum-1)+"' class = 'f"+(tempNum-1)+"' name='ddform' >"					
     			+"<input type='hidden' id='startPlace' name='startPlace' class='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
     			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo' placeholder='방문지에서의 계획등 간단한 메모를 입력하세요.'/>"
     			+"<input type='text' id='distance' name='distance'/>"
     			+"<input type='text' id='duration' name='duration'/>"
-    			+"<button type='button' id = 'btn-route'>교통정보 보기</button>"
+    			+"<button type='button' id = 'btn-route' >교통정보 보기</button>"
     			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo' value='${sessionScope.city.cityNo}'/>"
     			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='${sessionScope.city.travelNo}'/>"
     			+"<input type='hidden' id='placeId' name='placeId' class='placeId'/>"
@@ -617,10 +681,9 @@ for(var h = 0; h < stayDate; h++){
     			+"<input type='hidden' id='placeXY' name='placeXY' class='placeXY'/>"
     			+"<input type='hidden' id='prePlaceNo' name='prePlaceNo' class='prePlaceNo'/>"
     			+"<input type='hidden' id='nextPlaceNo' name='nextPlaceNo' class='nextPlaceNo'/>"
-    			+"<input type='hidden' id='tempCount' name='tempCount' class='tempCount'/>"
-    			+"<button  style='WIDTH: 170pt;' onclick=\"movePlace('"+end+"')\">"+end+"</button>"
-    			+"</form>"
-    			+"<br></br>";
+    			+"</br>"
+    			+"<button  type='button' style='margin-left:5px; color: #fff; WIDTH: 170pt; height: 25pt; margin-top: 3pt;' onclick=\"movePlace('"+end+"')\">"+end+"</button>";
+    			+"</form>";
 			$("#btn").append(newUpButton);
 			if(tempNum>1){
 	        		$(appendDiv).append(newLeftButton);
@@ -635,7 +698,10 @@ for(var h = 0; h < stayDate; h++){
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
+<<<<<<< HEAD
+=======
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
+>>>>>>> refs/remotes/origin/master
    			Javascript:calcRoute();
 
     		start = end;
