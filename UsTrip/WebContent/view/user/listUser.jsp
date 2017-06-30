@@ -7,7 +7,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	
 	<!-- Bootstrap Core CSS -->
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+     
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
     
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,13 +34,18 @@
 			 $( "button.btn.btn-default" ).on("click" , function() {
 				fncGetAllList(1);
 			});
+			 
+			 $(  "td:nth-child(3)" ).on("click" , function() {
+				 var userId =  $(this).text().trim();
+				/*  alert(":: " + userId); */
+				 self.location="/user/getUser?userId="+userId;
+			 });
 		 });
-		
 	</script>
 	
 </head>
 <body>
-
+<jsp:include page="/common/toolbar.jsp"/>
 <div class="container">
 	<div class="page-header text-info">
        <h3>회원목록조회</h3>
@@ -85,7 +98,8 @@
 			<tr>
 			  <td align="center"><input type="checkbox" name="chbox" value="${user.userId}" /></td>
 			  <td align="left">${ i }</td>
-			  <td align="left" >${user.userId}</td>
+			  <td align="left">${user.userId}</td>
+					<input type="hidden" class="userId" value="${user.userId}"/>
 			  <td align="left">${user.nickName}</td>
 			  <c:set var="gender" value="${user.gender}"/>
 				  <c:if test="${user.gender== 'm'}">
@@ -104,7 +118,7 @@
 			  <td align="left">
 <%-- 			  	
 				<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
-			  	<input type="hidden" value="${user.userId}">
+			  	
 --%>
 			  </td>
 			</tr>

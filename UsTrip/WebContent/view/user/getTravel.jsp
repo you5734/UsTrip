@@ -8,46 +8,49 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
-	<!-- Bootstrap Core CSS -->
+	<!-- <!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" href="/css/main.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
      
-  	<script src="/js/jquery.min.js"></script> 
+ 	<script src="/js/jquery.min.js"></script> 
 	<script src="/js/jquery.scrolly.min.js"></script>
 	<script src="/js/skel.min.js"></script>
 	<script src="/js/util.js"></script>
 	<script src="/js/main.js"></script>
 	
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
-  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+<!-- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<!-- ////////////////////////////////////// 가계부 ////////////////////////////////////////////////// -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
     <script src="/js/canvasjs.min.js"></script>
     <script src="/js/graph.js"></script>
     
     <link rel="stylesheet" href="/css/default.css">
-<!-- 	<link rel="stylesheet" href="/css/default.date.css"> -->
+	<link rel="stylesheet" href="/css/default.date.css">
 	<script src="/js/picker.js"></script>
 	<script src="/js/picker.date.js"></script>
 	<script src="/js/legacy.js"></script>
 	<script src="/js/dateFormat.js"></script>
 	
-									<link href='/css/fullcalendar.min.css' rel='stylesheet' />
-								<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<link href='/css/fullcalendar.min.css' rel='stylesheet' />
+	<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 	
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
 
-	<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+<!-- 	Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> 
+ 	
+	
 
 	<script type="text/javascript">	
 	    $(function() {	
@@ -67,6 +70,7 @@
 	    		}
 	    	}
 	    */
+	
 	    $(function() {	
 			$('#travLike').on('click' , function() {
 				
@@ -376,17 +380,7 @@ border-bottom: 1px solid #f7f7f7;
 						        </p> 
 						      </form>
 							</div>
-						
-<%-- 							<div class="container">
-								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
-								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
-								
-								<ul class="nav nav-tabs">
-									 <li class="active"><a data-toggle="tab" href="#plan">플랜</a></li>
-								    <li><a data-toggle="tab" href="#calendarPlan">달력</a></li>
-								    <li><a data-toggle="tab" href="#blog">블로그</a></li>
-								    <li><a data-toggle="tab" href="#asset">가계부</a></li>
-								</ul> --%>
+
 							<div class="tab_container">
 								<input type="hidden" class="travelNo" id="travNo" value="${travel.travelNo}">
 								<input type="hidden" class="isBlogStart" id="isBlogStart" value="${travel.isBlogStart}">
@@ -429,41 +423,7 @@ border-bottom: 1px solid #f7f7f7;
 										<div id="listasset" ></div>
 									 <jsp:include page="/view/asset/updateAssetView.jsp" /> 
 								</section>
-								
-								<!-- 	//////////////////////	  -->
-<%-- 							 <div class="tab-content">
-							    
-							    <div id="plan" class="tab-pane fade in active">
-							      <jsp:include page="/view/blog/mapFrame.jsp"/> 
-							    </div>
-							    
-							    <div id="calendarPlan" class="tab-pane fade">
-							      <div id="calendar"></div>
-
-							    </div>
-							    
-							    <div id="blog" class="tab-pane fade">
-							       <c:if test="${travel.isBlogStart==1 }">
-										<jsp:include page="/view/blog/listBlog.jsp"/> 
-									</c:if>
-									<c:if test="${travel.isBlogStart==0 }">
-										<jsp:include page="/view/blog/addBlog.jsp"/> 
-									</c:if>			
-							    </div>
-							    
-							    <div id="asset" class="tab-pane fade">
-							      	<h3><strong>여행 사용 총금액 :: ${sum} 원</strong></h3>
-										<ul class="nav nav-tabs">
-											<li class="active"><a data-toggle="tab" href="#home" id="bar">막대 그래프</a></li>
-											<li><a data-toggle="tab" href="#menu1" id="pie">원형 그래프</a></li>   
-										</ul>
-										<div id="listasset" ></div>
-									 <jsp:include page="/view/asset/updateAssetView.jsp" /> 	
-							    </div>
-							  </div> --%>
-							  <!-- 	//////////////////////	  -->
 							</div>	
-	
   					</div>
 				</div>
 			</div>
@@ -472,6 +432,6 @@ border-bottom: 1px solid #f7f7f7;
 </body>
 </html> 
 
-								<script src='/js/moment.min.js'></script> 
-								<script src='/js/fullcalendar.min.js'></script>
-								
+<script src='/js/moment.min.js'></script> 
+<script src='/js/fullcalendar.min.js'></script>
+

@@ -22,7 +22,7 @@
 		VALUES ( 	seq_follow_no.nextval, 
 					 	#{folUserId}, 
 					 	#{targetUserId},
-					 	#{isFollowing}
+					 	0
 				)		 	
 	</insert>
 	

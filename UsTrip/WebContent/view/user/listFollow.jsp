@@ -165,12 +165,10 @@
 									style="width: 180px; float: left; height: 250px;">
 									<br>
 									<br>
-									<br> <img
-										src="/images/upload/profile/${follow.profileImage}"
-										class="img-responsive" alt=""> <span>${follow.nickName }
-										<%-- //	${follow.folUserId } --%>
-									</span><br> <input type="hidden" class="followTarget"
-										value="${follow.targetUserId }">
+									<br> 
+									<img src="/images/upload/profile/${follow.profileImage}"	class="img-responsive" alt="" value="${follow.nickName }"> 
+										<span >${follow.nickName }</span><br> 
+										<input type="hidden" class="followTarget" value="${follow.targetUserId }">
 									<c:choose>
 										<c:when test="${ empty follow.nickName } ">
 											<input type="button" class="btn btn-sm" id="follow"
