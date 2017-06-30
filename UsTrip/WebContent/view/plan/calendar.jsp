@@ -60,7 +60,7 @@
 							 });
 							}
 						}
-						defaultDate = new Date(J.listCity[0].stayStart).format("yyyy-MM-dd");
+						dDate = new Date(J.listCity[0].stayStart).format("yyyy-MM-dd");
 						setCalendar(dDate,calendarEvent);
 					}
 				});			

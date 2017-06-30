@@ -103,13 +103,11 @@
 
 	<div class="row" >
 		<div class="col-md-2" style="margin-left:60px; margin-top:34px;">        
-			<div class="list-group">
-				<a class="list-group-item list-group-item-info" id="men" style="font-size:20px;"><i class="glyphicon glyphicon-star"></i> 멘토링</a>
-				<a class="list-group-item list-group-item-warning" id="part" style="font-size:20px;"><i class="glyphicon glyphicon-heart"></i> 동행구하기</a>
+			<h2 id="men"> 멘토링</h2>
+				<h2 id="part" > 동행구하기</h2>
 				<c:if test="${ !empty user }">
-				<a class="list-group-item list-group-item-success" id="write" style="font-size:20px;"><i class="glyphicon glyphicon-list-alt"></i> 게시글작성</a> 
-				</c:if>
-			</div>        
+				<h2 id="write">게시글작성</h2> 
+				</c:if>      
 		</div>
 		<!-- <div class="col-md-1" style="margin-left:10px; margin-top:34px;"></div> -->
     <div class="col-md-8" style="margin-left:10px; margin-top:34px;">

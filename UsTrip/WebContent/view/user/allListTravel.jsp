@@ -39,7 +39,6 @@
 	</script>
 	
 	<style>
-	
 		html, body {
 			width: 100%;
 			height:100%;
@@ -173,15 +172,14 @@
 										<div class="col-ms-10 col-md-4">
 									        <div class="project">
 									            <figure class="img-responsive">
-									                <img src="/images/upload/blog/${travel.thumbNail }">
+									                <img src="/images/upload/blog/${travel.thumbNail}">
 									                <figcaption>
 									                	<%-- <input type="hidden" class="travelNo" id="travelNo" value="${travel.travelNo}"> --%>
 									                    <span class="project-details">${travel.travTitle }</span>
 									                    <span class="project-price"><strong>${travel.nickName }</strong></span>
 									                    <span class="project-creator">
 							        					<fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
-							         					출발일 ${newFormattedDateString} | 여행일수 ${travel.totalDate }일</span>
-									                    
+							         					출발일 ${newFormattedDateString} | 여행일수 ${travel.totalDate }일</span>									                    
 									                </figcaption>
 									                <span class="actions">
 									                	<button class="btn btn-warning bnt-action" type="button" >상세보기</button>

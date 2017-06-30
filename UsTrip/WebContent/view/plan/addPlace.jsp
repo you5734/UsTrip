@@ -306,7 +306,8 @@
 		function movePlace(){
 			
 			swal({
-				title:"정말 등록하시겠습니까?",
+			      title:"정말 등록하시겠습니까?",
+				  text:"등록 버튼을 누르시면 전체루트 화면으로 이동합니다.",
 		   		  type: 'question',
 		   		  showCancelButton: true,
 		   		  confirmButtonColor: '#3085d6',
@@ -316,8 +317,7 @@
 		   		}).then(function () {	
 		   			
 		   			swal({
-						  title:"등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요."
-				   		  	
+						  title:"등록되었습니다. \n다음 도시의 방문지를 선택하세요."
 				   		}).then(function () {	
 				   		 
 				   			button_event();
@@ -337,16 +337,12 @@
 			
 			addId = eval('addId+(ii+1)');
 			
-<<<<<<< HEAD
 			/* if(false){
 				$(addId).children().find($("#f"+(i)+" input[name='placeX']")).val();== ' '
 				return;
 			}else{ */
 				
 			for(var i = 0; i < $(addId).children().length-1; i++){
-=======
-		for(var i = 0; i < tempCount; i++){
->>>>>>> refs/remotes/origin/master
 			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
@@ -659,9 +655,7 @@
     	}
     		tempNum++;	
     	
-    		if( tempCount < tempNum ){
     		tempCount = tempNum;
-    		}
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);
@@ -700,10 +694,6 @@
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
-<<<<<<< HEAD
-=======
-     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
->>>>>>> refs/remotes/origin/master
    			Javascript:calcRoute();
 
     		start = end;

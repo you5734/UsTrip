@@ -120,5 +120,11 @@ public class PlanServiceImpl implements PlanService{
 		return planDAO.blogPlace(cityNo);
 	}
 
+	@Override
+	public void updateThumbnail(Travel travel) throws Exception {
+		// TODO Auto-generated method stub
+		planDAO.updateThumbnail(travel);
+	}
+
 	
 }

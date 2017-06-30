@@ -13,6 +13,7 @@
   		<result property="regDate" 				column="REG_DATE" 			jdbcType="DATE"/>
   		<result property="nickName" 			column="NICKNAME" 			jdbcType="VARCHAR"/>
   		<result property="commentContent" 	column="COMMENT_CONTENT" 	jdbcType="VARCHAR"/>
+  		<result property="profile" 	column="PROFILE_IMG" 	jdbcType="VARCHAR"/>
   	</resultMap>
   	
   	<insert 	id="addComment"	 parameterType="comment" >
@@ -36,26 +37,27 @@
 	 </delete>
 	 
 	 <select  id="listComment"  parameterType="hashmap"	resultMap="commentSelectMap">
-	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT
-	 FROM board_comment
-	 WHERE BOARD_NO IN
+	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT, U.PROFILE_IMG
+	 FROM board_comment, (SELECT PROFILE_IMG,NICKNAME N FROM USERS ) U
+	 WHERE BOARD_NO IN 
 	 <foreach collection="boards" item="boardNos" open="(" close=")" separator=",">
 	 #{boardNos.value}
 	 </foreach>
+	 AND NICKNAME(+) = U.N
 	 ORDER BY REG_DATE DESC
 	 </select>
 	 
 	 <select  id="getComment"  parameterType="comment"	resultMap="commentSelectMap">
-	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT
-	 FROM board_comment
-	 WHERE BOARD_NO = #{boardNo}
+	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT, U.PROFILE_IMG
+	 FROM board_comment , (SELECT PROFILE_IMG,NICKNAME N FROM USERS ) U
+	 WHERE BOARD_NO = #{boardNo} AND NICKNAME(+) = U.N
 	 ORDER BY REG_DATE ASC
 	 </select>
 	 
 	 <select  id="oneComment"  parameterType="comment"	resultMap="commentSelectMap">
-	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT
-	 FROM board_comment
-	 WHERE COMMENT_NO = #{commentNo}
+	 SELECT COMMENT_NO, BOARD_NO, PRIVATE_COMMENT, REG_DATE, NICKNAME, COMMENT_CONTENT, U.PROFILE_IMG
+	 FROM board_comment, (SELECT PROFILE_IMG,NICKNAME N FROM USERS ) U
+	 WHERE COMMENT_NO = #{commentNo} AND NICKNAME(+) = U.N
 	 </select>
 
 </mapper>

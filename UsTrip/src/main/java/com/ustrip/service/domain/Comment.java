@@ -10,6 +10,7 @@ public class Comment {
 	private int privateComment;
 	private Date regDate;
 	private String commentContent;
+	private String profile;
 	
 	public Comment(){}
 
@@ -61,6 +62,14 @@ public class Comment {
 		this.commentContent = commentContent;
 	}
 	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentVo = [ commentNo : "+commentNo+", boardNo : "+boardNo+", nickName : "+nickName+", privateComment : "+privateComment+", regDate : "+regDate+", commentContent : "+commentContent+" ]";

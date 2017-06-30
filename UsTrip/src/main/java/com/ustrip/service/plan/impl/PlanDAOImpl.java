@@ -133,5 +133,10 @@ public Travel getTravel(Travel travel) throws Exception {
 		
 		return sqlSession.selectOne("TravelMapper.getTravelTravel",travel.getTravTitle());
 	}
+@Override
+public void updateThumbnail(Travel travel) throws Exception {
+	// TODO Auto-generated method stub
+	sqlSession.update("TravelMapper.thumbnailUpdate",travel);
+}
 
 }

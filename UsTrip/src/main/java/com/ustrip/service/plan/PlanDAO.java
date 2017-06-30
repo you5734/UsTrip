@@ -37,4 +37,6 @@ public interface PlanDAO {
 	
 	public List<City> blogCity(int travNo) throws Exception;
 	public List<Place> blogPlace(int cityNo) throws Exception;	
+	
+	public void updateThumbnail(Travel travel) throws Exception;
 }

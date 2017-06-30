@@ -136,6 +136,7 @@
 		    <label for="memberCount" class="col-xs-4 col-md-2">인원수</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수">
+		      <input type="hidden" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value="1">
 		    </div>
 		  </div>
 		  		  
@@ -153,12 +154,6 @@
 		    </div>
 		  </div>
 	
-		  <div class="form-group">
-		    <label for="totalDate" class="col-xs-4 col-md-2">총 숙박일</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일">
-		    </div>
-		  </div>
 			<!-- 
 		  <div class="form-group">
 		    <label for="isBlogStart" class="col-xs-4 col-md-2">블로그 시작 여부</label>

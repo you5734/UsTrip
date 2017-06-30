@@ -45,17 +45,17 @@ public class boardServiceTest {
 	@Qualifier("boardServiceImpl")
 	private BoardService boardService;
 	
-	//@Test
+	@Test
 	public void testfindpur() throws Exception {
 		
 		Board board = new Board();
 		
-		board.setTravNo(4);
-		board.setNickName("user001");;
-		board.setHits(0);;
+		board.setTravNo(19);
+		board.setNickName("peterchoi");
+		board.setHits(0);
 		board.setBoardContent("가나다라마바사아어ㅐ대쟈더랮댜ㅓ래");
-		board.setBoardTitle("일본 또 가고싶어요!");
-		board.setBoardCategory(1);
+		board.setBoardTitle("맛집 여행을 계획중입니다. ");
+		board.setBoardCategory(0);
 		
 		int check = boardService.addBoard(board);
 
@@ -63,7 +63,7 @@ public class boardServiceTest {
 				
 	}
 	
-	@Test
+	//@Test
 	public void testupdate() throws Exception {
 		
 		Board board = new Board();

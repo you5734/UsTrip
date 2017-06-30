@@ -199,7 +199,7 @@
 		});
 		
 		$('body').on('click' , '#confirm', function() {			
-			self.location="/blog/listBlog?travNo="+travNo
+			self.location="/user/getTravel?travNo="+travNo
 		});
 		
 		$('body').on('click' , '#cancle', function() {			
@@ -421,12 +421,12 @@
 					    <br/>
 		                <hr/>
 		                <div class="row">
-		                <div class="col-sm-10"></div>
-			         	<div class="col-sm-2">
-			         			<div class="btn-group" data-toggle="buttons">			         	
-			            		<input type="button" class="btn btn-info" id="confirm" value="되돌아가기">
-			                	<input type="button" class="btn btn-info" id="cancel" value="취소">		
-			                	</div>	            	
+		                <div class="col-md-6"></div>
+			         	<div class="col-md-6">
+			         					         	
+			            		<input type="button"  id="confirm" value="되돌아가기">
+			                	<input type="button"  id="cancel" value="취소">		
+			                	          	
 			         	</div>	
 			         	</div>        
 	</body>

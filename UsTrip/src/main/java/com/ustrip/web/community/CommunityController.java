@@ -216,6 +216,10 @@ public class CommunityController {
 		boardService.updateBoard(getBoard);
 		
 		List<City> listCity = planService.blogCity(getBoard.getTravNo());
+		for(City c : listCity){
+			String[] replaceCity = c.getCity().split("_");
+			c.setCity(replaceCity[0]);
+		}
 		Travel travel = planService.getTravel(getBoard.getTravNo());
 		String[] splitTitle = travel.getTravTitle().split("_");
 		travel.setTravTitle(splitTitle[0]);

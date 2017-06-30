@@ -19,6 +19,12 @@
 	<script src="/js/util.js"></script>
 	<script src="/js/main.js"></script>
 	
+	<link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/css/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="/js/sortable.js" type="text/javascript"></script>
+    <script src="/js/fileinput.js" type="text/javascript"></script>
+    <script src="/js/theme.js" type="text/javascript"></script>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
@@ -33,10 +39,10 @@
     <script src="/js/graph.js"></script>
     
     <link rel="stylesheet" href="/css/default.css">
-<!-- 	<link rel="stylesheet" href="/css/default.date.css"> -->
-	<script src="/js/picker.js"></script>
+	<link rel="stylesheet" href="/css/default.date.css">
+	<!-- <script src="/js/picker.js"></script>
 	<script src="/js/picker.date.js"></script>
-	<script src="/js/legacy.js"></script>
+	<script src="/js/legacy.js"></script> -->
 	<script src="/js/dateFormat.js"></script>
 	
 									<link href='/css/fullcalendar.min.css' rel='stylesheet' />
@@ -67,6 +73,14 @@
 	    	}
 	    */
 	    $(function() {	
+	    	
+	    	 $('#tab4').on('click',function(){
+	    	
+	    		var condi =  $("#travNo").val(); 
+		    	newGraph(condi);
+	    	
+	    		}) 
+	    		    	
 			$('#travLike').on('click' , function() {
 				
 				if($(this).val()=='좋아요취소'){
@@ -109,6 +123,25 @@
 	    });
 
 $(function() {	
+	
+	$('#thumbNailFile').change(function() {
+		var queryString = $("#thumbNailFile").val() ;
+		var fileForm = $('#thumbForm')[0]
+		 var formData = new FormData(fileForm);		
+			formData.append("thumbNailFile", queryString);
+			 
+		$.ajax({
+			    url: "/user/addJSONTumbnail/"+$('#travNo').val(),
+			    data: formData,
+			    type: 'POST',
+			    contentType: false, 
+			    processData: false
+			}); 
+		
+		window.setTimeout(function(){self.location="/blog/addBlog?travelNo="+$('#travNo').val();}, 2000);	 
+		
+	 });
+
 	    function setCalendar(date,data){
 			//alert(JSON.stringify(data));
 			$('#calendar').fullCalendar({
@@ -162,6 +195,11 @@ $(function() {
 	</script>
 
 	<style>
+	
+	strong{
+	color:white;
+	}
+	
 		html, body {
 			width: 100%;
 			height:100%;
@@ -347,25 +385,38 @@ border-bottom: 1px solid #f7f7f7;
 	        	<div class="profile-content">
 				<!-- 	 <div class="row"> -->
 					<div>
-							<div class="well">
-						        <p>
+							<div class="well" style="margin-top:50px; color:white;
+			 background-image:url('/images/upload/blog/${travel.thumbNail}');
+			 background-size: cover;
+			 background-position: center center ;
+			 opacity: 0.8;"><div class="row"><div class="col-md-9">
+						      						        
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
+						        	</div>
 						        		<c:if test="${ not empty sessionScope.user.userId }">
+						        		<div class="col-md-3">						        		
 											<c:if test='${isLike == 1}'>
-												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요취소" value="${isLike }">
+												<input type="button" id="travLike" value="좋아요취소" value="${isLike }" style="width:146px;">
 											</c:if>
 											<c:if test='${isLike == 0}'>
-												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
+												<input type="button" class="btn btn-warning" id="travLike" value="좋아요" value="${isLike }" style="width:146px;">
 											</c:if> 
-										</c:if>
-						        	</p>
+											<form id="thumbForm">
+											<div class="btn btn-info btn-file" >											
+											    여행 대표사진 설정<input class="inputfile inputfile-1"  type="file" accept="image/png, image/jpeg, image/gif" id="thumbNailFile" name="thumbNailFile" />											   
+											</div>	
+											 </form>	
+											 </div>
+										</c:if>										
+						        	
+						        	</div>
 						          <p>
-						           <strong>여행테마</strong> ${travel.travTheme } | <strong>인원수</strong> ${travel.memberCount }
+						           <strong>여행테마 :: </strong> ${travel.travTheme } | <strong>인원수 :: </strong> ${travel.memberCount }
 						           </p>
 								<p>
-							        <strong>출발일</strong>
+							        <strong>출발일 :: </strong>
 							        <fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
-							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
+							           ${newFormattedDateString} | <strong>숙박일 :: </strong> ${travel.totalDate }일
 						        </p> 
 							</div>
 						

@@ -21,8 +21,8 @@
   	<insert 	id="addBoard"	 parameterType="board" >
   	  INSERT 
       INTO board
-      VALUES(SEQ_BOARD_NO.nextval, #{nickName}, #{travNo}, #{hits}, #{boardContent}, #{boardTitle}, SYSDATE, #{boardCategory})
-  	 </insert>
+      VALUES(SEQ_BOARD_NO.nextval, #{nickName}, #{travNo}, #{hits}, #{boardContent}, #{boardTitle}, SYSDATE, #{boardCategory},0)
+      </insert>
   	 
   	 <update	id="updateBoard"	parameterType="board" >
 	   	UPDATE board

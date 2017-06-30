@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 <!-- 	<title>여행가계부</title>	 -->
-		
+	<!-- 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -35,8 +35,8 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
 
-<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+Include a polyfill for ES6 Promises (optional) for IE11 and Android browser
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script> -->
       
 	<style>
  	 	body {padding-top : 50px;}    
@@ -53,7 +53,7 @@
 	
 	
 		    $(function() {	
-		    	 var condi = 500; /* travNo를 넣어준다. */
+		    	 var condi = 4; /* travNo를 넣어준다. */
 		    	newGraph(condi);
 		    		    	 
 		    	 });
