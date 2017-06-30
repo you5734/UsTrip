@@ -337,16 +337,12 @@
 			
 			addId = eval('addId+(ii+1)');
 			
-<<<<<<< HEAD
 			/* if(false){
 				$(addId).children().find($("#f"+(i)+" input[name='placeX']")).val();== ' '
 				return;
 			}else{ */
 				
 			for(var i = 0; i < $(addId).children().length-1; i++){
-=======
-		for(var i = 0; i < tempCount; i++){
->>>>>>> refs/remotes/origin/master
 			
 	        	eval("var placeObj"+i+"= new Object()");
 		        
@@ -669,9 +665,9 @@
     			+"<input type='hidden' id='startPlace' name='startPlace' class='startPlace'/>"
     			+"<input type='hidden' id='visitDate' name='visitDate'/>"
     			+"<input type='hidden' id='place' name='place' class='place'/>"
-    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='resize:none;' type='text' id='memo' name='memo' class='memo' placeholder='방문지에서의 계획등 간단한 메모를 입력하세요.'/>"
-    			+"<input type='text' id='distance' name='distance'/>"
-    			+"<input type='text' id='duration' name='duration'/>"
+    			+"<textarea onKeyup='len_chk()' rows='3.4' cols='29' style='background-color: #ffffff !important; resize:none;' type='text' id='memo' name='memo' class='memo' placeholder='방문지에서의 계획등 간단한 메모를 입력하세요.'/>"
+    			+"<input type='text' id='distance' name='distance'style='background-color: #ffffff !important;'/>"
+    			+"<input type='text' id='duration' name='duration'style='background-color: #ffffff !important;'/>"
     			+"<button type='button' id = 'btn-route' >교통정보 보기</button>"
     			+"<input type='hidden' id='cityNo' name='cityNo' class='cityNo' value='${sessionScope.city.cityNo}'/>"
     			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='${sessionScope.city.travelNo}'/>"
@@ -698,10 +694,6 @@
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='place']")).val(document.querySelector('#end').value);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='prePlaceNo']")).val(tempNum-1);
      		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='nextPlaceNo']")).val(tempNum+1);
-<<<<<<< HEAD
-=======
-     		$(appendDiv).find( $("#f"+(tempNum-1)+" input[name='tempCount']")).val(tempCount);
->>>>>>> refs/remotes/origin/master
    			Javascript:calcRoute();
 
     		start = end;
@@ -734,9 +726,12 @@
 
           $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='placeX']")).val(placeX);
           $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeY']")).val(placeY);
-          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeId']")).val(response.geocoded_waypoints[1].place_id);
-          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='duration']")).val(JSON.stringify(response.routes[0].legs[0].duration.text));
-          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='distance']")).val(JSON.stringify(response.routes[0].legs[0].distance.text));  
+          $(appendDiv).find(  $("#f"+(tempNum-1)+" input[name='placeId']"))
+          .val(response.geocoded_waypoints[1].place_id);
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='duration']"))
+          .val(JSON.stringify(response.routes[0].legs[0].duration.text).replace("\"",'').replace("\"",''));
+          $(appendDiv).find( $("#f"+(tempNum-1)+" input[name='distance']"))
+          .val(JSON.stringify(response.routes[0].legs[0].distance.text).replace("\"",'').replace("\"",''));  
                    
           var placeXY = new Object();
           
@@ -1000,9 +995,8 @@ function clearResults() {
 			
 		</div>		
 		<div id="formTag" class="formC">
- 
+ 			<h3  style="text-align: center; "><strong style=" color:#f6755e;">장소 설정</strong></h3>
 		<div id="btnClass" class="btnClass">
-		  
 		</div> 
 		 
 		<div id="cityOOO" class="cityOOO">

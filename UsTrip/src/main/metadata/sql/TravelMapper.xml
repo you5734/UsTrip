@@ -86,4 +86,11 @@
 	 	WHERE trav_no=#{travelNo}
 	 </update>
 	 
+	 <update id="addThumbNail" parameterType="travel" >
+	   	UPDATE travel
+	   	<set>
+			total_date = #{totalDate:NUMERIC}
+	   	</set>
+	   	WHERE trav_no = #{travelNo}
+	 </update>
 </mapper>

@@ -30,7 +30,7 @@
 
 	<style>
  		body {
-            padding-top : 70px;
+            padding-top:5%;
         }
      </style>
      
@@ -102,19 +102,17 @@
 <!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 
-	<div class="page-header text-info">
-       <h3>Travel테이블입력</h3>
-    </div>
-		
 		<!-- form Start /////////////////////////////////////-->
 		<!-- <form class="form-horizontal" name="detailForm"> -->
 		<form class="form-horizontal">
+		
+	<div class="page-header text-info">
+       <h3 "><strong style=" color:#f6755e;">여행 테마를 입력하세요.</strong></h3>
+    </div>
 			
 			<!-- 히든유저있던곳	 -->		
-		  <div class="form-group">
 		    <input type="hidden" id="userId" name="userId" value="${sessionScope.user.userId}"/>
-		  </div>			
-		
+			<input type="hidden" class="form-control" id="totalDate" name="totalDate" value="0"/>
 			
 		  
 		  <div class="form-group">
@@ -142,23 +140,17 @@
 		  <div class="form-group">
 		  	 <label for="travTheme" class="col-xs-4 col-md-2">여행테마</label>
 		    <div class="col-sm-4">
-		      <select name="travTheme" style="width: 85px; height: 28px" >
+		      <select name="travTheme" class="col-xs-4 col-md-2" style="width: 150px;" >
 				<option value="우정여행">우정여행</option>
 				<option value="커플여행">커플여행</option>
 				<option value="신혼여행">신혼여행</option>
 				<option value="가족여행">가족여행</option>
 				<option value="솔로여행">솔로여행</option>
 				<option value="배낭여행">배낭여행</option>
-			</select>
+			  </select>
 		    </div>
 		  </div>
 	
-		  <div class="form-group">
-		    <label for="totalDate" class="col-xs-4 col-md-2">총 숙박일</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일">
-		    </div>
-		  </div>
 			<!-- 
 		  <div class="form-group">
 		    <label for="isBlogStart" class="col-xs-4 col-md-2">블로그 시작 여부</label>

@@ -120,5 +120,8 @@ public class PlanServiceImpl implements PlanService{
 		return planDAO.blogPlace(cityNo);
 	}
 
+	public void addThumbNail(Travel travel) throws Exception{;//썸네일 등록
+		planDAO.addThumbNail(travel);
+	}
 	
 }

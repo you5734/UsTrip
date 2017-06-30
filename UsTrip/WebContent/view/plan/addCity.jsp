@@ -1,112 +1,115 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=euc-kr"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="EUC-KR">
-	<link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/jquery.scrolly.min.js"></script>
-	<script src="/js/skel.min.js"></script>
-	<script src="/js/util.js"></script>
-	<script src="/js/main.js"></script>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-	
-	<title>UsTrip</title>
-	<script src="/js/html2canvas.js"></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?
-    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
-<<<<<<< HEAD
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-=======
->>>>>>> refs/remotes/origin/master
-    
-	<style type="text/css">
-        html, body {
-			height: 100%;
-			margin: 0;
-			padding: 0;
-			overflow:hidden;        
-        }
- 
- 		#mainCity {
-			width: 17%;
-			height: 10.5%;
-			float:left;
- 		}
- 		
- 		#btn {
-			width: 83%;
-			height: 10.5%;
-			float:left;
-        }
- 
- 		#formTag {			
-			width:17%;
-			height:85%;
-			float:left;
-			overflow:auto;
-		}
-		
-		#map {
-			width:  83%;
-			height: 90%;
-        }
-        
-        #btn-route{
-        	color: #fff;
-			height: 30px;
-			width: 100px !important; 
-			margin-left:5px;
-			padding-left: 5px;
-			
-        }
-        #panel{
-			position: fixed;
-			margin-left: 25%;
-          	margin-top: 5.9%;
-			z-index: 5;
-			background-color: #fff;
-			padding: 3px;
-        }
-        
-         #insert{
-			position: fixed;
-			margin-top: -35px;
-			margin-left: 65%;
-			z-index: 5;
-			color: #fff;
-			padding:none;
-			border:none;
-        }
-        
-         #moveList{
-			position: fixed;
-			margin-top: 15px;
-			margin-left: 65%;
-			z-index: 5;
-			color: #fff;
-			padding:none;
-			border:none;
-        }
-        
-        
-        #duration, #distance{
-       		border:none;
-        }
-		
-    </style>
-	
+<meta charset="EUC-KR">
+<link rel="stylesheet" href="/css/main.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.scrolly.min.js"></script>
+<script src="/js/skel.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 
-    <script>
+<title>UsTrip</title>
+<script src="/js/html2canvas.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?
+    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+
+<style type="text/css">
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#mainCity {
+	width: 17%;
+	height: 10.5%;
+	float: left;
+}
+
+#btn {
+	width: 83%;
+	height: 10.5%;
+	float: left;
+}
+
+#formTag {
+	width: 17%;
+	height: 85%;
+	float: left;
+	overflow: auto;
+}
+
+#map {
+	width: 83%;
+	height: 90%;
+}
+
+#btn-route {
+	color: #fff;
+	height: 30px;
+	width: 100px !important;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+
+#panel {
+	position: fixed;
+	margin-left: 25%;
+	margin-top: 5.9%;
+	z-index: 5;
+	background-color: #fff;
+	padding: 3px;
+}
+
+#insert {
+	position: fixed;
+	margin-top: -35px;
+	margin-left: 65%;
+	z-index: 5;
+	color: #fff;
+	padding: none;
+	border: none;
+}
+
+#moveList {
+	width: 155px !important; 
+	position: fixed;
+	margin-top: 15px;
+	margin-left: 65%;
+	z-index: 5;
+	color: #fff;
+	padding: none;
+	border: none;
+}
+
+#duration, #distance, #stayDate {
+	border: none;
+}
+</style>
+
+
+<script>
 	var travelNo = "${sessionScope.travel.travelNo}";
 	var stayStart = String("${sessionScope.travel.startDate}").replace("KST", "GMT");
 	stayStart = new Date(stayStart.replace(/-/g, '/'));
@@ -127,6 +130,7 @@
 	var stayStart;
 	var stayDate;
 	var stayEnd;
+	var totalDate = 0;
 	
 	 $(function(){
 	  	  $(document).on("click","#btn-route",function(){
@@ -154,11 +158,17 @@
 	window.open(lct);
   	  });
     });
-    
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+    	
+
+		 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	function capture() {
- 
-            html2canvas($(".container"), {
+		
+		/* function capture() {
+		
+            html2canvas($("#map"), {
                   onrendered: function(canvas) {
                     //document.body.appendChild(canvas);
                     //alert(canvas.toDataURL("image/png"));
@@ -167,10 +177,10 @@
                     
                     $.ajax({
                         type:     "post",
-                        data : $("form").serialize(),
-                        url:     "/imageCreate.ajax",
+                        data : { imgSrc:$("#imgSrc").val()},
+                        url:     "/plan/imageCreate.ajax",
                         error: function(a, b, c){        
-                            alert("fail!!");
+                        //    alert("fail!!");
                         },
                         success: function (data) {
                             try{
@@ -182,7 +192,7 @@
                     });
                   }
             });
-        }
+        } */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     function moveList(){
@@ -191,7 +201,7 @@
 	}
     
     function movePlace(){
-    	
+    	  
     	swal({
 			title:"정말 등록하시겠습니까?",
 	   		  type: 'question',
@@ -201,9 +211,15 @@
 	   		  confirmButtonText: '등록',
 	   		  cancelButtonText:'취소'
 	   		}).then(function () {		   			
-	   			swal("등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요.");
 				button_event();
+	   			swal("등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요.")
+	   			.then(function () {	
+		   			//capture();//화면캡쳐
+		   			addTotalDate();
+		   		})
 	   		})
+	   	 		
+    	
     	
 	}
     
@@ -219,10 +235,9 @@
 	   		stayEnd = stayEnd.getFullYear()+"-"+(stayEnd.getMonth()*1+1)+"-"+stayEnd.getDate();
 			$("#f"+(i)+" input[name='stayEnd']").val(stayEnd)
 			
-			
 			stayStart = stayEnd;
 	    	
-       	eval("var cityObj"+i+"= new Object()");
+       		eval("var cityObj"+i+"= new Object()");
 				    
 			eval("cityObj"+i).city = $("#f"+(i)+" input[name='city']").val();
 			eval("cityObj"+i).travelNo = travelNo;
@@ -237,7 +252,7 @@
 			
 			var jsonCity = JSON.stringify(eval("cityObj"+i));
 				
-			
+			totalDate += $("#f"+(i)+" select[name='stayDate']").val()*1;
 		        	
 	        $.ajax({
 	        	type : "POST",
@@ -259,13 +274,23 @@
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /*   function getLocation(){
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(initialize);
-        }else{
-            alert("Not Support Browser");
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		 
+		function addTotalDate() {
+	
+         	var thumbObj = new Object();
+   			
+   			thumbObj.travelNo = travelNo;
+   			thumbObj.totalDate = String(totalDate);
+   			
+   			var jsonThumb = JSON.stringify(thumbObj);
+         	  
+             $.ajax({
+                 type: "post",
+                 data: {THUMB_NAIL:jsonThumb},
+                 url : "/plan/imageCreate.ajax"
+             });
         }
-    }         */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////// 
     function initialize(position) {
       directionsDisplay = new google.maps.DirectionsRenderer();
@@ -426,16 +451,24 @@
     		
     		$("#temp").val(null);
     		
-    		
-    		
-    		var newLeftButton = "<div id = 'f"+(tempNum-1)+"'>"    
-    			+"<input type='text' id='duration' name='duration'/>"
-				+"<input type='text' id='distance' name='distance'/>"
+    		var newLeftButton = "<div id = 'f"+(tempNum-1)+"' >"    
+				+"<input type='text' id='distance' name='distance'style='background-color: #ffffff !important;'/>"
+    			+"<input type='text' id='duration' name='duration' style='background-color: #ffffff !important; float:left;' />"
     			+"<input type='hidden' id='startCity' name='startCity' class='startCity'/>"
     			+"<input type='hidden' id='city' name='city' class='city'/>"
+    			+"<button type='button' id = 'btn-route' style=' margin-top: 2px;'>교통정보 보기</button>"
+    			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='"+travelNo+"'/>"
+    			+"<input type='hidden' id='cityId' name='cityId' class='cityId'/>"
+    			+"<input type='hidden' id='cityX' name='cityX' class='cityX'/>"
+    			+"<input type='hidden' id='cityY' name='cityY' class='cityY'/>"
+    			+"<input type='hidden' id='preCityNo' name='preCityNo'/>"
+    			+"<input type='hidden' id='nextCityNo' name='nextCityNo'/>"
+    			+"<input type='hidden' id='stayStart' name='stayStart' class='stayStart'/>"
+    			+"<input type='hidden' id='stayEnd' name='stayEnd' class='stayEnd'/>"
     			+"</br>"
-    			+"<label>숙박일</label>"
-    		    +"<select id='stayDate' name='stayDate' class='stayDate'>"
+    			+"<button type='button' id = 'btn-test' style='margin-left:5px; padding:0px 0px 0px 0px !important; float:left; color: #fff; WIDTH: 100pt; height: 25pt; margin-top: 3pt;'>"+end+"</button>"
+    			+"<label style='margin-top: 10px; margin-left: 5px; width: 50px; float:left; '>숙박일</label>"
+    		    +"<select id='stayDate' name='stayDate' class='stayDate' style='margin-top: 4px; background-color: #ffffff !important; width: 45px; float:left; cursor: Pointer;'>"
     		    +"<option>1</option>"
     		    +"<option selected='selected'>2</option>"
     		    +"<option>3</option>"
@@ -447,17 +480,6 @@
     		    +"<option>9</option>"
     		    +"<option>10</option>"
     		    +"</select>"
-    		    +"<button type='button' id = 'btn-route'>교통정보 보기</button>"
-    			+"<input type='hidden' id='travelNo' name='travelNo' class='travelNo' value='"+travelNo+"'/>"
-    			+"<input type='hidden' id='cityId' name='cityId' class='cityId'/>"
-    			+"<input type='hidden' id='cityX' name='cityX' class='cityX'/>"
-    			+"<input type='hidden' id='cityY' name='cityY' class='cityY'/>"
-    			+"<input type='hidden' id='preCityNo' name='preCityNo'/>"
-    			+"<input type='hidden' id='nextCityNo' name='nextCityNo'/>"
-    			+"<input type='hidden' id='stayStart' name='stayStart' class='stayStart'/>"
-    			+"<input type='hidden' id='stayEnd' name='stayEnd' class='stayEnd'/>"
-    			+"</br>"
-    			+"<button type='button' id = 'btn-test' style='color: #fff; WIDTH: 170pt; height: 25pt; margin-top: 3pt;margin-left:5px;'>"+end+"</button>"
     			+"</div>";
     			
     			
@@ -530,7 +552,7 @@
         cityXY.lng = cityY;
       
         var marrk = cityXY;
-        routes.push(cityXY);
+        routes.push(cityXY);duration
 		   
         $("#f"+(tempNum-1)+" input[name='duration']").val(JSON.stringify(
        		 response.routes[0].legs[0].duration.text).replace("\"",'').replace("\"",''));
@@ -573,34 +595,28 @@
 	google.maps.event.addDomListener(window, 'load', initialize);
 	
     </script>
-    
-    </head>
+
+</head>
 
 <body>
-<jsp:include page="/common/toolbar.jsp"/>
-		<div id="panel" >
-            <input type="hidden" id="start" value=""/>
-            <input type="hidden" id="end" value=""/>
-            <input type="text" id="temp" value="" onkeypress=
-	        "if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}"/>
-	        <button type='button' id = 'insert'  onclick= "{Javascript:movePlace();}">등록하기</button>
-            <button type='button' id = 'moveList'  onclick= "{Javascript:moveList();}">플랜리스트 이동</button>
-           
-            <input type="hidden" id="imgSrc" name="imgSrc" /> 
-        </div>
-        
-		<div id="mainCity">
-       		
-		</div>
-		
-		<div id="btn">
-			
-			
-			
-		</div>		
-		<form id="formTag">
-		</form>
- 		<div id="map"></div>
-		
+	<jsp:include page="/common/toolbar.jsp" />
+	<div id="panel" class="panel">
+		<input type="hidden" id="start" value="" /> <input type="hidden"
+			id="end" value="" /> <input type="text" id="temp" value=""
+			onkeypress="if(document.querySelector('#temp').value != ''&&event.keyCode==13) {Javascript:setTemp();}" />
+		<button type='button' id='insert' onclick="{Javascript:movePlace();}">등록하기</button>
+		<button type='button' id='moveList' onclick="{Javascript:moveList();}">플랜리스트 이동</button>
+
+	</div>
+
+	<div id="mainCity"></div>
+
+	<div id="btn"></div>
+	<form id="formTag">
+		<h3  style="text-align: center;"><strong style=" color:#f6755e;">도시 설정</strong></h3>
+	</form>
+	
+	<div id="map"></div>
+
 </body>
 </html>

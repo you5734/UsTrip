@@ -42,6 +42,7 @@
 									<link href='/css/fullcalendar.min.css' rel='stylesheet' />
 								<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 	
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
 
@@ -332,6 +333,10 @@ border-bottom: 1px solid #f7f7f7;
        height: auto;
        width:100%;
  }
+ 		.btn-primary.pull-right {
+			padding: 3px 8px;
+			height: 30px;
+		}
 
 
 	</style>
@@ -348,6 +353,7 @@ border-bottom: 1px solid #f7f7f7;
 				<!-- 	 <div class="row"> -->
 					<div>
 							<div class="well">
+							<form enctype="multipart/form-data" >
 						        <p>
 						        	<strong style="font-size: 28px;">${travel.travTitle }</strong>
 						        		<c:if test="${ not empty sessionScope.user.userId }">
@@ -358,6 +364,7 @@ border-bottom: 1px solid #f7f7f7;
 												<input type="button" class="fa fa-thumbs-up btn btn-sm" id="travLike" value="좋아요" value="${isLike }">
 											</c:if> 
 										</c:if>
+									
 						        	</p>
 						          <p>
 						           <strong>여행테마</strong> ${travel.travTheme } | <strong>인원수</strong> ${travel.memberCount }
@@ -367,6 +374,7 @@ border-bottom: 1px solid #f7f7f7;
 							        <fmt:formatDate var="newFormattedDateString" value="${travel.startDate}" pattern="yyyy-MM-dd"/>  
 							           ${newFormattedDateString} | <strong>숙박일</strong> ${travel.totalDate }일
 						        </p> 
+						      </form>
 							</div>
 						
 <%-- 							<div class="container">

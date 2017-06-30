@@ -129,9 +129,13 @@ public class PlanDAOImpl implements PlanDAO {
 		return sqlSession.selectList("PlaceMapper.listPlace",cityNo);
 	}
 	
-public Travel getTravel(Travel travel) throws Exception {
+	public Travel getTravel(Travel travel) throws Exception {
 		
 		return sqlSession.selectOne("TravelMapper.getTravelTravel",travel.getTravTitle());
 	}
+	
+	public void addThumbNail(Travel travel) throws Exception{//½æ³×ÀÏ µî·Ï
+		sqlSession.update("TravelMapper.addThumbNail",travel);
+}
 
 }

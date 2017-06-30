@@ -38,4 +38,6 @@ public interface PlanService {
 	
 	public List<City> blogCity(int travNo) throws Exception;
 	public List<Place> blogPlace(int cityNo) throws Exception;
+		
+	public void addThumbNail(Travel travel) throws Exception;//썸네일 등록
 }
