@@ -26,8 +26,6 @@
 
 		<script type="text/javascript">
 	
-		
-		
 		 $(function() {
 			 
 			 var sessionId = $("#sessionId").val();

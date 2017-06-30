@@ -25,9 +25,12 @@
 						 context : this,
 						 success : function(JSONData, status) {
 							/*  $("#follow").val("following").css('background-color', '#3897f0').css('color', '#fff'); */
-							/* location.reload(); */
-							$(this).val('following');
-							 
+							/* location.reload();  */
+							 $(this).text('following'); 
+							/*  <button type="button" class="btn btn-sm" id="profileFollowing" value="following">following</button>
+							 <div class="profile-userbuttons">
+							 $("button ")
+							 $button = $('<button id="profileFollowing"></button>').addClass('btn btn-sm').val('following'); */
 						 }
 					}		
 				)
@@ -201,12 +204,12 @@
 					<c:if test="${ not empty sessionScope.user.userId }">
 						<c:if test="${sessionScope.user.userId != user.userId }">  
 							 <c:choose >
-								 <c:when test="${ empty follow.targetUserId }">
-									<button type="button" class="btn btn-sm" id="profileFollow" value="follow">Follow</button>
+								 <c:when test="${ empty follow.folUserId }">
+									<button type="button" class="btn btn-sm" id="profileFollow" value="follow">follow</button>
 									<button type="button" class="btn btn-sm" id="sendMsg" >쪽지보내기</button>
 								</c:when>
-								<c:otherwise >
-									<button type="button" class="btn btn-sm" id="profileFollowing" value="following">Following</button>
+								<c:otherwise>
+									<button type="button" class="btn btn-sm" id="profileFollowing" value="following">following</button>
 									<button type="button" class="btn btn-sm" id="sendMsg" >쪽지보내기</button>
 								</c:otherwise>
 							</c:choose>

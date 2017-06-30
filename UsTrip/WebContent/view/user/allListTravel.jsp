@@ -31,7 +31,7 @@
 				var travNo = $(this).next().val();
 				var userId = $(this).next().next().val();
 					console.log("travNo :: " + travNo);
-					/* alert("userId " + userId	); */
+				 /* alert("userId " + userId	); */
 				/* self.location="/user/getTravel?travelNo="+travelNo; */
 				self.location="/user/getTravel?travNo="+travNo+"&userId="+userId;
 			});

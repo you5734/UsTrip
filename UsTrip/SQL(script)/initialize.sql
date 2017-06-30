@@ -1,4 +1,4 @@
-////////////////////// Å×ÀÌºí »ý¼º //////////////////////////////////////////
+////////////////////// createTable //////////////////////////////////////////
 CREATE TABLE users (
 	user_id			VARCHAR2(30)	NOT NULL,
 	nickname		VARCHAR2(20)	NOT NULL,
@@ -152,7 +152,7 @@ PRIMARY KEY(ASSET_NO)
 );
 
 
-////////////////////// sequence »ý¼º //////////////////////////////////////////
+////////////////////// sequence ï¿½ï¿½ï¿½ï¿½ //////////////////////////////////////////
 CREATE SEQUENCE seq_trav_no				INCREMENT BY 1 START WITH 1 maxvalue 10000;
 CREATE SEQUENCE seq_city_no 				INCREMENT BY 1 START WITH 10001 maxvalue 20000;
 CREATE SEQUENCE seq_place_no 				INCREMENT BY 1 START WITH 20001 maxvalue 30000;
@@ -167,7 +167,7 @@ CREATE SEQUENCE seq_follow_no 			INCREMENT BY 1 START WITH 90001 maxvalue 95000;
 CREATE SEQUENCE seq_tag_no 				INCREMENT BY 1 START WITH 95001 maxvalue 99999;
 
 
-////////////////////// ÀÓ½Ãµ¥ÀÌÅÍ //////////////////////////////////////////
+////////////////////// ï¿½Ó½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ //////////////////////////////////////////
 INSERT INTO users VALUES ( 'eun090878@naver.com', 'eun00', 'dmstjs0000', to_date('1990/04/04', 'yyyy/mm/dd'), NULL, 'f', 1, 1);
 INSERT INTO users VALUES ( 'champshin@naver.com', 'champshin', 'champshin0', to_date('1992/01/12', 'yyyy/mm/dd'), NULL, 'm', 1, 1);
 INSERT INTO users VALUES ( 'brianwoo@hanmail.net', 'brianwoo', 'brianwoo0', to_date('1985/07/25', 'yyyy/mm/dd'), NULL, 'f', 1, 1);
@@ -199,16 +199,16 @@ INSERT INTO users VALUES ( 'marcia508@naver.com', 'marcia508', 'marcia5080', to_
 INSERT INTO users VALUES ( 'minnie73@naver.com', 'minnie73', 'minnie730', to_date('1980/03/05', 'yyyy/mm/dd'), NULL, 'm', 1, 1);
 INSERT INTO users VALUES ( 'phyllis154@hanmail.net', 'phyllis154', 'phyllis1540', to_date('1980/03/05', 'yyyy/mm/dd'), NULL, 'f', 1, 1);
 
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'olive@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'fideliobae@naver.com', SYSDATE, null, '¿ì¸® Ä£±¸ÇØ¿ä!', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'youBailey@naver.com', 'eun090878@naver.com', SYSDATE, null, '°°ÀÌ ¿©ÇàÇÒ·¡¿ä? ', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'youBailey@naver.com', 'olive@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'champshin@naver.com', 'eun090878@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'mmelina@naver.com', 'eun090878@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'philalo@naver.com', 'eun090878@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'philalo@naver.com', 'olive@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'phyllis154@hanmail.net', 'philalo@naver.com', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
-INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'phyllis154@hanmail.net', SYSDATE, null, '¾È³ç?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'olive@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'fideliobae@naver.com', SYSDATE, null, 'ï¿½ì¸® Ä£ï¿½ï¿½ï¿½Ø¿ï¿½!', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'youBailey@naver.com', 'eun090878@naver.com', SYSDATE, null, 'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½? ', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'youBailey@naver.com', 'olive@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'champshin@naver.com', 'eun090878@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'mmelina@naver.com', 'eun090878@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'philalo@naver.com', 'eun090878@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'philalo@naver.com', 'olive@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'phyllis154@hanmail.net', 'philalo@naver.com', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
+INSERT INTO message VALUES ( seq_msg_no.nextval, 'eun090878@naver.com', 'phyllis154@hanmail.net', SYSDATE, null, 'ï¿½È³ï¿½?', 0, 0, 0 );
 
 INSERT INTO follow VALUES ( seq_follow_no.nextval,  'eun090878@naver.com', 'olive@naver.com', 0 );
 INSERT INTO follow VALUES ( seq_follow_no.nextval,  'alexalex@nate.com', 'olive@naver.com', 0 );

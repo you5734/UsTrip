@@ -347,12 +347,15 @@ public class UserController {
 		
 		targetUserId=targetUserId.replace(",", ".");
 		String sessionId=((User)session.getAttribute("user")).getUserId();
-		
+		System.out.println("seseion :: " + sessionId + targetUserId);
 		if(sessionId != targetUserId) {
+			System.out.println("dd");
 			userService.addFollow(targetUserId, sessionId);
-			Follow follow = userService.getFollow(sessionId, targetUserId);
-			model.addAttribute("follow", follow);
 		}
+		System.out.println("qq");
+		Follow follow = userService.getFollow(sessionId, targetUserId);
+		System.out.println("follow :: " +follow);
+		model.addAttribute("follow", follow);
 		
 
 	}
@@ -367,6 +370,8 @@ public class UserController {
 		if( session.getAttribute("user") != null ) {
 			sessionId = ((User)session.getAttribute("user")).getUserId();
 		}
+		Follow follow = userService.getFollow(sessionId, travUserId);
+		System.out.println("follow ::" + follow);
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
@@ -390,6 +395,7 @@ public class UserController {
 		}*/
 		model.addAttribute("user", user);
 		model.addAttribute("travel", map.get("list"));
+		model.addAttribute("follow", follow);
 		
 		return "forward:/view/user/listTravel.jsp";
 	}
@@ -425,6 +431,8 @@ public class UserController {
 		if( session.getAttribute("user") != null ) {
 			sessionId = ((User)session.getAttribute("user")).getUserId();
 		}
+		Follow follow = userService.getFollow(sessionId, travUserId);
+		System.out.println("follow ::" + follow);
 		
 		if( travUserId != null ) {
 			travUserId = travUserId.replace(",", ".");
@@ -443,6 +451,7 @@ public class UserController {
 		/*model.addAttribute("follow", map);*/
 /*		model.addAttribute("search", search);*/
 		model.addAttribute("user", user);
+		model.addAttribute("follow", follow);
 		
 		return "forward:/view/user/listFollow.jsp";
 	}
@@ -457,6 +466,8 @@ public class UserController {
 		if( session.getAttribute("user") != null ) {
 			sessionId = ((User)session.getAttribute("user")).getUserId();
 		}
+		Follow follow = userService.getFollow(sessionId, travUserId);
+		System.out.println("follow ::" + follow);
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
@@ -471,6 +482,7 @@ public class UserController {
 		model.addAttribute("list", map.get("list"));
 /*		model.addAttribute("search", search);*/
 		model.addAttribute("user", user);
+		model.addAttribute("follow", follow);
 		
 		return "forward:/view/user/listFollowing.jsp";
 	}
@@ -496,13 +508,17 @@ public class UserController {
 		String sessionId = "";
 		if( session.getAttribute("user") != null ) {
 			sessionId = ((User)session.getAttribute("user")).getUserId();
+			
 		}
+		Follow follow = userService.getFollow(sessionId, travUserId);
+		System.out.println("follow ::" + follow);
 		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
 				sessionId = travUserId;
 			}
 		}
+		System.out.println("sesssssssssss " + sessionId+ travUserId);
 		User user = userService.getUser(sessionId);
 		
 /*		
@@ -578,7 +594,7 @@ public class UserController {
 		
 		model.addAttribute("assetList", assetList);
 		model.addAttribute("sum", sum);
-	
+		model.addAttribute("follow", follow);
 		model.addAttribute("isLike", result);
 		model.addAttribute("travel", travel);
 	/*	model.addAttribute("city", city);*/
@@ -604,6 +620,9 @@ public class UserController {
 			sessionId = ((User)session.getAttribute("user")).getUserId();
 		}
 		
+		Follow follow = userService.getFollow(sessionId, travUserId);
+		System.out.println("follow ::" + follow);
+		
 		if( travUserId != null ) {
 			if(  ! (sessionId.equals(travUserId)) ) {
 				sessionId = travUserId;
@@ -617,6 +636,7 @@ public class UserController {
 		
 		model.addAttribute("likeTravel", listLikeTravel);
 		model.addAttribute("user", user);
+		model.addAttribute("follow", follow);
 		
 		return "forward:/view/user/listLikeTravel.jsp";
 	}
