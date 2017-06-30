@@ -238,7 +238,7 @@ public class UserController {
 		//Business Logic
 		User user = userService.getUser(userId);
 		// Model °ú View ¿¬°á
-		session.setAttribute("user", user);
+		/*session.setAttribute("user", user);*/
 		model.addAttribute("user", user);
 		
 		return "forward:/view/user/getUser.jsp";
