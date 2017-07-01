@@ -102,10 +102,10 @@
 							}
 							
 							for(var i in J.listCity){
-								console.log("aaa " + new Date(J.listCity[i].stayStart).format("yyyy/MM/dd"));
+
 								/* var tranDate = J.listCity[i].stayStart.replace(/-/gi,'/'); */
 								var tranDate =  new Date(J.listCity[i].stayStart).format("yyyy/MM/dd");
-								days.push(tranDate);					
+								days.push(tranDate);				
 							}
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}

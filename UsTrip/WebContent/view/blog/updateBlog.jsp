@@ -99,7 +99,7 @@
 				   +'<label class="col-md-1 col-sm-1 col-xs-1 control-label" for="textinput"><i class="fa fa-times" aria-hidden="true" id="deleteAsset"></i>'
 				   +'<input type="hidden" value="'+serverData.asset.assetNo+'"></label></div>';
 				   
-		$(addAsset).insertBefore($("#asset:last"));
+		$(addAsset).insertBefore($("#assetBlog"));
 		$('#charge').last().val("");
 		$('#usage').last().val("");
 		timesEvent();
@@ -292,7 +292,7 @@
   </style>
 </head>
 	<body>
-	<div class="container">
+	
 		<div class="row" >
 			<div class="col-sm-5">				
 						<input type="hidden"  id="blogNo" value="${blog.blogNo}">
@@ -370,7 +370,7 @@
 			         		</div>
 		                </c:forEach>
 			          	
-			          	<div class="row" id="asset">
+			          	<div class="row" id="assetBlog">
 			         	 	<label class="col-md-1 col-sm-2 col-xs-2 control-label" for="textinput"><i class="fa fa-usd" aria-hidden="true"></i></label>
 			              	<div class="col-md-3 col-sm-3 col-xs-3">
 			                  	<select class="form-control" name="assetCategory" id="assetCategory" >
@@ -428,7 +428,6 @@
 			                	<input type="button" class="btn btn-info" id="cancel" value="취소">		
 			                	</div>	            	
 			         	</div>	
-			         	</div>        		
-	    	</div>
+			         	</div>        
 	</body>
 </html>

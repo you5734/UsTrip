@@ -1,18 +1,18 @@
-<!-- <meta charset='utf-8' /> -->
-<!-- <link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css"> -->
+<meta charset='utf-8' />
+<link rel="stylesheet" href="/css/bootstrap.vertical-tabs.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script> -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	
-<!-- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<link href='/css/fullcalendar.min.css' rel='stylesheet' />
 	<link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 	<script src='/js/moment.min.js'></script>
 	<script src='/js/fullcalendar.min.js'></script>
-     <script src="/js/dateFormat.js"></script> -->
+     <script src="/js/dateFormat.js"></script>
 <script>
  	function setCalendar(date,data){
 		//alert(JSON.stringify(data));
@@ -45,10 +45,11 @@
 					},
 					success : function(J , status) {	
 						for(var i in J.listCity){
+							console.log(" ??????!!!!!!!? :: " + new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd"));
 							 calendarEvent.push({
 								title: J.listCity[i].city,
 								start: new Date(J.listCity[i].stayStart).format("yyyy-MM-dd"),
-								end: new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd")
+								end: new Date(J.listCity[i].stayEnd).format("yyyy-MM-dd")								
 							}); 
 							 for(var j in J.listCity[i].listPlace){
 								 console.log(" ??? :: " + new Date(J.listCity[i].stayStart).format("yyyy-MM-dd"));

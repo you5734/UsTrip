@@ -260,6 +260,8 @@ public class PlanController {
 		for (City city : listCity) {
 			List<Place> listPlace = planService.blogPlace(city.getCityNo());
 			city.setListPlace(listPlace);
+			String[] splitCity = city.getCity().split("_");
+			city.setCity(splitCity[0]);
 		}
 		model.addAttribute("listCity", listCity);
 	}

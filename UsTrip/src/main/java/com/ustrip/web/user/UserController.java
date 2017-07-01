@@ -600,6 +600,10 @@ public class UserController {
 	/*	model.addAttribute("city", city);*/
 		
 		List<City> listCity = planService.blogCity(travNo);
+		for(City c : listCity){
+			String[] replaceCity = c.getCity().split("_");
+			c.setCity(replaceCity[0]);
+		}
 		model.addAttribute("listCity",listCity);
 		model.addAttribute("travNo",travNo);
 /*		List<City> listCity2 = planService.blogCity(travNo);
