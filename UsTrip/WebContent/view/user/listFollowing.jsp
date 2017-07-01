@@ -83,6 +83,15 @@
 					});
 				 }
 			});	
+		 
+		 $(function() {
+			 $(".img-responsive").on("click", function() {
+				 var travUserId = $(this).next().val();
+				 console.log("dd " + travUserId);
+				 
+				 self.location="/user/getListTravel?travUserId="+travUserId;
+			 });
+		 });
 	/* 	 $(function() {
 				$(".btn-info" ).on("click" , function() {
 					alert("√Îº“æﬂ!!!");
@@ -143,12 +152,10 @@
 								<c:set var="i" value="${ i+1 }" />
 								<div class="profile-pic"
 									style="width: 180px; float: left; height: 250px;">
-									<br> <br> <br> <img
-										src="/images/upload/profile/${follow.profileImage}"
-										class="img-responsive" alt=""> <span>${follow.nickName }
-										<%-- //	${follow.folUserId } --%>
-									</span><br> <input type="hidden" class="followTarget"
-										value="${follow.folUserId }">
+									<br> <br> <br> 
+									<img src="/images/upload/profile/${follow.profileImage}" class="img-responsive" alt=""> 
+										<input type="hidden" class="followTarget" value="${follow.folUserId }">
+										<span>${follow.nickName } </span><br> 
 									<c:choose>
 										<c:when test="${follow.isFollowing == 1}">
 											<input type="button" class="btn btn-info btn-sm"

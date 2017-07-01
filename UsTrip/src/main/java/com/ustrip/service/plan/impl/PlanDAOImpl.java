@@ -136,6 +136,12 @@ public class PlanDAOImpl implements PlanDAO {
 	
 	public void addThumbNail(Travel travel) throws Exception{//½æ³×ÀÏ µî·Ï
 		sqlSession.update("TravelMapper.addThumbNail",travel);
-}
+	}
+		
+	@Override
+	public void updateThumbnail(Travel travel) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("TravelMapper.thumbnailUpdate",travel);
+	}
 
 }

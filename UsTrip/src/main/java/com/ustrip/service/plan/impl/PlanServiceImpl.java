@@ -123,5 +123,11 @@ public class PlanServiceImpl implements PlanService{
 	public void addThumbNail(Travel travel) throws Exception{;//½æ³×ÀÏ µî·Ï
 		planDAO.addThumbNail(travel);
 	}
+	@Override
+	public void updateThumbnail(Travel travel) throws Exception {
+		// TODO Auto-generated method stub
+		planDAO.updateThumbnail(travel);
+	}
+
 	
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ustrip.common.Page;
 import com.ustrip.common.Search;
@@ -33,6 +34,7 @@ import com.ustrip.service.domain.Asset;
 import com.ustrip.service.domain.Blog;
 import com.ustrip.service.domain.City;
 import com.ustrip.service.domain.Follow;
+import com.ustrip.service.domain.Image;
 import com.ustrip.service.domain.LikeTravel;
 import com.ustrip.service.domain.Travel;
 import com.ustrip.service.domain.User;
@@ -536,6 +538,8 @@ public class UserController {
 		
 		System.out.println("traaaaaaaaaaaaaaaaaa " + travel);
 		System.out.println("traaaaaaaaaaaaaaaaaa " + city);
+		String[] travelSplit = travel.getTravTitle().split("_");
+		travel.setTravTitle(travelSplit[0]);
 		
 	
 	List<LikeTravel> list = blogService.checkLikeTravel(travNo);
@@ -643,6 +647,28 @@ public class UserController {
 		model.addAttribute("follow", follow);
 		
 		return "forward:/view/user/listLikeTravel.jsp";
+	}
+	
+	@RequestMapping(value={"addJSONTumbnail/{travNo}"}, method=RequestMethod.POST)
+	public void getJsontest(MultipartHttpServletRequest file, @PathVariable int travNo) throws Exception {
+		System.out.println("ok~!!!");
+		List<MultipartFile> uploadFiles = file.getFiles("thumbNailFile");	
+		System.out.println("uploadFiles :: !!!!!!!!!!!!!!!!!!! "+uploadFiles);
+		Travel travel = new Travel();
+		
+		String saveFolder = "C:/Users/B/git/UsTrip/UsTrip/WebContent/images/upload/blog";		
+		
+		for(int i=0 ; i<uploadFiles.size() ; i++) {			          
+			String fileName = uploadFiles.get(i).getOriginalFilename();
+			String newFileName=UUID.randomUUID().toString()+"."+fileName.substring(fileName.lastIndexOf(".")+1);
+			System.out.println("new~~~~~~~~~~~~file : "+newFileName);
+	        File uploadFile = new File(saveFolder,newFileName);
+	        uploadFiles.get(i).transferTo(uploadFile);
+	        travel.setTravelNo(travNo);
+			travel.setThumbNail(newFileName);
+		}		
+		System.out.println("travel~~~~~~~~~~~~~:"+travel);
+		planService.updateThumbnail(travel);
 	}
 
 }

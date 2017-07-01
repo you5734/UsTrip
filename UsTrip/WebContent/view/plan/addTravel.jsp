@@ -134,6 +134,7 @@
 		    <label for="memberCount" class="col-xs-4 col-md-2">인원수</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="memberCount" name="memberCount" placeholder="인원수">
+		      <input type="hidden" class="form-control" id="totalDate" name="totalDate" placeholder="총 숙박일" value="1">
 		    </div>
 		  </div>
 		  		  

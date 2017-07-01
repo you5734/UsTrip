@@ -40,4 +40,6 @@ public interface PlanService {
 	public List<Place> blogPlace(int cityNo) throws Exception;
 		
 	public void addThumbNail(Travel travel) throws Exception;//½æ³×ÀÏ µî·Ï
+	
+	public void updateThumbnail(Travel travel) throws Exception;
 }

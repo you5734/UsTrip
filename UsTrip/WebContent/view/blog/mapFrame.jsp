@@ -45,7 +45,7 @@
 	         eval('marker'+[i]).setMap(map);
 	         var infowindow = new google.maps.InfoWindow();	 		
 	  		eval('marker'+[i]+'.infowindow = infowindow;');
-	  		infowindow.setContent('<div><strong>'+titles[i]+'</strong><br/>'+days[i]+'</div>');
+	  		infowindow.setContent('<div>'+titles[i]+'<br/>'+days[i]+'</div>');
 	  		eval('infowindow.open(map,marker'+[i]+');');
 	       }	         
 	                   var polylinePath = new google.maps.Polyline({
@@ -64,8 +64,7 @@
 			zoom: 8,
 			mapTypeControl: false                
 		});       
-       /* var travNo = ${travNo};   */
-		var travNo = 84;
+       var travNo = ${travNo};   
 		cityMap(travNo)
 	} 
      
@@ -160,7 +159,7 @@
 								days.push(tranDate);	
 								
 							}
-							//alert(JSON.stringify(days));
+							/* alert(JSON.stringify(titles)); */
 				    		setMap(zoomLevel,mapCenter,target,titles,days);
 						}
  						 				    	

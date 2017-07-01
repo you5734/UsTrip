@@ -27,7 +27,7 @@
 	body {
 		padding-top:60px;
 		
-		background-color: #ece5da;
+		background-color: GhostWhite !important;
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav/* , section  */{

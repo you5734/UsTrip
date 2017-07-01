@@ -306,7 +306,8 @@
 		function movePlace(){
 			
 			swal({
-				title:"정말 등록하시겠습니까?",
+			      title:"정말 등록하시겠습니까?",
+				  text:"등록 버튼을 누르시면 전체루트 화면으로 이동합니다.",
 		   		  type: 'question',
 		   		  showCancelButton: true,
 		   		  confirmButtonColor: '#3085d6',
@@ -316,8 +317,7 @@
 		   		}).then(function () {	
 		   			
 		   			swal({
-						  title:"등록되었습니다. \n교통정보 확인 및 세부 장소 \n설정 버튼을 눌러주세요."
-				   		  	
+						  title:"등록되었습니다. \n다음 도시의 방문지를 선택하세요."
 				   		}).then(function () {	
 				   		 
 				   			button_event();
@@ -336,7 +336,6 @@
 			var addId = '#dd' ;
 			
 			addId = eval('addId+(ii+1)');
-			
 			/* if(false){
 				$(addId).children().find($("#f"+(i)+" input[name='placeX']")).val();== ' '
 				return;
@@ -655,9 +654,7 @@
     	}
     		tempNum++;	
     	
-    		if( tempCount < tempNum ){
     		tempCount = tempNum;
-    		}
     		end = document.getElementById('temp').value;
     		
     		$("#temp").val(null);

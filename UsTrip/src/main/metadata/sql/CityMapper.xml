@@ -39,7 +39,7 @@
 	
 	<select id="listCity" parameterType="city"	resultMap="CitySelectMap">
 		SELECT
-		city_no,city,city_x,city_y,stay_start		
+		city_no,city,city_x,city_y,stay_start,STAY_END	
 		FROM city 
 		WHERE trav_no = #{travNo}
 		ORDER BY pre_city_no ASC

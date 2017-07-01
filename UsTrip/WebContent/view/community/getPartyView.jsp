@@ -519,27 +519,29 @@
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
-					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+					<img class="img-circle" src="/images/upload/profile/${comment.profile}" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
 				</div>
 			<div class="col-sm-10">
 				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>
 				<div style="margin-top:8px;">${comment.commentContent}</div>
 			</div>
+			<c:if test="${user.nickName == comment.nickName}">
 			<div class="col-md-1" align="right">
 				<i class="glyphicon glyphicon-edit" temp="${comment.commentNo}"></i> / <i class="glyphicon glyphicon-remove" temp="${comment.commentNo}"></i>
 				<h6 align="right"><fmt:formatDate value="${comment.regDate}" pattern="yyyy/MM/dd"/></h6>
 			</div>
+			</c:if>
 			</div>
 			</div>
 		</c:if>
 		
-		<c:if test="${user.nickName != board.nickName || empty user}">
+		<c:if test="${user.nickName != comment.nickName || empty user}">
 			<c:if test='${comment.privateComment==0}'>	
 			<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
-					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+					<img class="img-circle" src="/images/upload/profile/${comment.profile}" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
 				</div>
 			<div class="col-sm-10">
 				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>

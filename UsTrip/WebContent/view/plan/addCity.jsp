@@ -5,18 +5,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<link rel="stylesheet" href="/css/main.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.scrolly.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/main.js"></script>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="EUC-KR">
+	<link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrolly.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
+	<script src="/js/main.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	
+	<title>UsTrip</title>
+	<script src="/js/html2canvas.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?
+    key=AIzaSyDgS9rLrRIo9sBKIyAK7Opc5fMeVvbzhy4&v=3.exp&libraries=places&region=kr"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.4/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+    
+	<style type="text/css">
+        html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow:hidden;        
+        }
+ 
+ 		#mainCity {
+			width: 17%;
+			height: 10.5%;
+			float:left;
+ 		}
+ 		
+ 		#btn {
+			width: 83%;
+			height: 10.5%;
+			float:left;
+        }
+ 
+ 		#formTag {			
+			width:17%;
+			height:85%;
+			float:left;
+			overflow:auto;
+		}
+		
+		#map {
+			width:  83%;
+			height: 90%;
+        }
+        
+        #btn-route{
+        	color: #fff;
+			height: 30px;
+			width: 100px !important; 
+			margin-left:5px;
+			padding-left: 5px;
+			
+        }
+        #panel{
+			position: fixed;
+			margin-left: 25%;
+          	margin-top: 5.9%;
+			z-index: 5;
+			background-color: #fff;
+			padding: 3px;
+        }
+        
+         #insert{
+			position: fixed;
+			margin-top: -35px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
+        }
+        
+         #moveList{
+			position: fixed;
+			margin-top: 15px;
+			margin-left: 65%;
+			z-index: 5;
+			color: #fff;
+			padding:none;
+			border:none;
+        }
+        
+        
+        #duration, #distance{
+       		border:none;
+        }
+		
+    </style>
+	
 
 <title>UsTrip</title>
 <script src="/js/html2canvas.js"></script>

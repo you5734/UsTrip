@@ -135,9 +135,9 @@
         }); 
         
         $('#tossComment').hover(function(){
-			$(this).attr('class','col-md-1 text-right text-warning');
+			$(this).attr('class','col-md-2 text-right text-warning');
 		},function(){
-			$(this).attr('class','col-md-1 text-right text-primary');
+			$(this).attr('class','col-md-2 text-right text-primary');
 		});
         
         $('#tossComment').on('click',function(){
@@ -489,14 +489,14 @@
 		</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-md-5 text-left text-primary"><strong style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="text-primary">${travel.travTitle}</strong> :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/> ~ <fmt:formatDate value="${endTrav}" pattern="yyyy/MM/dd"/></div>
+			<div class="col-md-4 text-left text-primary"><strong style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" class="text-primary">${travel.travTitle}</strong> :: <fmt:formatDate value="${travel.startDate}" pattern="yyyy/MM/dd"/> ~ <fmt:formatDate value="${endTrav}" pattern="yyyy/MM/dd"/></div>
 			<div class="col-md-4 text-left text-primary" >게시물 제목 : <strong class="text-primary" style="width: 100px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" >${board.boardTitle}</strong></div>
 	        <div class="col-md-2"><c:if test="${user.nickName == board.nickName}">
 	        <div class="btn-group" >
 	        	<button type="button" class="btn btn-primary"  id="upBoard" style="height:30px; margin-top:-6px;">수정</button>
 	        	<button type="button" class="btn btn-primary" id="delBoard" style="height:30px; margin-top:-6px;">삭제</button>
 	        </div></c:if></div>    
-			<div class="col-md-1 text-right text-primary" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
+			<div class="col-md-2 text-right text-primary" id="tossComment"> 댓글 <i class="glyphicon glyphicon-comment"></i> : ${board.countComment}</div>
 		</div>
 	<hr/>
 		<div class="row">
@@ -511,32 +511,34 @@
          <h6 align="right" class="text-primary">${board.countComment} 개의 댓글이 달려있습니다.</h6>		
 				
 				<c:forEach var="comment" items="${comments}">
-		<c:if test="${user.nickName == board.nickName || user.nickName == comment.nickName}">
+		<c:if test="${user.nickName == comment.nickName || user.nickName == comment.nickName}">
 		<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
-					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+					<img class="img-circle" src="/images/upload/profile/${comment.profile}" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
 				</div>
 			<div class="col-sm-10">
 				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>
 				<div style="margin-top:8px;">${comment.commentContent}</div>
 			</div>
+			<c:if test="${user.nickName == comment.nickName}">
 			<div class="col-md-1" align="right">
 				<i class="glyphicon glyphicon-edit" temp="${comment.commentNo}"></i> / <i class="glyphicon glyphicon-remove" temp="${comment.commentNo}"></i>
 				<h6 align="right"><fmt:formatDate value="${comment.regDate}" pattern="yyyy/MM/dd"/></h6>
 			</div>
+			</c:if>
 			</div>
 			</div>
 		</c:if>
 		
-		<c:if test="${user.nickName != board.nickName || empty user}">
+		<c:if test="${user.nickName != comment.nickName || empty user}">
 			<c:if test='${comment.privateComment==0}'>	
 			<hr class="thick-line">
 			<div id="${comment.commentNo}">
 			<div class="row">
 				<div class="col-md-1">
-					<img class="img-circle" src="http://cfile29.uf.tistory.com/image/2162AF34573DC7E42789C1" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
+					<img class="img-circle" src="/images/upload/profile/${comment.profile}" style="float:left; margin:12px 12px 20px 0; height:90px; width:80px;">
 				</div>
 			<div class="col-sm-10">
 				<strong style="font-size: 20px;" class="text-danger">${comment.nickName}</strong>

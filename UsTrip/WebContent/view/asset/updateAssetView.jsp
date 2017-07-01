@@ -11,7 +11,7 @@
 				        type: 'info',
 				        html: "여행중 사용한 가계부를<br/><strong>수정</strong> 또는 <strong>삭제</strong>하시겠습니까?" +
 				            "<br/><br/><br/>" +
-				            ' <button type="button" id="okdel" class="btn btn-info">' + '<strong>수 정</strong>' + '</button>' +
+				            ' <button type="button" id="okdel" class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">' + '<strong>수 정</strong>' + '</button>' +
 				            ' <button type="button" id="condel" class="btn btn-danger">' + '<strong>삭 제</strong>' + '</button>'+
 				            ' <button type="button" id="candel" class="btn btn-warning">' + '<strong>Cancle</strong>' + '</button>',
 				        showCancelButton: false,
@@ -57,24 +57,24 @@
 	    		 });
 	    		 
 	    		 $( "#okdel" ).on("click" , function() {
-	    			 swal({
+	    			 swal.close();
+	    			/*  swal({
 					        title: '가계부 수정',
 					        width: 800,
-					        background: '#fff url(https://icons.wxug.com/data/wximagenew/s/skyguy4/100-800.jpg)',
 					        html: 
-   ' <div class="col-sm-4">'+    
-      '<label>여행</label><br/>'+
-     ' <b  id="plan" ></b><br/><br/> '+
+   '<div class="row"><div class="col-md-4">'+    
+      '<div>여행</div><br/>'+
+     ' <b  id="upPlan" ></b><br/><br/> '+
      ' </div>   '+   
-   ' <div class="col-sm-4">'+
-    '<label>사용날짜</label><br/>'+
-    '<input id="datepicker" class="text ui-widget-content ui-corner-all"  value=""><br/><br/><br/><br/>'+
-     '<label>사용내용</label><br/>'+
-      '<input type="text"  id="usage" value="xxxxxxx" class="text ui-widget-content ui-corner-all" autofocus><br/><br/>'+
+   ' <div class="col-md-4">'+
+    '<div>사용날짜</div><br/>'+
+    '<input id="upDatepicker" value="" class="text ui-widget-content ui-corner-all"><br/><br/><br/><br/>'+
+     '<div>사용내용</div><br/>'+
+      '<input type="text"  id="upUsage" value="" class="text ui-widget-content ui-corner-all" autofocus><br/><br/>'+
    ' </div>   '+ 
-    '<div class="col-sm-4">'+
-    '<label>사용분류</label><br/>'+
-      '<select id="category">'+
+    '<div class="col-md-4">'+
+    '<div>사용분류</div><br/>'+
+      '<select id="upCategory">'+
    	  '<option value="식비">식비</option>'+
       '<option value="교통비">교통비</option>'+
      ' <option value="숙박비">숙박비</option>'+
@@ -82,14 +82,14 @@
       '<option value="쇼핑">쇼핑</option>'+
     '  <option value="기타">기타</option>'+
       '</select><br/><br/><br/><br/> '+    
-     ' <label>사용금액</label><br/>'+
-      '<input type="text"  id="charge" value="xxxxxxx" class="text ui-widget-content ui-corner-all"><br/><br/>'+
+     ' <div>사용금액</div><br/>'+
+      '<input type="text"  id="upCharge" value="" class="text ui-widget-content ui-corner-all"><br/><br/>'+
    ' <br/><br/><br/><br/><br/><br/><br/></div> '+  
 ' <div><button type="button" id="conupdate" class="btn btn-info">' + '<strong>수 정</strong>' + '</button>' +
-' <button type="button" id="canupdate" class="btn btn-danger">' + '<strong>Cancle</strong>' + '</button></div>',
+' <button type="button" id="canupdate" class="btn btn-danger">' + '<strong>Cancle</strong>' + '</button></div></div>',
 					        showCancelButton: false,
 					        showConfirmButton: false
-					    });
+					    }); */
 	    			 updateAsset(conAssetNo); 
 	    			 
 	    			 $( "#conupdate" ).on("click" , function() {
@@ -99,10 +99,10 @@
 								travNo:$("#travNo").val(),
 								assetNo:$("#assetNo").val(),
 								blogNo:$("#blogNo").val(),
-								assetCategory:$("#category").val(),	  
-								usage:$("#usage").val(),	  		
-								charge:$("#charge").val(),	 
-								visitDate:	$("#datepicker").val()
+								assetCategory:$("#upCategory").val(),	  
+								usage:$("#upUsage").val(),	  		
+								charge:$("#upCharge").val(),	 
+								visitDate:	$("#upDatepicker").val()
 							}			
 											})
 											swal(
@@ -139,19 +139,19 @@
 							var startDate = new Date(J.asset.startDate).format("yyyy/MM/dd");
 							var endDate = new Date(J.asset.endDate).format("yyyy/MM/dd");
 								
-							$("#plan").html(J.asset.travTitle);
+							$("#upPlan").html(J.asset.travTitle);
 							$("#travNo").val(J.asset.travNo);
 							$("#assetNo").val(J.asset.assetNo);
 							$("#blogNo").val(J.asset.blogNo);
-							$("#category").val(J.asset.assetCategory);	  
-							$("#usage").val(J.asset.usage);	  		
-							$("#charge").val(J.asset.charge);	 
-							$("#datepicker").val(new Date(J.asset.visitDate).format("yyyy/MM/dd"));
-							$( '#datepicker' ).pickadate({		
+							$("#upCategory").val(J.asset.assetCategory);	  
+							$("#upUsage").val(J.asset.usage);	  		
+							$("#upCharge").val(J.asset.charge);	 
+							$("#upDatepicker").val(new Date(J.asset.visitDate).format("yyyy/MM/dd"));
+							$( '#upDatepicker' ).pickadate({		
 								format: 'yyyy/mm/dd',
 								min: startDate,
 								max: endDate
-					        });
+					        }); 
 							
 							}								
 					})
@@ -159,7 +159,50 @@
 	    	 ////////////////////////////////////ajax 끝		 
 		  
 	</script>
+	<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top:200px;">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">가계부 수정</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row"><div class="col-md-4">  
+     <div>여행</div><br/>
+     <b  id="upPlan" ></b><br/><br/>
+     </div>    
+   <div class="col-md-4">
+    <div>사용날짜</div><br/>
+    <input type="text" id="upDatepicker" value="" class="text ui-widget-content ui-corner-all"><br/><br/><br/><br/>
+     <div>사용내용</div><br/>
+      <input type="text"  id="upUsage" value="" class="text ui-widget-content ui-corner-all" autofocus><br/><br/>
+       </div>  
+    <div class="col-md-4">
+    <div>사용분류</div><br/>
+      <select id="upCategory">
+   	  <option value="식비">식비</option>
+      <option value="교통비">교통비</option>
+    <option value="숙박비">숙박비</option>
+      <option value="입장료">입장료</option>
+     <option value="쇼핑">쇼핑</option>
+    <option value="기타">기타</option>
+      </select><br/><br/><br/><br/>   
+     <div>사용금액</div><br/>
+      <input type="text"  id="upCharge" value="" class="text ui-widget-content ui-corner-all"><br/><br/>
+  </div></div>
+      </div>
+      <div class="modal-footer">
+        <div><button type="button" id="conupdate" class="btn btn-info" data-dismiss="modal"><strong>수 정</strong></button>
+				<button type="button" id="canupdate" class="btn btn-danger" data-dismiss="modal"><strong>취 소</strong></button></div></div>
+      </div>
+    </div>
+  </div>
 
 <input type="hidden" id="assetNo" value="">
-<input type="hidden" id="travNo" value="">
-<input type="hidden" id="blogNo" value="">
+
+
+	<script src="/js/picker.js"></script>
+	<script src="/js/picker.date.js"></script>
+	<script src="/js/legacy.js"></script>

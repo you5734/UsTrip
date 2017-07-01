@@ -93,4 +93,11 @@
 	   	</set>
 	   	WHERE trav_no = #{travelNo}
 	 </update>
+	 <update id="thumbnailUpdate" parameterType="travel">
+	 	UPDATE
+	 	travel
+	 	set thumb_nail = #{thumbNail}
+	 	WHERE trav_no=#{travelNo}
+	 </update>
+	 
 </mapper>
